@@ -1,0 +1,12 @@
+Future Thoughts
+- Create prefabs/Load in prefabs from a XML file
+- Redundancy issue - isPartOf composedOf Owns and other relationships of composition become redundant when represented in software. Particularly with prehabs/groups that will group individuals together into units.
+- Alternatively efforts can be focused on representing everything through the simulation
+
+June 3rd
+- Error occurs when property value is set to nothing
+- Prefab design (initially just a collection)
+- Basic prefab representation (how they get displayed in instances)
+- Displaying and editing a prefabs components (Do next) & think about unifying information headed to the selection panel (involves switching to Hashmap)
+- Prefab tab, instances will then be created from the prefab tab
+- By default don't display the class, object and data property tabs (just have individuals). Make a views menu item and allow users to add desired tabs from that.
