@@ -57,7 +57,7 @@ public class ClassPanel extends JScrollPane implements SubscribedView, TreeSelec
         if (node == null) return;
 
         Object nodeInfo = node.getUserObject();
-        if (node.isLeaf()) // TODO: check to see if this is a String or not before the cast (selecting the root atm will throw an error)
+        if (node.isLeaf() && (nodeInfo instanceof ClassModel))
         {
             ClassModel model = (ClassModel)nodeInfo;
             control.newClassSelected(model.getId());
