@@ -5,8 +5,8 @@ Future Thoughts
 
 June 3rd
 - Error occurs when property value is set to nothing
-- Prefab design (initially just a collection)
+- Error occurs when selecting the root node before anything is added in CLass and Prefab Panels
+- IndividualModels within a Prefab should be deep copied and given a unique id
 - Basic prefab representation (how they get displayed in instances)
-- Displaying and editing a prefabs components (Do next) & think about unifying information headed to the selection panel (involves switching to Hashmap)
-- Prefab tab, instances will then be created from the prefab tab
+- Instances that can be created from the prefab tab
 - By default don't display the class, object and data property tabs (just have individuals). Make a views menu item and allow users to add desired tabs from that.

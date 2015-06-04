@@ -47,8 +47,15 @@ public class SelectionPropertyPanel extends JPanel implements SubscribedView
             public TableCellRenderer getCellRenderer(int row, int column) {
                 editingClass = null;
                 int modelColumn = convertColumnIndexToModel(column);
-                if (modelColumn == 1) {
-                    Class rowClass = getModel().getValueAt(row, modelColumn).getClass();
+                if (modelColumn == 1)
+                {
+                    Object value = getModel().getValueAt(row, modelColumn);
+                    if (value == null)
+                    {
+                        value = 0.0;
+                        getModel().setValueAt(value, row, column);
+                    }
+                    Class rowClass = value.getClass();
                     return getDefaultRenderer(rowClass);
                 } else {
                     return super.getCellRenderer(row, column);
