@@ -45,10 +45,6 @@ public class PrefabPanel extends JScrollPane implements SubscribedView, TreeSele
         getViewport().add(prefabTree);
     }
 
-    public void createNodes(DefaultMutableTreeNode root)
-    {
-    }
-
     public void valueChanged(TreeSelectionEvent event)
     {
         DefaultMutableTreeNode node = (DefaultMutableTreeNode)
@@ -79,6 +75,11 @@ public class PrefabPanel extends JScrollPane implements SubscribedView, TreeSele
                 prefabTreeModel.insertNodeInto(memberNode, prefabNode, prefabNode.getChildCount());
             }
 
+        }
+        else if (event.getPropertyName().equals(OntologyModel.PC_ONTOLOGY_CLEARED))
+        {
+            root.removeAllChildren();
+            prefabTreeModel.reload();
         }
     }
 }

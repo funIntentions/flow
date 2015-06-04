@@ -50,7 +50,7 @@ public class ProjectSmartGrid extends JPanel //TODO: Maybe create JPanel instanc
         selectionInfoPanel = new SelectionPropertyPanel("Selection", propertiesTableListener);
         instancePanel = new InstancePanel(instanceSelectedListener);
         individualPanel = new IndividualPanel(individualSelectedListener);
-        classPanel = new ClassPanel(classSelectedListener);
+        classPanel = new ClassPanel(controller);
         prefabPanel = new PrefabPanel(controller);
 
         createPrefabFromSelectionAction = new CreatePrefabFromSelectionAction("Create Prefab From Selection", null, null, null, individualPanel.getIndividualTable(), controller); // TODO: refactor so I don't have to get the table

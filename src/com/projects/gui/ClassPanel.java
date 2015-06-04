@@ -1,64 +1,98 @@
 package com.projects.gui;
 
 import com.projects.actions.CreateInstanceFromSelectionAction;
+import com.projects.management.SystemController;
 import com.projects.models.ClassModel;
 import com.projects.models.IndividualModel;
 import com.projects.models.OntologyModel;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeSelectionModel;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Dan on 6/1/2015.
  */
-public class ClassPanel extends JScrollPane implements SubscribedView
+public class ClassPanel extends JScrollPane implements SubscribedView, TreeSelectionListener
 {
-    // Change this to ClassList...
-    JList<String> instanceList; // TODO: restructure so table instead of JList is used. Also make Jlist prettier...
-    ListSelectionListener selectionListener;
+    SystemController control;
+    JTree classTree;
+    DefaultTreeModel classTreeModel;
+    DefaultMutableTreeNode root;
 
-    public ClassPanel(ListSelectionListener listener)
+    public ClassPanel(SystemController controller)
     {
-        String[] list = {};
-        selectionListener = listener;
-        instanceList = createList(list);
-        getViewport().add(instanceList);
+        root = new DefaultMutableTreeNode("Classes");
+        control = controller;
+
+        classTreeModel = new DefaultTreeModel(root);
+        classTree = new JTree(classTreeModel);
+        classTree.setShowsRootHandles(true);
+        classTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        classTree.addTreeSelectionListener(this);
+
+        DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
+        renderer.setLeafIcon(null);
+        renderer.setOpenIcon(null);
+        renderer.setClosedIcon(null);
+        classTree.setCellRenderer(renderer);
+
+        getViewport().add(classTree);
     }
 
-    public JList<String> createList(String[] list)
+    public void valueChanged(TreeSelectionEvent event)
     {
-        JList<String> newList = new JList<String>(list);
-        newList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        newList.setLayoutOrientation(JList.VERTICAL);
-        newList.setVisibleRowCount(-1);
-        newList.addListSelectionListener(selectionListener);
-        return newList;
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode)
+                           classTree.getLastSelectedPathComponent();
+
+        if (node == null) return;
+
+        Object nodeInfo = node.getUserObject();
+        if (node.isLeaf()) // TODO: check to see if this is a String or not before the cast (selecting the root atm will throw an error)
+        {
+            ClassModel model = (ClassModel)nodeInfo;
+            control.newClassSelected(model.getId());
+        }
     }
 
     public void modelPropertyChange(PropertyChangeEvent event)
     {
         if (event.getPropertyName().equals(OntologyModel.PC_NEW_ONTOLOGY_CLASSES_LOADED))
         {
-            ArrayList<ClassModel> instances = (ArrayList<ClassModel>)event.getNewValue();
+            ClassModel rootClass = (ClassModel)event.getNewValue();
 
-            int length = instances.size();
-            String[] list = new String[length];
-
-            for (int i = 0; i < length; ++i)
+            List<ClassModel> children = rootClass.getChildren();
+            for (ClassModel child : children)
             {
-                list[i] = instances.get(i).getName();
+                DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(child);
+                classTreeModel.insertNodeInto(childNode, root, root.getChildCount());
+                addSubclasses(child, childNode);
             }
-
-            getViewport().remove(instanceList);
-            instanceList = createList(list);
-            getViewport().add(instanceList);
-
         }
         else if (event.getPropertyName().equals(OntologyModel.PC_ONTOLOGY_CLEARED))
         {
-            getViewport().remove(instanceList);
+            root.removeAllChildren();
+            classTreeModel.reload();
+        }
+    }
+
+    public void addSubclasses(ClassModel parent, DefaultMutableTreeNode parentNode)
+    {
+        List<ClassModel> children = parent.getChildren();
+
+        for (ClassModel child : children)
+        {
+            DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(child);
+            classTreeModel.insertNodeInto(childNode, parentNode, parentNode.getChildCount());
         }
     }
 }

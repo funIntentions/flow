@@ -3,6 +3,9 @@ package com.projects.models;
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
+import com.hp.hpl.jena.ontology.OntTools;
+import com.hp.hpl.jena.vocabulary.OWL;
+import com.projects.management.SystemController;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -36,11 +39,11 @@ public class OntologyModel
 
     private static Integer getNextAvailableIndividualId()
     {
-        return nextAvailableIndividualId++;
+        return nextAvailableIndividualId += 3;
     }
     private static Integer getNextAvailableClassId()
     {
-        return nextAvailableClassId++;
+        return nextAvailableClassId += 2;
     }
     public OntologyModel()
     {
@@ -64,7 +67,6 @@ public class OntologyModel
 
     public void loadOntology(OntModel base)
     {
-
         Iterator<Individual> list = base.listIndividuals();
         while(list.hasNext())
         {
@@ -76,15 +78,36 @@ public class OntologyModel
         List<IndividualModel> individualsList = new ArrayList<IndividualModel>(individuals.values());
         changeSupport.firePropertyChange(PC_NEW_ONTOLOGY_INDIVIDUALS_LOADED, null, individualsList);
 
-        Iterator<OntClass> classList = base.listClasses();
+        OntClass thing = base.getOntClass( OWL.Thing.getURI() );
+        Iterator<OntClass> classList = thing.listSubClasses(true);
+
+        ClassModel root = new ClassModel(getNextAvailableClassId(), thing);
+        classes.put(root.getId(), root);
+
         while(classList.hasNext())
         {
             OntClass ontClass = classList.next();
             ClassModel classModel = new ClassModel(getNextAvailableClassId(), ontClass);
             classes.put(classModel.getId(), classModel);
+            root.addChild(classModel);
+            addSubClasses(classModel);
         }
 
-        changeSupport.firePropertyChange(PC_NEW_ONTOLOGY_CLASSES_LOADED, null, new ArrayList<ClassModel>(classes.values()));
+        changeSupport.firePropertyChange(PC_NEW_ONTOLOGY_CLASSES_LOADED, null, root);
+    }
+
+    // TODO: remove recursion
+    private void addSubClasses(ClassModel root)
+    {
+        Iterator<OntClass> classList = root.getOntClass().listSubClasses(true);
+        while(classList.hasNext())
+        {
+            OntClass ontClass = classList.next();
+            ClassModel classModel = new ClassModel(getNextAvailableClassId(), ontClass);
+            classes.put(classModel.getId(), classModel);
+            root.addChild(classModel);
+            addSubClasses(classModel);
+        }
     }
 
     public void createNewPrefab(String name, List<Integer> selectedIndividuals)

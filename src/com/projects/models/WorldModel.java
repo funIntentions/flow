@@ -23,7 +23,7 @@ public class WorldModel
 
     private static Integer getNextAvailableInstanceId()
     {
-        return nextAvailableInstanceId++;
+        return nextAvailableInstanceId += 2;
     }
 
     public WorldModel()
