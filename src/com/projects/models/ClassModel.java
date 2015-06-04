@@ -7,13 +7,14 @@ import com.hp.hpl.jena.ontology.OntClass;
  */
 public class ClassModel
 {
-    // TODO: make these private, same with IndividualModel
     private OntClass ontClass;
     private String name;
     private String description;
+    private Integer id;
 
-    public ClassModel(OntClass newOntClass)
+    public ClassModel(Integer newId, OntClass newOntClass)
     {
+        id = newId;
         ontClass = newOntClass;
         name = ontClass.getLocalName();
         description = ontClass.getComment(null);
@@ -32,5 +33,10 @@ public class ClassModel
     public String getName()
     {
         return name;
+    }
+
+    public Integer getId()
+    {
+        return id;
     }
 }

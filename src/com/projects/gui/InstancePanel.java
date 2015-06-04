@@ -34,14 +34,22 @@ public class InstancePanel extends JScrollPane implements SubscribedView
         if (event.getPropertyName().equals(WorldModel.PC_NEW_INSTANCE_ADDED))
         {
             IndividualModel instance = (IndividualModel)event.getNewValue();
-
-            Object[] instances = {instance.getName()};
-            instancesTable.addRow(instances);
+            instancesTable.addRow(instance);
         }
         else if (event.getPropertyName().equals(WorldModel.PC_INSTANCE_DELETED))
         {
-            int row = ((Integer)event.getNewValue());
-            instancesTable.removeRow(row);
+            int id = ((Integer)event.getNewValue());
+            int numRows = instancesTable.getRowCount();
+
+            for (int row = 0; row < numRows; ++row)
+            {
+                IndividualModel model = instancesTable.getRow(row);
+                if (id == model.getId())
+                {
+                    instancesTable.removeRow(row);
+                    break;
+                }
+            }
         }
         else if (event.getPropertyName().equals(OntologyModel.PC_ONTOLOGY_CLEARED))
         {

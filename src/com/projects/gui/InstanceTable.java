@@ -1,5 +1,7 @@
 package com.projects.gui;
 
+import com.projects.models.IndividualModel;
+
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
@@ -9,11 +11,11 @@ import java.util.ArrayList;
 public class InstanceTable extends AbstractTableModel
 {
     private String[] columnNames = {"Instances"};
-    private ArrayList<Object[]> data;
+    private ArrayList<IndividualModel> data;
 
     public InstanceTable()
     {
-        data = new ArrayList<Object[]>();
+        data = new ArrayList<IndividualModel>();
     }
 
     public int getColumnCount() {
@@ -28,18 +30,39 @@ public class InstanceTable extends AbstractTableModel
         return columnNames[col];
     }
 
-    public Object getValueAt(int row, int col) {
-        return data.get(row)[col];
+    public Object getValueAt(int row, int col)
+    {
+        IndividualModel model = data.get(row);
+        Object value;
+
+        switch(col)
+        {
+            case 0:
+            {
+                value = model.getName();
+            } break;
+            default:
+            {
+                value = "default";
+            }
+        }
+
+        return value;
     }
 
     public Class getColumnClass(int c) {
         return getValueAt(0, c).getClass();
     }
 
-    public void addRow(Object[] row)
+    public void addRow(IndividualModel row)
     {
         data.add(row);
-        fireTableRowsInserted(data.size() - 1, data.size() - 1); // TODO: lookup API for this call
+        fireTableRowsInserted(data.size() - 1, data.size() - 1);
+    }
+
+    public IndividualModel getRow(int row)
+    {
+        return data.get(row);
     }
 
     public void removeRow(int row)

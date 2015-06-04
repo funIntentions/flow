@@ -11,6 +11,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -116,16 +117,16 @@ public class SystemController implements PropertyChangeListener
         }
     }
 
-    public void newIndividualSelected(int index)
+    public void newIndividualSelected(int id)
     {
         currentlySelected = selection_type.INDIVIDUAL;
-        ontologyModel.changeSelectedIndividual(index);
+        ontologyModel.changeSelectedIndividual(id);
     }
 
-    public void newInstanceSelected(int index)
+    public void newInstanceSelected(int id)
     {
         currentlySelected = selection_type.INSTANCE;
-        worldModel.changeSelectedInstance(index);
+        worldModel.changeSelectedInstance(id);
     }
 
     public void newClassSelected(int index)
@@ -140,13 +141,9 @@ public class SystemController implements PropertyChangeListener
         worldModel.addNewInstance(individual);
     }
 
-    public void createPrefabFromSelection(int[] selection)
+    public void createPrefabFromSelection(Integer[] selection)
     {
-        List<Integer> selectionList = new ArrayList<Integer>(selection.length);
-        for (int i : selection)
-        {
-            selectionList.add(i);
-        }
+        List<Integer> selectionList = Arrays.asList(selection);
 
         // TODO: implement something more expressive to allow restriction/altering
         String inputName = JOptionPane.showInputDialog("Prefab's Name: ", JOptionPane.QUESTION_MESSAGE);

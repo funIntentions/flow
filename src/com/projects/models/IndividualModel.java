@@ -17,9 +17,11 @@ public class IndividualModel
     private String name;
     private ArrayList<PropertyModel> instanceProperties;
     private String description;
+    private Integer id;
 
-    public IndividualModel(Individual individual)
+    public IndividualModel(Integer newId, Individual individual)
     {
+        id = newId;
         instance = individual;
         name = individual.getLocalName();
         description = individual.getComment(null);
@@ -49,8 +51,9 @@ public class IndividualModel
         }
     }
 
-    public IndividualModel(IndividualModel model)
+    public IndividualModel(Integer newId, IndividualModel model)
     {
+        id = newId;
         instance = model.instance;
         description = instance.getComment(null);
         name = model.getName();
@@ -92,6 +95,11 @@ public class IndividualModel
     public String toString()
     {
         return getName();
+    }
+
+    public Integer getId()
+    {
+        return id;
     }
 }
 

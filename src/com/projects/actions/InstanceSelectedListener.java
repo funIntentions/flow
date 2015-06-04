@@ -1,6 +1,8 @@
 package com.projects.actions;
 
+import com.projects.gui.InstanceTable;
 import com.projects.management.SystemController;
+import com.projects.models.IndividualModel;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -21,7 +23,7 @@ public class InstanceSelectedListener extends MouseAdapter
     public void mousePressed(MouseEvent event)
     {
         JTable target = (JTable)event.getSource();
-        int row = target.getSelectedRow();
-        controller.newInstanceSelected(row);
+        IndividualModel model = ((InstanceTable)target.getModel()).getRow(target.getSelectedRow());
+        controller.newInstanceSelected(model.getId());
     }
 }

@@ -1,6 +1,7 @@
 package com.projects.gui;
 
 
+import com.projects.management.SystemController;
 import com.projects.models.IndividualModel;
 import com.projects.models.OntologyModel;
 import com.projects.models.Prefab;
@@ -22,10 +23,12 @@ public class PrefabPanel extends JScrollPane implements SubscribedView, TreeSele
     private JTree prefabTree;
     private DefaultTreeModel prefabTreeModel;
     private DefaultMutableTreeNode root;
+    private SystemController control;
 
-    public PrefabPanel()
+    public PrefabPanel(SystemController controller)
     {
         root = new DefaultMutableTreeNode("Prefabs");
+        control = controller;
 
         prefabTreeModel = new DefaultTreeModel(root);
         prefabTree = new JTree(prefabTreeModel);
@@ -57,6 +60,7 @@ public class PrefabPanel extends JScrollPane implements SubscribedView, TreeSele
         if (node.isLeaf()) // TODO: check to see if this is a String or not before the cast
         {
             IndividualModel model = (IndividualModel)nodeInfo;
+            control.newIndividualSelected(model.getId());
         }
     }
 

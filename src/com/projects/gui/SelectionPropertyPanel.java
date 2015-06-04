@@ -32,7 +32,6 @@ public class SelectionPropertyPanel extends JPanel implements SubscribedView
     JScrollPane descriptionScrollPane;
     private selection_type currentlyDisplaying;
 
-    // TODO: Find a way to place both a text area and a table within the same JScroll Pane
     public SelectionPropertyPanel(String borderName, TableModelListener propertiesTableListener)
     {
         setLayout(new GridLayout(0, 1));

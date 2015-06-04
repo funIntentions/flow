@@ -16,11 +16,12 @@ import java.util.List;
  */
 public class OntologyModel
 {
+    private static Integer nextAvailableIndividualId = 0;
+    private static Integer nextAvailableClassId = 0;
     private int selectedIndividual;
     private int selectedClass;
-    private ArrayList<IndividualModel> individuals;
-    //private HashMap<String, IndividualModel> individuals;
-    private ArrayList<ClassModel> classes;
+    private HashMap<Integer, IndividualModel> individuals;
+    private HashMap<Integer, ClassModel> classes;
     private List<Prefab> prefabs;
     private PropertyChangeSupport changeSupport;
 
@@ -33,11 +34,19 @@ public class OntologyModel
     public static final String PC_ONTOLOGY_CLEARED = "PC_ONTOLOGY_CLEARED";
     public static final String PC_NEW_PREFAB_CREATED = "PC_NEW_PREFAB_CREATED";
 
+    private static Integer getNextAvailableIndividualId()
+    {
+        return nextAvailableIndividualId++;
+    }
+    private static Integer getNextAvailableClassId()
+    {
+        return nextAvailableClassId++;
+    }
     public OntologyModel()
     {
         prefabs = new ArrayList<Prefab>();
-        individuals = new ArrayList<IndividualModel>();
-        classes = new ArrayList<ClassModel>();
+        individuals = new HashMap<Integer, IndividualModel>();
+        classes = new HashMap<Integer, ClassModel>();
         changeSupport = new PropertyChangeSupport(this);
         selectedIndividual = -1;
         selectedClass = -1;
@@ -55,26 +64,27 @@ public class OntologyModel
 
     public void loadOntology(OntModel base)
     {
-        ArrayList<IndividualModel> oldInstances = new ArrayList<IndividualModel>(individuals);
-        ArrayList<ClassModel> oldClasses = new ArrayList<ClassModel>(classes);
 
         Iterator<Individual> list = base.listIndividuals();
         while(list.hasNext())
         {
             Individual individual = list.next();
-            individuals.add(new IndividualModel(individual));
+            IndividualModel individualModel = new IndividualModel(getNextAvailableIndividualId(), individual);
+            individuals.put(individualModel.getId(), individualModel);
         }
 
-        changeSupport.firePropertyChange(PC_NEW_ONTOLOGY_INDIVIDUALS_LOADED, oldInstances, individuals);
+        List<IndividualModel> individualsList = new ArrayList<IndividualModel>(individuals.values());
+        changeSupport.firePropertyChange(PC_NEW_ONTOLOGY_INDIVIDUALS_LOADED, null, individualsList);
 
         Iterator<OntClass> classList = base.listClasses();
         while(classList.hasNext())
         {
             OntClass ontClass = classList.next();
-            classes.add(new ClassModel(ontClass));
+            ClassModel classModel = new ClassModel(getNextAvailableClassId(), ontClass);
+            classes.put(classModel.getId(), classModel);
         }
 
-        changeSupport.firePropertyChange(PC_NEW_ONTOLOGY_CLASSES_LOADED, oldClasses, classes);
+        changeSupport.firePropertyChange(PC_NEW_ONTOLOGY_CLASSES_LOADED, null, new ArrayList<ClassModel>(classes.values()));
     }
 
     public void createNewPrefab(String name, List<Integer> selectedIndividuals)
@@ -94,9 +104,9 @@ public class OntologyModel
         changeSupport.firePropertyChange(PC_NEW_PREFAB_CREATED, null, prefab);
     }
 
-    public void changeSelectedIndividual(int index)
+    public void changeSelectedIndividual(int id)
     {
-        if (index < 0) //TODO: throw exception?
+        if (id < 0) //TODO: throw exception?
             return;
 
         IndividualModel lastSelected = null;
@@ -104,19 +114,19 @@ public class OntologyModel
         if (selectedIndividual >= 0)
             lastSelected =  individuals.get(selectedIndividual);
 
-        selectedIndividual = index;
+        selectedIndividual = id;
 
         changeSupport.firePropertyChange(PC_NEW_INDIVIDUAL_SELECTED, lastSelected, individuals.get(selectedIndividual));
     }
 
-    public void changeSelectedClass(int index)
+    public void changeSelectedClass(int id)
     {
         ClassModel lastSelected = null;
 
         if (selectedClass >= 0)
             lastSelected = classes.get(selectedClass);
 
-        selectedClass = index;
+        selectedClass = id;
 
         changeSupport.firePropertyChange(PC_NEW_CLASS_SELECTED, lastSelected, classes.get(selectedClass));
     }
@@ -131,12 +141,12 @@ public class OntologyModel
 
     public int getSelectedIndividual() { return selectedIndividual; }
 
-    public IndividualModel getIndividual(int index)
+    public IndividualModel getIndividual(int id)
     {
-        if (index < 0)
+        if (id < 0)
             return null;
 
-        return individuals.get(index);
+        return individuals.get(id);
     }
 
     public void changePropertyValueOfSelected(int index, Object newValue)

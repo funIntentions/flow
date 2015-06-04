@@ -37,8 +37,7 @@ public class IndividualPanel extends JScrollPane implements SubscribedView
 
             for (IndividualModel model : instances)
             {
-                String[] row = {model.getName()};
-                instancesTable.addRow(row);
+                instancesTable.addRow(model);
             }
         }
         else if (event.getPropertyName().equals(OntologyModel.PC_ONTOLOGY_CLEARED))
