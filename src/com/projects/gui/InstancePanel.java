@@ -7,16 +7,13 @@ import com.projects.models.Prefab;
 import com.projects.models.WorldModel;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
-import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
-import java.util.ArrayList;
 
 /**
  * Created by Dan on 5/27/2015.

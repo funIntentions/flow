@@ -3,9 +3,7 @@ package com.projects.models;
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.ontology.OntTools;
 import com.hp.hpl.jena.vocabulary.OWL;
-import com.projects.management.SystemController;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

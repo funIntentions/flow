@@ -11,3 +11,4 @@ June 4rd
 - In the selection panel display the super class of the instance
 - Ability to removing prefabs from world instances
 - Ability to remove prefabs from the prefabs tab
+- limit file selection so only .owl files can be seen/selected

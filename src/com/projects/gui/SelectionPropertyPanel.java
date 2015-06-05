@@ -3,7 +3,6 @@ package com.projects.gui;
 import com.projects.models.*;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -16,21 +15,13 @@ import java.util.Iterator;
  */
 public class SelectionPropertyPanel extends JPanel implements SubscribedView
 {
-    // TODO: eliminate the repetition between this here and the enum in SystemController
-    enum selection_type
-    {
-        CLASS,
-        INDIVIDUAL,
-        INSTANCE,
-        NONE
-    }
 
     JTable propertyTable;
     JTextArea selectionDescription;
     PropertiesTable propertiesTable;
     JScrollPane propertyScrollPane;
     JScrollPane descriptionScrollPane;
-    private selection_type currentlyDisplaying;
+    private SelectionType currentlyDisplaying;
 
     public SelectionPropertyPanel(String borderName, TableModelListener propertiesTableListener)
     {
@@ -93,7 +84,7 @@ public class SelectionPropertyPanel extends JPanel implements SubscribedView
         propertyScrollPane.setBorder(BorderFactory.createTitledBorder("Properties"));
         add(descriptionScrollPane);
         add(propertyScrollPane);
-        currentlyDisplaying = selection_type.NONE;
+        currentlyDisplaying = SelectionType.NONE;
     }
 
     public void modelPropertyChange(PropertyChangeEvent event)
@@ -103,11 +94,11 @@ public class SelectionPropertyPanel extends JPanel implements SubscribedView
         {
             if (event.getPropertyName().equals(OntologyModel.PC_NEW_INDIVIDUAL_SELECTED)) // TODO: make nicer
             {
-                currentlyDisplaying = selection_type.INDIVIDUAL;
+                currentlyDisplaying = SelectionType.INDIVIDUAL;
             }
             else
             {
-                currentlyDisplaying = selection_type.INSTANCE;
+                currentlyDisplaying = SelectionType.INSTANCE;
             }
 
             propertiesTable.clearTable();
@@ -130,7 +121,7 @@ public class SelectionPropertyPanel extends JPanel implements SubscribedView
             ClassModel model = (ClassModel)event.getNewValue();
             selectionDescription.setText(model.getDescription());
 
-            currentlyDisplaying = selection_type.CLASS;
+            currentlyDisplaying = SelectionType.CLASS;
         }
         else if (event.getPropertyName().equals(OntologyModel.PC_ONTOLOGY_CLEARED) || event.getPropertyName().equals(WorldModel.PC_WORLD_CLEARED))
         {
@@ -138,7 +129,7 @@ public class SelectionPropertyPanel extends JPanel implements SubscribedView
         }
         else if (event.getPropertyName().equals(WorldModel.PC_INSTANCE_DELETED))
         {
-            if (currentlyDisplaying == selection_type.INSTANCE)
+            if (currentlyDisplaying == SelectionType.INSTANCE)
                 propertiesTable.clearTable();
         }
     }

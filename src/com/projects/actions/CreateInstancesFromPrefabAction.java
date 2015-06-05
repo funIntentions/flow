@@ -1,6 +1,5 @@
 package com.projects.actions;
 
-import com.projects.gui.InstanceTable;
 import com.projects.management.SystemController;
 import com.projects.models.Prefab;
 
