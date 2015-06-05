@@ -3,10 +3,11 @@ Future Thoughts
 - Redundancy issue - isPartOf composedOf Owns and other relationships of composition become redundant when represented in software. Particularly with prehabs/groups that will group individuals together into units.
 - Alternatively efforts can be focused on representing everything through the simulation
 
-June 3rd
-- Error occurs when property value is set to nothing
-- Error occurs when selecting the root node before anything is added in CLass and Prefab Panels
+June 4rd
 - IndividualModels within a Prefab should be deep copied and given a unique id
 - Basic prefab representation (how they get displayed in instances)
 - Instances that can be created from the prefab tab
 - By default don't display the class, object and data property tabs (just have individuals). Make a views menu item and allow users to add desired tabs from that.
+- In the selection panel display the super class of the instance
+- Ability to removing prefabs from world instances
+- Ability to remove prefabs from the prefabs tab

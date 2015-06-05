@@ -21,11 +21,12 @@ public class OntologyModel
 {
     private static Integer nextAvailableIndividualId = 0;
     private static Integer nextAvailableClassId = 0;
+    private static Integer nextAvailablePrefabId = 0;
     private int selectedIndividual;
     private int selectedClass;
     private HashMap<Integer, IndividualModel> individuals;
     private HashMap<Integer, ClassModel> classes;
-    private List<Prefab> prefabs;
+    private HashMap<Integer, Prefab> prefabs;
     private PropertyChangeSupport changeSupport;
 
     // Property Changes this class can fire
@@ -41,13 +42,20 @@ public class OntologyModel
     {
         return nextAvailableIndividualId += 3;
     }
+
     private static Integer getNextAvailableClassId()
     {
         return nextAvailableClassId += 2;
     }
+
+    private static Integer getNextAvailablePrefabId()
+    {
+        return nextAvailablePrefabId++;
+    }
+
     public OntologyModel()
     {
-        prefabs = new ArrayList<Prefab>();
+        prefabs = new HashMap<Integer, Prefab>();
         individuals = new HashMap<Integer, IndividualModel>();
         classes = new HashMap<Integer, ClassModel>();
         changeSupport = new PropertyChangeSupport(this);
@@ -121,8 +129,8 @@ public class OntologyModel
             prefabsMembers.add(individuals.get(index));
         }
 
-        Prefab prefab = new Prefab(name, prefabsMembers);
-        prefabs.add(prefab);
+        Prefab prefab = new Prefab(getNextAvailablePrefabId(), name, prefabsMembers);
+        prefabs.put(prefab.getId(), prefab);
 
         changeSupport.firePropertyChange(PC_NEW_PREFAB_CREATED, null, prefab);
     }

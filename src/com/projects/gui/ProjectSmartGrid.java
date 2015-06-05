@@ -20,7 +20,8 @@ public class ProjectSmartGrid extends JPanel //TODO: Maybe create JPanel instanc
             closeOntologyAction,
             createInstanceFromSelectionAction,
             deleteSelectedInstanceAction,
-            createPrefabFromSelectionAction;
+            createPrefabFromSelectionAction,
+            createInstancesFromPrefabAction;
     private IndividualSelectedListener individualSelectedListener;
     private InstanceSelectedListener instanceSelectedListener;
     private PropertiesTableListener propertiesTableListener;
@@ -48,12 +49,13 @@ public class ProjectSmartGrid extends JPanel //TODO: Maybe create JPanel instanc
         propertiesTableListener = new PropertiesTableListener(controller);
         classSelectedListener = new ClassSelectedListener(controller);
         selectionInfoPanel = new SelectionPropertyPanel("Selection", propertiesTableListener);
-        instancePanel = new InstancePanel(instanceSelectedListener);
+        instancePanel = new InstancePanel(controller);
         individualPanel = new IndividualPanel(individualSelectedListener);
         classPanel = new ClassPanel(controller);
         prefabPanel = new PrefabPanel(controller);
 
         createPrefabFromSelectionAction = new CreatePrefabFromSelectionAction("Create Prefab From Selection", null, null, null, individualPanel.getIndividualTable(), controller); // TODO: refactor so I don't have to get the table
+        createInstancesFromPrefabAction = new CreateInstancesFromPrefabAction("Create Instances From Prefab", null, null, null, prefabPanel.getPrefabTree(), controller);
 
         controller.subscribeView(prefabPanel);
         controller.subscribeView(classPanel);
@@ -112,9 +114,11 @@ public class ProjectSmartGrid extends JPanel //TODO: Maybe create JPanel instanc
         JButton createInstanceButton = new JButton(createInstanceFromSelectionAction);
         JButton deleteInstanceButton = new JButton(deleteSelectedInstanceAction);
         JButton createPrefabButton = new JButton(createPrefabFromSelectionAction);
+        JButton createInstancesFromPrefabButton = new JButton(createInstancesFromPrefabAction);
         toolBar.add(createInstanceButton);
-        toolBar.add(createPrefabButton);
         toolBar.add(deleteInstanceButton);
+        toolBar.add(createPrefabButton);
+        toolBar.add(createInstancesFromPrefabButton);
         return toolBar;
     }
 
@@ -234,10 +238,13 @@ public class ProjectSmartGrid extends JPanel //TODO: Maybe create JPanel instanc
         menuItem = new JMenuItem(createInstanceFromSelectionAction);
         menu.add(menuItem);
 
+        menuItem = new JMenuItem(deleteSelectedInstanceAction);
+        menu.add(menuItem);
+
         menuItem = new JMenuItem(createPrefabFromSelectionAction);
         menu.add(menuItem);
 
-        menuItem = new JMenuItem(deleteSelectedInstanceAction);
+        menuItem = new JMenuItem(createInstancesFromPrefabAction);
         menu.add(menuItem);
 
         return menuBar;

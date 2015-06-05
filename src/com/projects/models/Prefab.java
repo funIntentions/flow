@@ -10,9 +10,11 @@ public class Prefab
 {
     private String name;
     private List<IndividualModel> members;
+    private Integer id;
 
-    public Prefab(String uniqueName, List<IndividualModel> memberIndividuals)
+    public Prefab(Integer newId, String uniqueName, List<IndividualModel> memberIndividuals)
     {
+        id = newId;
         name = uniqueName;
         members = memberIndividuals;
     }
@@ -30,5 +32,15 @@ public class Prefab
     public String getName()
     {
         return name;
+    }
+
+    public Integer getId()
+    {
+        return id;
+    }
+
+    public String toString()
+    {
+        return getName();
     }
 }

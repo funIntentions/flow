@@ -4,6 +4,7 @@ import com.hp.hpl.jena.ontology.OntModel;
 import com.projects.gui.SubscribedView;
 import com.projects.models.IndividualModel;
 import com.projects.models.OntologyModel;
+import com.projects.models.Prefab;
 import com.projects.models.WorldModel;
 
 import javax.swing.*;
@@ -138,7 +139,12 @@ public class SystemController implements PropertyChangeListener
     public void createInstanceFromIndividual()
     {
         IndividualModel individual = ontologyModel.getIndividual(ontologyModel.getSelectedIndividual());
-        worldModel.addNewInstance(individual);
+        worldModel.addNewInstance(individual, false);
+    }
+
+    public void createPrefabInstancesFromPrefab(Prefab prefab)
+    {
+        worldModel.addNewPrefab(prefab);
     }
 
     public void createPrefabFromSelection(Integer[] selection)

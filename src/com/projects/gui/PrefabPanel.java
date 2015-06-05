@@ -66,7 +66,7 @@ public class PrefabPanel extends JScrollPane implements SubscribedView, TreeSele
         {
             Prefab prefab = (Prefab)event.getNewValue();
 
-            DefaultMutableTreeNode prefabNode = new DefaultMutableTreeNode(prefab.getName());
+            DefaultMutableTreeNode prefabNode = new DefaultMutableTreeNode(prefab);
             prefabTreeModel.insertNodeInto(prefabNode, root, root.getChildCount());
 
             for (IndividualModel individual : prefab.getMembers())
@@ -81,5 +81,10 @@ public class PrefabPanel extends JScrollPane implements SubscribedView, TreeSele
             root.removeAllChildren();
             prefabTreeModel.reload();
         }
+    }
+
+    public JTree getPrefabTree()
+    {
+        return prefabTree;
     }
 }

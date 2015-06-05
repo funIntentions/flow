@@ -93,6 +93,7 @@ public class ClassPanel extends JScrollPane implements SubscribedView, TreeSelec
         {
             DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(child);
             classTreeModel.insertNodeInto(childNode, parentNode, parentNode.getChildCount());
+            addSubclasses(child, childNode);
         }
     }
 }
