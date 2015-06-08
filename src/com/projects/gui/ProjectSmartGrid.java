@@ -43,7 +43,6 @@ public class ProjectSmartGrid extends JPanel //TODO: Maybe create JPanel instanc
         closeOntologyAction = new CloseOntologyAction("Close", null, null, null, controller);
         loadInstanceAction = new LoadInstancesAction("Open", null, null, null, this, controller);
         createInstanceFromSelectionAction = new CreateInstanceFromSelectionAction("Create From Selection", null, null, null, controller);
-        deleteSelectedInstanceAction = new DeleteSelectedInstanceAction("Delete Selected Instance", null, null, null, controller);
         individualSelectedListener = new IndividualSelectedListener(controller);
         instanceSelectedListener = new InstanceSelectedListener(controller);
         propertiesTableListener = new PropertiesTableListener(controller);
@@ -54,6 +53,7 @@ public class ProjectSmartGrid extends JPanel //TODO: Maybe create JPanel instanc
         classPanel = new ClassPanel(controller);
         prefabPanel = new PrefabPanel(controller);
 
+        deleteSelectedInstanceAction = new DeleteSelectedInstanceAction("Delete Selected Instance", null, null, null,instancePanel.getWorldInstanceTree(), controller);
         createPrefabFromSelectionAction = new CreatePrefabFromSelectionAction("Create Prefab From Selection", null, null, null, individualPanel.getIndividualTable(), controller); // TODO: refactor so I don't have to get the table
         createInstancesFromPrefabAction = new CreateInstancesFromPrefabAction("Create Instances From Prefab", null, null, null, prefabPanel.getPrefabTree(), controller);
 

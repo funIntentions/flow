@@ -137,7 +137,6 @@ public class SystemController implements PropertyChangeListener
         newIndividualSelected(id, false);
     }
 
-
     public void newIndividualSelected(int id, Boolean inPrefab)
     {
         currentlySelected = SelectionType.INDIVIDUAL;
@@ -200,11 +199,16 @@ public class SystemController implements PropertyChangeListener
     }
 
     /**
-     * Removes the currently selected instance Individual from the WorldModel.
+     * Removes the currently selected instance Prefab from the WorldModel.
      */
-    public void deleteSelectedInstance()
+    public void removeSelectedInstancePrefab(Prefab selected)
     {
-        worldModel.deleteInstance(worldModel.getSelectedInstance());
+        worldModel.removePrefab(selected);
+    }
+
+    public void removeSelectedInstanceIndividual(IndividualModel selected)
+    {
+        worldModel.removeIndividual(selected);
     }
 
     // TODO: implement those that need to be...

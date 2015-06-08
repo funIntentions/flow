@@ -86,6 +86,31 @@ public class InstancePanel extends JScrollPane implements SubscribedView, TreeSe
             root.removeAllChildren();
             worldInstanceTreeModel.reload();
         }
+        else if (event.getPropertyName().equals(WorldModel.PC_INSTANCE_DELETED))
+        {
+            //IndividualModel individualModel = (IndividualModel)event.getNewValue();
+        }
+        else if (event.getPropertyName().equals(WorldModel.PC_PREFAB_DELETED))
+        {
+            /*Prefab prefab = (Prefab)event.getNewValue();
+
+            int num = root.getChildCount();
+            for (int i = 0; i < num; ++i)
+            {
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode)root.getChildAt(i);
+
+                if (node.getUserObject() instanceof Prefab)
+                {
+                    Prefab prefabNode = (Prefab)node.getUserObject();
+                    //if (prefabNode.)
+                }
+            }*/
+        }
+    }
+
+    public JTree getWorldInstanceTree()
+    {
+        return worldInstanceTree;
     }
 }
     /*JTable instanceTable;

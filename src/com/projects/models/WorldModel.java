@@ -15,10 +15,12 @@ public class WorldModel
     private static Integer nextAvailablePrefabInstance = 0;
     int selectedInstance;
     HashMap<Integer, IndividualModel> instances;
-    HashMap<Integer, Prefab> prefabInstances;
+    HashMap<Integer, IndividualModel> prefabInstances;
+    HashMap<Integer, Prefab> prefabs;
     PropertyChangeSupport changeSupport;
     public static final String PC_NEW_INSTANCE_ADDED = "PC_NEW_INSTANCE_ADDED";
     public static final String PC_INSTANCE_DELETED = "PC_INSTANCE_DELETED";
+    public static final String PC_PREFAB_DELETED = "PC_PREFAB_DELETED";
     public static final String PC_NEW_INSTANCE_SELECTED = "PC_NEW_INSTANCE_SELECTED";
     public static final String PC_WORLD_CLEARED = "PC_WORLD_CLEARED";
     public static final String PC_NEW_INSTANCE_ADDED_FROM_PREFAB = "PC_NEW_INSTANCE_ADDED_FROM_PREFAB";
@@ -37,7 +39,8 @@ public class WorldModel
     {
         selectedInstance = -1;
         instances = new HashMap<Integer, IndividualModel>();
-        prefabInstances = new HashMap<Integer, Prefab>();
+        prefabInstances = new HashMap<Integer, IndividualModel>();
+        prefabs = new HashMap<Integer, Prefab>();
         changeSupport = new PropertyChangeSupport(this);
     }
 
@@ -50,10 +53,8 @@ public class WorldModel
 
     public void changePropertyValueOfSelected(int index, Object newValue)
     {
-        if (index < 0)
-            return;
-
-        instances.get(selectedInstance).changeProperty(index, newValue);
+        IndividualModel selected = getInstance(selectedInstance);
+        selected.changeProperty(index, newValue);
     }
 
     public void addNewPrefab(Prefab prefab)
@@ -70,7 +71,7 @@ public class WorldModel
         }
 
         Prefab newPrefab = new Prefab(getNextAvaibablePrefabInstanceId(), prefab.getName(), instanceMembers);
-        prefabInstances.put(newPrefab.getId(), newPrefab);
+        prefabs.put(newPrefab.getId(), newPrefab);
 
         changeSupport.firePropertyChange(PC_NEW_INSTANCE_ADDED_FROM_PREFAB, null, newPrefab);
     }
@@ -81,10 +82,16 @@ public class WorldModel
             return null;
 
         IndividualModel newIndividual = new IndividualModel(getNextAvailableInstanceId(), individual);
-        instances.put(newIndividual.getId(), newIndividual);
 
         if (!prefabMember)
+        {
+            instances.put(newIndividual.getId(), newIndividual);
             changeSupport.firePropertyChange(PC_NEW_INSTANCE_ADDED, null, newIndividual);
+        }
+        else
+        {
+            prefabInstances.put(newIndividual.getId(), newIndividual);
+        }
 
         return newIndividual;
     }
@@ -101,6 +108,40 @@ public class WorldModel
             selectedInstance = -1;
     }
 
+    public void removeIndividual(IndividualModel individual)
+    {
+        if (instances.containsKey(individual.getId()))
+        {
+            instances.remove(individual.getId());
+            changeSupport.firePropertyChange(PC_INSTANCE_DELETED, null, individual.getId());
+        }
+        else if (prefabInstances.containsKey(individual.getId()))
+        {
+            prefabInstances.remove(individual.getId());
+
+            for (Prefab prefab : prefabs.values())
+            {
+                if (prefab.getMembers().contains(individual))
+                {
+                    prefab.getMembers().remove(individual);
+                    changeSupport.firePropertyChange(PC_INSTANCE_DELETED, null, individual.getId());
+                    break;
+                }
+            }
+        }
+    }
+
+    public void removePrefab(Prefab prefab)
+    {
+        for (IndividualModel individualModel : prefab.getMembers())
+        {
+           prefabInstances.remove(individualModel.getId());
+        }
+
+        prefabs.remove(prefab.getId());
+        changeSupport.firePropertyChange(PC_PREFAB_DELETED, null, prefab.getId());
+    }
+
     public void addPropertyChangeListener(PropertyChangeListener l)
     {
         changeSupport.addPropertyChangeListener(l);
@@ -113,19 +154,38 @@ public class WorldModel
 
     public void changeSelectedInstance(int id)
     {
-        IndividualModel previouslySelected = null;
+        if (id < 0)
+            return;
 
-        if (selectedInstance >= 0)
-            previouslySelected = instances.get(selectedInstance);
+        IndividualModel selected;
+
+        if (prefabInstances.containsKey(id))
+        {
+            selected = prefabInstances.get(id);
+        }
+        else
+        {
+            selected = instances.get(id);
+        }
 
         selectedInstance = id;
-        changeSupport.firePropertyChange(PC_NEW_INSTANCE_SELECTED, previouslySelected, instances.get(selectedInstance));
+        changeSupport.firePropertyChange(PC_NEW_INSTANCE_SELECTED, null, selected);
     }
 
     public int getSelectedInstance() {return selectedInstance; }
 
     public IndividualModel getInstance(int id)
     {
-        return instances.get(id);
+        if (id < 0)
+            return null;
+
+        if (prefabInstances.containsKey(id))
+        {
+            return prefabInstances.get(id);
+        }
+        else
+        {
+            return instances.get(id);
+        }
     }
 }
