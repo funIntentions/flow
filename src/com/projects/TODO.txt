@@ -5,10 +5,9 @@ Future Thoughts
 
 June 4rd
 - IndividualModels within a Prefab should be deep copied and given a unique id
-- Basic prefab representation (how they get displayed in instances)
-- Instances that can be created from the prefab tab
 - By default don't display the class, object and data property tabs (just have individuals). Make a views menu item and allow users to add desired tabs from that.
 - In the selection panel display the super class of the instance
 - Ability to removing prefabs from world instances
 - Ability to remove prefabs from the prefabs tab
 - limit file selection so only .owl files can be seen/selected
+- Deleting world instances no longer works...

@@ -1,0 +1,25 @@
+package com.projects.helper;
+
+import java.io.File;
+
+/**
+ * Created by Dan on 6/8/2015.
+ */
+public class Utils
+{
+    /**
+     * Finds the extension of a file.
+     * @param file the file in question
+     * @return the extension of the file
+     */
+    public static String getExtension(File file) {
+        String ext = null;
+        String s = file.getName();
+        int i = s.lastIndexOf('.');
+
+        if (i > 0 &&  i < s.length() - 1) {
+            ext = s.substring(i+1).toLowerCase();
+        }
+        return ext;
+    }
+}

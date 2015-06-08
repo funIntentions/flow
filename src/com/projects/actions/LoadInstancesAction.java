@@ -1,8 +1,11 @@
 package com.projects.actions;
 
+import com.projects.helper.Constants;
+import com.projects.helper.Utils;
 import com.projects.management.SystemController;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
 import java.awt.event.ActionEvent;
 import java.io.File;
 
@@ -22,6 +25,26 @@ public class LoadInstancesAction extends AbstractAction
         putValue(MNEMONIC_KEY, mnemonic);
         owner = panel;
         fileChooser = new JFileChooser();
+
+        FileFilter owlFilter = new FileFilter() {
+            @Override
+            public boolean accept(File f) {
+                if (f.isDirectory())
+                    return true;
+                String extension = Utils.getExtension(f);
+                if (extension != null && extension.equals(Constants.OWL))
+                    return true;
+                return false;
+            }
+
+            @Override
+            public String getDescription() {
+                return Constants.OWL;
+            }
+        };
+
+        fileChooser.setFileFilter(owlFilter);
+        fileChooser.setAcceptAllFileFilterUsed(false);
         controller = control;
     }
 
