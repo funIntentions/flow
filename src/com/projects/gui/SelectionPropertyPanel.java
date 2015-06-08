@@ -15,7 +15,8 @@ import java.util.Iterator;
  */
 public class SelectionPropertyPanel extends JPanel implements SubscribedView
 {
-
+    JLabel selectionsName;
+    JLabel selectionsClass;
     JTable propertyTable;
     JTextArea selectionDescription;
     PropertiesTable propertiesTable;
@@ -25,7 +26,7 @@ public class SelectionPropertyPanel extends JPanel implements SubscribedView
 
     public SelectionPropertyPanel(String borderName, TableModelListener propertiesTableListener)
     {
-        setLayout(new GridLayout(0, 1));
+        setLayout(new BorderLayout());
         setBorder(BorderFactory.createTitledBorder(borderName));
         propertiesTable = new PropertiesTable();
         propertiesTable.addTableModelListener(propertiesTableListener);
@@ -82,9 +83,42 @@ public class SelectionPropertyPanel extends JPanel implements SubscribedView
         descriptionScrollPane.setBorder(BorderFactory.createTitledBorder("Description"));
         propertyScrollPane = new JScrollPane(propertyTable);
         propertyScrollPane.setBorder(BorderFactory.createTitledBorder("Properties"));
-        add(descriptionScrollPane);
-        add(propertyScrollPane);
+        selectionsName = new JLabel("Name: ");
+        selectionsClass = new JLabel("Class: ");
+        JPanel intro = new JPanel(new GridLayout(0,1));
+        intro.add(selectionsName);
+        intro.add(selectionsClass);
+        add(intro, BorderLayout.PAGE_START);
+        JPanel details = new JPanel(new GridLayout(0,1));
+        details.add(descriptionScrollPane);
+        details.add(propertyScrollPane);
+        add(details, BorderLayout.CENTER);
         currentlyDisplaying = SelectionType.NONE;
+    }
+
+    private void setSelectionsName(String name)
+    {
+        selectionsName.setText("Name: " + name);
+    }
+
+    private void setSelectionsClass(String className)
+    {
+        if (!selectionsClass.isVisible())
+        {
+            selectionsClass.setVisible(true);
+        }
+
+        selectionsClass.setText("Class: " + className);
+    }
+
+    private void clearSelectionsName()
+    {
+        selectionsName.setText("Name: ");
+    }
+
+    private void clearSelectionsClass()
+    {
+        selectionsClass.setText("Class: ");
     }
 
     public void modelPropertyChange(PropertyChangeEvent event)
@@ -103,6 +137,8 @@ public class SelectionPropertyPanel extends JPanel implements SubscribedView
 
             propertiesTable.clearTable();
             IndividualModel model = (IndividualModel)event.getNewValue();
+            setSelectionsName(model.getName());
+            setSelectionsClass(model.getClassName());
             Iterator<PropertyModel> i = model.listProperties();
 
             selectionDescription.setText(model.getDescription());
@@ -117,20 +153,28 @@ public class SelectionPropertyPanel extends JPanel implements SubscribedView
         else if (event.getPropertyName().equals(OntologyModel.PC_NEW_CLASS_SELECTED))
         {
             propertiesTable.clearTable();
-
             ClassModel model = (ClassModel)event.getNewValue();
+            setSelectionsName(model.getName());
+            clearSelectionsClass();
+            selectionsClass.setVisible(false);
             selectionDescription.setText(model.getDescription());
 
             currentlyDisplaying = SelectionType.CLASS;
         }
         else if (event.getPropertyName().equals(OntologyModel.PC_ONTOLOGY_CLEARED) || event.getPropertyName().equals(WorldModel.PC_WORLD_CLEARED))
         {
+            clearSelectionsName();
+            clearSelectionsClass();
             propertiesTable.clearTable();
         }
         else if (event.getPropertyName().equals(WorldModel.PC_INSTANCE_DELETED))
         {
             if (currentlyDisplaying == SelectionType.INSTANCE)
+            {
                 propertiesTable.clearTable();
+                clearSelectionsName();
+                clearSelectionsClass();
+            }
         }
     }
 }

@@ -15,6 +15,7 @@ public class IndividualModel
 {
     private Individual instance;
     private String name;
+    private String className;
     private ArrayList<PropertyModel> instanceProperties;
     private String description;
     private Integer id;
@@ -24,6 +25,7 @@ public class IndividualModel
         id = newId;
         instance = individual;
         name = individual.getLocalName();
+        className = individual.getOntClass().getLocalName();
         description = individual.getComment(null);
 
         instanceProperties = new ArrayList<PropertyModel>();
@@ -55,6 +57,7 @@ public class IndividualModel
     {
         id = newId;
         instance = model.instance;
+        className = instance.getOntClass().getLocalName();
         description = instance.getComment(null);
         name = model.getName();
         instanceProperties = new ArrayList<PropertyModel>();
@@ -100,6 +103,10 @@ public class IndividualModel
     public Integer getId()
     {
         return id;
+    }
+    public String getClassName()
+    {
+        return className;
     }
 }
 
