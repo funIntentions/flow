@@ -56,7 +56,7 @@ public class PrefabPanel extends JScrollPane implements SubscribedView, TreeSele
         if (node.isLeaf() && (nodeInfo instanceof IndividualModel))
         {
             IndividualModel model = (IndividualModel)nodeInfo;
-            control.newIndividualSelected(model.getId());
+            control.newIndividualSelected(model.getId(), true);
         }
     }
 

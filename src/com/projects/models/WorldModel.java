@@ -25,7 +25,7 @@ public class WorldModel
 
     private static Integer getNextAvailableInstanceId()
     {
-        return nextAvailableInstanceId += 2;
+        return nextAvailableInstanceId++;
     }
 
     private static Integer getNextAvaibablePrefabInstanceId()

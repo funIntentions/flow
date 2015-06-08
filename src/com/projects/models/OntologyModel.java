@@ -23,6 +23,7 @@ public class OntologyModel
     private int selectedIndividual;
     private int selectedClass;
     private HashMap<Integer, IndividualModel> individuals;
+    private HashMap<Integer, IndividualModel> prefabIndividuals;
     private HashMap<Integer, ClassModel> classes;
     private HashMap<Integer, Prefab> prefabs;
     private PropertyChangeSupport changeSupport;
@@ -38,12 +39,12 @@ public class OntologyModel
 
     private static Integer getNextAvailableIndividualId()
     {
-        return nextAvailableIndividualId += 3;
+        return nextAvailableIndividualId++;
     }
 
     private static Integer getNextAvailableClassId()
     {
-        return nextAvailableClassId += 2;
+        return nextAvailableClassId++;
     }
 
     private static Integer getNextAvailablePrefabId()
@@ -55,6 +56,7 @@ public class OntologyModel
     {
         prefabs = new HashMap<Integer, Prefab>();
         individuals = new HashMap<Integer, IndividualModel>();
+        prefabIndividuals = new HashMap<Integer, IndividualModel>();
         classes = new HashMap<Integer, ClassModel>();
         changeSupport = new PropertyChangeSupport(this);
         selectedIndividual = -1;
@@ -122,9 +124,11 @@ public class OntologyModel
             return;
         
         List<IndividualModel> prefabsMembers = new ArrayList<IndividualModel>();
-        for (int index : selectedIndividuals)
+        for (int id : selectedIndividuals)
         {
-            prefabsMembers.add(individuals.get(index));
+            IndividualModel prefabMember = new IndividualModel(getNextAvailableIndividualId(), individuals.get(id));
+            prefabsMembers.add(prefabMember);
+            prefabIndividuals.put(prefabMember.getId(), prefabMember);
         }
 
         Prefab prefab = new Prefab(getNextAvailablePrefabId(), name, prefabsMembers);
@@ -135,17 +139,27 @@ public class OntologyModel
 
     public void changeSelectedIndividual(int id)
     {
+        changeSelectedIndividual(id, false);
+    }
+
+    public void changeSelectedIndividual(int id, Boolean inPrefab)
+    {
         if (id < 0) //TODO: throw exception?
             return;
 
-        IndividualModel lastSelected = null;
-
-        if (selectedIndividual >= 0)
-            lastSelected =  individuals.get(selectedIndividual);
-
         selectedIndividual = id;
+        IndividualModel selected;
 
-        changeSupport.firePropertyChange(PC_NEW_INDIVIDUAL_SELECTED, lastSelected, individuals.get(selectedIndividual));
+        if (inPrefab)
+        {
+            selected = prefabIndividuals.get(id);
+        }
+        else
+        {
+            selected = individuals.get(id);
+        }
+
+        changeSupport.firePropertyChange(PC_NEW_INDIVIDUAL_SELECTED, null, selected);
     }
 
     public void changeSelectedClass(int id)
@@ -164,6 +178,7 @@ public class OntologyModel
     {
         selectedIndividual = -1;
         individuals.clear();
+        prefabIndividuals.clear();
         classes.clear();
         changeSupport.firePropertyChange(PC_ONTOLOGY_CLEARED, null, null);
     }
@@ -175,11 +190,19 @@ public class OntologyModel
         if (id < 0)
             return null;
 
-        return individuals.get(id);
+        if (individuals.containsKey(id))
+        {
+            return individuals.get(id);
+        }
+        else
+        {
+            return prefabIndividuals.get(id);
+        }
     }
 
     public void changePropertyValueOfSelected(int index, Object newValue)
     {
-        individuals.get(selectedIndividual).changeProperty(index, newValue);
+        IndividualModel selected = getIndividual(selectedIndividual);
+        selected.changeProperty(index, newValue);
     }
 }

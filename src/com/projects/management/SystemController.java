@@ -134,8 +134,14 @@ public class SystemController implements PropertyChangeListener
      */
     public void newIndividualSelected(int id)
     {
+        newIndividualSelected(id, false);
+    }
+
+
+    public void newIndividualSelected(int id, Boolean inPrefab)
+    {
         currentlySelected = SelectionType.INDIVIDUAL;
-        ontologyModel.changeSelectedIndividual(id);
+        ontologyModel.changeSelectedIndividual(id, inPrefab);
     }
 
     /**
@@ -186,6 +192,9 @@ public class SystemController implements PropertyChangeListener
 
         // TODO: implement something more expressive to allow restriction/altering
         String inputName = JOptionPane.showInputDialog("Prefab's Name: ", JOptionPane.QUESTION_MESSAGE);
+
+        if (inputName == null || inputName.equals("")) // Dialog box cancelled or no input given
+            return;
 
         ontologyModel.createNewPrefab(inputName, selectionList);
     }
