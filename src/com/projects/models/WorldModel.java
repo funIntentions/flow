@@ -96,18 +96,6 @@ public class WorldModel
         return newIndividual;
     }
 
-    public void deleteInstance(int id)
-    {
-        if (id < 0)
-            return;
-
-        instances.remove(id);
-        changeSupport.firePropertyChange(PC_INSTANCE_DELETED, null, id);
-
-        if (id == selectedInstance)
-            selectedInstance = -1;
-    }
-
     public void removeIndividual(IndividualModel individual)
     {
         if (instances.containsKey(individual.getId()))

@@ -12,13 +12,13 @@ import java.io.File;
 /**
  * Created by Dan on 5/27/2015.
  */
-public class LoadInstancesAction extends AbstractAction
+public class OpenFileAction extends AbstractAction
 {
     private JFileChooser fileChooser;
     private JPanel owner;
     private SystemController controller;
 
-    public LoadInstancesAction(String text, ImageIcon icon, String desc, Integer mnemonic, JPanel panel, SystemController control)
+    public OpenFileAction(String text, ImageIcon icon, String desc, Integer mnemonic, JPanel panel, SystemController control)
     {
         super(text, icon);
         putValue(SHORT_DESCRIPTION, desc);

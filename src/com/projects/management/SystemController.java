@@ -2,6 +2,7 @@ package com.projects.management;
 
 import com.hp.hpl.jena.ontology.OntModel;
 import com.projects.gui.SubscribedView;
+import com.projects.helper.SelectionType;
 import com.projects.models.*;
 
 import javax.swing.*;
@@ -196,6 +197,35 @@ public class SystemController implements PropertyChangeListener
             return;
 
         ontologyModel.createNewPrefab(inputName, selectionList);
+    }
+
+    public void removeModel(Object model)
+    {
+        switch (currentlySelected)
+        {
+            case INSTANCE:
+            {
+                if (model instanceof Prefab)
+                {
+                    worldModel.removePrefab((Prefab)model);
+                }
+                else if (model instanceof IndividualModel)
+                {
+                    worldModel.removeIndividual((IndividualModel)model);
+                }
+            } break;
+            case INDIVIDUAL:
+            {
+                if (model instanceof Prefab)
+                {
+                    ontologyModel.removePrefab((Prefab)model);
+                }
+                else if (model instanceof IndividualModel)
+                {
+                    ontologyModel.removeIndividual((IndividualModel)model);
+                }
+            } break;
+        }
     }
 
     /**

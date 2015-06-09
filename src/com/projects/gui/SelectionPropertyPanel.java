@@ -1,5 +1,6 @@
 package com.projects.gui;
 
+import com.projects.helper.SelectionType;
 import com.projects.models.*;
 
 import javax.swing.*;

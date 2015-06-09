@@ -5,7 +5,6 @@ import com.projects.actions.*;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 
 /**
@@ -19,7 +18,8 @@ public class ProjectSmartGrid extends JPanel //TODO: Maybe create JPanel instanc
             loadInstanceAction,
             closeOntologyAction,
             createInstanceFromSelectionAction,
-            deleteSelectedInstanceAction,
+            removeSelectedInstanceAction,
+            removeSelectedIndividualAction,
             createPrefabFromSelectionAction,
             createInstancesFromPrefabAction;
     private IndividualSelectedListener individualSelectedListener;
@@ -41,7 +41,7 @@ public class ProjectSmartGrid extends JPanel //TODO: Maybe create JPanel instanc
         controller = new SystemController();
         quitApplicationAction = new QuitApplicationAction("Quit", null, null, null, controller);
         closeOntologyAction = new CloseOntologyAction("Close", null, null, null, controller);
-        loadInstanceAction = new LoadInstancesAction("Open", null, null, null, this, controller);
+        loadInstanceAction = new OpenFileAction("Open", null, null, null, this, controller);
         createInstanceFromSelectionAction = new CreateInstanceFromSelectionAction("Create From Selection", null, null, null, controller);
         individualSelectedListener = new IndividualSelectedListener(controller);
         instanceSelectedListener = new InstanceSelectedListener(controller);
@@ -53,7 +53,8 @@ public class ProjectSmartGrid extends JPanel //TODO: Maybe create JPanel instanc
         classPanel = new ClassPanel(controller);
         prefabPanel = new PrefabPanel(controller);
 
-        deleteSelectedInstanceAction = new DeleteSelectedInstanceAction("Delete Selected Instance", null, null, null,instancePanel.getWorldInstanceTree(), controller);
+        removeSelectedInstanceAction = new RemoveSelectedAction("Remove Instance", null, null, null,instancePanel.getWorldInstanceTree(), controller);
+        removeSelectedIndividualAction = new RemoveSelectedAction("Remove Individual", null, null, null, prefabPanel.getPrefabTree(), controller);
         createPrefabFromSelectionAction = new CreatePrefabFromSelectionAction("Create Prefab From Selection", null, null, null, individualPanel.getIndividualTable(), controller); // TODO: refactor so I don't have to get the table
         createInstancesFromPrefabAction = new CreateInstancesFromPrefabAction("Create Instances From Prefab", null, null, null, prefabPanel.getPrefabTree(), controller);
 
@@ -112,11 +113,13 @@ public class ProjectSmartGrid extends JPanel //TODO: Maybe create JPanel instanc
     {
         JToolBar toolBar = new JToolBar("Available Options");
         JButton createInstanceButton = new JButton(createInstanceFromSelectionAction);
-        JButton deleteInstanceButton = new JButton(deleteSelectedInstanceAction);
+        JButton removeInstanceButton = new JButton(removeSelectedInstanceAction);
+        JButton removeIndividualButton = new JButton(removeSelectedIndividualAction);
         JButton createPrefabButton = new JButton(createPrefabFromSelectionAction);
         JButton createInstancesFromPrefabButton = new JButton(createInstancesFromPrefabAction);
         toolBar.add(createInstanceButton);
-        toolBar.add(deleteInstanceButton);
+        toolBar.add(removeInstanceButton);
+        toolBar.add(removeIndividualButton);
         toolBar.add(createPrefabButton);
         toolBar.add(createInstancesFromPrefabButton);
         return toolBar;
@@ -238,7 +241,10 @@ public class ProjectSmartGrid extends JPanel //TODO: Maybe create JPanel instanc
         menuItem = new JMenuItem(createInstanceFromSelectionAction);
         menu.add(menuItem);
 
-        menuItem = new JMenuItem(deleteSelectedInstanceAction);
+        menuItem = new JMenuItem(removeSelectedInstanceAction);
+        menu.add(menuItem);
+
+        menuItem = new JMenuItem(removeSelectedIndividualAction);
         menu.add(menuItem);
 
         menuItem = new JMenuItem(createPrefabFromSelectionAction);

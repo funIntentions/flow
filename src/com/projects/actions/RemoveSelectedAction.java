@@ -12,12 +12,12 @@ import java.awt.event.ActionEvent;
 /**
  * Created by Dan on 6/2/2015.
  */
-public class DeleteSelectedInstanceAction extends AbstractAction
+public class RemoveSelectedAction extends AbstractAction
 {
     SystemController controller;
     JTree instanceTree;
 
-    public DeleteSelectedInstanceAction(String text, ImageIcon icon, String desc, Integer mnemonic, JTree tree, SystemController control)
+    public RemoveSelectedAction(String text, ImageIcon icon, String desc, Integer mnemonic, JTree tree, SystemController control)
     {
         super(text, icon);
         putValue(SHORT_DESCRIPTION, desc);
@@ -39,13 +39,6 @@ public class DeleteSelectedInstanceAction extends AbstractAction
         DefaultTreeModel treeModel = (DefaultTreeModel)instanceTree.getModel();
         treeModel.removeNodeFromParent(node);
 
-        if (nodeInfo instanceof Prefab)
-        {
-            controller.removeSelectedInstancePrefab((Prefab)nodeInfo);
-        }
-        else if (nodeInfo instanceof IndividualModel)
-        {
-            controller.removeSelectedInstanceIndividual((IndividualModel)nodeInfo);
-        }
+        controller.removeModel(nodeInfo);
     }
 }

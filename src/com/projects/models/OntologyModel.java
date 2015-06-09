@@ -73,6 +73,33 @@ public class OntologyModel
         changeSupport.removePropertyChangeListener(l);
     }
 
+    public void removeIndividual(IndividualModel individual)
+    {
+        if (prefabIndividuals.containsKey(individual.getId()))
+        {
+            prefabIndividuals.remove(individual.getId());
+
+            for (Prefab prefab : prefabs.values())
+            {
+                if (prefab.getMembers().contains(individual))
+                {
+                    prefab.getMembers().remove(individual);
+                    break;
+                }
+            }
+        }
+    }
+
+    public void removePrefab(Prefab prefab)
+    {
+        for (IndividualModel individualModel : prefab.getMembers())
+        {
+           prefabIndividuals.remove(individualModel.getId());
+        }
+
+        prefabs.remove(prefab.getId());
+    }
+
     public void loadOntology(OntModel base)
     {
         Iterator<Individual> list = base.listIndividuals();

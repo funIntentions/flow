@@ -6,6 +6,4 @@ Future Thoughts
 
 June 4rd
 - By default don't display the class, object and data property tabs (just have individuals). Make a views menu item and allow users to add desired tabs from that.
-- Ability to removing prefabs from world instances
-- Ability to remove prefabs from the prefabs tab
-- Deleting world instances no longer works...
+- Only allow actions to occur for specific tabs when they're selected
