@@ -228,6 +228,25 @@ public class SystemController implements PropertyChangeListener
         }
     }
 
+    public void selectModel(int id)
+    {
+        switch (currentlySelected)
+        {
+            case INSTANCE:
+            {
+
+            } break;
+            case INDIVIDUAL:
+            {
+
+            } break;
+            case CLASS:
+            {
+
+            } break;
+        }
+    }
+
     /**
      * Removes the currently selected instance Prefab from the WorldModel.
      */

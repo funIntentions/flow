@@ -26,6 +26,7 @@ public class ProjectSmartGrid extends JPanel //TODO: Maybe create JPanel instanc
     private InstanceSelectedListener instanceSelectedListener;
     private PropertiesTableListener propertiesTableListener;
     private ClassSelectedListener classSelectedListener;
+    private PrefabSelectedListener prefabSelectedListener;
     private SelectionPropertyPanel selectionInfoPanel;
     private InstancePanel instancePanel;
     private SystemController controller;
@@ -47,11 +48,12 @@ public class ProjectSmartGrid extends JPanel //TODO: Maybe create JPanel instanc
         instanceSelectedListener = new InstanceSelectedListener(controller);
         propertiesTableListener = new PropertiesTableListener(controller);
         classSelectedListener = new ClassSelectedListener(controller);
+        prefabSelectedListener = new PrefabSelectedListener(controller);
         selectionInfoPanel = new SelectionPropertyPanel("Selection", propertiesTableListener);
-        instancePanel = new InstancePanel(controller);
+        instancePanel = new InstancePanel(instanceSelectedListener);
         individualPanel = new IndividualPanel(individualSelectedListener);
-        classPanel = new ClassPanel(controller);
-        prefabPanel = new PrefabPanel(controller);
+        classPanel = new ClassPanel(classSelectedListener);
+        prefabPanel = new PrefabPanel(prefabSelectedListener);
 
         removeSelectedInstanceAction = new RemoveSelectedAction("Remove Instance", null, null, null,instancePanel.getWorldInstanceTree(), controller);
         removeSelectedIndividualAction = new RemoveSelectedAction("Remove Individual", null, null, null, prefabPanel.getPrefabTree(), controller);

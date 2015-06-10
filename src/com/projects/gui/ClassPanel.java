@@ -14,6 +14,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
+import java.awt.event.MouseAdapter;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,23 +23,21 @@ import java.util.List;
 /**
  * Created by Dan on 6/1/2015.
  */
-public class ClassPanel extends JScrollPane implements SubscribedView, TreeSelectionListener
+public class ClassPanel extends JScrollPane implements SubscribedView
 {
-    SystemController control;
     JTree classTree;
     DefaultTreeModel classTreeModel;
     DefaultMutableTreeNode root;
 
-    public ClassPanel(SystemController controller)
+    public ClassPanel(MouseAdapter mouseAdapter)
     {
         root = new DefaultMutableTreeNode("Classes");
-        control = controller;
 
         classTreeModel = new DefaultTreeModel(root);
         classTree = new JTree(classTreeModel);
         classTree.setShowsRootHandles(true);
         classTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-        classTree.addTreeSelectionListener(this);
+        classTree.addMouseListener(mouseAdapter);
 
         DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
         renderer.setLeafIcon(null);
@@ -47,21 +46,6 @@ public class ClassPanel extends JScrollPane implements SubscribedView, TreeSelec
         classTree.setCellRenderer(renderer);
 
         getViewport().add(classTree);
-    }
-
-    public void valueChanged(TreeSelectionEvent event)
-    {
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode)
-                           classTree.getLastSelectedPathComponent();
-
-        if (node == null) return;
-
-        Object nodeInfo = node.getUserObject();
-        if (node.isLeaf() && (nodeInfo instanceof ClassModel))
-        {
-            ClassModel model = (ClassModel)nodeInfo;
-            control.newClassSelected(model.getId());
-        }
     }
 
     public void modelPropertyChange(PropertyChangeEvent event)

@@ -1,6 +1,5 @@
 package com.projects.actions;
 
-import com.projects.gui.InstanceTable;
 import com.projects.management.SystemController;
 import com.projects.models.IndividualModel;
 
@@ -10,22 +9,22 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
- * Created by Dan on 5/29/2015.
+ * Created by Dan on 6/9/2015.
  */
-public class InstanceSelectedListener extends MouseAdapter
+public class PrefabSelectedListener extends MouseAdapter
 {
     SystemController controller;
 
-    public InstanceSelectedListener(SystemController control)
+    public PrefabSelectedListener(SystemController control)
     {
         controller = control;
     }
 
     public void mousePressed(MouseEvent event)
     {
-        JTree worldInstanceTree = (JTree)event.getSource();
+        JTree prefabTree = (JTree)event.getSource();
         DefaultMutableTreeNode node = (DefaultMutableTreeNode)
-                           worldInstanceTree.getLastSelectedPathComponent();
+                           prefabTree.getLastSelectedPathComponent();
 
         if (node == null) return;
 
@@ -33,7 +32,7 @@ public class InstanceSelectedListener extends MouseAdapter
         if (node.isLeaf() && (nodeInfo instanceof IndividualModel))
         {
             IndividualModel model = (IndividualModel)nodeInfo;
-            controller.newInstanceSelected(model.getId());
+            controller.newIndividualSelected(model.getId(), true);
         }
     }
 }

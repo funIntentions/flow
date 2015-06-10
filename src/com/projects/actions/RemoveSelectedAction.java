@@ -15,20 +15,20 @@ import java.awt.event.ActionEvent;
 public class RemoveSelectedAction extends AbstractAction
 {
     SystemController controller;
-    JTree instanceTree;
+    JTree tree;
 
-    public RemoveSelectedAction(String text, ImageIcon icon, String desc, Integer mnemonic, JTree tree, SystemController control)
+    public RemoveSelectedAction(String text, ImageIcon icon, String desc, Integer mnemonic, JTree t, SystemController control)
     {
         super(text, icon);
         putValue(SHORT_DESCRIPTION, desc);
         putValue(MNEMONIC_KEY, mnemonic);
         controller = control;
-        instanceTree = tree;
+        tree = t;
     }
 
     public void actionPerformed(ActionEvent event)
     {
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode)instanceTree.getLastSelectedPathComponent();
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
 
         if (node == null) return;
 
@@ -36,7 +36,7 @@ public class RemoveSelectedAction extends AbstractAction
 
         if (nodeInfo instanceof String) return;
 
-        DefaultTreeModel treeModel = (DefaultTreeModel)instanceTree.getModel();
+        DefaultTreeModel treeModel = (DefaultTreeModel)tree.getModel();
         treeModel.removeNodeFromParent(node);
 
         controller.removeModel(nodeInfo);

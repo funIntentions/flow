@@ -13,28 +13,27 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
+import java.awt.event.MouseAdapter;
 import java.beans.PropertyChangeEvent;
 
 /**
  * Created by Dan on 6/3/2015.
  */
-public class PrefabPanel extends JScrollPane implements SubscribedView, TreeSelectionListener
+public class PrefabPanel extends JScrollPane implements SubscribedView
 {
     private JTree prefabTree;
     private DefaultTreeModel prefabTreeModel;
     private DefaultMutableTreeNode root;
-    private SystemController control;
 
-    public PrefabPanel(SystemController controller)
+    public PrefabPanel(MouseAdapter mouseAdapter)
     {
         root = new DefaultMutableTreeNode("Prefabs");
-        control = controller;
 
         prefabTreeModel = new DefaultTreeModel(root);
         prefabTree = new JTree(prefabTreeModel);
         prefabTree.setShowsRootHandles(true);
         prefabTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-        prefabTree.addTreeSelectionListener(this);
+        prefabTree.addMouseListener(mouseAdapter);
 
         DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
         renderer.setLeafIcon(null);
@@ -43,21 +42,6 @@ public class PrefabPanel extends JScrollPane implements SubscribedView, TreeSele
         prefabTree.setCellRenderer(renderer);
 
         getViewport().add(prefabTree);
-    }
-
-    public void valueChanged(TreeSelectionEvent event)
-    {
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode)
-                           prefabTree.getLastSelectedPathComponent();
-
-        if (node == null) return;
-
-        Object nodeInfo = node.getUserObject();
-        if (node.isLeaf() && (nodeInfo instanceof IndividualModel))
-        {
-            IndividualModel model = (IndividualModel)nodeInfo;
-            control.newIndividualSelected(model.getId(), true);
-        }
     }
 
     public void modelPropertyChange(PropertyChangeEvent event)
