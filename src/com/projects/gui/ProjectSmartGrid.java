@@ -44,9 +44,9 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     private JButton addIndividualButton, removeInstanceButton, removeIndividualButton, createPrefabButton, addPrefabButton; // ToolBar Buttons
     private JMenuItem addIndividualItem, removeInstanceItem, removeIndividualItem, createPrefabItem, addPrefabItem; // MenuItems
 
-    public ProjectSmartGrid()
+    public ProjectSmartGrid(JFrame frame)
     {
-        controller = new SystemController();
+        controller = new SystemController(frame);
         quitApplicationAction = new QuitApplicationAction("Quit", null, null, null, controller);
         closeOntologyAction = new CloseOntologyAction("Close", null, null, null, controller);
         loadInstanceAction = new OpenFileAction("Open", null, null, null, this, controller);
@@ -111,7 +111,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         JFrame mainFrame = new JFrame("Project SmartGrid");
         mainFrame.setPreferredSize(new Dimension(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT));
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ProjectSmartGrid project = new ProjectSmartGrid();
+        ProjectSmartGrid project = new ProjectSmartGrid(mainFrame);
         mainFrame.setJMenuBar(project.createMenuBar());
         mainFrame.setContentPane(project);
         mainFrame.pack();

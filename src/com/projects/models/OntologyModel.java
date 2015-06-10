@@ -7,10 +7,7 @@ import com.hp.hpl.jena.vocabulary.OWL;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Dan on 5/27/2015.
@@ -145,7 +142,7 @@ public class OntologyModel
         }
     }
 
-    public void createNewPrefab(String name, List<Integer> selectedIndividuals)
+    public void createNewPrefab(String name, String memberSuffix, List<Integer> selectedIndividuals)
     {
         if (selectedIndividuals.isEmpty())
             return;
@@ -154,11 +151,12 @@ public class OntologyModel
         for (int id : selectedIndividuals)
         {
             IndividualModel prefabMember = new IndividualModel(getNextAvailableIndividualId(), individuals.get(id));
+            prefabMember.setName(prefabMember.getName() + memberSuffix);
             prefabsMembers.add(prefabMember);
             prefabIndividuals.put(prefabMember.getId(), prefabMember);
         }
 
-        Prefab prefab = new Prefab(getNextAvailablePrefabId(), name, prefabsMembers);
+        Prefab prefab = new Prefab(getNextAvailablePrefabId(), name, memberSuffix, prefabsMembers);
         prefabs.put(prefab.getId(), prefab);
 
         changeSupport.firePropertyChange(PC_NEW_PREFAB_CREATED, null, prefab);
@@ -226,5 +224,10 @@ public class OntologyModel
     {
         IndividualModel selected = getIndividual(selectedIndividual);
         selected.changeProperty(index, newValue);
+    }
+
+    public Collection<Prefab> getPrefabCollection()
+    {
+        return prefabs.values();
     }
 }

@@ -70,7 +70,7 @@ public class WorldModel
             instanceMembers.add(addNewInstance(model, true));
         }
 
-        Prefab newPrefab = new Prefab(getNextAvaibablePrefabInstanceId(), prefab.getName(), instanceMembers);
+        Prefab newPrefab = new Prefab(getNextAvaibablePrefabInstanceId(), prefab.getName(), prefab.getMemberSuffix(), instanceMembers);
         prefabs.put(newPrefab.getId(), newPrefab);
 
         changeSupport.firePropertyChange(PC_NEW_INSTANCE_ADDED_FROM_PREFAB, null, newPrefab);

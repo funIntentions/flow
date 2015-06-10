@@ -9,13 +9,15 @@ import java.util.List;
 public class Prefab
 {
     private String name;
+    private String memberSuffix;
     private List<IndividualModel> members;
     private Integer id;
 
-    public Prefab(Integer newId, String uniqueName, List<IndividualModel> memberIndividuals)
+    public Prefab(Integer newId, String uniqueName, String memSuffix, List<IndividualModel> memberIndividuals)
     {
         id = newId;
         name = uniqueName;
+        memberSuffix = memSuffix;
         members = memberIndividuals;
     }
 
@@ -42,5 +44,10 @@ public class Prefab
     public String toString()
     {
         return getName();
+    }
+
+    public String getMemberSuffix()
+    {
+        return memberSuffix;
     }
 }

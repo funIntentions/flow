@@ -100,6 +100,11 @@ public class IndividualModel
         return getName();
     }
 
+    public void setName(String newName)
+    {
+        name = newName;
+    }
+
     public Integer getId()
     {
         return id;

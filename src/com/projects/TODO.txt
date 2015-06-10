@@ -6,5 +6,5 @@ Future Thoughts
 
 June 4rd
 - By default don't display the class, object and data property tabs (just have individuals). Make a views menu item and allow users to add desired tabs from that.
-- Only allow actions to occur for specific tabs when they're selected (There's a nasty error at the moment)
 - Distinguish a selected prefab from a selected individual
+- For added prefabs, give them a number that increments

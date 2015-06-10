@@ -1,6 +1,7 @@
 package com.projects.management;
 
 import com.hp.hpl.jena.ontology.OntModel;
+import com.projects.gui.PrefabCreationControl;
 import com.projects.gui.SubscribedView;
 import com.projects.helper.SelectionType;
 import com.projects.models.*;
@@ -27,11 +28,13 @@ public class SystemController implements PropertyChangeListener
     private FileManager fileManager;
     private SelectionType currentlySelected;
     private Task testTask;
+    private PrefabCreationControl prefabCreationControl;
+    private JFrame frame;
 
     /**
      * the constructor
      */
-    public SystemController()
+    public SystemController(JFrame f)
     {
         views = new ArrayList<SubscribedView>();
         ontologyModel = new OntologyModel();
@@ -43,6 +46,7 @@ public class SystemController implements PropertyChangeListener
         worldModel.addPropertyChangeListener(this);
         currentlySelected = SelectionType.NONE;
 
+        frame = f;
         testTask = new Task(0, "File Loading", "Waiting");
     }
 
@@ -190,13 +194,22 @@ public class SystemController implements PropertyChangeListener
     {
         List<Integer> selectionList = Arrays.asList(selection);
 
-        // TODO: implement something more expressive to allow restriction/altering
-        String inputName = JOptionPane.showInputDialog("Prefab's Name: ", JOptionPane.QUESTION_MESSAGE);
+        String inputName, inputSuffix;
+        prefabCreationControl = new PrefabCreationControl(frame, ontologyModel.getPrefabCollection());
 
-        if (inputName == null || inputName.equals("")) // Dialog box cancelled or no input given
+        int result = prefabCreationControl.getResult();
+
+        if (result == PrefabCreationControl.OK)
+        {
+            inputName = prefabCreationControl.getName();
+            inputSuffix = prefabCreationControl.getSuffix();
+        }
+        else
+        {
             return;
+        }
 
-        ontologyModel.createNewPrefab(inputName, selectionList);
+        ontologyModel.createNewPrefab(inputName, inputSuffix, selectionList);
     }
 
     public void removeModel(Object model)
@@ -224,17 +237,6 @@ public class SystemController implements PropertyChangeListener
                 {
                     ontologyModel.removeIndividual((IndividualModel)model);
                 }
-            } break;
-        }
-    }
-
-    public void addModel(Object model)
-    {
-        switch (currentlySelected)
-        {
-            case INDIVIDUAL:
-            {
-
             } break;
         }
     }
