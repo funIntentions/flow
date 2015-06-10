@@ -30,6 +30,7 @@ public class OntologyModel
     public static final String PC_NEW_ONTOLOGY_INDIVIDUALS_LOADED = "PC_NEW_ONTOLOGY_INDIVIDUALS_LOADED";
     public static final String PC_NEW_ONTOLOGY_CLASSES_LOADED = "PC_NEW_ONTOLOGY_CLASSES_LOADED";
     public static final String PC_NEW_INDIVIDUAL_SELECTED = "PC_NEW_INDIVIDUAL_SELECTED";
+    public static final String PC_NEW_ONTOLOGY_PREFAB_SELECTED = "PC_NEW_ONTOLOGY_PREFAB_SELECTED";
     public static final String PC_NEW_CLASS_SELECTED = "PC_NEW_CLASS_SELECTED";
     public static final String PC_ONTOLOGY_CLEARED = "PC_ONTOLOGY_CLEARED";
     public static final String PC_NEW_PREFAB_CREATED = "PC_NEW_PREFAB_CREATED";
@@ -192,6 +193,15 @@ public class OntologyModel
         selectedClass = id;
 
         changeSupport.firePropertyChange(PC_NEW_CLASS_SELECTED, lastSelected, classes.get(selectedClass));
+    }
+
+    public void changeSelectedPrefab(int id)
+    {
+        Prefab selected = prefabs.get(id);
+        if (selected != null)
+        {
+            changeSupport.firePropertyChange(PC_NEW_ONTOLOGY_PREFAB_SELECTED, null, selected);
+        }
     }
 
     public void clearOntology()

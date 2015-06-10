@@ -138,31 +138,43 @@ public class SystemController implements PropertyChangeListener
      * @param id the unique id of the newly selected Individual
      * @param inPrefab yes if this individual is part of a prefab
      */
-    public void newIndividualSelected(int id, Boolean inPrefab)
+    public void ontologyIndividualSelected(int id, Boolean inPrefab)
     {
         if (inPrefab)
-            currentlySelected = SelectionType.PREFAB;
+            currentlySelected = SelectionType.ONTOLOGY_PREFAB_MEMBER;
         else
-            currentlySelected = SelectionType.INDIVIDUAL;
+            currentlySelected = SelectionType.ONTOLOGY_INDIVIDUAL;
 
         ontologyModel.changeSelectedIndividual(id, inPrefab);
+    }
+
+    public void ontologyPrefabSelected(int id)
+    {
+        currentlySelected = SelectionType.ONTOLOGY_PREFAB;
+        ontologyModel.changeSelectedPrefab(id);
     }
 
     /**
      * Changes the currently selected Model to an instance of an Individual in the WorldModel
      * @param id the unique id of the newly selected instance
      */
-    public void newInstanceSelected(int id)
+    public void worldIndividualSelected(int id)
     {
-        currentlySelected = SelectionType.INSTANCE;
-        worldModel.changeSelectedInstance(id);
+        currentlySelected = SelectionType.WORLD_INDIVIDUAL;
+        worldModel.changeSelectedIndividual(id);
+    }
+
+    public void worldPrefabSelected(int id)
+    {
+        currentlySelected = SelectionType.WORLD_PREFAB;
+        worldModel.changeSelectedPrefab(id);
     }
 
     /**
      * Changes the currently selected Model to a Class from the OntologyModel
      * @param index the unique id of the newly selected Class
      */
-    public void newClassSelected(int index)
+    public void classSelected(int index)
     {
         currentlySelected = SelectionType.CLASS;
         ontologyModel.changeSelectedClass(index);
@@ -216,9 +228,12 @@ public class SystemController implements PropertyChangeListener
 
     public void removeModel(Object model)
     {
+        // Note that Ontology Individuals should never be removed.
         switch (currentlySelected)
         {
-            case INSTANCE:
+            case WORLD_INDIVIDUAL:
+            case WORLD_PREFAB:
+            case WORLD_PREFAB_MEMBER:
             {
                 if (model instanceof Prefab)
                 {
@@ -229,7 +244,8 @@ public class SystemController implements PropertyChangeListener
                     worldModel.removeIndividual((IndividualModel)model);
                 }
             } break;
-            case PREFAB:
+            case ONTOLOGY_PREFAB:
+            case ONTOLOGY_PREFAB_MEMBER:
             {
                 if (model instanceof Prefab)
                 {
@@ -257,12 +273,13 @@ public class SystemController implements PropertyChangeListener
             {
                 // Not implemented
             } break;
-            case INDIVIDUAL:
-            case PREFAB:
+            case ONTOLOGY_PREFAB_MEMBER:
+            case ONTOLOGY_INDIVIDUAL:
             {
                 ontologyModel.changePropertyValueOfSelected(index, newValue);
             } break;
-            case INSTANCE:
+            case WORLD_PREFAB_MEMBER:
+            case WORLD_INDIVIDUAL:
             {
                 worldModel.changePropertyValueOfSelected(index, newValue);
             } break;

@@ -2,6 +2,7 @@ package com.projects.actions;
 
 import com.projects.management.SystemController;
 import com.projects.models.IndividualModel;
+import com.projects.models.Prefab;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -29,10 +30,15 @@ public class InstanceSelectedListener extends MouseAdapter
         if (node == null) return;
 
         Object nodeInfo = node.getUserObject();
-        if (node.isLeaf() && (nodeInfo instanceof IndividualModel))
+        if (nodeInfo instanceof IndividualModel)
         {
             IndividualModel model = (IndividualModel)nodeInfo;
-            controller.newInstanceSelected(model.getId());
+            controller.worldIndividualSelected(model.getId());
+        }
+        else if (nodeInfo instanceof Prefab)
+        {
+            Prefab prefab = (Prefab)nodeInfo;
+            controller.worldPrefabSelected(prefab.getId());
         }
     }
 }

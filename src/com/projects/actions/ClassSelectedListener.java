@@ -33,7 +33,7 @@ public class ClassSelectedListener extends MouseAdapter
         if (nodeInfo instanceof ClassModel)
         {
             ClassModel model = (ClassModel)nodeInfo;
-            controller.newClassSelected(model.getId());
+            controller.classSelected(model.getId());
         }
     }
 }

@@ -122,18 +122,30 @@ public class SelectionPropertyPanel extends JPanel implements SubscribedView
         selectionsClass.setText("Class: ");
     }
 
+    private void clearAll()
+    {
+        propertiesTable.clearTable();
+        clearSelectionsName();
+        clearSelectionsClass();
+    }
+
     public void modelPropertyChange(PropertyChangeEvent event)
     {
-        if (event.getPropertyName().equals(OntologyModel.PC_NEW_INDIVIDUAL_SELECTED)
+        if (event.getPropertyName().equals(OntologyModel.PC_NEW_ONTOLOGY_PREFAB_SELECTED)
+                || event.getPropertyName().equals(WorldModel.PC_NEW_WORLD_PREFAB_SELECTED))
+        {
+            clearAll();
+        }
+        else if (event.getPropertyName().equals(OntologyModel.PC_NEW_INDIVIDUAL_SELECTED)
                 || event.getPropertyName().equals(WorldModel.PC_NEW_INSTANCE_SELECTED))
         {
             if (event.getPropertyName().equals(OntologyModel.PC_NEW_INDIVIDUAL_SELECTED)) // TODO: make nicer
             {
-                currentlyDisplaying = SelectionType.INDIVIDUAL;
+                currentlyDisplaying = SelectionType.ONTOLOGY_INDIVIDUAL;
             }
             else
             {
-                currentlyDisplaying = SelectionType.INSTANCE;
+                currentlyDisplaying = SelectionType.WORLD_INDIVIDUAL;
             }
 
             propertiesTable.clearTable();
@@ -170,11 +182,9 @@ public class SelectionPropertyPanel extends JPanel implements SubscribedView
         }
         else if (event.getPropertyName().equals(WorldModel.PC_INSTANCE_DELETED))
         {
-            if (currentlyDisplaying == SelectionType.INSTANCE)
+            if (currentlyDisplaying == SelectionType.WORLD_INDIVIDUAL)
             {
-                propertiesTable.clearTable();
-                clearSelectionsName();
-                clearSelectionsClass();
+               clearAll();
             }
         }
     }

@@ -24,6 +24,7 @@ public class WorldModel
     public static final String PC_INSTANCE_DELETED = "PC_INSTANCE_DELETED";
     private static final String PC_PREFAB_DELETED = "PC_PREFAB_DELETED";
     public static final String PC_NEW_INSTANCE_SELECTED = "PC_NEW_INSTANCE_SELECTED";
+    public static final String PC_NEW_WORLD_PREFAB_SELECTED = "PC_NEW_WORLD_PREFAB_SELECTED";
     public static final String PC_WORLD_CLEARED = "PC_WORLD_CLEARED";
     public static final String PC_NEW_INSTANCE_ADDED_FROM_PREFAB = "PC_NEW_INSTANCE_ADDED_FROM_PREFAB";
 
@@ -180,13 +181,14 @@ public class WorldModel
         changeSupport.removePropertyChangeListener(l);
     }
 
-    public void changeSelectedInstance(int id)
+    public void changeSelectedIndividual(int id)
     {
         if (id < 0)
             return;
 
         IndividualModel selected;
 
+        // TODO: Don't do the check for whether it's a prefab member in WorldModel (also this is a poor way to do it)
         if (prefabInstances.containsKey(id))
         {
             selected = prefabInstances.get(id);
@@ -198,6 +200,16 @@ public class WorldModel
 
         selectedInstance = id;
         changeSupport.firePropertyChange(PC_NEW_INSTANCE_SELECTED, null, selected);
+    }
+
+    public void changeSelectedPrefab(int id)
+    {
+        Prefab selected = prefabs.get(id);
+
+        if (selected != null)
+        {
+            changeSupport.firePropertyChange(PC_NEW_WORLD_PREFAB_SELECTED, null, selected);
+        }
     }
 
     public int getSelectedInstance() {return selectedInstance; }

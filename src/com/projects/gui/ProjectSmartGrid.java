@@ -279,23 +279,33 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
     public void modelPropertyChange(PropertyChangeEvent event)
     {
-        if (event.getPropertyName().equals(OntologyModel.PC_NEW_INDIVIDUAL_SELECTED))
+        if (event.getPropertyName().equals(OntologyModel.PC_ONTOLOGY_CLEARED) || event.getPropertyName().equals(WorldModel.PC_WORLD_CLEARED))
+        {
+            removeToolBarAndMenuOptions();
+        }
+        if (event.getPropertyName().equals(OntologyModel.PC_NEW_ONTOLOGY_PREFAB_SELECTED))
+        {
+            removeToolBarAndMenuOptions();
+            addPrefabItem.setEnabled(true);
+            toolBar.add(addPrefabButton);
+            toolBar.add(removeIndividualButton);
+            removeIndividualItem.setEnabled(true);
+        }
+        else if (event.getPropertyName().equals(OntologyModel.PC_NEW_INDIVIDUAL_SELECTED))
         {
             removeToolBarAndMenuOptions();
             addIndividualItem.setEnabled(true);
 
-            if (controller.getCurrentlySelected() == SelectionType.INDIVIDUAL)
+            if (controller.getCurrentlySelected() == SelectionType.ONTOLOGY_INDIVIDUAL)
             {
                 createPrefabItem.setEnabled(true);
                 removeIndividualItem.setEnabled(false);
                 toolBar.add(createPrefabButton);
                 toolBar.add(addIndividualButton);
             }
-            else if (controller.getCurrentlySelected() == SelectionType.PREFAB)
+            else if (controller.getCurrentlySelected() == SelectionType.ONTOLOGY_PREFAB_MEMBER)
             {
-                toolBar.add(addPrefabButton);
                 toolBar.add(removeIndividualButton);
-                addPrefabItem.setEnabled(true);
                 removeIndividualItem.setEnabled(true);
             }
 
@@ -304,7 +314,8 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         {
             removeToolBarAndMenuOptions();
         }
-        else if (event.getPropertyName().equals(WorldModel.PC_NEW_INSTANCE_SELECTED))
+        else if (event.getPropertyName().equals(WorldModel.PC_NEW_INSTANCE_SELECTED)
+                || event.getPropertyName().equals(WorldModel.PC_NEW_WORLD_PREFAB_SELECTED))
         {
             removeToolBarAndMenuOptions();
             removeInstanceItem.setEnabled(true);
