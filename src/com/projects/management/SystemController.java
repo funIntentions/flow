@@ -174,7 +174,8 @@ public class SystemController implements PropertyChangeListener
     public void createInstanceFromIndividual()
     {
         IndividualModel individual = ontologyModel.getIndividual(ontologyModel.getSelectedIndividual());
-        worldModel.addNewInstance(individual, false);
+        Integer count = worldModel.getIndividualCount(individual.getName());
+        worldModel.addNewInstance(individual, count, false);
     }
 
     /**
@@ -183,7 +184,8 @@ public class SystemController implements PropertyChangeListener
      */
     public void createPrefabInstancesFromPrefab(Prefab prefab)
     {
-        worldModel.addNewPrefab(prefab);
+        Integer count = worldModel.getPrefabCount(prefab.getName());
+        worldModel.addNewPrefab(prefab, count);
     }
 
     /**

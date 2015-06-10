@@ -20,6 +20,7 @@ public class IndividualModel
     private String description;
     private Integer id;
 
+
     public IndividualModel(Integer newId, Individual individual)
     {
         id = newId;
@@ -52,6 +53,8 @@ public class IndividualModel
             }
         }
     }
+
+
 
     public IndividualModel(Integer newId, IndividualModel model)
     {

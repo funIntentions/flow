@@ -14,10 +14,12 @@ public class WorldModel
     private static Integer nextAvailableInstanceId = 0;
     private static Integer nextAvailablePrefabInstance = 0;
     int selectedInstance;
-    HashMap<Integer, IndividualModel> instances;
-    HashMap<Integer, IndividualModel> prefabInstances;
-    HashMap<Integer, Prefab> prefabs;
-    PropertyChangeSupport changeSupport;
+    private HashMap<Integer, IndividualModel> instances;
+    private HashMap<String, Integer> individualCount;
+    private HashMap<Integer, IndividualModel> prefabInstances;
+    private HashMap<Integer, Prefab> prefabs;
+    private HashMap<String, Integer> prefabCount;
+    private PropertyChangeSupport changeSupport;
     public static final String PC_NEW_INSTANCE_ADDED = "PC_NEW_INSTANCE_ADDED";
     public static final String PC_INSTANCE_DELETED = "PC_INSTANCE_DELETED";
     public static final String PC_PREFAB_DELETED = "PC_PREFAB_DELETED";
@@ -42,6 +44,8 @@ public class WorldModel
         prefabInstances = new HashMap<Integer, IndividualModel>();
         prefabs = new HashMap<Integer, Prefab>();
         changeSupport = new PropertyChangeSupport(this);
+        prefabCount = new HashMap<String, Integer>();
+        individualCount = new HashMap<String, Integer>();
     }
 
     public void clearWorld()
@@ -57,7 +61,7 @@ public class WorldModel
         selected.changeProperty(index, newValue);
     }
 
-    public void addNewPrefab(Prefab prefab)
+    public void addNewPrefab(Prefab prefab, Integer count)
     {
         if (prefab == null)
             return;
@@ -67,21 +71,23 @@ public class WorldModel
 
         for (IndividualModel model : individualModels)
         {
-            instanceMembers.add(addNewInstance(model, true));
+            instanceMembers.add(addNewInstance(model, count, true));
         }
 
-        Prefab newPrefab = new Prefab(getNextAvaibablePrefabInstanceId(), prefab.getName(), prefab.getMemberSuffix(), instanceMembers);
+        Prefab newPrefab = new Prefab(getNextAvaibablePrefabInstanceId(), prefab.getName() + count, prefab.getMemberSuffix(), instanceMembers);
         prefabs.put(newPrefab.getId(), newPrefab);
 
         changeSupport.firePropertyChange(PC_NEW_INSTANCE_ADDED_FROM_PREFAB, null, newPrefab);
     }
 
-    public IndividualModel addNewInstance(IndividualModel individual, Boolean prefabMember)
+    // TODO: Remove the ability to add single instances?
+    public IndividualModel addNewInstance(IndividualModel individual, Integer count, Boolean prefabMember)
     {
         if (individual == null)
             return null;
 
         IndividualModel newIndividual = new IndividualModel(getNextAvailableInstanceId(), individual);
+        newIndividual.setName(newIndividual.getName() + count);
 
         if (!prefabMember)
         {
@@ -94,6 +100,40 @@ public class WorldModel
         }
 
         return newIndividual;
+    }
+
+    public Integer getPrefabCount(String name)
+    {
+        Integer count = prefabCount.get(name);
+
+        if (count == null)
+        {
+            count = 0;
+            prefabCount.put(name, count);
+        }
+        else
+        {
+            prefabCount.put(name, ++count);
+        }
+
+        return count;
+    }
+
+    public int getIndividualCount(String name)
+    {
+        Integer count = individualCount.get(name);
+
+        if (count == null)
+        {
+            count = 0;
+            individualCount.put(name, count);
+        }
+        else
+        {
+            individualCount.put(name, ++count);
+        }
+
+        return count;
     }
 
     public void removeIndividual(IndividualModel individual)
