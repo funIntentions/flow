@@ -4,13 +4,12 @@ import com.projects.management.SystemController;
 import com.projects.models.ClassModel;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
+ * Responsible for notifying the SystemController that a class has been selected.
  * Created by Dan on 6/1/2015.
  */
 public class ClassSelectedListener extends MouseAdapter
@@ -31,7 +30,7 @@ public class ClassSelectedListener extends MouseAdapter
         if (node == null) return;
 
         Object nodeInfo = node.getUserObject();
-        if (node.isLeaf() && (nodeInfo instanceof ClassModel))
+        if (nodeInfo instanceof ClassModel)
         {
             ClassModel model = (ClassModel)nodeInfo;
             controller.newClassSelected(model.getId());

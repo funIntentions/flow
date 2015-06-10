@@ -13,6 +13,7 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 
 /**
+ * The entry point for the application that structures the GUI and initializes underlying systems.
  * Created by Dan on 5/26/2015.
  */
 public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: Maybe create JPanel instance instead of extending it
@@ -110,7 +111,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
         JFrame mainFrame = new JFrame("Project SmartGrid");
         mainFrame.setPreferredSize(new Dimension(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT));
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         ProjectSmartGrid project = new ProjectSmartGrid(mainFrame);
         mainFrame.setJMenuBar(project.createMenuBar());
         mainFrame.setContentPane(project);
@@ -223,7 +224,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     public JMenuBar createMenuBar()
     {
         JMenuBar menuBar;
-        JMenu menu, subMenu;
+        JMenu menu;
         JMenuItem menuItem;
 
         menuBar = new JMenuBar();
@@ -281,7 +282,6 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         if (event.getPropertyName().equals(OntologyModel.PC_NEW_INDIVIDUAL_SELECTED))
         {
             removeToolBarAndMenuOptions();
-            toolBar.add(addIndividualButton);
             addIndividualItem.setEnabled(true);
 
             if (controller.getCurrentlySelected() == SelectionType.INDIVIDUAL)
@@ -289,6 +289,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
                 createPrefabItem.setEnabled(true);
                 removeIndividualItem.setEnabled(false);
                 toolBar.add(createPrefabButton);
+                toolBar.add(addIndividualButton);
             }
             else if (controller.getCurrentlySelected() == SelectionType.PREFAB)
             {
