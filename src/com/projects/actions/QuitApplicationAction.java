@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
  */
 public class QuitApplicationAction extends AbstractAction
 {
-     SystemController controller;
+     private SystemController controller;
 
     public QuitApplicationAction(String text, ImageIcon icon, String desc, Integer mnemonic, SystemController control)
     {

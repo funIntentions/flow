@@ -1,8 +1,6 @@
 package com.projects.actions;
 
 import com.projects.management.SystemController;
-import com.projects.models.IndividualModel;
-import com.projects.models.Prefab;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -14,8 +12,8 @@ import java.awt.event.ActionEvent;
  */
 public class RemoveSelectedAction extends AbstractAction
 {
-    SystemController controller;
-    JTree tree;
+    private SystemController controller;
+    private JTree tree;
 
     public RemoveSelectedAction(String text, ImageIcon icon, String desc, Integer mnemonic, JTree t, SystemController control)
     {

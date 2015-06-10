@@ -11,7 +11,7 @@ import javax.swing.table.TableModel;
  */
 public class PropertiesTableListener implements TableModelListener
 {
-    SystemController controller;
+    private SystemController controller;
 
     public PropertiesTableListener(SystemController control)
     {

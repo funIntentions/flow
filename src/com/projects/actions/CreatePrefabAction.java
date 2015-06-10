@@ -5,15 +5,14 @@ import com.projects.management.SystemController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.util.List;
 
 /**
  * Created by Dan on 6/3/2015.
  */
 public class CreatePrefabAction extends AbstractAction
 {
-    SystemController controller;
-    JTable individualsTable;
+    private SystemController controller;
+    private JTable individualsTable;
 
     public CreatePrefabAction(String text, ImageIcon icon, String desc, Integer mnemonic, JTable table, SystemController control)
     {

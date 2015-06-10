@@ -5,12 +5,7 @@ import com.projects.models.Prefab;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by Dan on 6/9/2015.
@@ -18,7 +13,7 @@ import java.util.List;
 public class PrefabCreationControl
 {
     public static final int OK = 0;
-    public static final int NOT_OK = 1;
+    private static final int NOT_OK = 1;
 
     private JLabel nameLabel;
     private JLabel suffixLabel;
@@ -83,7 +78,7 @@ public class PrefabCreationControl
         creationDialog.setVisible(true);
     }
 
-    public Boolean conflictsWithOtherPrefabs()
+    Boolean conflictsWithOtherPrefabs()
     {
         String newName = nameField.getText();
         String newSuffix = suffixField.getText();

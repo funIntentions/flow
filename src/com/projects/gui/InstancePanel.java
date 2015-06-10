@@ -1,14 +1,11 @@
 package com.projects.gui;
 
-import com.projects.management.SystemController;
 import com.projects.models.IndividualModel;
 import com.projects.models.OntologyModel;
 import com.projects.models.Prefab;
 import com.projects.models.WorldModel;
 
 import javax.swing.*;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
@@ -69,26 +66,6 @@ public class InstancePanel extends JScrollPane implements SubscribedView
         {
             root.removeAllChildren();
             worldInstanceTreeModel.reload();
-        }
-        else if (event.getPropertyName().equals(WorldModel.PC_INSTANCE_DELETED))
-        {
-            //IndividualModel individualModel = (IndividualModel)event.getNewValue();
-        }
-        else if (event.getPropertyName().equals(WorldModel.PC_PREFAB_DELETED))
-        {
-            /*Prefab prefab = (Prefab)event.getNewValue();
-
-            int num = root.getChildCount();
-            for (int i = 0; i < num; ++i)
-            {
-                DefaultMutableTreeNode node = (DefaultMutableTreeNode)root.getChildAt(i);
-
-                if (node.getUserObject() instanceof Prefab)
-                {
-                    Prefab prefabNode = (Prefab)node.getUserObject();
-                    //if (prefabNode.)
-                }
-            }*/
         }
     }
 

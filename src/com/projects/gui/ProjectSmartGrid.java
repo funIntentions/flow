@@ -45,7 +45,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     private JButton addIndividualButton, removeInstanceButton, removeIndividualButton, createPrefabButton, addPrefabButton; // ToolBar Buttons
     private JMenuItem addIndividualItem, removeInstanceItem, removeIndividualItem, createPrefabItem, addPrefabItem; // MenuItems
 
-    public ProjectSmartGrid(JFrame frame)
+    private ProjectSmartGrid(JFrame frame)
     {
         controller = new SystemController(frame);
         quitApplicationAction = new QuitApplicationAction("Quit", null, null, null, controller);
@@ -190,7 +190,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         return rightBottomPanel;
     }
 
-    public JPanel createSimulationInfoPanel()
+    JPanel createSimulationInfoPanel()
     {
         JPanel simInfoPanel = new JPanel();
         simInfoPanel.setLayout(new GridBagLayout());
@@ -221,7 +221,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         return simInfoPanel;
     }
 
-    public JMenuBar createMenuBar()
+    JMenuBar createMenuBar()
     {
         JMenuBar menuBar;
         JMenu menu;

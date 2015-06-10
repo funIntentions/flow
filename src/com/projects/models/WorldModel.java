@@ -13,7 +13,7 @@ public class WorldModel
 {
     private static Integer nextAvailableInstanceId = 0;
     private static Integer nextAvailablePrefabInstance = 0;
-    int selectedInstance;
+    private int selectedInstance;
     private HashMap<Integer, IndividualModel> instances;
     private HashMap<String, Integer> individualCount;
     private HashMap<Integer, IndividualModel> prefabInstances;
@@ -22,7 +22,7 @@ public class WorldModel
     private PropertyChangeSupport changeSupport;
     public static final String PC_NEW_INSTANCE_ADDED = "PC_NEW_INSTANCE_ADDED";
     public static final String PC_INSTANCE_DELETED = "PC_INSTANCE_DELETED";
-    public static final String PC_PREFAB_DELETED = "PC_PREFAB_DELETED";
+    private static final String PC_PREFAB_DELETED = "PC_PREFAB_DELETED";
     public static final String PC_NEW_INSTANCE_SELECTED = "PC_NEW_INSTANCE_SELECTED";
     public static final String PC_WORLD_CLEARED = "PC_WORLD_CLEARED";
     public static final String PC_NEW_INSTANCE_ADDED_FROM_PREFAB = "PC_NEW_INSTANCE_ADDED_FROM_PREFAB";
@@ -32,7 +32,7 @@ public class WorldModel
         return nextAvailableInstanceId++;
     }
 
-    private static Integer getNextAvaibablePrefabInstanceId()
+    private static Integer getNextAvailablePrefabInstanceId()
     {
         return nextAvailablePrefabInstance++;
     }
@@ -74,7 +74,7 @@ public class WorldModel
             instanceMembers.add(addNewInstance(model, count, true));
         }
 
-        Prefab newPrefab = new Prefab(getNextAvaibablePrefabInstanceId(), prefab.getName() + count, prefab.getMemberSuffix(), instanceMembers);
+        Prefab newPrefab = new Prefab(getNextAvailablePrefabInstanceId(), prefab.getName() + count, prefab.getMemberSuffix(), instanceMembers);
         prefabs.put(newPrefab.getId(), newPrefab);
 
         changeSupport.firePropertyChange(PC_NEW_INSTANCE_ADDED_FROM_PREFAB, null, newPrefab);
@@ -202,7 +202,7 @@ public class WorldModel
 
     public int getSelectedInstance() {return selectedInstance; }
 
-    public IndividualModel getInstance(int id)
+    IndividualModel getInstance(int id)
     {
         if (id < 0)
             return null;

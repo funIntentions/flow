@@ -1,6 +1,5 @@
 package com.projects.actions;
 
-import com.projects.gui.InstanceTable;
 import com.projects.management.SystemController;
 import com.projects.models.IndividualModel;
 
@@ -14,7 +13,7 @@ import java.awt.event.MouseEvent;
  */
 public class InstanceSelectedListener extends MouseAdapter
 {
-    SystemController controller;
+    private SystemController controller;
 
     public InstanceSelectedListener(SystemController control)
     {

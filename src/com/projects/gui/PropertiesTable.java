@@ -1,15 +1,12 @@
 package com.projects.gui;
 
-import com.hp.hpl.jena.ontology.ObjectProperty;
-import com.projects.actions.PropertiesTableListener;
-
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
 /**
  * Created by Dan on 5/28/2015.
  */
-public class PropertiesTable extends AbstractTableModel
+class PropertiesTable extends AbstractTableModel
 {
     private String[] columnNames = {"Property",
                                         "Value"};

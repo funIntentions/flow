@@ -32,9 +32,7 @@ public class OpenFileAction extends AbstractAction
                 if (f.isDirectory())
                     return true;
                 String extension = Utils.getExtension(f);
-                if (extension != null && extension.equals(Constants.OWL))
-                    return true;
-                return false;
+                return extension != null && extension.equals(Constants.OWL);
             }
 
             @Override

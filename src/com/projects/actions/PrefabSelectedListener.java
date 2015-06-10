@@ -13,7 +13,7 @@ import java.awt.event.MouseEvent;
  */
 public class PrefabSelectedListener extends MouseAdapter
 {
-    SystemController controller;
+    private SystemController controller;
 
     public PrefabSelectedListener(SystemController control)
     {

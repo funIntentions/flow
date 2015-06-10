@@ -1,14 +1,10 @@
 package com.projects.gui;
 
-
-import com.projects.management.SystemController;
 import com.projects.models.IndividualModel;
 import com.projects.models.OntologyModel;
 import com.projects.models.Prefab;
 
 import javax.swing.*;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;

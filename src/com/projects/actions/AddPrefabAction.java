@@ -12,8 +12,8 @@ import java.awt.event.ActionEvent;
  */
 public class AddPrefabAction extends AbstractAction
 {
-    SystemController controller;
-    JTree tree;
+    private SystemController controller;
+    private JTree tree;
 
     public AddPrefabAction(String text, ImageIcon icon, String desc, Integer mnemonic, JTree prefabTree, SystemController control)
     {

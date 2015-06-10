@@ -16,13 +16,13 @@ import java.util.Iterator;
  */
 public class SelectionPropertyPanel extends JPanel implements SubscribedView
 {
-    JLabel selectionsName;
-    JLabel selectionsClass;
-    JTable propertyTable;
-    JTextArea selectionDescription;
-    PropertiesTable propertiesTable;
-    JScrollPane propertyScrollPane;
-    JScrollPane descriptionScrollPane;
+    private JLabel selectionsName;
+    private JLabel selectionsClass;
+    private JTable propertyTable;
+    private JTextArea selectionDescription;
+    private PropertiesTable propertiesTable;
+    private JScrollPane propertyScrollPane;
+    private JScrollPane descriptionScrollPane;
     private SelectionType currentlyDisplaying;
 
     public SelectionPropertyPanel(String borderName, TableModelListener propertiesTableListener)

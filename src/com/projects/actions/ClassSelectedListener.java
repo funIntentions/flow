@@ -14,7 +14,7 @@ import java.awt.event.MouseEvent;
  */
 public class ClassSelectedListener extends MouseAdapter
 {
-    SystemController controller;
+    private SystemController controller;
 
     public ClassSelectedListener(SystemController control)
     {

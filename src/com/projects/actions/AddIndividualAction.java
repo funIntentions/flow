@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
  */
 public class AddIndividualAction extends AbstractAction
 {
-    SystemController controller;
+    private SystemController controller;
 
     public AddIndividualAction(String text, ImageIcon icon, String desc, Integer mnemonic, SystemController control)
     {

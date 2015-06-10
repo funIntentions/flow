@@ -17,9 +17,9 @@ import java.util.List;
  */
 public class ClassPanel extends JScrollPane implements SubscribedView
 {
-    JTree classTree;
-    DefaultTreeModel classTreeModel;
-    DefaultMutableTreeNode root;
+    private JTree classTree;
+    private DefaultTreeModel classTreeModel;
+    private DefaultMutableTreeNode root;
 
     public ClassPanel(MouseAdapter mouseAdapter)
     {
@@ -61,7 +61,7 @@ public class ClassPanel extends JScrollPane implements SubscribedView
         }
     }
 
-    public void addSubclasses(ClassModel parent, DefaultMutableTreeNode parentNode)
+    void addSubclasses(ClassModel parent, DefaultMutableTreeNode parentNode)
     {
         List<ClassModel> children = parent.getChildren();
 
