@@ -164,11 +164,6 @@ public class OntologyModel
         changeSupport.firePropertyChange(PC_NEW_PREFAB_CREATED, null, prefab);
     }
 
-    public void changeSelectedIndividual(int id)
-    {
-        changeSelectedIndividual(id, false);
-    }
-
     public void changeSelectedIndividual(int id, Boolean inPrefab)
     {
         if (id < 0) //TODO: throw exception?

@@ -8,5 +8,6 @@ public enum SelectionType
     CLASS,
     INDIVIDUAL,
     INSTANCE,
+    PREFAB,
     NONE
 }

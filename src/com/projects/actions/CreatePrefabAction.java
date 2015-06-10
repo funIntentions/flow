@@ -10,12 +10,12 @@ import java.util.List;
 /**
  * Created by Dan on 6/3/2015.
  */
-public class CreatePrefabFromSelectionAction extends AbstractAction
+public class CreatePrefabAction extends AbstractAction
 {
     SystemController controller;
     JTable individualsTable;
 
-    public CreatePrefabFromSelectionAction(String text, ImageIcon icon, String desc, Integer mnemonic, JTable table, SystemController control)
+    public CreatePrefabAction(String text, ImageIcon icon, String desc, Integer mnemonic, JTable table, SystemController control)
     {
         super(text, icon);
         putValue(SHORT_DESCRIPTION, desc);

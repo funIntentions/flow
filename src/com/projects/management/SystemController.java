@@ -132,15 +132,15 @@ public class SystemController implements PropertyChangeListener
     /**
      * Changes the currently selected Model to an Individual from the OntologyModel
      * @param id the unique id of the newly selected Individual
+     * @param inPrefab yes if this individual is part of a prefab
      */
-    public void newIndividualSelected(int id)
-    {
-        newIndividualSelected(id, false);
-    }
-
     public void newIndividualSelected(int id, Boolean inPrefab)
     {
-        currentlySelected = SelectionType.INDIVIDUAL;
+        if (inPrefab)
+            currentlySelected = SelectionType.PREFAB;
+        else
+            currentlySelected = SelectionType.INDIVIDUAL;
+
         ontologyModel.changeSelectedIndividual(id, inPrefab);
     }
 
@@ -214,7 +214,7 @@ public class SystemController implements PropertyChangeListener
                     worldModel.removeIndividual((IndividualModel)model);
                 }
             } break;
-            case INDIVIDUAL:
+            case PREFAB:
             {
                 if (model instanceof Prefab)
                 {
@@ -228,40 +228,18 @@ public class SystemController implements PropertyChangeListener
         }
     }
 
-    public void selectModel(int id)
+    public void addModel(Object model)
     {
         switch (currentlySelected)
         {
-            case INSTANCE:
-            {
-
-            } break;
             case INDIVIDUAL:
-            {
-
-            } break;
-            case CLASS:
             {
 
             } break;
         }
     }
 
-    /**
-     * Removes the currently selected instance Prefab from the WorldModel.
-     */
-    public void removeSelectedInstancePrefab(Prefab selected)
-    {
-        worldModel.removePrefab(selected);
-    }
-
-    public void removeSelectedInstanceIndividual(IndividualModel selected)
-    {
-        worldModel.removeIndividual(selected);
-    }
-
     // TODO: implement those that need to be...
-
     /**
      * Changes a selected Models property
      * @param index this index specifies which property belonging to the Model needs to change.
@@ -276,6 +254,7 @@ public class SystemController implements PropertyChangeListener
                 // Not implemented
             } break;
             case INDIVIDUAL:
+            case PREFAB:
             {
                 ontologyModel.changePropertyValueOfSelected(index, newValue);
             } break;
@@ -296,5 +275,10 @@ public class SystemController implements PropertyChangeListener
         {
             view.modelPropertyChange(event);
         }
+    }
+
+    public SelectionType getCurrentlySelected()
+    {
+        return currentlySelected;
     }
 }

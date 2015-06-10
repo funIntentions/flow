@@ -1,11 +1,9 @@
 package com.projects.gui;
 
-import com.projects.actions.CreateInstanceFromSelectionAction;
 import com.projects.models.IndividualModel;
 import com.projects.models.OntologyModel;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionListener;
 import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;

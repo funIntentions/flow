@@ -8,11 +8,11 @@ import java.awt.event.ActionEvent;
 /**
  * Created by Dan on 5/29/2015.
  */
-public class CreateInstanceFromSelectionAction extends AbstractAction
+public class AddIndividualAction extends AbstractAction
 {
     SystemController controller;
 
-    public CreateInstanceFromSelectionAction(String text, ImageIcon icon, String desc, Integer mnemonic, SystemController control)
+    public AddIndividualAction(String text, ImageIcon icon, String desc, Integer mnemonic, SystemController control)
     {
         super(text, icon);
         putValue(SHORT_DESCRIPTION, desc);

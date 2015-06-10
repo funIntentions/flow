@@ -10,12 +10,12 @@ import java.awt.event.ActionEvent;
 /**
  * Created by Dan on 6/4/2015.
  */
-public class CreateInstancesFromPrefabAction extends AbstractAction
+public class AddPrefabAction extends AbstractAction
 {
     SystemController controller;
     JTree tree;
 
-    public CreateInstancesFromPrefabAction(String text, ImageIcon icon, String desc, Integer mnemonic, JTree prefabTree, SystemController control)
+    public AddPrefabAction(String text, ImageIcon icon, String desc, Integer mnemonic, JTree prefabTree, SystemController control)
     {
         super(text, icon);
         putValue(SHORT_DESCRIPTION, desc);

@@ -26,6 +26,6 @@ public class IndividualSelectedListener extends MouseAdapter
     {
         JTable target = (JTable)event.getSource();
         IndividualModel model = ((InstanceTable)target.getModel()).getRow(target.getSelectedRow());
-        controller.newIndividualSelected(model.getId());
+        controller.newIndividualSelected(model.getId(), false);
     }
 }

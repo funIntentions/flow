@@ -1,23 +1,15 @@
 package com.projects.gui;
 
-import com.projects.actions.CreateInstanceFromSelectionAction;
-import com.projects.management.SystemController;
 import com.projects.models.ClassModel;
-import com.projects.models.IndividualModel;
 import com.projects.models.OntologyModel;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.beans.PropertyChangeEvent;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**

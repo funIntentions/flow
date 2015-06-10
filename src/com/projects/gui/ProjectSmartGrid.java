@@ -1,27 +1,30 @@
 package com.projects.gui;
 
+import com.projects.helper.Constants;
+import com.projects.helper.SelectionType;
 import com.projects.management.SystemController;
 import com.projects.actions.*;
+import com.projects.models.OntologyModel;
+import com.projects.models.WorldModel;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
 
 /**
  * Created by Dan on 5/26/2015.
  */
-public class ProjectSmartGrid extends JPanel //TODO: Maybe create JPanel instance instead of extending it
+public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: Maybe create JPanel instance instead of extending it
 {
-    static final int FRAME_WIDTH = 800;
-    static final int FRAME_HEIGHT = 600;
     private Action quitApplicationAction,
             loadInstanceAction,
             closeOntologyAction,
-            createInstanceFromSelectionAction,
+            addIndividualAction,
             removeSelectedInstanceAction,
             removeSelectedIndividualAction,
-            createPrefabFromSelectionAction,
-            createInstancesFromPrefabAction;
+            createPrefabAction,
+            addPrefabAction;
     private IndividualSelectedListener individualSelectedListener;
     private InstanceSelectedListener instanceSelectedListener;
     private PropertiesTableListener propertiesTableListener;
@@ -37,13 +40,17 @@ public class ProjectSmartGrid extends JPanel //TODO: Maybe create JPanel instanc
     private JSplitPane rightSplitPane;
     private JSplitPane centerSplitPane;
 
+    private JToolBar toolBar;
+    private JButton addIndividualButton, removeInstanceButton, removeIndividualButton, createPrefabButton, addPrefabButton; // ToolBar Buttons
+    private JMenuItem addIndividualItem, removeInstanceItem, removeIndividualItem, createPrefabItem, addPrefabItem; // MenuItems
+
     public ProjectSmartGrid()
     {
         controller = new SystemController();
         quitApplicationAction = new QuitApplicationAction("Quit", null, null, null, controller);
         closeOntologyAction = new CloseOntologyAction("Close", null, null, null, controller);
         loadInstanceAction = new OpenFileAction("Open", null, null, null, this, controller);
-        createInstanceFromSelectionAction = new CreateInstanceFromSelectionAction("Create From Selection", null, null, null, controller);
+        addIndividualAction = new AddIndividualAction("Add Individual", null, null, null, controller);
         individualSelectedListener = new IndividualSelectedListener(controller);
         instanceSelectedListener = new InstanceSelectedListener(controller);
         propertiesTableListener = new PropertiesTableListener(controller);
@@ -57,14 +64,15 @@ public class ProjectSmartGrid extends JPanel //TODO: Maybe create JPanel instanc
 
         removeSelectedInstanceAction = new RemoveSelectedAction("Remove Instance", null, null, null,instancePanel.getWorldInstanceTree(), controller);
         removeSelectedIndividualAction = new RemoveSelectedAction("Remove Individual", null, null, null, prefabPanel.getPrefabTree(), controller);
-        createPrefabFromSelectionAction = new CreatePrefabFromSelectionAction("Create Prefab From Selection", null, null, null, individualPanel.getIndividualTable(), controller); // TODO: refactor so I don't have to get the table
-        createInstancesFromPrefabAction = new CreateInstancesFromPrefabAction("Create Instances From Prefab", null, null, null, prefabPanel.getPrefabTree(), controller);
+        createPrefabAction = new CreatePrefabAction("Create Prefab", null, null, null, individualPanel.getIndividualTable(), controller); // TODO: refactor so I don't have to get the table
+        addPrefabAction = new AddPrefabAction("Add Prefab", null, null, null, prefabPanel.getPrefabTree(), controller);
 
         controller.subscribeView(prefabPanel);
         controller.subscribeView(classPanel);
         controller.subscribeView(individualPanel);
         controller.subscribeView(selectionInfoPanel);
         controller.subscribeView(instancePanel);
+        controller.subscribeView(this);
         setupPane();
     }
 
@@ -101,29 +109,29 @@ public class ProjectSmartGrid extends JPanel //TODO: Maybe create JPanel instanc
         }
 
         JFrame mainFrame = new JFrame("Project SmartGrid");
-        mainFrame.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+        mainFrame.setPreferredSize(new Dimension(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT));
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ProjectSmartGrid project = new ProjectSmartGrid();
-        mainFrame.setMinimumSize(new Dimension(720, 600));
         mainFrame.setJMenuBar(project.createMenuBar());
         mainFrame.setContentPane(project);
         mainFrame.pack();
         mainFrame.setVisible(true);
+        project.removeToolBarAndMenuOptions();
     }
 
     private JToolBar createToolBar()
     {
-        JToolBar toolBar = new JToolBar("Available Options");
-        JButton createInstanceButton = new JButton(createInstanceFromSelectionAction);
-        JButton removeInstanceButton = new JButton(removeSelectedInstanceAction);
-        JButton removeIndividualButton = new JButton(removeSelectedIndividualAction);
-        JButton createPrefabButton = new JButton(createPrefabFromSelectionAction);
-        JButton createInstancesFromPrefabButton = new JButton(createInstancesFromPrefabAction);
-        toolBar.add(createInstanceButton);
+        toolBar = new JToolBar("Available Options");
+        addIndividualButton = new JButton(addIndividualAction);
+        removeInstanceButton = new JButton(removeSelectedInstanceAction);
+        removeIndividualButton = new JButton(removeSelectedIndividualAction);
+        createPrefabButton = new JButton(createPrefabAction);
+        addPrefabButton = new JButton(addPrefabAction);
+        toolBar.add(addIndividualButton);
         toolBar.add(removeInstanceButton);
         toolBar.add(removeIndividualButton);
         toolBar.add(createPrefabButton);
-        toolBar.add(createInstancesFromPrefabButton);
+        toolBar.add(addPrefabButton);
         return toolBar;
     }
 
@@ -239,23 +247,68 @@ public class ProjectSmartGrid extends JPanel //TODO: Maybe create JPanel instanc
 
         menu = new JMenu("Edit");
         menuBar.add(menu);
+        addIndividualItem = new JMenuItem(addIndividualAction);
+        menu.add(addIndividualItem);
 
-        menuItem = new JMenuItem(createInstanceFromSelectionAction);
-        menu.add(menuItem);
+        removeInstanceItem = new JMenuItem(removeSelectedInstanceAction);
+        menu.add(removeInstanceItem);
 
-        menuItem = new JMenuItem(removeSelectedInstanceAction);
-        menu.add(menuItem);
+        removeIndividualItem = new JMenuItem(removeSelectedIndividualAction);
+        menu.add(removeIndividualItem);
 
-        menuItem = new JMenuItem(removeSelectedIndividualAction);
-        menu.add(menuItem);
+        createPrefabItem = new JMenuItem(createPrefabAction);
+        menu.add(createPrefabItem);
 
-        menuItem = new JMenuItem(createPrefabFromSelectionAction);
-        menu.add(menuItem);
-
-        menuItem = new JMenuItem(createInstancesFromPrefabAction);
-        menu.add(menuItem);
+        addPrefabItem = new JMenuItem(addPrefabAction);
+        menu.add(addPrefabItem);
 
         return menuBar;
+    }
+
+    private void removeToolBarAndMenuOptions()
+    {
+        toolBar.removeAll();
+        addIndividualItem.setEnabled(false);
+        removeInstanceItem.setEnabled(false);
+        removeIndividualItem.setEnabled(false);
+        createPrefabItem.setEnabled(false);
+        addPrefabItem.setEnabled(false);
+        toolBar.updateUI();
+    }
+
+    public void modelPropertyChange(PropertyChangeEvent event)
+    {
+        if (event.getPropertyName().equals(OntologyModel.PC_NEW_INDIVIDUAL_SELECTED))
+        {
+            removeToolBarAndMenuOptions();
+            toolBar.add(addIndividualButton);
+            addIndividualItem.setEnabled(true);
+
+            if (controller.getCurrentlySelected() == SelectionType.INDIVIDUAL)
+            {
+                createPrefabItem.setEnabled(true);
+                removeIndividualItem.setEnabled(false);
+                toolBar.add(createPrefabButton);
+            }
+            else if (controller.getCurrentlySelected() == SelectionType.PREFAB)
+            {
+                toolBar.add(addPrefabButton);
+                toolBar.add(removeIndividualButton);
+                addPrefabItem.setEnabled(true);
+                removeIndividualItem.setEnabled(true);
+            }
+
+        }
+        else if (event.getPropertyName().equals(OntologyModel.PC_NEW_CLASS_SELECTED))
+        {
+            removeToolBarAndMenuOptions();
+        }
+        else if (event.getPropertyName().equals(WorldModel.PC_NEW_INSTANCE_SELECTED))
+        {
+            removeToolBarAndMenuOptions();
+            removeInstanceItem.setEnabled(true);
+            toolBar.add(removeInstanceButton);
+        }
     }
 
     public static void main(String[] args)
