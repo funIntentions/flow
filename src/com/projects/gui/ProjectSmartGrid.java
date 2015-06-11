@@ -173,9 +173,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
     private JPanel createRightTopPanel()
     {
-        JPanel rightTopPanel = new JPanel(false);
-        rightTopPanel.setBackground(Color.PINK);
-        return rightTopPanel;
+        return new GraphicsPanel();
     }
 
     private JPanel createRightBottomPanel()
