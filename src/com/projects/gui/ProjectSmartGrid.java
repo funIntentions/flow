@@ -161,15 +161,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         leftPanel.setBackground(Color.CYAN);
 
         ontologyPane = new JTabbedPane();
-
-        ontologyPane.addTab("Classes", classPanel);
-        ontologyPane.addTab("Object Properties", objectPropertyPanel);
-        ontologyPane.addTab("Data Properties", dataPropertyPanel);
-        ontologyPane.addTab("Individuals", individualPanel);
-        ontologyPane.addTab("Prefabs", prefabPanel);
-
         worldPane = new JTabbedPane();
-        worldPane.addTab("Instances", instancePanel);
 
         leftPanel.add(ontologyPane);
         leftPanel.add(worldPane);
@@ -271,35 +263,35 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         menuBar.add(menu);
 
         rbMenuItem = new JRadioButtonMenuItem(classPanel.getTitle());
-        rbMenuItem.setSelected(true);
         rbMenuItem.addItemListener(new TabTogglingListener(ontologyPane, classPanel.getTitle(), classPanel));
+        rbMenuItem.setSelected(false);
         menu.add(rbMenuItem);
 
         rbMenuItem = new JRadioButtonMenuItem(individualPanel.getTitle());
-        rbMenuItem.setSelected(true);
         rbMenuItem.addItemListener(new TabTogglingListener(ontologyPane, individualPanel.getTitle(), individualPanel));
+        rbMenuItem.setSelected(true);
         menu.add(rbMenuItem);
 
         rbMenuItem = new JRadioButtonMenuItem("Object Properties");
-        rbMenuItem.setSelected(true);
         rbMenuItem.addItemListener(new TabTogglingListener(ontologyPane, "Object Properties", objectPropertyPanel));
+        rbMenuItem.setSelected(false);
         menu.add(rbMenuItem);
 
         rbMenuItem = new JRadioButtonMenuItem("Data Properties");
-        rbMenuItem.setSelected(true);
         rbMenuItem.addItemListener(new TabTogglingListener(ontologyPane, "DataProperties", dataPropertyPanel));
+        rbMenuItem.setSelected(false);
         menu.add(rbMenuItem);
 
         rbMenuItem = new JRadioButtonMenuItem(prefabPanel.getTitle());
-        rbMenuItem.setSelected(true);
         rbMenuItem.addItemListener(new TabTogglingListener(ontologyPane, prefabPanel.getTitle(), prefabPanel));
+        rbMenuItem.setSelected(true);
         menu.add(rbMenuItem);
 
         menu.addSeparator();
 
         rbMenuItem = new JRadioButtonMenuItem(instancePanel.getTitle());
-        rbMenuItem.setSelected(true);
         rbMenuItem.addItemListener(new TabTogglingListener(worldPane, instancePanel.getTitle(), instancePanel));
+        rbMenuItem.setSelected(true);
         menu.add(rbMenuItem);
 
         return menuBar;
