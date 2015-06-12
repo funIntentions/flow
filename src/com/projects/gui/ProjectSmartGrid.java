@@ -179,7 +179,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         rightBottomPanel.setContinuousLayout(true);
         rightBottomPanel.setResizeWeight(0.5);
         rightBottomPanel.setOneTouchExpandable(true);
-        
+
         return rightBottomPanel;
     }
 
