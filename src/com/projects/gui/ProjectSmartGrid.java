@@ -19,13 +19,14 @@ import java.beans.PropertyChangeEvent;
 public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: Maybe create JPanel instance instead of extending it
 {
     private Action quitApplicationAction,
-            loadInstanceAction,
+            loadOntologyAction,
             closeOntologyAction,
             addIndividualAction,
             removeSelectedInstanceAction,
             removeSelectedIndividualAction,
             createPrefabAction,
-            addPrefabAction;
+            addPrefabAction,
+            loadPrefabsAction;
     private IndividualSelectedListener individualSelectedListener;
     private InstanceSelectedListener instanceSelectedListener;
     private PropertiesTableListener propertiesTableListener;
@@ -55,7 +56,8 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         controller = new SystemController(frame);
         quitApplicationAction = new QuitApplicationAction("Quit", null, null, null, controller);
         closeOntologyAction = new CloseOntologyAction("Close", null, null, null, controller);
-        loadInstanceAction = new OpenFileAction("Open", null, null, null, this, controller);
+        loadOntologyAction = new OpenFileAction("Open Ontology", null, null, null, this, controller, Constants.OWL);
+        loadPrefabsAction = new OpenFileAction("Open Prefabs", null, null, null, this, controller, Constants.PREFABS);
         addIndividualAction = new AddIndividualAction("Add Individual", null, null, null, controller);
         individualSelectedListener = new IndividualSelectedListener(controller);
         instanceSelectedListener = new InstanceSelectedListener(controller);
@@ -228,8 +230,12 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         menu = new JMenu("File");
         menuBar.add(menu);
 
-        menuItem = new JMenuItem(loadInstanceAction);
+        menuItem = new JMenuItem(loadOntologyAction);
         menuItem.getAccessibleContext().setAccessibleDescription("Loads Ontology");
+        menu.add(menuItem);
+
+        menuItem = new JMenuItem(loadPrefabsAction);
+        menuItem.getAccessibleContext().setAccessibleDescription("Loads Prefabs");
         menu.add(menuItem);
 
         menuItem = new JMenuItem(closeOntologyAction);

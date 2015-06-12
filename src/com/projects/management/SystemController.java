@@ -73,6 +73,11 @@ public class SystemController implements PropertyChangeListener
         taskManager.submitWorker(ontologyLoadingWorker);
     }
 
+    public void loadPrefabs(File file)
+    {
+
+    }
+
     /**
      * Clears any data loaded in from the current ontology file.
      */

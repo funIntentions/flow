@@ -35,4 +35,9 @@ class FileManager
 
         return model;
     }
+
+    public void readPrefabFile(File file)
+    {
+
+    }
 }

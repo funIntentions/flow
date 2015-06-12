@@ -5,9 +5,98 @@ Future Thoughts
 - See if i can reduce the number of HashMaps all storing IndividualModels.
 - For the actual simulation, would queries be a good way to take advantage of the ontology? e.g. get all appliances within these sites, sum up their power consumption.
     - How would this complement or hinder the approach wanted where individual agents have a finite view of their surroundings.
-
+- Adding the "Agents"
+    - Could be a simulation component that merely monitors the world individuals that it cares about
+    - Could be a part of the ontology with relationships that determine how much information they have of the surrounding environment
+- How should relationships be handled when prefabs are created?
+    - Should they be formed upon the prefabs creation
+    - Should they be defined prior to the prefabs creation and then modified once a prefab is created to the new individuals within the prefab
+- How to handle prefab nesting, e.g. Apartment Prefab, Residential Apartment Building, Campus Building
+- The Ontology currently models an ideal smart grid scenario where every house has a consumption and generation infrastructure. Such restrictions may not allow for the comparisons the simulation needs to make
 On Going
-- Decide whether to load in the properties in to their respective panels or not
 - The TaskManager and tasks aren't functioning and aren't hooked up to the status bar
 - Think more about how the simulation will work... The true meaning of a Prefab... Etc...
-- errors occur when loading in pizza.owl
+- errors occur when loading in pizza.owl, This might have something to do with OntClasses having to be a subclass of Thing which does not happen by default.
+- Read in properties so that they can be displayed in the tree properly
+
+- Prefabs as a more rigidly defined construct - extend from Placement, can be of specific types only...
+    - Instead of being able to select any combination of Individuals to form a Prefab, there exists only certain types of Prefabs/Things you can create as a Prefab so instead you would go:
+    "Create new ResidentialHomeProsumer, MallBuildingProsumer, or ResidentialApartmentConsumer, etc" and there would be a structure procedure for creating this thing.
+
+Potential Changes to ontology to narrow simulations focus
+- Remove the very low level components
+    - Do this because the agents that will be making decisions in the simulation don't necessarily care about how monitoring and control is done (they care about cause and effect)
+    - e.g. inverter, it's part of solar panels and is required so that the generation device can receive
+     commands to monitor and control its generation.
+
+** Prefab Design **
+
+HouseResidentialProsumer
+- ResidentialProsumer
+- House
+    - Consumption Infrastructure
+        - Infrared GW
+        - Air Conditioning
+        - Washing Machine
+            - Plug
+        - ADR End Point C
+    - Generation Infrastructure
+        - ADR End Point G
+        - Solar Panel
+            - Inverter
+- Energy Monitoring and Visualization Service
+- Remote Access and Control Service
+- Micro-grid Energy Management
+
+ApartmentResidentialConsumer
+- ResidentialConsumer
+- Apartment
+    - Consumption Infrastructure
+        - Infrared GW
+        - Air Conditioning
+        - Washing Machine
+            - Plug ?
+        - ADR End Point C ?
+- Energy Monitoring and Visualization Service
+- Remote Access and Control Service
+- Micro-grid Energy Management
+
+RegionalEnergyProducer
+- RegionalEnergyProducer
+- PowerPlant
+
+ApartmentBuildingProsumer
+- BuildingProsumer
+- ResidentialOrCommercialBuilding
+    - ApartmentResidentialConsumer
+    - ApartmentResidentialConsumer
+    - ApartmentResidentialConsumer
+    - ApartmentResidentialConsumer
+    - ApartmentResidentialConsumer
+    - ApartmentResidentialConsumer
+    - ApartmentResidentialConsumer
+    - Consumption Infrastructure
+    - Generation Infrastructure (e.g. Building-integrated Photovoltaics)
+
+OfficeBuildingProsumer
+- BuildingProsumer
+- ResidentialOrCommercialBuilding
+    - ConsumptionInfrastructure
+    - GenerationInfrastructure (e.g. Building-integrated Photovoltaics)
+
+CampusBuildingProsumer
+- BuildingProsumer
+- Campus
+    - ApartmentBuildingProsumer
+    - ConsumptionInfrastructure
+    - GenerationInfrastructure (e.g. Building-integrated Photovoltaics)
+
+LocalEnergyProducer
+- MicroGenerationInstallation
+    - Generation Infrastructure
+        - ADR End Point G
+        - Solar Panel
+            - Inverter
+- Energy Monitoring and Visualization Service
+- Remote Access and Control Service
+

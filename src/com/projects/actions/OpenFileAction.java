@@ -17,45 +17,50 @@ public class OpenFileAction extends AbstractAction
     private JFileChooser fileChooser;
     private JPanel owner;
     private SystemController controller;
+    private String ext;
 
-    public OpenFileAction(String text, ImageIcon icon, String desc, Integer mnemonic, JPanel panel, SystemController control)
+    public OpenFileAction(String text, ImageIcon icon, String desc, Integer mnemonic, JPanel panel, SystemController control, final String fileExtension)
     {
         super(text, icon);
         putValue(SHORT_DESCRIPTION, desc);
         putValue(MNEMONIC_KEY, mnemonic);
         owner = panel;
         fileChooser = new JFileChooser();
+        ext = fileExtension;
 
-        FileFilter owlFilter = new FileFilter() {
+        FileFilter fileFilter = new FileFilter() {
             @Override
             public boolean accept(File f) {
                 if (f.isDirectory())
                     return true;
                 String extension = Utils.getExtension(f);
-                return extension != null && extension.equals(Constants.OWL);
+                return extension != null && extension.equals(ext);
             }
 
             @Override
             public String getDescription() {
-                return Constants.OWL;
+                return ext;
             }
         };
 
-        fileChooser.setFileFilter(owlFilter);
+        fileChooser.setFileFilter(fileFilter);
         fileChooser.setAcceptAllFileFilterUsed(false);
         controller = control;
     }
 
     public void actionPerformed(ActionEvent e)
     {
-        File fileWithInstances;
+        File file;
         int result = fileChooser.showOpenDialog(owner);
 
         if (result == JFileChooser.APPROVE_OPTION)
         {
-            fileWithInstances = fileChooser.getSelectedFile();
+            file = fileChooser.getSelectedFile();
 
-            controller.loadOntology(fileWithInstances);
+            if (ext.equals(Constants.OWL))
+                controller.loadOntology(file);
+            else if (ext.equals(Constants.PREFABS))
+                controller.loadPrefabs(file);
         }
         else
         {
