@@ -154,17 +154,16 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         return statusBar;
     }
 
-    private JPanel createLeftPanel()
+    private JSplitPane createLeftPanel()
     {
-        JPanel leftPanel = new JPanel(false);
-        leftPanel.setLayout(new GridLayout(1,2));
-        leftPanel.setBackground(Color.CYAN);
 
         ontologyPane = new JTabbedPane();
         worldPane = new JTabbedPane();
 
-        leftPanel.add(ontologyPane);
-        leftPanel.add(worldPane);
+        JSplitPane leftPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, ontologyPane, worldPane);
+        leftPanel.setResizeWeight(0.5);
+        leftPanel.setOneTouchExpandable(true);
+        leftPanel.setContinuousLayout(true);
         return leftPanel;
     }
 
@@ -173,15 +172,14 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         return new GraphicsPanel();
     }
 
-    private JPanel createRightBottomPanel()
+    private JSplitPane createRightBottomPanel()
     {
-        JPanel rightBottomPanel = new JPanel(false);
+        JSplitPane rightBottomPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, selectionInfoPanel, createSimulationInfoPanel());
         rightBottomPanel.setBackground(Color.ORANGE);
-        rightBottomPanel.setLayout(new GridLayout(1,2));
-
-        rightBottomPanel.add(selectionInfoPanel);
-        rightBottomPanel.add(createSimulationInfoPanel());
-
+        rightBottomPanel.setContinuousLayout(true);
+        rightBottomPanel.setResizeWeight(0.5);
+        rightBottomPanel.setOneTouchExpandable(true);
+        
         return rightBottomPanel;
     }
 

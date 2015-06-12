@@ -17,12 +17,14 @@ public class OntologyModel
     private static Integer nextAvailableIndividualId = 0;
     private static Integer nextAvailableClassId = 0;
     private static Integer nextAvailablePrefabId = 0;
+    private static Integer nextAvailablePropertyId = 0;
     private int selectedIndividual;
     private int selectedClass;
     private HashMap<Integer, IndividualModel> individuals;
     private HashMap<Integer, IndividualModel> prefabIndividuals;
     private HashMap<Integer, ClassModel> classes;
     private HashMap<Integer, Prefab> prefabs;
+    private HashMap<Integer, PropertyModel> objectProperties;
     private PropertyChangeSupport changeSupport;
 
     // Property Changes this class can fire
@@ -48,6 +50,11 @@ public class OntologyModel
     private static Integer getNextAvailablePrefabId()
     {
         return nextAvailablePrefabId++;
+    }
+
+    private static Integer getNextAvailablePropertyId()
+    {
+        return nextAvailablePropertyId++;
     }
 
     public OntologyModel()
@@ -127,9 +134,10 @@ public class OntologyModel
         }
 
         changeSupport.firePropertyChange(PC_NEW_ONTOLOGY_CLASSES_LOADED, null, root);
+
+
     }
 
-    // TODO: remove recursion
     private void addSubClasses(ClassModel root)
     {
         Iterator<OntClass> classList = root.getOntClass().listSubClasses(true);
@@ -141,6 +149,19 @@ public class OntologyModel
             root.addChild(classModel);
             addSubClasses(classModel);
         }
+    }
+
+    private void addSubProperties(PropertyModel root)
+    {
+        /*Iterator<OntClass> classList = root.().listSubClasses(true);
+        while(classList.hasNext())
+        {
+            OntClass ontClass = classList.next();
+            ClassModel classModel = new ClassModel(getNextAvailableClassId(), ontClass);
+            classes.put(classModel.getId(), classModel);
+            root.addChild(classModel);
+            addSubClasses(classModel);
+        }*/
     }
 
     public void createNewPrefab(String name, String memberSuffix, List<Integer> selectedIndividuals)

@@ -13,7 +13,7 @@ public class GraphicsPanel extends JPanel
     public GraphicsPanel()
     {
         setBackground(Color.PINK);
-        worldDimensions = new Dimension(600, 400); // TODO: adjust default so that it scales to the maximum possible size while maintaining the aspect ratio.
+        worldDimensions = new Dimension(800, 600); // this is the preferred dimension
     }
 
     @Override
@@ -51,8 +51,30 @@ public class GraphicsPanel extends JPanel
         int new_width = original_width;
         int new_height = original_height;
 
+        // Scale to meet bounds
+
         // first check if we need to scale width
-        if (original_width > bound_width)
+        /*if (new_width < bound_width)
+        {
+            //scale width to fit
+            new_width = bound_width;
+            //scale height to maintain aspect ratio
+            new_height = (new_width * original_height) / original_width;
+        }
+
+        // then check if we need to scale even with the new height
+        if (new_height < bound_height)
+        {
+            //scale height to fit instead
+            new_height = bound_height;
+            //scale width to maintain aspect ratio
+            new_width = (new_height * original_width) / original_height;
+        }*/
+
+        // Scale to fit in bounds
+
+        // first check if we need to scale width
+        if (new_width > bound_width)
         {
             //scale width to fit
             new_width = bound_width;
