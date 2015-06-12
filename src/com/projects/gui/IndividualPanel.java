@@ -13,18 +13,25 @@ import java.util.ArrayList;
  */
 public class IndividualPanel extends JScrollPane implements SubscribedView
 {
+    private String title;
     private JTable individualTable;
     private InstanceTable instancesTable;
     private MouseListener selectionListener;
 
     public IndividualPanel(MouseListener listener)
     {
+        title = "Individuals";
         selectionListener = listener;
         instancesTable = new InstanceTable();
         individualTable = new JTable(instancesTable);
         individualTable.addMouseListener(selectionListener);
         individualTable.setTableHeader(null);
         getViewport().add(individualTable);
+    }
+
+    public String getTitle()
+    {
+        return title;
     }
 
     public void modelPropertyChange(PropertyChangeEvent event)

@@ -37,9 +37,14 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     private IndividualPanel individualPanel;
     private ClassPanel classPanel;
     private PrefabPanel prefabPanel;
+    private JScrollPane objectPropertyPanel;
+    private JScrollPane dataPropertyPanel;
 
     private JSplitPane rightSplitPane;
     private JSplitPane centerSplitPane;
+
+    JTabbedPane ontologyPane;
+    JTabbedPane worldPane;
 
     private JToolBar toolBar;
     private JButton addIndividualButton, removeInstanceButton, removeIndividualButton, createPrefabButton, addPrefabButton; // ToolBar Buttons
@@ -62,6 +67,8 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         individualPanel = new IndividualPanel(individualSelectedListener);
         classPanel = new ClassPanel(classSelectedListener);
         prefabPanel = new PrefabPanel(prefabSelectedListener);
+        objectPropertyPanel = new JScrollPane();
+        dataPropertyPanel = new JScrollPane();
 
         removeSelectedInstanceAction = new RemoveSelectedAction("Remove Instance", null, null, null,instancePanel.getWorldInstanceTree(), controller);
         removeSelectedIndividualAction = new RemoveSelectedAction("Remove Individual", null, null, null, prefabPanel.getPrefabTree(), controller);
@@ -153,21 +160,19 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         leftPanel.setLayout(new GridLayout(1,2));
         leftPanel.setBackground(Color.CYAN);
 
-        JTabbedPane ontologyPane = new JTabbedPane();
-        JComponent panel2 = new JPanel(false);
-        JComponent panel3 = new JPanel(false);
+        ontologyPane = new JTabbedPane();
 
         ontologyPane.addTab("Classes", classPanel);
-        ontologyPane.addTab("Object Properties", panel2);
-        ontologyPane.addTab("Data Properties", panel3);
+        ontologyPane.addTab("Object Properties", objectPropertyPanel);
+        ontologyPane.addTab("Data Properties", dataPropertyPanel);
         ontologyPane.addTab("Individuals", individualPanel);
         ontologyPane.addTab("Prefabs", prefabPanel);
 
-        JTabbedPane instancePane = new JTabbedPane();
-        instancePane.addTab("Instances", instancePanel);
+        worldPane = new JTabbedPane();
+        worldPane.addTab("Instances", instancePanel);
 
         leftPanel.add(ontologyPane);
-        leftPanel.add(instancePane);
+        leftPanel.add(worldPane);
         return leftPanel;
     }
 
@@ -224,6 +229,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         JMenuBar menuBar;
         JMenu menu;
         JMenuItem menuItem;
+        JRadioButtonMenuItem rbMenuItem;
 
         menuBar = new JMenuBar();
 
@@ -260,6 +266,41 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
         addPrefabItem = new JMenuItem(addPrefabAction);
         menu.add(addPrefabItem);
+
+        menu = new JMenu("View");
+        menuBar.add(menu);
+
+        rbMenuItem = new JRadioButtonMenuItem(classPanel.getTitle());
+        rbMenuItem.setSelected(true);
+        rbMenuItem.addItemListener(new TabTogglingListener(ontologyPane, classPanel.getTitle(), classPanel));
+        menu.add(rbMenuItem);
+
+        rbMenuItem = new JRadioButtonMenuItem(individualPanel.getTitle());
+        rbMenuItem.setSelected(true);
+        rbMenuItem.addItemListener(new TabTogglingListener(ontologyPane, individualPanel.getTitle(), individualPanel));
+        menu.add(rbMenuItem);
+
+        rbMenuItem = new JRadioButtonMenuItem("Object Properties");
+        rbMenuItem.setSelected(true);
+        rbMenuItem.addItemListener(new TabTogglingListener(ontologyPane, "Object Properties", objectPropertyPanel));
+        menu.add(rbMenuItem);
+
+        rbMenuItem = new JRadioButtonMenuItem("Data Properties");
+        rbMenuItem.setSelected(true);
+        rbMenuItem.addItemListener(new TabTogglingListener(ontologyPane, "DataProperties", dataPropertyPanel));
+        menu.add(rbMenuItem);
+
+        rbMenuItem = new JRadioButtonMenuItem(prefabPanel.getTitle());
+        rbMenuItem.setSelected(true);
+        rbMenuItem.addItemListener(new TabTogglingListener(ontologyPane, prefabPanel.getTitle(), prefabPanel));
+        menu.add(rbMenuItem);
+
+        menu.addSeparator();
+
+        rbMenuItem = new JRadioButtonMenuItem(instancePanel.getTitle());
+        rbMenuItem.setSelected(true);
+        rbMenuItem.addItemListener(new TabTogglingListener(worldPane, instancePanel.getTitle(), instancePanel));
+        menu.add(rbMenuItem);
 
         return menuBar;
     }

@@ -18,13 +18,15 @@ import java.beans.PropertyChangeEvent;
  */
 public class InstancePanel extends JScrollPane implements SubscribedView
 {
+    private String title;
     private JTree worldInstanceTree;
     private DefaultTreeModel worldInstanceTreeModel;
     private DefaultMutableTreeNode root;
 
     public InstancePanel(MouseAdapter mouseAdapter)
     {
-        root = new DefaultMutableTreeNode("World Instances");
+        title = "World Instances";
+        root = new DefaultMutableTreeNode(title);
 
         worldInstanceTreeModel = new DefaultTreeModel(root);
         worldInstanceTree = new JTree(worldInstanceTreeModel);
@@ -39,6 +41,11 @@ public class InstancePanel extends JScrollPane implements SubscribedView
         worldInstanceTree.setCellRenderer(renderer);
 
         getViewport().add(worldInstanceTree);
+    }
+
+    public String getTitle()
+    {
+        return title;
     }
 
     public void modelPropertyChange(PropertyChangeEvent event)

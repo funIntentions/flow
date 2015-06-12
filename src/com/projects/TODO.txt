@@ -4,7 +4,9 @@ Future Thoughts
 - Alternatively efforts can be focused on representing everything through the simulation
 - See if i can reduce the number of HashMaps all storing IndividualModels.
 
-June 4rd
+On Going
 - By default don't display the class, object and data property tabs (just have individuals). Make a views menu item and allow users to add desired tabs from that.
-- Distinguish a selected prefab from a selected individual
-- For added prefabs, give them a number that increments
+- Load in the properties in to their respective panels
+- Have the scaledWorld rect expand to fill as much space as possible (first check if width or height of the panel is greater, then used the largest to scale the other by the ratio)
+- The TaskManager and tasks aren't functioning and aren't hooked up to the status bar
+- Think more about how the simulation will work... The true meaning of a Prefab... Etc...

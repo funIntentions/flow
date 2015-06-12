@@ -17,13 +17,15 @@ import java.beans.PropertyChangeEvent;
  */
 public class PrefabPanel extends JScrollPane implements SubscribedView
 {
+    private String title;
     private JTree prefabTree;
     private DefaultTreeModel prefabTreeModel;
     private DefaultMutableTreeNode root;
 
     public PrefabPanel(MouseAdapter mouseAdapter)
     {
-        root = new DefaultMutableTreeNode("Prefabs");
+        title = "Prefabs";
+        root = new DefaultMutableTreeNode(title);
 
         prefabTreeModel = new DefaultTreeModel(root);
         prefabTree = new JTree(prefabTreeModel);
@@ -38,6 +40,11 @@ public class PrefabPanel extends JScrollPane implements SubscribedView
         prefabTree.setCellRenderer(renderer);
 
         getViewport().add(prefabTree);
+    }
+
+    public String getTitle()
+    {
+        return title;
     }
 
     public void modelPropertyChange(PropertyChangeEvent event)

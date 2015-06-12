@@ -17,13 +17,15 @@ import java.util.List;
  */
 public class ClassPanel extends JScrollPane implements SubscribedView
 {
+    private String title;
     private JTree classTree;
     private DefaultTreeModel classTreeModel;
     private DefaultMutableTreeNode root;
 
     public ClassPanel(MouseAdapter mouseAdapter)
     {
-        root = new DefaultMutableTreeNode("Classes");
+        title = "Classes";
+        root = new DefaultMutableTreeNode(title);
 
         classTreeModel = new DefaultTreeModel(root);
         classTree = new JTree(classTreeModel);
@@ -38,6 +40,11 @@ public class ClassPanel extends JScrollPane implements SubscribedView
         classTree.setCellRenderer(renderer);
 
         getViewport().add(classTree);
+    }
+
+    public String getTitle()
+    {
+        return title;
     }
 
     public void modelPropertyChange(PropertyChangeEvent event)
