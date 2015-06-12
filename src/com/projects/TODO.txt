@@ -3,8 +3,11 @@ Future Thoughts
 - Redundancy issue - isPartOf composedOf Owns and other relationships of composition become redundant when represented in software. Particularly with prefabs/groups that will group individuals together into units.
 - Alternatively efforts can be focused on representing everything through the simulation
 - See if i can reduce the number of HashMaps all storing IndividualModels.
+- For the actual simulation, would queries be a good way to take advantage of the ontology? e.g. get all appliances within these sites, sum up their power consumption.
+    - How would this complement or hinder the approach wanted where individual agents have a finite view of their surroundings.
 
 On Going
 - Decide whether to load in the properties in to their respective panels or not
 - The TaskManager and tasks aren't functioning and aren't hooked up to the status bar
 - Think more about how the simulation will work... The true meaning of a Prefab... Etc...
+- errors occur when loading in pizza.owl

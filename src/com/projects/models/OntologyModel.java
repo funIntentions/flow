@@ -1,9 +1,9 @@
 package com.projects.models;
 
-import com.hp.hpl.jena.ontology.Individual;
-import com.hp.hpl.jena.ontology.OntClass;
-import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.vocabulary.OWL;
+
+import com.hp.hpl.jena.ontology.*;
+import com.hp.hpl.jena.util.iterator.ExtendedIterator;
+import com.hp.hpl.jena.vocabulary.OWL2;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -24,13 +24,17 @@ public class OntologyModel
     private HashMap<Integer, IndividualModel> prefabIndividuals;
     private HashMap<Integer, ClassModel> classes;
     private HashMap<Integer, Prefab> prefabs;
-    private HashMap<Integer, PropertyModel> objectProperties;
+    //private List<List<PropertyModel>> objectPropertyTree;
+    private HashMap<Integer, PropertyNode> objectProperties;
+    private HashMap<Integer, PropertyNode> dataProperties;
     private PropertyChangeSupport changeSupport;
 
     // Property Changes this class can fire
     //TODO: Handle new ontology being loaded in all systems and views (instance panel... etc)
     public static final String PC_NEW_ONTOLOGY_INDIVIDUALS_LOADED = "PC_NEW_ONTOLOGY_INDIVIDUALS_LOADED";
     public static final String PC_NEW_ONTOLOGY_CLASSES_LOADED = "PC_NEW_ONTOLOGY_CLASSES_LOADED";
+    public static final String PC_NEW_ONTOLOGY_OBJECT_PROPERTIES_LOADED = "PC_NEW_ONTOLOGY_OBJECT_PROPERTIES_LOADED";
+    public static final String PC_NEW_ONTOLOGY_DATA_PROPERTIES_LOADED = "PC_NEW_ONTOLOGY_DATA_PROPERTIES_LOADED";
     public static final String PC_NEW_INDIVIDUAL_SELECTED = "PC_NEW_INDIVIDUAL_SELECTED";
     public static final String PC_NEW_ONTOLOGY_PREFAB_SELECTED = "PC_NEW_ONTOLOGY_PREFAB_SELECTED";
     public static final String PC_NEW_CLASS_SELECTED = "PC_NEW_CLASS_SELECTED";
@@ -63,6 +67,7 @@ public class OntologyModel
         individuals = new HashMap<Integer, IndividualModel>();
         prefabIndividuals = new HashMap<Integer, IndividualModel>();
         classes = new HashMap<Integer, ClassModel>();
+        objectProperties = new HashMap<Integer, PropertyNode>();
         changeSupport = new PropertyChangeSupport(this);
         selectedIndividual = -1;
         selectedClass = -1;
@@ -118,24 +123,60 @@ public class OntologyModel
         List<IndividualModel> individualsList = new ArrayList<IndividualModel>(individuals.values());
         changeSupport.firePropertyChange(PC_NEW_ONTOLOGY_INDIVIDUALS_LOADED, null, individualsList);
 
-        OntClass thing = base.getOntClass( OWL.Thing.getURI() );
-        Iterator<OntClass> classList = thing.listSubClasses(true);
+        OntClass thing = base.getOntClass( OWL2.Thing.getURI() );
+        ExtendedIterator<OntClass> classList = thing.listSubClasses(true);
 
-        ClassModel root = new ClassModel(getNextAvailableClassId(), thing);
-        classes.put(root.getId(), root);
+        ClassModel classRoot = new ClassModel(getNextAvailableClassId(), thing);
+        classes.put(classRoot.getId(), classRoot);
 
         while(classList.hasNext())
         {
             OntClass ontClass = classList.next();
             ClassModel classModel = new ClassModel(getNextAvailableClassId(), ontClass);
             classes.put(classModel.getId(), classModel);
-            root.addChild(classModel);
+            classRoot.addChild(classModel);
             addSubClasses(classModel);
         }
 
-        changeSupport.firePropertyChange(PC_NEW_ONTOLOGY_CLASSES_LOADED, null, root);
+        changeSupport.firePropertyChange(PC_NEW_ONTOLOGY_CLASSES_LOADED, null, classRoot);
 
 
+
+        ExtendedIterator<OntProperty> properties = base.listAllOntProperties();
+        PropertyNode objectPropertyRoot = new PropertyNode(getNextAvailablePropertyId(), base.createOntProperty("Object Properties"));
+        PropertyNode dataPropertyRoot = new PropertyNode(getNextAvailablePropertyId(), base.createOntProperty("Data Properties"));
+
+        while (properties.hasNext())
+        {
+            OntProperty property = properties.next();
+
+            if (!property.isObjectProperty())
+            {
+                dataPropertyRoot.addChild(new PropertyNode(getNextAvailablePropertyId(), property));
+            }
+            else
+            {
+                objectPropertyRoot.addChild(new PropertyNode(getNextAvailablePropertyId(), property));
+            }
+        }
+
+        /*OntProperty top = base.getOntProperty(OWL2.topObjectProperty.getURI());
+        ExtendedIterator<? extends OntProperty> objectPropertyList = top.listSubProperties(true);
+
+        PropertyNode objectPropertyRoot = new PropertyNode(getNextAvailablePrefabId(), top);
+        objectProperties.put(objectPropertyRoot.getId(), objectPropertyRoot);
+
+        while (objectPropertyList.hasNext())
+        {
+            OntProperty property = objectPropertyList.next();
+            PropertyNode newProperty = new PropertyNode(getNextAvailablePropertyId(), property);
+            objectProperties.put(newProperty.getId(), newProperty);
+            objectPropertyRoot.addChild(newProperty);
+            addSubProperties(newProperty);
+        }*/
+
+        changeSupport.firePropertyChange(PC_NEW_ONTOLOGY_OBJECT_PROPERTIES_LOADED, null, objectPropertyRoot);
+        changeSupport.firePropertyChange(PC_NEW_ONTOLOGY_DATA_PROPERTIES_LOADED, null, dataPropertyRoot);
     }
 
     private void addSubClasses(ClassModel root)
@@ -151,17 +192,17 @@ public class OntologyModel
         }
     }
 
-    private void addSubProperties(PropertyModel root)
+    private void addSubProperties(PropertyNode root)
     {
-        /*Iterator<OntClass> classList = root.().listSubClasses(true);
-        while(classList.hasNext())
+        Iterator<? extends OntProperty> propertyList = root.getOntProperty().listSubProperties(true);
+        while(propertyList.hasNext())
         {
-            OntClass ontClass = classList.next();
-            ClassModel classModel = new ClassModel(getNextAvailableClassId(), ontClass);
-            classes.put(classModel.getId(), classModel);
-            root.addChild(classModel);
-            addSubClasses(classModel);
-        }*/
+            OntProperty ontProperty = propertyList.next();
+            PropertyNode property = new PropertyNode(getNextAvailableClassId(), ontProperty);
+            objectProperties.put(property.getId(), property);
+            root.addChild(property);
+            addSubProperties(property);
+        }
     }
 
     public void createNewPrefab(String name, String memberSuffix, List<Integer> selectedIndividuals)

@@ -37,8 +37,8 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     private IndividualPanel individualPanel;
     private ClassPanel classPanel;
     private PrefabPanel prefabPanel;
-    private JScrollPane objectPropertyPanel;
-    private JScrollPane dataPropertyPanel;
+    private ObjectPropertyPanel objectPropertyPanel;
+    private DataPropertyPanel dataPropertyPanel;
 
     private JSplitPane rightSplitPane;
     private JSplitPane centerSplitPane;
@@ -67,14 +67,16 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         individualPanel = new IndividualPanel(individualSelectedListener);
         classPanel = new ClassPanel(classSelectedListener);
         prefabPanel = new PrefabPanel(prefabSelectedListener);
-        objectPropertyPanel = new JScrollPane();
-        dataPropertyPanel = new JScrollPane();
+        objectPropertyPanel = new ObjectPropertyPanel(new NodeSelectedListener());
+        dataPropertyPanel = new DataPropertyPanel(new NodeSelectedListener());
 
         removeSelectedInstanceAction = new RemoveSelectedAction("Remove Instance", null, null, null,instancePanel.getWorldInstanceTree(), controller);
         removeSelectedIndividualAction = new RemoveSelectedAction("Remove Individual", null, null, null, prefabPanel.getPrefabTree(), controller);
         createPrefabAction = new CreatePrefabAction("Create Prefab", null, null, null, individualPanel.getIndividualTable(), controller); // TODO: refactor so I don't have to get the table
         addPrefabAction = new AddPrefabAction("Add Prefab", null, null, null, prefabPanel.getPrefabTree(), controller);
 
+        controller.subscribeView(dataPropertyPanel);
+        controller.subscribeView(objectPropertyPanel);
         controller.subscribeView(prefabPanel);
         controller.subscribeView(classPanel);
         controller.subscribeView(individualPanel);

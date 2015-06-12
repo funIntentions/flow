@@ -1,5 +1,7 @@
 package com.projects.models;
 
+import com.hp.hpl.jena.ontology.OntProperty;
+
 /**
  * Created by Dan on 5/29/2015.
  */
@@ -35,4 +37,5 @@ public class PropertyModel <T>
         //TODO: check this cast;
         value = (T)model.getValue();
     }
+
 }
