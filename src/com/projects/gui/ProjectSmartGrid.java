@@ -26,7 +26,8 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
             removeSelectedIndividualAction,
             createPrefabAction,
             addPrefabAction,
-            loadPrefabsAction;
+            loadPrefabsAction,
+            savePrefabsAction;
     private IndividualSelectedListener individualSelectedListener;
     private InstanceSelectedListener instanceSelectedListener;
     private PropertiesTableListener propertiesTableListener;
@@ -58,6 +59,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         closeOntologyAction = new CloseOntologyAction("Close", null, null, null, controller);
         loadOntologyAction = new OpenFileAction("Open Ontology", null, null, null, this, controller, Constants.OWL);
         loadPrefabsAction = new OpenFileAction("Open Prefabs", null, null, null, this, controller, Constants.PREFABS);
+        savePrefabsAction = new SaveFileAction("Save Prefabs", null, null, null, this, controller, Constants.PREFABS);
         addIndividualAction = new AddIndividualAction("Add Individual", null, null, null, controller);
         individualSelectedListener = new IndividualSelectedListener(controller);
         instanceSelectedListener = new InstanceSelectedListener(controller);
@@ -238,6 +240,10 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         menuItem.getAccessibleContext().setAccessibleDescription("Loads Prefabs");
         menu.add(menuItem);
 
+        menuItem = new JMenuItem(savePrefabsAction);
+        menuItem.getAccessibleContext().setAccessibleDescription("Saves Prefabs");
+        menu.add(menuItem);
+
         menuItem = new JMenuItem(closeOntologyAction);
         menuItem.getAccessibleContext().setAccessibleDescription("Closes the current Ontology");
         menu.add(menuItem);
@@ -278,13 +284,13 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         rbMenuItem.setSelected(true);
         menu.add(rbMenuItem);
 
-        rbMenuItem = new JRadioButtonMenuItem("Object Properties");
-        rbMenuItem.addItemListener(new TabTogglingListener(ontologyPane, "Object Properties", objectPropertyPanel));
+        rbMenuItem = new JRadioButtonMenuItem(objectPropertyPanel.getTitle());
+        rbMenuItem.addItemListener(new TabTogglingListener(ontologyPane, objectPropertyPanel.getTitle(), objectPropertyPanel));
         rbMenuItem.setSelected(false);
         menu.add(rbMenuItem);
 
-        rbMenuItem = new JRadioButtonMenuItem("Data Properties");
-        rbMenuItem.addItemListener(new TabTogglingListener(ontologyPane, "DataProperties", dataPropertyPanel));
+        rbMenuItem = new JRadioButtonMenuItem(dataPropertyPanel.getTitle());
+        rbMenuItem.addItemListener(new TabTogglingListener(ontologyPane, dataPropertyPanel.getTitle(), dataPropertyPanel));
         rbMenuItem.setSelected(false);
         menu.add(rbMenuItem);
 

@@ -6,6 +6,7 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Dan on 5/27/2015.
@@ -74,6 +75,11 @@ public class IndividualModel
     public Iterator<PropertyModel> listProperties()
     {
         return instanceProperties.iterator();
+    }
+
+    public List<PropertyModel> getProperties()
+    {
+        return instanceProperties;
     }
 
     public void changeProperty(int index, Object newValue)

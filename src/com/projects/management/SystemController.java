@@ -78,6 +78,11 @@ public class SystemController implements PropertyChangeListener
 
     }
 
+    public void savePrefabs(File file)
+    {
+        fileManager.savePrefabs(file, ontologyModel.getPrefabCollection());
+    }
+
     /**
      * Clears any data loaded in from the current ontology file.
      */
