@@ -17,10 +17,13 @@ Future Thoughts
 On Going
 - Cleanup the task manager, remove the testTask from SystemController and have it created in TaskManager if possible
 - Think more about how the simulation will work... The true meaning of a Prefab... Etc...
+- Nested prefabs are a thing that needs to be implemented
 - Prefab creation dialog box should preform a robust check on the entered name and suffix (e.i. Are there characters? Are they valid characters.. no : or }, etc)
 - Users should have the ability to edit descriptions of Prefabs and instances but probably not classes or individuals...
 - errors occur when loading in pizza.owl, This might have something to do with OntClasses having to be a subclass of Thing which does not happen by default.
 - Read in properties so that they can be displayed in the tree properly
+- Jena/Protege Bug? When an Individual has the same name as its class then it gets its classes description as its own...
+- When prefabs are loaded in before the ontology nothing really works... Which it shouldn't but a binding of Prefabs and the Ontology will have to exist
 
 - Prefabs as a more rigidly defined construct - extend from Placement, can be of specific types only...
     - Instead of being able to select any combination of Individuals to form a Prefab, there exists only certain types of Prefabs/Things you can create as a Prefab so instead you would go:
@@ -100,6 +103,7 @@ LocalEnergyProducer
         - ADR End Point G
         - Solar Panel
             - Inverter
+- EnergyStorageSystem
 - Energy Monitoring and Visualization Service
 - Remote Access and Control Service
 
