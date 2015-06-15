@@ -39,6 +39,7 @@ public class OntologyModel
     public static final String PC_NEW_ONTOLOGY_PREFAB_SELECTED = "PC_NEW_ONTOLOGY_PREFAB_SELECTED";
     public static final String PC_NEW_CLASS_SELECTED = "PC_NEW_CLASS_SELECTED";
     public static final String PC_ONTOLOGY_CLEARED = "PC_ONTOLOGY_CLEARED";
+    public static final String PC_ONTOLOGY_PREFABS_LOADED = "PC_ONTOLOGY_PREFABS_LOADED";
     public static final String PC_NEW_PREFAB_CREATED = "PC_NEW_PREFAB_CREATED";
 
     private static Integer getNextAvailableIndividualId()
@@ -208,11 +209,22 @@ public class OntologyModel
     public void loadPrefabs(Collection<Prefab> newPrefabs)
     {
         prefabs.clear();
+        prefabIndividuals.clear();
         nextAvailablePrefabId = newPrefabs.size();
+
+        changeSupport.firePropertyChange(PC_ONTOLOGY_PREFABS_LOADED, null, null); // TODO: only send one message here?
 
         for (Prefab prefab : newPrefabs)
         {
             prefabs.put(prefab.getId(), prefab);
+
+            List<IndividualModel> members = prefab.getMembers();
+
+            for (IndividualModel individualModel : members)
+            {
+                prefabIndividuals.put(individualModel.getId(), individualModel);
+            }
+
             changeSupport.firePropertyChange(PC_NEW_PREFAB_CREATED, null, prefab);
         }
     }

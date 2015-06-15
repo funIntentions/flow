@@ -28,7 +28,6 @@ public class StatusPanel extends JPanel implements SubscribedView
         if (event.getPropertyName().equals(Task.PC_TASK_UPDATE))
         {
             String update = (String)event.getNewValue();
-            System.out.println(update);
             statusLabel.setText(" " + update);
         }
     }

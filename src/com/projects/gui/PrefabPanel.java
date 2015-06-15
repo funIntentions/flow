@@ -63,7 +63,8 @@ public class PrefabPanel extends JScrollPane implements SubscribedView
             }
 
         }
-        else if (event.getPropertyName().equals(OntologyModel.PC_ONTOLOGY_CLEARED))
+        else if (event.getPropertyName().equals(OntologyModel.PC_ONTOLOGY_PREFABS_LOADED)
+                ||(event.getPropertyName().equals(OntologyModel.PC_ONTOLOGY_CLEARED)))
         {
             root.removeAllChildren();
             prefabTreeModel.reload();
