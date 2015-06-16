@@ -13,9 +13,12 @@ Future Thoughts
     - Should they be defined prior to the prefabs creation and then modified once a prefab is created to the new individuals within the prefab
 - How to handle prefab nesting, e.g. Apartment Prefab, Residential Apartment Building, Campus Building
 - The Ontology currently models an ideal smart grid scenario where every house has a consumption and generation infrastructure. Such restrictions may not allow for the comparisons the simulation needs to make
+
 On Going
-- The TaskManager and tasks aren't functioning and aren't hooked up to the status bar
+- Cleanup the task manager, remove the testTask from SystemController and have it created in TaskManager if possible
 - Think more about how the simulation will work... The true meaning of a Prefab... Etc...
+- Prefab creation dialog box should preform a robust check on the entered name and suffix (e.i. Are there characters? Are they valid characters.. no : or }, etc)
+- Users should have the ability to edit descriptions of Prefabs and instances but probably not classes or individuals...
 - errors occur when loading in pizza.owl, This might have something to do with OntClasses having to be a subclass of Thing which does not happen by default.
 - Read in properties so that they can be displayed in the tree properly
 

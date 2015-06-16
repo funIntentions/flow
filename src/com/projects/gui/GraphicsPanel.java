@@ -38,7 +38,7 @@ public class GraphicsPanel extends JPanel
         dim.setSize(dim.getWidth() - margin * 2, dim.getHeight() - margin * 2);
         Dimension scaledWorld = getScaledDimension(worldDimensions, dim);
         super.paintComponent(g);
-        g.setColor(Color.red);
+        g.setColor(Color.DARK_GRAY);
         g.fillRect(margin + (int)(dim.getWidth()/2 - scaledWorld.getWidth()/2), margin + (int)(dim.getHeight()/2 - scaledWorld.getHeight()/2), (int)scaledWorld.getWidth(), (int)scaledWorld.getHeight());
     }
 

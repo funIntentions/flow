@@ -41,6 +41,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     private PrefabPanel prefabPanel;
     private ObjectPropertyPanel objectPropertyPanel;
     private DataPropertyPanel dataPropertyPanel;
+    private StatusPanel statusBar;
 
     private JSplitPane rightSplitPane;
     private JSplitPane centerSplitPane;
@@ -73,6 +74,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         prefabPanel = new PrefabPanel(prefabSelectedListener);
         objectPropertyPanel = new ObjectPropertyPanel(new NodeSelectedListener());
         dataPropertyPanel = new DataPropertyPanel(new NodeSelectedListener());
+        statusBar = new StatusPanel("Application Started");
 
         removeSelectedInstanceAction = new RemoveSelectedAction("Remove Instance", null, null, null,instancePanel.getWorldInstanceTree(), controller);
         removeSelectedIndividualAction = new RemoveSelectedAction("Remove Individual", null, null, null, prefabPanel.getPrefabTree(), controller);
@@ -86,6 +88,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         controller.subscribeView(individualPanel);
         controller.subscribeView(selectionInfoPanel);
         controller.subscribeView(instancePanel);
+        controller.subscribeView(statusBar);
         controller.subscribeView(this);
         setupPane();
     }
@@ -108,7 +111,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
         add(centerSplitPane, BorderLayout.CENTER);
         add(createToolBar(), BorderLayout.PAGE_START);
-        add(createStatusBar(), BorderLayout.PAGE_END);
+        add(statusBar, BorderLayout.PAGE_END);
     }
 
     private static void createAndShowGUI()
@@ -147,17 +150,6 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         toolBar.add(createPrefabButton);
         toolBar.add(addPrefabButton);
         return toolBar;
-    }
-
-    private JPanel createStatusBar()
-    {
-        JPanel statusBar = new JPanel();
-        statusBar.setBorder(new BevelBorder(BevelBorder.LOWERED));
-        statusBar.setLayout(new BoxLayout(statusBar, BoxLayout.X_AXIS));
-        JLabel statusLabel = new JLabel(" Status...");
-        statusLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        statusBar.add(statusLabel);
-        return statusBar;
     }
 
     private JSplitPane createLeftPanel()

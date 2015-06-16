@@ -34,6 +34,7 @@ public class Task
     public void setDescription(String desc)
     {
         description = desc;
+        System.out.println(desc);
         changeSupport.firePropertyChange(PC_TASK_UPDATE, null, description);
     }
 }

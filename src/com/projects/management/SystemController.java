@@ -49,6 +49,7 @@ public class SystemController implements PropertyChangeListener
 
         frame = f;
         testTask = new Task(0, "File Loading", "Waiting");
+        testTask.addPropertyChangeListener(this);
     }
 
     /**
@@ -114,11 +115,9 @@ public class SystemController implements PropertyChangeListener
 
         public OntologyLoadingWorker(File file, FileManager fileManager, OntologyModel ontologyModel)
         {
-            publish("Loading File: " + file.getName() + "...");
             this.fileManager = fileManager;
             this.ontologyModel = ontologyModel;
             ontFile = file;
-            publish("File Loaded.");
         }
 
         public void assignTask(Task assignedTask)
@@ -134,7 +133,9 @@ public class SystemController implements PropertyChangeListener
 
         protected Void doInBackground()
         {
+            publish("Loading File: " + ontFile.getName());
             result = fileManager.readOntology(ontFile);
+            publish("File Loaded");
 
             return null;
         }

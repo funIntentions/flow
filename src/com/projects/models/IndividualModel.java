@@ -13,7 +13,6 @@ import java.util.List;
  */
 public class IndividualModel
 {
-    private Individual instance;
     private String name;
     private String className;
     private ArrayList<PropertyModel> instanceProperties;
@@ -25,20 +24,22 @@ public class IndividualModel
     public IndividualModel(Integer newId, Individual individual)
     {
         id = newId;
-        instance = individual;
         name = individual.getLocalName();
         className = individual.getOntClass().getLocalName();
         description = individual.getComment(null);
 
         instanceProperties = new ArrayList<PropertyModel>();
 
-        StmtIterator i = instance.listProperties();
+        StmtIterator i = individual.listProperties();
+
         while (i.hasNext())
         {
             Statement s = i.next();
             if (s.getObject().isLiteral())
             {
                 String name = s.getPredicate().getLocalName();
+                if (name.equals("comment")) // Happens when Individuals have the same name as the class TODO: find elegant fix
+                    continue;
                 String value = s.getLiteral().getLexicalForm();
 
                 if (value.equals("true") || value.equals("false")) // TODO: change this so the Class can be determined without a hard coded Boolean check
@@ -73,9 +74,8 @@ public class IndividualModel
     public IndividualModel(Integer newId, IndividualModel model)
     {
         id = newId;
-        instance = model.instance;
-        className = instance.getOntClass().getLocalName();
-        description = instance.getComment(null);
+        className = model.getClassName();
+        description = model.getDescription();
         name = model.getName();
         instanceProperties = new ArrayList<PropertyModel>();
 
@@ -83,7 +83,6 @@ public class IndividualModel
         {
             instanceProperties.add(new PropertyModel(property));
         }
-
     }
 
     public Iterator<PropertyModel> listProperties()
@@ -104,11 +103,6 @@ public class IndividualModel
     public String getDescription()
     {
         return description;
-    }
-
-    public Individual getInstance()
-    {
-        return instance;
     }
 
     public String getName()
