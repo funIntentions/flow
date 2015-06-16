@@ -9,6 +9,7 @@ import com.projects.models.PropertyModel;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -21,6 +22,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -47,31 +49,175 @@ class FileManager
         }
         catch (Exception exception)
         {
+            exception.printStackTrace();
             //TODO: Handle this exception
         }
 
         return model;
     }
 
-    public void readPrefabFile(File file)
+    public Collection<Prefab> readPrefabFile(File file)
     {
+        Collection<Prefab> prefabCollection = null;
 
+        try
+        {
+            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+            Document doc = docBuilder.parse(file);
+
+            NodeList prefabList = doc.getElementsByTagName("Prefab");
+            prefabCollection = readPrefabs(prefabList);
+
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+        }
+
+        return prefabCollection;
     }
 
-    private static Node getCompany(Document doc, String id, String name, String age, String role) {
-        Element company = doc.createElement("Company");
-        company.setAttribute("id", id);
-        company.appendChild(getCompanyElements(doc, company, "Name", name));
-        company.appendChild(getCompanyElements(doc, company, "Type", age));
-        company.appendChild(getCompanyElements(doc, company, "Employees", role));
-        return company;
+    private Collection<Prefab> readPrefabs(NodeList prefabList)
+    {
+        List<Prefab> prefabs = new ArrayList<Prefab>();
+
+        int length = prefabList.getLength();
+        for (int node = 0; node < length; ++node)
+        {
+            Node prefabNode = prefabList.item(node);
+
+            if (prefabNode.getNodeType() == Node.ELEMENT_NODE)
+            {
+                Element prefabElement = (Element)prefabNode;
+
+                NodeList nameList = prefabElement.getElementsByTagName("Name");
+                Element nameElement = (Element)nameList.item(0);
+
+                NodeList nameText = nameElement.getChildNodes();
+                String prefabName = nameText.item(0).getNodeValue().trim();
+
+                NodeList suffixList = prefabElement.getElementsByTagName("MemberSuffix");
+                Element suffixElement = (Element)suffixList.item(0);
+
+                NodeList suffixText = suffixElement.getChildNodes();
+                String prefabMemberSuffix = suffixText.item(0).getNodeValue().trim();
+
+                NodeList idList = prefabElement.getElementsByTagName("ID");
+                Element idElement = (Element)idList.item(0);
+
+                NodeList idText = idElement.getChildNodes();
+                Integer prefabId = Integer.parseInt(idText.item(0).getNodeValue().trim());
+
+                NodeList memberList = prefabElement.getElementsByTagName("PrefabMembers");
+                Element memberElement = (Element)memberList.item(0);
+
+                NodeList individuals = memberElement.getElementsByTagName("Individual");
+                List<IndividualModel> prefabMembers = readPrefabMembers(individuals);
+
+                Prefab newPrefab = new Prefab(prefabId, prefabName, prefabMemberSuffix, prefabMembers);
+                prefabs.add(newPrefab);
+            }
+        }
+
+        return prefabs;
     }
 
-    // utility method to create text node
-    private static Node getCompanyElements(Document doc, Element element, String name, String value) {
-        Element node = doc.createElement(name);
-        node.appendChild(doc.createTextNode(value));
-        return node;
+    private List<IndividualModel> readPrefabMembers(NodeList members)
+    {
+        List<IndividualModel> memberIndividuals = new ArrayList<IndividualModel>();
+
+        int length = members.getLength();
+        for (int node = 0; node < length; ++node)
+        {
+            Node memberNode = members.item(node);
+
+            if (memberNode.getNodeType() == Node.ELEMENT_NODE)
+            {
+                Element memberElement = (Element)memberNode;
+
+                NodeList idList = memberElement.getElementsByTagName("ID");
+                Element idElement = (Element)idList.item(0);
+
+                NodeList idText = idElement.getChildNodes();
+                Integer memberId = Integer.parseInt(idText.item(0).getNodeValue().trim());
+
+                NodeList nameList = memberElement.getElementsByTagName("Name");
+                Element nameElement = (Element)nameList.item(0);
+
+                NodeList nameText = nameElement.getChildNodes();
+                String memberName = nameText.item(0).getNodeValue().trim();
+
+                NodeList classList = memberElement.getElementsByTagName("ClassName");
+                Element classElement = (Element)classList.item(0);
+
+                NodeList classText = classElement.getChildNodes();
+                String memberClassName = classText.item(0).getNodeValue().trim();
+
+
+                NodeList descriptionList = memberElement.getElementsByTagName("Description");
+                Element descriptionElement = (Element)descriptionList.item(0);
+
+                NodeList descriptionText = descriptionElement.getChildNodes();
+                String memberDescription = "";
+
+                if (descriptionText.getLength() > 0)
+                    memberDescription = descriptionText.item(0).getNodeValue();
+
+
+                NodeList propertiesList = memberElement.getElementsByTagName("Properties");
+                Element propertiesElement = (Element)propertiesList.item(0);
+
+                NodeList propertyList = propertiesElement.getElementsByTagName("Property");
+                List<PropertyModel> memberProperties = readMemberProperties(propertyList);
+
+                IndividualModel member = new IndividualModel(memberId, memberName, memberClassName, memberDescription, memberProperties);
+                memberIndividuals.add(member);
+            }
+        }
+
+        return memberIndividuals;
+    }
+
+    private List<PropertyModel> readMemberProperties(NodeList properties)
+    {
+        List<PropertyModel> memberProperties = new ArrayList<PropertyModel>();
+
+        int length = properties.getLength();
+        for (int property = 0; property < length; ++property)
+        {
+            Node propertyNode = properties.item(property);
+
+            if (propertyNode.getNodeType() == Node.ELEMENT_NODE)
+            {
+                Element propertyElement = (Element)propertyNode;
+
+                NodeList nameList = propertyElement.getElementsByTagName("Name");
+                Element nameElement = (Element)nameList.item(0);
+
+                NodeList nameText = nameElement.getChildNodes();
+                String propertyName = nameText.item(0).getNodeValue();
+
+                NodeList valueList = propertyElement.getElementsByTagName("Value");
+                Element valueElement = (Element)valueList.item(0);
+
+                NodeList valueText = valueElement.getChildNodes();
+                String value = valueText.item(0).getNodeValue().trim();
+
+                if (value.equals("true") || value.equals("false")) // TODO: remove repetition here and in Individual Model
+                {
+                    PropertyModel<Boolean> newProperty = new PropertyModel<Boolean>(propertyName, Boolean.getBoolean(value));
+                    memberProperties.add(newProperty);
+                }
+                else
+                {
+                    PropertyModel<Double> newProperty = new PropertyModel<Double>(propertyName, Double.parseDouble(value));
+                    memberProperties.add(newProperty);
+                }
+            }
+        }
+
+        return memberProperties;
     }
 
     public void savePrefabs(File file, Collection<Prefab> prefabs)
@@ -150,7 +296,7 @@ class FileManager
 
     private Node getPropertyNode(Document doc, PropertyModel property)
     {
-        Element propertyNode = doc.createElement("Properties");
+        Element propertyNode = doc.createElement("Property");
 
         propertyNode.appendChild(getElement(doc, "Name", property.getName()));
         propertyNode.appendChild(getElement(doc, "Value", String.valueOf(property.getValue()))); // TODO: will I have to store the type of value as an attribute?

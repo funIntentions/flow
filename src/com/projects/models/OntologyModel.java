@@ -205,6 +205,18 @@ public class OntologyModel
         }
     }
 
+    public void loadPrefabs(Collection<Prefab> newPrefabs)
+    {
+        prefabs.clear();
+        nextAvailablePrefabId = newPrefabs.size();
+
+        for (Prefab prefab : newPrefabs)
+        {
+            prefabs.put(prefab.getId(), prefab);
+            changeSupport.firePropertyChange(PC_NEW_PREFAB_CREATED, null, prefab);
+        }
+    }
+
     public void createNewPrefab(String name, String memberSuffix, List<Integer> selectedIndividuals)
     {
         if (selectedIndividuals.isEmpty())

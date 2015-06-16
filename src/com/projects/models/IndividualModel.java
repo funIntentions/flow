@@ -21,6 +21,7 @@ public class IndividualModel
     private Integer id;
 
 
+
     public IndividualModel(Integer newId, Individual individual)
     {
         id = newId;
@@ -55,6 +56,19 @@ public class IndividualModel
     }
 
 
+    public IndividualModel(Integer newId, String individualName, String individualClassName, String individualDesc, List<PropertyModel> properties)
+    {
+        id = newId;
+        className = individualClassName;
+        description = individualDesc;
+        name = individualName;
+        instanceProperties = new ArrayList<PropertyModel>();
+
+        for (PropertyModel property : properties)
+        {
+            instanceProperties.add(new PropertyModel(property));
+        }
+    }
 
     public IndividualModel(Integer newId, IndividualModel model)
     {

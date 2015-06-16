@@ -12,6 +12,7 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -75,7 +76,8 @@ public class SystemController implements PropertyChangeListener
 
     public void loadPrefabs(File file)
     {
-
+        Collection<Prefab> prefabs = fileManager.readPrefabFile(file);
+        ontologyModel.loadPrefabs(prefabs);
     }
 
     public void savePrefabs(File file)
