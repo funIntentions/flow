@@ -4,25 +4,22 @@
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
     <structures>
-        <house>
+        <structure>
             <name>Home</name>
             <type>singleUnit</type>
             <properties/>
-        </house>
-
-        <apartment>
+        </structure>
+        <structure>
             <name>Apartment</name>
             <type>singleUnit</type>
             <properties/>
-        </apartment>
-
-        <apartmentBuilding>
+        </structure>
+        <structure>
             <name>Apartment Building</name>
             <type>compositeUnit</type>
             <properties/>
-        </apartmentBuilding>
-
-        <powerPlant>
+        </structure>
+        <structure>
             <name>Power Plant</name>
             <type>powerPlant</type>
             <properties>
@@ -43,12 +40,13 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                     <value type="double">0</value>
                 </property>
             </properties>
-        </powerPlant>
+        </structure>
     </structures>
 
     <devices>
-        <appliance>
+        <device>
             <name>Appliance</name>
+            <type>appliance</type>
             <properties>
                 <property>
                     <name>HasStandbyConsumption</name>
@@ -63,10 +61,10 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                     <value type="double">0</value>
                 </property>
             </properties>
-        </appliance>
-
-        <energySource>
+        </device>
+        <device>
             <name>EnergySource</name>
+            <type>energySource</type>
             <properties>
                 <property>
                     <name>IsGenerating</name>
@@ -89,10 +87,10 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                     <value type="double">0</value>
                 </property>
             </properties>
-        </energySource>
-
-        <energyStorage>
+        </device>
+        <device>
             <name>EnergyStorage</name>
+            <type>energyStorage</type>
             <properties>
                 <property>
                     <name>IsCharging</name>
@@ -115,6 +113,6 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                     <value type="double">0</value>
                 </property>
             </properties>
-        </energyStorage>
+        </device>
     </devices>
 </smartGrid>

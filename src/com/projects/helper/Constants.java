@@ -7,6 +7,7 @@ public class Constants
 {
     public static final String OWL = "owl";
     public static final String PREFABS = "prefabs";
+    public static final String TEMPLATE_FILE_PATH = "/data/SmartGridTemplate.xml";
     public static final int FRAME_WIDTH = 800;
     public static final int FRAME_HEIGHT = 600;
 }

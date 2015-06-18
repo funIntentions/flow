@@ -13,11 +13,19 @@
         <xs:restriction base="xs:decimal"/>
     </xs:simpleType>
 
-    <xs:simpleType name="dataTypes">
+    <xs:simpleType name="dataType">
         <xs:restriction base="xs:string">
             <xs:enumeration value="boolean"/>
             <xs:enumeration value="double"/>
             <xs:enumeration value="integer"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="deviceType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="appliance"/>
+            <xs:enumeration value="energyStorage"/>
+            <xs:enumeration value="energySource"/>
         </xs:restriction>
     </xs:simpleType>
 
@@ -32,7 +40,7 @@
     <xs:complexType name="genericType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
-                <xs:attribute name="type" type="dataTypes" use="required"/>
+                <xs:attribute name="type" type="dataType" use="required"/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
@@ -50,9 +58,10 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="deviceType">
+    <xs:complexType name="deviceTemplate">
         <xs:sequence>
             <xs:element name="name" type="stringType"/>
+            <xs:element name="type" type="deviceType"/>
             <xs:element name="properties" type="propertyListType"/>
         </xs:sequence>
     </xs:complexType>
@@ -70,21 +79,16 @@
             <xs:all>
                 <xs:element name="structures">
                     <xs:complexType>
-                        <xs:all>
-                            <xs:element name="house" type="structureTemplate"/>
-                            <xs:element name="apartment" type="structureTemplate"/>
-                            <xs:element name="apartmentBuilding" type="structureTemplate"/>
-                            <xs:element name="powerPlant" type="structureTemplate"/>
-                        </xs:all>
+                        <xs:sequence>
+                            <xs:element name="structure" type="structureTemplate" maxOccurs="unbounded"/>
+                        </xs:sequence>
                     </xs:complexType>
                 </xs:element>
                 <xs:element name="devices">
                     <xs:complexType>
-                        <xs:all>
-                            <xs:element name="appliance" type="deviceType"/>
-                            <xs:element name="energySource" type="deviceType"/>
-                            <xs:element name="energyStorage" type="deviceType"/>
-                        </xs:all>
+                        <xs:sequence>
+                            <xs:element name="device" type="deviceTemplate" maxOccurs="unbounded"/>
+                        </xs:sequence>
                     </xs:complexType>
                 </xs:element>
             </xs:all>

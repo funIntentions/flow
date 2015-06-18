@@ -3,6 +3,7 @@ package com.projects.management;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.projects.gui.PrefabCreationControl;
 import com.projects.gui.SubscribedView;
+import com.projects.helper.Constants;
 import com.projects.helper.SelectionType;
 import com.projects.models.*;
 
@@ -10,6 +11,8 @@ import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -46,6 +49,11 @@ public class SystemController implements PropertyChangeListener
         ontologyModel.addPropertyChangeListener(this);
         worldModel.addPropertyChangeListener(this);
         currentlySelected = SelectionType.NONE;
+
+        Path currentRelativePath = Paths.get("");
+        String workingDir = currentRelativePath.toAbsolutePath().toString();
+        File templateFile = new File(workingDir + Constants.TEMPLATE_FILE_PATH);
+        fileManager.readTemplate(templateFile);
 
         frame = f;
         testTask = new Task(0, "File Loading", "Waiting");

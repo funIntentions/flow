@@ -36,6 +36,109 @@ class FileManager
     {
     }
 
+
+    public void readTemplate(File file)
+    {
+        try
+        {
+            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+            Document doc = docBuilder.parse(file);
+
+            NodeList structures = doc.getElementsByTagName("structures");
+            readStructures(structures);
+            NodeList devices = doc.getElementsByTagName("devices");
+            readDevices(devices);
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+        }
+    }
+
+    public void readStructures(NodeList structuresList)
+    {
+        Node structuresNode = structuresList.item(0);
+
+        if (structuresNode.getNodeType() == Node.ELEMENT_NODE)
+        {
+            Element structuresElement = (Element)structuresNode;
+            NodeList structures = structuresElement.getElementsByTagName("structure");
+            int length = structures.getLength();
+
+            for (int i = 0; i < length; ++i)
+            {
+                Node structureNode = structures.item(i);
+                if (structureNode.getNodeType() == Node.ELEMENT_NODE)
+                {
+                    Element structureElement = (Element)structureNode;
+
+                    System.out.println(getElementStringFromTag(structureElement, "name"));
+
+                    NodeList structureProperties = structureElement.getElementsByTagName("properties");
+                    readProperties(structureProperties);
+                }
+            }
+        }
+    }
+
+    private String getElementStringFromTag(Element parent, String tag)
+    {
+        NodeList nodeList = parent.getElementsByTagName(tag);
+        Element element = (Element)nodeList.item(0);
+        NodeList childNodes = element.getChildNodes();
+        return childNodes.item(0).getNodeValue().trim();
+    }
+
+    public void readProperties(NodeList propertiesList)
+    {
+        Node propertiesNode = propertiesList.item(0);
+
+        if (propertiesNode.getNodeType() == Node.ELEMENT_NODE)
+        {
+            Element propertiesElement = (Element)propertiesNode;
+            NodeList properties = propertiesElement.getElementsByTagName("property");
+            int length = properties.getLength();
+
+            for (int i = 0; i < length; ++i)
+            {
+                Node propertyNode = properties.item(i);
+                if (propertyNode.getNodeType() == Node.ELEMENT_NODE)
+                {
+                    Element structureElement = (Element)propertyNode;
+
+                    System.out.println(getElementStringFromTag(structureElement, "name"));
+                }
+            }
+        }
+    }
+
+    public void readDevices(NodeList devicesList)
+    {
+        Node devicesNode = devicesList.item(0);
+
+        if (devicesNode.getNodeType() == Node.ELEMENT_NODE)
+        {
+            Element devicesElement = (Element)devicesNode;
+            NodeList devices = devicesElement.getElementsByTagName("device");
+            int length = devices.getLength();
+
+            for (int i = 0; i < length; ++i)
+            {
+                Node deviceNode = devices.item(i);
+                if (deviceNode.getNodeType() == Node.ELEMENT_NODE)
+                {
+                    Element deviceElement = (Element)deviceNode;
+
+                    System.out.println(getElementStringFromTag(deviceElement, "name"));
+
+                    NodeList propertiesList = deviceElement.getElementsByTagName("properties");
+                    readProperties(propertiesList);
+                }
+            }
+        }
+    }
+
     public OntModel readOntology(File file)
     {
         OntModel model = null;
