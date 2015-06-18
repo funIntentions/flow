@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<smartGrid
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
+    <structures>
+        <house>
+            <name>Home</name>
+            <type>singleUnit</type>
+            <properties/>
+        </house>
+
+        <apartment>
+            <name>Apartment</name>
+            <type>singleUnit</type>
+            <properties/>
+        </apartment>
+
+        <apartmentBuilding>
+            <name>Apartment Building</name>
+            <type>compositeUnit</type>
+            <properties/>
+        </apartmentBuilding>
+
+        <powerPlant>
+            <name>Power Plant</name>
+            <type>powerPlant</type>
+            <properties>
+                <property>
+                    <name>HasCapitalCost</name>
+                    <value type="double">0</value>
+                </property>
+                <property>
+                    <name>HasMonthlyExpenseOf</name>
+                    <value type="double">0</value>
+                </property>
+                <property>
+                    <name>HasEfficiency</name>
+                    <value type="double">0</value>
+                </property>
+                <property>
+                    <name>HasEmissionRate</name>
+                    <value type="double">0</value>
+                </property>
+            </properties>
+        </powerPlant>
+    </structures>
+
+    <devices>
+        <appliance>
+            <name>Appliance</name>
+            <properties>
+                <property>
+                    <name>HasStandbyConsumption</name>
+                    <value type="double">0</value>
+                </property>
+                <property>
+                    <name>HasAverageConsumption</name>
+                    <value type="double">0</value>
+                </property>
+                <property>
+                    <name>HasPower</name>
+                    <value type="double">0</value>
+                </property>
+            </properties>
+        </appliance>
+
+        <energySource>
+            <name>EnergySource</name>
+            <properties>
+                <property>
+                    <name>IsGenerating</name>
+                    <value type="boolean">false</value>
+                </property>
+                <property>
+                    <name>HasRatedDCVoltage</name>
+                    <value type="double">0</value>
+                </property>
+                <property>
+                    <name>HasCurrent</name>
+                    <value type="double">0</value>
+                </property>
+                <property>
+                    <name>HasRatedACVoltage</name>
+                    <value type="double">0</value>
+                </property>
+                <property>
+                    <name>HasPowerFactor</name>
+                    <value type="double">0</value>
+                </property>
+            </properties>
+        </energySource>
+
+        <energyStorage>
+            <name>EnergyStorage</name>
+            <properties>
+                <property>
+                    <name>IsCharging</name>
+                    <value type="boolean">false</value>
+                </property>
+                <property>
+                    <name>IsReleasingEnergy</name>
+                    <value type="boolean">false</value>
+                </property>
+                <property>
+                    <name>HasChargingRate</name>
+                    <value type="double">0</value>
+                </property>
+                <property>
+                    <name>HasStoredEnergy</name>
+                    <value type="double">0</value>
+                </property>
+                <property>
+                    <name>HasConnectionPower</name>
+                    <value type="double">0</value>
+                </property>
+            </properties>
+        </energyStorage>
+    </devices>
+</smartGrid>

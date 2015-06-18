@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:simpleType name="stringType">
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="intType">
+        <xs:restriction base="xs:positiveInteger"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="decType">
+        <xs:restriction base="xs:decimal"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="dataTypes">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="boolean"/>
+            <xs:enumeration value="double"/>
+            <xs:enumeration value="integer"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="structureType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="singleUnit"/>
+            <xs:enumeration value="compositeUnit"/>
+            <xs:enumeration value="powerPlant"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="genericType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="type" type="dataTypes" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="propertyType">
+        <xs:sequence>
+            <xs:element name="name" type="stringType"/>
+            <xs:element name="value" type="genericType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="propertyListType">
+        <xs:sequence>
+            <xs:element name="property" type="propertyType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="deviceType">
+        <xs:sequence>
+            <xs:element name="name" type="stringType"/>
+            <xs:element name="properties" type="propertyListType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="structureTemplate">
+        <xs:sequence>
+            <xs:element name="name" type="stringType"/>
+            <xs:element name="type" type="structureType"/>
+            <xs:element name="properties" type="propertyListType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="smartGrid">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="structures">
+                    <xs:complexType>
+                        <xs:all>
+                            <xs:element name="house" type="structureTemplate"/>
+                            <xs:element name="apartment" type="structureTemplate"/>
+                            <xs:element name="apartmentBuilding" type="structureTemplate"/>
+                            <xs:element name="powerPlant" type="structureTemplate"/>
+                        </xs:all>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="devices">
+                    <xs:complexType>
+                        <xs:all>
+                            <xs:element name="appliance" type="deviceType"/>
+                            <xs:element name="energySource" type="deviceType"/>
+                            <xs:element name="energyStorage" type="deviceType"/>
+                        </xs:all>
+                    </xs:complexType>
+                </xs:element>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
