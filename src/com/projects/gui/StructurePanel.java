@@ -64,8 +64,19 @@ public class StructurePanel extends JScrollPane implements SubscribedView
         }*/
     }
 
-    public JTable getIndividualTable()
-    {
+    public JTable getTemplateTable() {
         return templateTable;
+    }
+
+    public void setTemplateTable(JTable templateTable) {
+        this.templateTable = templateTable;
+    }
+
+    public StructureTable getStructureTable() {
+        return structureTable;
+    }
+
+    public void setStructureTable(StructureTable structureTable) {
+        this.structureTable = structureTable;
     }
 }

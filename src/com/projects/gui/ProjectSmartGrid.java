@@ -5,6 +5,7 @@ import com.projects.helper.SelectionType;
 import com.projects.management.SystemController;
 import com.projects.actions.*;
 import com.projects.models.OntologyModel;
+import com.projects.models.TemplateManager;
 import com.projects.models.WorldModel;
 
 import javax.swing.*;
@@ -75,9 +76,11 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         dataPropertyPanel = new DataPropertyPanel(new NodeSelectedListener());
         statusBar = new StatusPanel("Application Started");
 
+        StructureCreationControl structureCreationControl = new StructureCreationControl(frame);
+
         removeSelectedInstanceAction = new RemoveSelectedAction("Remove Instance", null, null, null,instancePanel.getWorldInstanceTree(), controller);
         removeSelectedIndividualAction = new RemoveSelectedAction("Remove Individual", null, null, null, prefabPanel.getPrefabTree(), controller);
-        createPrefabAction = new CreatePrefabAction("Create Prefab", null, null, null, structurePanel.getIndividualTable(), controller); // TODO: refactor so I don't have to get the table
+        createPrefabAction = new CreateStructureAction("Create Prefab", null, null, null, structureCreationControl, structurePanel.getStructureTable(), structurePanel.getTemplateTable(), controller); // TODO: refactor so I don't have to get the table
         addPrefabAction = new AddPrefabAction("Add Prefab", null, null, null, prefabPanel.getPrefabTree(), controller);
 
         controller.subscribeView(dataPropertyPanel);
@@ -92,7 +95,6 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         controller.setupComplete();
         setupPane();
 
-        StructureCreationControl structureCreationControl = new StructureCreationControl(frame);
     }
 
     private void setupPane()
@@ -316,6 +318,13 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
     public void modelPropertyChange(PropertyChangeEvent event)
     {
+        if (event.getPropertyName().equals(TemplateManager.PC_TEMPLATE_SELECTED))
+        {
+            removeToolBarAndMenuOptions();
+            createPrefabItem.setEnabled(true);
+            toolBar.add(createPrefabButton);
+        }
+
         if (event.getPropertyName().equals(OntologyModel.PC_ONTOLOGY_CLEARED) || event.getPropertyName().equals(WorldModel.PC_WORLD_CLEARED))
         {
             removeToolBarAndMenuOptions();

@@ -56,6 +56,11 @@ public class StructureCreationControl
         creationDialog.pack();
         creationDialog.setSize(new Dimension(800, 600));
         creationDialog.setResizable(false);
+        creationDialog.setVisible(false);
+    }
+
+    public void display()
+    {
         creationDialog.setVisible(true);
     }
 

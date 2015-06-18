@@ -25,6 +25,10 @@ On Going
 - Jena/Protege Bug? When an Individual has the same name as its class then it gets its classes description as its own...
 - When prefabs are loaded in before the ontology nothing really works... Which it shouldn't but a binding of Prefabs and the Ontology will have to exist
 
+- First expand xml for more structures and email Aaron the list of reasons for why the ontology didn't work out.
+- To Structure Creation Control gui add device name as an option to change
+- Rename tool bar and menu buttons
+
 - Prefabs as a more rigidly defined construct - extend from Placement, can be of specific types only...
     - Instead of being able to select any combination of Individuals to form a Prefab, there exists only certain types of Prefabs/Things you can create as a Prefab so instead you would go:
     "Create new ResidentialHomeProsumer, MallBuildingProsumer, or ResidentialApartmentConsumer, etc" and there would be a structure procedure for creating this thing.
