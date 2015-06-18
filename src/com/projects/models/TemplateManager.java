@@ -7,6 +7,7 @@ public class TemplateManager extends System
 {
     private Template template;
     public static final String PC_TEMPLATE_READY = "PC_TEMPLATE_READY";
+    public static final String PC_TEMPLATE_SELECTED = "PC_TEMPLATE_SELECTED";
 
     public TemplateManager(Template template)
     {
@@ -17,5 +18,10 @@ public class TemplateManager extends System
     public void postSetupSync()
     {
         changeSupport.firePropertyChange(PC_TEMPLATE_READY, null, template);
+    }
+
+    public void structureTemplateSelected(Structure structure)
+    {
+        changeSupport.firePropertyChange(PC_TEMPLATE_SELECTED, null, structure);
     }
 }

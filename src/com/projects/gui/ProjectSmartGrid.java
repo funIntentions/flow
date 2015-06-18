@@ -27,7 +27,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
             addPrefabAction,
             loadPrefabsAction,
             savePrefabsAction;
-    private IndividualSelectedListener individualSelectedListener;
+    private StructureSelectedListener structureSelectedListener;
     private InstanceSelectedListener instanceSelectedListener;
     private PropertiesTableListener propertiesTableListener;
     private ClassSelectedListener classSelectedListener;
@@ -61,14 +61,14 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         loadPrefabsAction = new OpenFileAction("Open Prefabs", null, null, null, this, controller, Constants.PREFABS);
         savePrefabsAction = new SaveFileAction("Save Prefabs", null, null, null, this, controller, Constants.PREFABS);
         addIndividualAction = new AddIndividualAction("Add Individual", null, null, null, controller);
-        individualSelectedListener = new IndividualSelectedListener(controller);
+        structureSelectedListener = new StructureSelectedListener(controller);
         instanceSelectedListener = new InstanceSelectedListener(controller);
         propertiesTableListener = new PropertiesTableListener(controller);
         classSelectedListener = new ClassSelectedListener(controller);
         prefabSelectedListener = new PrefabSelectedListener(controller);
         selectionInfoPanel = new SelectionPropertyPanel("Selection", propertiesTableListener);
         instancePanel = new InstancePanel(instanceSelectedListener);
-        structurePanel = new StructurePanel(individualSelectedListener);
+        structurePanel = new StructurePanel(structureSelectedListener);
         classPanel = new ClassPanel(classSelectedListener);
         prefabPanel = new PrefabPanel(prefabSelectedListener);
         objectPropertyPanel = new ObjectPropertyPanel(new NodeSelectedListener());

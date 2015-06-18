@@ -1,8 +1,11 @@
 package com.projects.gui;
 
+
 import com.projects.gui.table.PropertiesTable;
 import com.projects.helper.SelectionType;
-import com.projects.models.*;
+import com.projects.models.PropertyModel;
+import com.projects.models.Structure;
+import com.projects.models.TemplateManager;
 
 import javax.swing.*;
 import javax.swing.event.TableModelListener;
@@ -10,7 +13,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
-import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Dan on 5/27/2015.
@@ -128,11 +131,28 @@ public class SelectionPropertyPanel extends JPanel implements SubscribedView
         propertiesTable.clearTable();
         clearSelectionsName();
         clearSelectionsClass();
-    }
+}
 
     public void modelPropertyChange(PropertyChangeEvent event)
     {
-        if (event.getPropertyName().equals(OntologyModel.PC_NEW_ONTOLOGY_PREFAB_SELECTED)
+        if (event.getPropertyName().equals(TemplateManager.PC_TEMPLATE_SELECTED))
+        {
+            propertiesTable.clearTable();
+            Structure structure = (Structure)event.getNewValue();
+            setSelectionsName(structure.getName());
+            setSelectionsClass("Classes are gone?");
+            List<PropertyModel> properties = structure.getProperties();
+
+            selectionDescription.setText("need to added desc still");
+
+            for (PropertyModel property : properties)
+            {
+                Object[] row = {property.getName(), property.getValue()};
+                propertiesTable.addRow(row);
+            }
+        }
+
+        /*if (event.getPropertyName().equals(OntologyModel.PC_NEW_ONTOLOGY_PREFAB_SELECTED)
                 || event.getPropertyName().equals(WorldModel.PC_NEW_WORLD_PREFAB_SELECTED))
         {
             clearAll();
@@ -187,6 +207,6 @@ public class SelectionPropertyPanel extends JPanel implements SubscribedView
             {
                clearAll();
             }
-        }
+        }*/
     }
 }
