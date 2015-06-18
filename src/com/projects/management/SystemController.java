@@ -1,7 +1,7 @@
 package com.projects.management;
 
 import com.hp.hpl.jena.ontology.OntModel;
-import com.projects.gui.PrefabCreationControl;
+import com.projects.gui.StructureCreationControl;
 import com.projects.gui.SubscribedView;
 import com.projects.helper.Constants;
 import com.projects.helper.SelectionType;
@@ -35,7 +35,7 @@ public class SystemController implements PropertyChangeListener
     private TemplateManager templateManager;
     private SelectionType currentlySelected;
     private Task testTask;
-    private PrefabCreationControl prefabCreationControl;
+    private StructureCreationControl structureCreationControl;
     private JFrame frame;
 
     /**
@@ -249,24 +249,24 @@ public class SystemController implements PropertyChangeListener
      */
     public void createPrefabFromSelection(Integer[] selection)
     {
-        List<Integer> selectionList = Arrays.asList(selection);
+        /*List<Integer> selectionList = Arrays.asList(selection);
 
         String inputName, inputSuffix;
-        prefabCreationControl = new PrefabCreationControl(frame, ontologyModel.getPrefabCollection());
+        structureCreationControl = new StructureCreationControl(frame, ontologyModel.getPrefabCollection());
 
-        int result = prefabCreationControl.getResult();
+        int result = structureCreationControl.getResult();
 
-        if (result == PrefabCreationControl.OK)
+        if (result == StructureCreationControl.OK)
         {
-            inputName = prefabCreationControl.getName();
-            inputSuffix = prefabCreationControl.getSuffix();
+            inputName = structureCreationControl.getName();
+            inputSuffix = structureCreationControl.getSuffix();
         }
         else
         {
             return;
         }
 
-        ontologyModel.createNewPrefab(inputName, inputSuffix, selectionList);
+        ontologyModel.createNewPrefab(inputName, inputSuffix, selectionList);*/
     }
 
     public void removeModel(Object model)

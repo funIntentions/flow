@@ -91,6 +91,8 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         controller.subscribeView(this);
         controller.setupComplete();
         setupPane();
+
+        StructureCreationControl structureCreationControl = new StructureCreationControl(frame);
     }
 
     private void setupPane()
