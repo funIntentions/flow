@@ -1,6 +1,5 @@
 package com.projects.models;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,7 +10,7 @@ public class Template
     List<Device> deviceTemplates;
     List<Structure> structureTemplates;
 
-    public void Template(ArrayList<Device> devices, ArrayList<Structure> structures)
+    public Template(List<Device> devices, List<Structure> structures)
     {
         deviceTemplates = devices;
         structureTemplates = structures;

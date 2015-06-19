@@ -3,9 +3,10 @@ package com.projects.management;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntModelSpec;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.projects.models.IndividualModel;
-import com.projects.models.Prefab;
-import com.projects.models.PropertyModel;
+import com.projects.helper.DeviceType;
+import com.projects.helper.StructureType;
+import com.projects.helper.Utils;
+import com.projects.models.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -20,7 +21,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,27 +37,34 @@ class FileManager
     }
 
 
-    public void readTemplate(File file)
+    public Template readTemplate(File file)
     {
+        Template template = null;
+
         try
         {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
             Document doc = docBuilder.parse(file);
 
-            NodeList structures = doc.getElementsByTagName("structures");
-            readStructures(structures);
-            NodeList devices = doc.getElementsByTagName("devices");
-            readDevices(devices);
+            NodeList structureNodes = doc.getElementsByTagName("structures");
+            List<Structure> structures = readStructures(structureNodes);
+            NodeList deviceNodes = doc.getElementsByTagName("devices");
+            List<Device> devices = readDevices(deviceNodes);
+
+            template = new Template(devices, structures);
         }
         catch (Exception exception)
         {
             exception.printStackTrace();
         }
+
+        return template;
     }
 
-    public void readStructures(NodeList structuresList)
+    public List<Structure> readStructures(NodeList structuresList)
     {
+        List<Structure> structureList = new ArrayList<Structure>();
         Node structuresNode = structuresList.item(0);
 
         if (structuresNode.getNodeType() == Node.ELEMENT_NODE)
@@ -73,13 +80,30 @@ class FileManager
                 {
                     Element structureElement = (Element)structureNode;
 
-                    System.out.println(getElementStringFromTag(structureElement, "name"));
+                    String name = getElementStringFromTag(structureElement, "name");
+                    String type = getElementStringFromTag(structureElement, "type");
+                    StructureType structureType;
+
+                    if (Utils.isInEnum(type, StructureType.class))
+                    {
+                        structureType = StructureType.valueOf(type);
+                    }
+                    else
+                    {
+                        // TODO: should be error or something...
+                        continue;
+                    }
 
                     NodeList structureProperties = structureElement.getElementsByTagName("properties");
-                    readProperties(structureProperties);
+                    List<PropertyModel> properties = readProperties(structureProperties);
+
+                    Structure structure = new Structure(name, structureType, properties);
+                    structureList.add(structure);
                 }
             }
         }
+
+        return structureList;
     }
 
     private String getElementStringFromTag(Element parent, String tag)
@@ -90,8 +114,9 @@ class FileManager
         return childNodes.item(0).getNodeValue().trim();
     }
 
-    public void readProperties(NodeList propertiesList)
+    public List<PropertyModel> readProperties(NodeList propertiesList)
     {
+        List<PropertyModel> propertyList = new ArrayList<PropertyModel>();
         Node propertiesNode = propertiesList.item(0);
 
         if (propertiesNode.getNodeType() == Node.ELEMENT_NODE)
@@ -105,16 +130,42 @@ class FileManager
                 Node propertyNode = properties.item(i);
                 if (propertyNode.getNodeType() == Node.ELEMENT_NODE)
                 {
-                    Element structureElement = (Element)propertyNode;
+                    Element propertyElement = (Element)propertyNode;
 
-                    System.out.println(getElementStringFromTag(structureElement, "name"));
+                    String name = getElementStringFromTag(propertyElement, "name");
+
+                    NodeList nodeList = propertiesElement.getElementsByTagName("value");
+                    Element element = (Element)nodeList.item(0);
+                    String value = element.getChildNodes().item(0).getNodeValue().trim();
+
+                    String type = nodeList.item(0).getAttributes().getNamedItem("type").getNodeValue();
+                    PropertyModel property;
+
+                    if (type.equals("boolean"))
+                    {
+                        property = new PropertyModel<Boolean>(name, Boolean.valueOf(value));
+                    }
+                    else if (type.equals("double"))
+                    {
+                        property = new PropertyModel<Double>(name, Double.valueOf(value));
+                    }
+                    else
+                    {
+                        // TODO: should be error...
+                        continue;
+                    }
+
+                    propertyList.add(property);
                 }
             }
         }
+
+        return propertyList;
     }
 
-    public void readDevices(NodeList devicesList)
+    public List<Device> readDevices(NodeList devicesList)
     {
+        List<Device> deviceList = new ArrayList<Device>();
         Node devicesNode = devicesList.item(0);
 
         if (devicesNode.getNodeType() == Node.ELEMENT_NODE)
@@ -130,13 +181,30 @@ class FileManager
                 {
                     Element deviceElement = (Element)deviceNode;
 
-                    System.out.println(getElementStringFromTag(deviceElement, "name"));
+                    String name = getElementStringFromTag(deviceElement, "name");
+                    String type = getElementStringFromTag(deviceElement, "type");
+                    DeviceType deviceType;
+
+                    if (Utils.isInEnum(type, DeviceType.class))
+                    {
+                        deviceType = DeviceType.valueOf(type);
+                    }
+                    else
+                    {
+                        // TODO: should be error or something...
+                        continue;
+                    }
 
                     NodeList propertiesList = deviceElement.getElementsByTagName("properties");
-                    readProperties(propertiesList);
+                    List<PropertyModel> properties = readProperties(propertiesList);
+
+                    Device device = new Device(name, deviceType, properties);
+                    deviceList.add(device);
                 }
             }
         }
+
+        return deviceList;
     }
 
     public OntModel readOntology(File file)

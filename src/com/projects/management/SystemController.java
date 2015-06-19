@@ -30,6 +30,7 @@ public class SystemController implements PropertyChangeListener
     private OntologyModel ontologyModel;
     private WorldModel worldModel;
     private FileManager fileManager;
+    private TemplateManager templateManager;
     private SelectionType currentlySelected;
     private Task testTask;
     private PrefabCreationControl prefabCreationControl;
@@ -46,14 +47,17 @@ public class SystemController implements PropertyChangeListener
         fileManager = new FileManager();
         taskManager = new TaskManager();
 
-        ontologyModel.addPropertyChangeListener(this);
-        worldModel.addPropertyChangeListener(this);
-        currentlySelected = SelectionType.NONE;
-
         Path currentRelativePath = Paths.get("");
         String workingDir = currentRelativePath.toAbsolutePath().toString();
         File templateFile = new File(workingDir + Constants.TEMPLATE_FILE_PATH);
-        fileManager.readTemplate(templateFile);
+        Template template = fileManager.readTemplate(templateFile);
+
+        templateManager = new TemplateManager(template);
+
+        //templateManager
+        ontologyModel.addPropertyChangeListener(this);
+        worldModel.addPropertyChangeListener(this);
+        currentlySelected = SelectionType.NONE;
 
         frame = f;
         testTask = new Task(0, "File Loading", "Waiting");
