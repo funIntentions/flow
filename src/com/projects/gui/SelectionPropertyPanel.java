@@ -1,5 +1,6 @@
 package com.projects.gui;
 
+import com.projects.gui.table.PropertiesTable;
 import com.projects.helper.SelectionType;
 import com.projects.models.*;
 

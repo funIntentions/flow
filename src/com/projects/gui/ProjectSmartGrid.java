@@ -8,7 +8,6 @@ import com.projects.models.OntologyModel;
 import com.projects.models.WorldModel;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 
@@ -36,7 +35,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     private SelectionPropertyPanel selectionInfoPanel;
     private InstancePanel instancePanel;
     private SystemController controller;
-    private IndividualPanel individualPanel;
+    private StructurePanel structurePanel;
     private ClassPanel classPanel;
     private PrefabPanel prefabPanel;
     private ObjectPropertyPanel objectPropertyPanel;
@@ -69,7 +68,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         prefabSelectedListener = new PrefabSelectedListener(controller);
         selectionInfoPanel = new SelectionPropertyPanel("Selection", propertiesTableListener);
         instancePanel = new InstancePanel(instanceSelectedListener);
-        individualPanel = new IndividualPanel(individualSelectedListener);
+        structurePanel = new StructurePanel(individualSelectedListener);
         classPanel = new ClassPanel(classSelectedListener);
         prefabPanel = new PrefabPanel(prefabSelectedListener);
         objectPropertyPanel = new ObjectPropertyPanel(new NodeSelectedListener());
@@ -78,18 +77,19 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
         removeSelectedInstanceAction = new RemoveSelectedAction("Remove Instance", null, null, null,instancePanel.getWorldInstanceTree(), controller);
         removeSelectedIndividualAction = new RemoveSelectedAction("Remove Individual", null, null, null, prefabPanel.getPrefabTree(), controller);
-        createPrefabAction = new CreatePrefabAction("Create Prefab", null, null, null, individualPanel.getIndividualTable(), controller); // TODO: refactor so I don't have to get the table
+        createPrefabAction = new CreatePrefabAction("Create Prefab", null, null, null, structurePanel.getIndividualTable(), controller); // TODO: refactor so I don't have to get the table
         addPrefabAction = new AddPrefabAction("Add Prefab", null, null, null, prefabPanel.getPrefabTree(), controller);
 
         controller.subscribeView(dataPropertyPanel);
         controller.subscribeView(objectPropertyPanel);
         controller.subscribeView(prefabPanel);
         controller.subscribeView(classPanel);
-        controller.subscribeView(individualPanel);
+        controller.subscribeView(structurePanel);
         controller.subscribeView(selectionInfoPanel);
         controller.subscribeView(instancePanel);
         controller.subscribeView(statusBar);
         controller.subscribeView(this);
+        controller.setupComplete();
         setupPane();
     }
 
@@ -271,8 +271,8 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         rbMenuItem.setSelected(false);
         menu.add(rbMenuItem);
 
-        rbMenuItem = new JRadioButtonMenuItem(individualPanel.getTitle());
-        rbMenuItem.addItemListener(new TabTogglingListener(ontologyPane, individualPanel.getTitle(), individualPanel));
+        rbMenuItem = new JRadioButtonMenuItem(structurePanel.getTitle());
+        rbMenuItem.addItemListener(new TabTogglingListener(ontologyPane, structurePanel.getTitle(), structurePanel));
         rbMenuItem.setSelected(true);
         menu.add(rbMenuItem);
 

@@ -15,4 +15,24 @@ public class Template
         deviceTemplates = devices;
         structureTemplates = structures;
     }
+
+    public List<Device> getDeviceTemplates()
+    {
+        return deviceTemplates;
+    }
+
+    public void setDeviceTemplates(List<Device> deviceTemplates)
+    {
+        this.deviceTemplates = deviceTemplates;
+    }
+
+    public List<Structure> getStructureTemplates()
+    {
+        return structureTemplates;
+    }
+
+    public void setStructureTemplates(List<Structure> structureTemplates)
+    {
+        this.structureTemplates = structureTemplates;
+    }
 }

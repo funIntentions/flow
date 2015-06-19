@@ -141,11 +141,11 @@ class FileManager
                     String type = nodeList.item(0).getAttributes().getNamedItem("type").getNodeValue();
                     PropertyModel property;
 
-                    if (type.equals("boolean"))
+                    if (type.equals("BOOLEAN"))
                     {
                         property = new PropertyModel<Boolean>(name, Boolean.valueOf(value));
                     }
-                    else if (type.equals("double"))
+                    else if (type.equals("DOUBLE"))
                     {
                         property = new PropertyModel<Double>(name, Double.valueOf(value));
                     }

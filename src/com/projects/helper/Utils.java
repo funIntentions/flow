@@ -27,7 +27,7 @@ public class Utils
     {
         for (E e : enumClass.getEnumConstants())
         {
-            if(e.name().equals(value)) { return true; }
+            if(e.name().equalsIgnoreCase(value)) { return true; }
         }
 
         return false;

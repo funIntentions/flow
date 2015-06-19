@@ -1,6 +1,5 @@
 package com.projects.actions;
 
-import com.projects.gui.InstanceTable;
 import com.projects.management.SystemController;
 
 import javax.swing.*;
@@ -28,7 +27,7 @@ public class CreatePrefabAction extends AbstractAction
         int[] indexList = individualsTable.getSelectedRows();
         Integer[] idList = new Integer[indexList.length];
 
-        InstanceTable tableModel = (InstanceTable)individualsTable.getModel();
+        /*InstanceTable tableModel = (InstanceTable)individualsTable.getModel();
 
         int i = 0;
         for (int index : indexList)
@@ -36,6 +35,6 @@ public class CreatePrefabAction extends AbstractAction
             idList[i++] = (tableModel).getRow(index).getId();
         }
 
-        controller.createPrefabFromSelection(idList);
+        controller.createPrefabFromSelection(idList);*/
     }
 }

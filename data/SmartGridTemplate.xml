@@ -6,38 +6,38 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
     <structures>
         <structure>
             <name>Home</name>
-            <type>singleUnit</type>
+            <type>SINGLE_UNIT</type>
             <properties/>
         </structure>
         <structure>
             <name>Apartment</name>
-            <type>singleUnit</type>
+            <type>SINGLE_UNIT</type>
             <properties/>
         </structure>
         <structure>
             <name>Apartment Building</name>
-            <type>compositeUnit</type>
+            <type>COMPOSITE_UNIT</type>
             <properties/>
         </structure>
         <structure>
             <name>Power Plant</name>
-            <type>powerPlant</type>
+            <type>POWER_PLANT</type>
             <properties>
                 <property>
                     <name>HasCapitalCost</name>
-                    <value type="double">0</value>
+                    <value type="DOUBLE">0</value>
                 </property>
                 <property>
                     <name>HasMonthlyExpenseOf</name>
-                    <value type="double">0</value>
+                    <value type="DOUBLE">0</value>
                 </property>
                 <property>
                     <name>HasEfficiency</name>
-                    <value type="double">0</value>
+                    <value type="DOUBLE">0</value>
                 </property>
                 <property>
                     <name>HasEmissionRate</name>
-                    <value type="double">0</value>
+                    <value type="DOUBLE">0</value>
                 </property>
             </properties>
         </structure>
@@ -46,71 +46,71 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
     <devices>
         <device>
             <name>Appliance</name>
-            <type>appliance</type>
+            <type>APPLIANCE</type>
             <properties>
                 <property>
                     <name>HasStandbyConsumption</name>
-                    <value type="double">0</value>
+                    <value type="DOUBLE">0</value>
                 </property>
                 <property>
                     <name>HasAverageConsumption</name>
-                    <value type="double">0</value>
+                    <value type="DOUBLE">0</value>
                 </property>
                 <property>
                     <name>HasPower</name>
-                    <value type="double">0</value>
+                    <value type="DOUBLE">0</value>
                 </property>
             </properties>
         </device>
         <device>
             <name>EnergySource</name>
-            <type>energySource</type>
+            <type>ENERGY_SOURCE</type>
             <properties>
                 <property>
                     <name>IsGenerating</name>
-                    <value type="boolean">false</value>
+                    <value type="BOOLEAN">false</value>
                 </property>
                 <property>
                     <name>HasRatedDCVoltage</name>
-                    <value type="double">0</value>
+                    <value type="DOUBLE">0</value>
                 </property>
                 <property>
                     <name>HasCurrent</name>
-                    <value type="double">0</value>
+                    <value type="DOUBLE">0</value>
                 </property>
                 <property>
                     <name>HasRatedACVoltage</name>
-                    <value type="double">0</value>
+                    <value type="DOUBLE">0</value>
                 </property>
                 <property>
                     <name>HasPowerFactor</name>
-                    <value type="double">0</value>
+                    <value type="DOUBLE">0</value>
                 </property>
             </properties>
         </device>
         <device>
             <name>EnergyStorage</name>
-            <type>energyStorage</type>
+            <type>ENERGY_STORAGE</type>
             <properties>
                 <property>
                     <name>IsCharging</name>
-                    <value type="boolean">false</value>
+                    <value type="BOOLEAN">false</value>
                 </property>
                 <property>
                     <name>IsReleasingEnergy</name>
-                    <value type="boolean">false</value>
+                    <value type="BOOLEAN">false</value>
                 </property>
                 <property>
                     <name>HasChargingRate</name>
-                    <value type="double">0</value>
+                    <value type="DOUBLE">0</value>
                 </property>
                 <property>
                     <name>HasStoredEnergy</name>
-                    <value type="double">0</value>
+                    <value type="DOUBLE">0</value>
                 </property>
                 <property>
                     <name>HasConnectionPower</name>
-                    <value type="double">0</value>
+                    <value type="DOUBLE">0</value>
                 </property>
             </properties>
         </device>

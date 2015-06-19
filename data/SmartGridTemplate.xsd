@@ -15,25 +15,25 @@
 
     <xs:simpleType name="dataType">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="boolean"/>
-            <xs:enumeration value="double"/>
-            <xs:enumeration value="integer"/>
+            <xs:enumeration value="BOOLEAN"/>
+            <xs:enumeration value="DOUBLE"/>
+            <xs:enumeration value="INTEGER"/>
         </xs:restriction>
     </xs:simpleType>
 
     <xs:simpleType name="deviceType">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="appliance"/>
-            <xs:enumeration value="energyStorage"/>
-            <xs:enumeration value="energySource"/>
+            <xs:enumeration value="APPLIANCE"/>
+            <xs:enumeration value="ENERGY_STORAGE"/>
+            <xs:enumeration value="ENERGY_SOURCE"/>
         </xs:restriction>
     </xs:simpleType>
 
     <xs:simpleType name="structureType">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="singleUnit"/>
-            <xs:enumeration value="compositeUnit"/>
-            <xs:enumeration value="powerPlant"/>
+            <xs:enumeration value="SINGLE_UNIT"/>
+            <xs:enumeration value="COMPOSITE_UNIT"/>
+            <xs:enumeration value="POWER_PLANT"/>
         </xs:restriction>
     </xs:simpleType>
 

@@ -1,4 +1,4 @@
-package com.projects.gui;
+package com.projects.gui.table;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Created by Dan on 5/28/2015.
  */
-class PropertiesTable extends AbstractTableModel
+public class PropertiesTable extends AbstractTableModel
 {
     private String[] columnNames = {"Property",
                                         "Value"};

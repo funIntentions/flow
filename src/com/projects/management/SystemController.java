@@ -6,6 +6,7 @@ import com.projects.gui.SubscribedView;
 import com.projects.helper.Constants;
 import com.projects.helper.SelectionType;
 import com.projects.models.*;
+import com.projects.models.System;
 
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
@@ -26,6 +27,7 @@ public class SystemController implements PropertyChangeListener
 {
 
     private ArrayList<SubscribedView> views;
+    private List<System> systems;
     private TaskManager taskManager;
     private OntologyModel ontologyModel;
     private WorldModel worldModel;
@@ -41,6 +43,7 @@ public class SystemController implements PropertyChangeListener
      */
     public SystemController(JFrame f)
     {
+        systems = new ArrayList<System>();
         views = new ArrayList<SubscribedView>();
         ontologyModel = new OntologyModel();
         worldModel = new WorldModel();
@@ -54,14 +57,23 @@ public class SystemController implements PropertyChangeListener
 
         templateManager = new TemplateManager(template);
 
-        //templateManager
+        templateManager.addPropertyChangeListener(this);
         ontologyModel.addPropertyChangeListener(this);
         worldModel.addPropertyChangeListener(this);
-        currentlySelected = SelectionType.NONE;
+        systems.add(templateManager); //TODO: add the rest after refactoring them
 
+        currentlySelected = SelectionType.NONE;
         frame = f;
         testTask = new Task(0, "File Loading", "Waiting");
         testTask.addPropertyChangeListener(this);
+    }
+
+    public void setupComplete()
+    {
+        for (System system : systems)
+        {
+            system.postSetupSync();
+        }
     }
 
     /**
@@ -113,7 +125,7 @@ public class SystemController implements PropertyChangeListener
     public void quitApplication()
     {
         taskManager.kill();
-        System.exit(0); // TODO: look into shutdown hooks and whether or not I'll need them.
+        java.lang.System.exit(0); // TODO: look into shutdown hooks and whether or not I'll need them.
     }
 
     // TODO: should this be moved somewhere else?

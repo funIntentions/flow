@@ -1,4 +1,4 @@
-package com.projects.gui;
+package com.projects.gui.table;
 
 import com.projects.models.IndividualModel;
 
@@ -8,14 +8,14 @@ import java.util.ArrayList;
 /**
  * Created by Dan on 5/29/2015.
  */
-public class InstanceTable extends AbstractTableModel
+public abstract class ObjectTable<T> extends AbstractTableModel
 {
-    private String[] columnNames = {"Instances"};
-    private ArrayList<IndividualModel> data;
+    protected String[] columnNames = {"Instances"};
+    protected ArrayList<T> data;
 
-    public InstanceTable()
+    public ObjectTable()
     {
-        data = new ArrayList<IndividualModel>();
+        data = new ArrayList<T>();
     }
 
     public int getColumnCount() {
@@ -30,37 +30,19 @@ public class InstanceTable extends AbstractTableModel
         return columnNames[col];
     }
 
-    public Object getValueAt(int row, int col)
-    {
-        IndividualModel model = data.get(row);
-        Object value;
-
-        switch(col)
-        {
-            case 0:
-            {
-                value = model.getName();
-            } break;
-            default:
-            {
-                value = "default";
-            }
-        }
-
-        return value;
-    }
+    public abstract Object getValueAt(int row, int col);
 
     public Class getColumnClass(int c) {
         return getValueAt(0, c).getClass();
     }
 
-    public void addRow(IndividualModel row)
+    public void addRow(T row)
     {
         data.add(row);
         fireTableRowsInserted(data.size() - 1, data.size() - 1);
     }
 
-    public IndividualModel getRow(int row)
+    public T getRow(int row)
     {
         return data.get(row);
     }
