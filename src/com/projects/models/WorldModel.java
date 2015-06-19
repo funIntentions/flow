@@ -12,15 +12,15 @@ import java.util.List;
 public class WorldModel
 {
     private static Integer nextAvailableInstanceId = 0;
-    private static Integer nextAvailablePrefabInstance = 0;
+    private static Integer nextAvailableStructureId = 0;
     private int selectedInstance;
     private HashMap<Integer, IndividualModel> instances;
     private HashMap<String, Integer> individualCount;
     private HashMap<Integer, IndividualModel> prefabInstances;
-    private HashMap<Integer, Prefab> prefabs;
+    private HashMap<Integer, Structure> structures;
     private HashMap<String, Integer> prefabCount;
     private PropertyChangeSupport changeSupport;
-    public static final String PC_NEW_INSTANCE_ADDED = "PC_NEW_INSTANCE_ADDED";
+    public static final String PC_NEW_STRUCTURE = "PC_NEW_STRUCTURE";
     public static final String PC_INSTANCE_DELETED = "PC_INSTANCE_DELETED";
     private static final String PC_PREFAB_DELETED = "PC_PREFAB_DELETED";
     public static final String PC_NEW_INSTANCE_SELECTED = "PC_NEW_INSTANCE_SELECTED";
@@ -33,9 +33,9 @@ public class WorldModel
         return nextAvailableInstanceId++;
     }
 
-    private static Integer getNextAvailablePrefabInstanceId()
+    private static Integer getNextAvailableStructureId()
     {
-        return nextAvailablePrefabInstance++;
+        return nextAvailableStructureId++;
     }
 
     public WorldModel()
@@ -43,7 +43,7 @@ public class WorldModel
         selectedInstance = -1;
         instances = new HashMap<Integer, IndividualModel>();
         prefabInstances = new HashMap<Integer, IndividualModel>();
-        prefabs = new HashMap<Integer, Prefab>();
+        structures = new HashMap<Integer, Structure>();
         changeSupport = new PropertyChangeSupport(this);
         prefabCount = new HashMap<String, Integer>();
         individualCount = new HashMap<String, Integer>();
@@ -62,45 +62,11 @@ public class WorldModel
         selected.changeProperty(index, newValue);
     }
 
-    public void addNewPrefab(Prefab prefab, Integer count)
+    public void addNewStructure(Structure structure)
     {
-        if (prefab == null)
-            return;
-
-        List<IndividualModel> instanceMembers = new ArrayList<IndividualModel>();
-        List<IndividualModel> individualModels = prefab.getMembers();
-
-        for (IndividualModel model : individualModels)
-        {
-            instanceMembers.add(addNewInstance(model, count, true));
-        }
-
-        Prefab newPrefab = new Prefab(getNextAvailablePrefabInstanceId(), prefab.getName() + count, prefab.getMemberSuffix(), instanceMembers);
-        prefabs.put(newPrefab.getId(), newPrefab);
-
-        changeSupport.firePropertyChange(PC_NEW_INSTANCE_ADDED_FROM_PREFAB, null, newPrefab);
-    }
-
-    // TODO: Remove the ability to add single instances?
-    public IndividualModel addNewInstance(IndividualModel individual, Integer count, Boolean prefabMember)
-    {
-        if (individual == null)
-            return null;
-
-        IndividualModel newIndividual = new IndividualModel(getNextAvailableInstanceId(), individual);
-        newIndividual.setName(newIndividual.getName() + count);
-
-        if (!prefabMember)
-        {
-            instances.put(newIndividual.getId(), newIndividual);
-            changeSupport.firePropertyChange(PC_NEW_INSTANCE_ADDED, null, newIndividual);
-        }
-        else
-        {
-            prefabInstances.put(newIndividual.getId(), newIndividual);
-        }
-
-        return newIndividual;
+        structure.setId(getNextAvailableStructureId());
+        structures.put(structure.getId(), structure);
+        changeSupport.firePropertyChange(PC_NEW_STRUCTURE, null, structure);
     }
 
     public Integer getPrefabCount(String name)
@@ -139,7 +105,7 @@ public class WorldModel
 
     public void removeIndividual(IndividualModel individual)
     {
-        if (instances.containsKey(individual.getId()))
+        /*if (instances.containsKey(individual.getId()))
         {
             instances.remove(individual.getId());
             changeSupport.firePropertyChange(PC_INSTANCE_DELETED, null, individual.getId());
@@ -157,7 +123,7 @@ public class WorldModel
                     break;
                 }
             }
-        }
+        }*/
     }
 
     public void removePrefab(Prefab prefab)
@@ -167,7 +133,7 @@ public class WorldModel
            prefabInstances.remove(individualModel.getId());
         }
 
-        prefabs.remove(prefab.getId());
+        //prefabs.remove(prefab.getId());
         changeSupport.firePropertyChange(PC_PREFAB_DELETED, null, prefab.getId());
     }
 
@@ -204,12 +170,12 @@ public class WorldModel
 
     public void changeSelectedPrefab(int id)
     {
-        Prefab selected = prefabs.get(id);
+        //Prefab selected = prefabs.get(id);
 
-        if (selected != null)
+        /*if (selected != null)
         {
             changeSupport.firePropertyChange(PC_NEW_WORLD_PREFAB_SELECTED, null, selected);
-        }
+        }*/
     }
 
     public int getSelectedInstance() {return selectedInstance; }

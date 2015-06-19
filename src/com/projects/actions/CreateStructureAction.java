@@ -35,16 +35,8 @@ public class CreateStructureAction extends AbstractAction
         int i = table.getSelectedRow();
         Structure structure = structuresTable.getRow(i);
 
-        System.out.println(structure.getName());
-        structureCreationControl.display();
-        /*InstanceTable tableModel = (InstanceTable)individualsTable.getModel();
+        structureCreationControl.display(structure);
 
-        int i = 0;
-        for (int index : indexList)
-        {
-            idList[i++] = (tableModel).getRow(index).getId();
-        }
-
-        controller.createPrefabFromSelection(idList);*/
+        controller.addStructureToWorld(structure);
     }
 }

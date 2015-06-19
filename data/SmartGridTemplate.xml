@@ -20,23 +20,43 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <properties/>
         </structure>
         <structure>
+            <name>Office Building</name>
+            <type>COMPOSITE_UNIT</type>
+            <properties/>
+        </structure>
+        <structure>
+            <name>Shop</name>
+            <type>SINGLE_UNIT</type>
+            <properties/>
+        </structure>
+        <structure>
+            <name>Mall</name>
+            <type>COMPOSITE_UNIT</type>
+            <properties/>
+        </structure>
+        <structure>
+            <name>Microgeneration Installation</name>
+            <type>SINGLE_UNIT</type>
+            <properties/>
+        </structure>
+        <structure>
             <name>Power Plant</name>
             <type>POWER_PLANT</type>
             <properties>
                 <property>
-                    <name>HasCapitalCost</name>
+                    <name>CapitalCost</name>
                     <value type="DOUBLE">0</value>
                 </property>
                 <property>
-                    <name>HasMonthlyExpenseOf</name>
+                    <name>MonthlyExpense</name>
                     <value type="DOUBLE">0</value>
                 </property>
                 <property>
-                    <name>HasEfficiency</name>
+                    <name>Efficiency</name>
                     <value type="DOUBLE">0</value>
                 </property>
                 <property>
-                    <name>HasEmissionRate</name>
+                    <name>EmissionRate</name>
                     <value type="DOUBLE">0</value>
                 </property>
             </properties>
@@ -49,15 +69,15 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <type>APPLIANCE</type>
             <properties>
                 <property>
-                    <name>HasStandbyConsumption</name>
+                    <name>StandbyConsumption</name>
                     <value type="DOUBLE">0</value>
                 </property>
                 <property>
-                    <name>HasAverageConsumption</name>
+                    <name>AverageConsumption</name>
                     <value type="DOUBLE">0</value>
                 </property>
                 <property>
-                    <name>HasPower</name>
+                    <name>Power</name>
                     <value type="DOUBLE">0</value>
                 </property>
             </properties>
@@ -71,19 +91,19 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                     <value type="BOOLEAN">false</value>
                 </property>
                 <property>
-                    <name>HasRatedDCVoltage</name>
+                    <name>RatedDCVoltage</name>
                     <value type="DOUBLE">0</value>
                 </property>
                 <property>
-                    <name>HasCurrent</name>
+                    <name>Current</name>
                     <value type="DOUBLE">0</value>
                 </property>
                 <property>
-                    <name>HasRatedACVoltage</name>
+                    <name>RatedACVoltage</name>
                     <value type="DOUBLE">0</value>
                 </property>
                 <property>
-                    <name>HasPowerFactor</name>
+                    <name>PowerFactor</name>
                     <value type="DOUBLE">0</value>
                 </property>
             </properties>
@@ -101,15 +121,15 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                     <value type="BOOLEAN">false</value>
                 </property>
                 <property>
-                    <name>HasChargingRate</name>
+                    <name>ChargingRate</name>
                     <value type="DOUBLE">0</value>
                 </property>
                 <property>
-                    <name>HasStoredEnergy</name>
+                    <name>StoredEnergy</name>
                     <value type="DOUBLE">0</value>
                 </property>
                 <property>
-                    <name>HasConnectionPower</name>
+                    <name>ConnectionPower</name>
                     <value type="DOUBLE">0</value>
                 </property>
             </properties>

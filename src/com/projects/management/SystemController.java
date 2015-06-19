@@ -170,6 +170,10 @@ public class SystemController implements PropertyChangeListener
         }
     }
 
+    public void addStructureToWorld(Structure structure)
+    {
+        worldModel.addNewStructure(structure);
+    }
 
     public void structureTemplateSelected(Structure structure)
     {
@@ -230,7 +234,7 @@ public class SystemController implements PropertyChangeListener
     {
         IndividualModel individual = ontologyModel.getIndividual(ontologyModel.getSelectedIndividual());
         Integer count = worldModel.getIndividualCount(individual.getName());
-        worldModel.addNewInstance(individual, count, false);
+        //worldModel.addNewInstance(individual, count, false);
     }
 
     /**
@@ -239,8 +243,8 @@ public class SystemController implements PropertyChangeListener
      */
     public void createPrefabInstancesFromPrefab(Prefab prefab)
     {
-        Integer count = worldModel.getPrefabCount(prefab.getName());
-        worldModel.addNewPrefab(prefab, count);
+        //Integer count = worldModel.getPrefabCount(prefab.getName());
+        //worldModel.addNewPrefab(prefab, count);
     }
 
     /**

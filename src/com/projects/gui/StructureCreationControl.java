@@ -3,7 +3,9 @@ package com.projects.gui;
 import com.projects.gui.table.PropertiesTable;
 import com.projects.helper.StructureType;
 import com.projects.models.Prefab;
+import com.projects.models.Structure;
 import com.projects.models.Template;
+import com.projects.models.TemplateManager;
 
 import javax.swing.*;
 import javax.swing.event.TableModelListener;
@@ -11,12 +13,13 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeEvent;
 import java.util.Collection;
 
 /**
  * Created by Dan on 6/9/2015.
  */
-public class StructureCreationControl
+public class StructureCreationControl implements SubscribedView
 {
     public static final int OK = 0;
     private static final int NOT_OK = 1;
@@ -30,19 +33,20 @@ public class StructureCreationControl
     private JPanel leftPanel;
     private JPanel rightPanel;
     private JDialog creationDialog;
-    //private Collection<Prefab> prefabs;
     PropertiesTable propertiesTable;
     JTable propertyTable;
     TableModelListener propertiesTableListener;
     private int result;
+    private Template template;
+    private Structure structure;
 
-    public StructureCreationControl(JFrame frame)//, StructureType type, Template template)
+    public StructureCreationControl(JFrame frame)
     {
         //prefabs = prefabList;
         nameField = new JTextField(14);
         suffixField = new JTextField(5);
         infoLabel = new JLabel("Enter a unique name and suffix.");
-        nameLabel = new JLabel("Prefab's Name: ");
+        nameLabel = new JLabel("Structure's Name: ");
         suffixLabel = new JLabel("Member Suffix: ");
         creationPanel = new JPanel(new GridLayout(1,2));
         leftPanel = createLeftPanel();
@@ -59,7 +63,7 @@ public class StructureCreationControl
         creationDialog.setVisible(false);
     }
 
-    public void display()
+    public void display(Structure structureToCreate)
     {
         creationDialog.setVisible(true);
     }
@@ -120,6 +124,7 @@ public class StructureCreationControl
         };
 
         JScrollPane propertiesScrollPane = new JScrollPane(propertyTable);
+        propertiesScrollPane.setBorder(BorderFactory.createTitledBorder("Selected Device"));
         right.add(propertiesScrollPane, BorderLayout.CENTER);
 
         AbstractAction okAction = new AbstractAction("OK")
@@ -166,6 +171,7 @@ public class StructureCreationControl
         left.add(inputPanel, BorderLayout.PAGE_START);
 
         DeviceTabbedPane deviceTabbedPane = new DeviceTabbedPane();
+        deviceTabbedPane.setBorder(BorderFactory.createTitledBorder("Structure's Devices"));
         left.add(deviceTabbedPane, BorderLayout.CENTER);
 
         AbstractAction addApplianceAction = new AbstractAction("Add Appliance")
@@ -173,11 +179,7 @@ public class StructureCreationControl
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                if (!conflictsExist())
-                {
-                    creationDialog.setVisible(false);
-                    result = OK;
-                }
+
             }
         };
 
@@ -186,8 +188,7 @@ public class StructureCreationControl
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                result = NOT_OK;
-                creationDialog.setVisible(false);
+
             }
         };
 
@@ -196,8 +197,7 @@ public class StructureCreationControl
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                result = NOT_OK;
-                creationDialog.setVisible(false);
+
             }
         };
 
@@ -245,9 +245,23 @@ public class StructureCreationControl
         return false;
     }
 
+    @Override
+    public void modelPropertyChange(PropertyChangeEvent event)
+    {
+        if (event.getPropertyName().equals(TemplateManager.PC_TEMPLATE_READY))
+        {
+            template = (Template)event.getNewValue();
+        }
+    }
+
     public int getResult()
     {
         return result;
+    }
+
+    public Structure getStructure()
+    {
+        return structure;
     }
 
     public String getName()

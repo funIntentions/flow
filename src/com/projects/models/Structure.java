@@ -11,6 +11,7 @@ import java.util.List;
 public class Structure
 {
     private String name;
+    private Integer id;
     private StructureType type;
     private List<PropertyModel> properties;
     private List<Device> appliances;
@@ -35,6 +36,7 @@ public class Structure
                      List<Device> energyStorageList)
     {
         name = structure;
+        id = -1;
         type = structureType;
         properties = propertyList;
         appliances = applianceList;
@@ -93,5 +95,15 @@ public class Structure
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getId()
+    {
+        return id;
+    }
+
+    public void setId(Integer id)
+    {
+        this.id = id;
     }
 }
