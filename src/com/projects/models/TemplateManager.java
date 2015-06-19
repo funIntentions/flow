@@ -11,6 +11,7 @@ public class TemplateManager extends System
     public static final String PC_TEMPLATE_READY = "PC_TEMPLATE_READY";
     public static final String PC_TEMPLATE_SELECTED = "PC_TEMPLATE_SELECTED";
     public static final String PC_ADD_DEVICE = "PC_ADD_DEVICE";
+    public static final String PC_DEVICE_SELECTED = "PC_DEVICE_SELECTED";
 
     public TemplateManager(Template template)
     {
@@ -26,6 +27,11 @@ public class TemplateManager extends System
     public void structureTemplateSelected(Structure structure)
     {
         changeSupport.firePropertyChange(PC_TEMPLATE_SELECTED, null, structure);
+    }
+
+    public void deviceSelected(Device device)
+    {
+        changeSupport.firePropertyChange(PC_DEVICE_SELECTED, null, device);
     }
 
     public void addDevice(DeviceType deviceType)

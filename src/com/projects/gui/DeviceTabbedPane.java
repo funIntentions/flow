@@ -1,5 +1,6 @@
 package com.projects.gui;
 
+import com.projects.gui.table.DeviceTable;
 import com.projects.models.Device;
 import com.projects.models.Template;
 import com.projects.models.TemplateManager;
@@ -19,17 +20,7 @@ public class DeviceTabbedPane extends JTabbedPane
     DevicePanel energySourceTab;
     DevicePanel energyStorageTab;
 
-    MouseListener deviceSelectedListener = new MouseAdapter()
-    {
-        @Override
-        public void mousePressed(MouseEvent e)
-        {
-            super.mousePressed(e);
-
-        }
-    };
-
-    public DeviceTabbedPane()
+    public DeviceTabbedPane(MouseListener deviceSelectedListener)
     {
         applianceTab = new DevicePanel("Appliances", deviceSelectedListener);
         energySourceTab = new DevicePanel("Energy Sources", deviceSelectedListener);

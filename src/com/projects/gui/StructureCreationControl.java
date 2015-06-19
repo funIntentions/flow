@@ -1,8 +1,8 @@
 package com.projects.gui;
 
+import com.projects.actions.DeviceSelectedListener;
 import com.projects.gui.table.PropertiesTable;
 import com.projects.helper.DeviceType;
-import com.projects.helper.StructureType;
 import com.projects.management.SystemController;
 import com.projects.models.*;
 
@@ -13,7 +13,7 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Dan on 6/9/2015.
@@ -31,6 +31,7 @@ public class StructureCreationControl implements SubscribedView
     private JPanel creationPanel;
     private JPanel leftPanel;
     private JPanel rightPanel;
+    private DeviceSelectedListener deviceSelectedListener;
     private DeviceTabbedPane deviceTabbedPane;
     private JDialog creationDialog;
     PropertiesTable propertiesTable;
@@ -173,7 +174,8 @@ public class StructureCreationControl implements SubscribedView
         inputPanel.add(suffixField);
         left.add(inputPanel, BorderLayout.PAGE_START);
 
-        deviceTabbedPane = new DeviceTabbedPane();
+        deviceSelectedListener = new DeviceSelectedListener(controller);
+        deviceTabbedPane = new DeviceTabbedPane(deviceSelectedListener);
         deviceTabbedPane.setBorder(BorderFactory.createTitledBorder("Structure's Devices"));
         left.add(deviceTabbedPane, BorderLayout.CENTER);
 
@@ -272,6 +274,18 @@ public class StructureCreationControl implements SubscribedView
                     deviceTabbedPane.addEnergyStorage(device);
                     structure.getEnergyStorageDevices().add(device);
                 } break;
+            }
+        }
+        else if (event.getPropertyName().equals(TemplateManager.PC_DEVICE_SELECTED))
+        {
+            propertiesTable.clearTable();
+            Device device = (Device)event.getNewValue();
+            List<PropertyModel> properties = device.getProperties();
+
+            for (PropertyModel property : properties)
+            {
+                Object[] row = {property.getName(), property.getValue()};
+                propertiesTable.addRow(row);
             }
         }
         else if (event.getPropertyName().equals(TemplateManager.PC_TEMPLATE_READY))

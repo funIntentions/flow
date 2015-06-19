@@ -186,6 +186,11 @@ public class SystemController implements PropertyChangeListener
         templateManager.structureTemplateSelected(structure);
     }
 
+    public void deviceSelected(Device device)
+    {
+        templateManager.deviceSelected(device);
+    }
+
     /**
      * Changes the currently selected Model to an Individual from the OntologyModel
      * @param id the unique id of the newly selected Individual
