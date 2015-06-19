@@ -4,6 +4,7 @@ import com.hp.hpl.jena.ontology.OntModel;
 import com.projects.gui.StructureCreationControl;
 import com.projects.gui.SubscribedView;
 import com.projects.helper.Constants;
+import com.projects.helper.DeviceType;
 import com.projects.helper.SelectionType;
 import com.projects.models.*;
 import com.projects.models.System;
@@ -173,6 +174,11 @@ public class SystemController implements PropertyChangeListener
     public void addStructureToWorld(Structure structure)
     {
         worldModel.addNewStructure(structure);
+    }
+
+    public void addDeviceToStructure(DeviceType deviceType)
+    {
+        templateManager.addDevice(deviceType);
     }
 
     public void structureTemplateSelected(Structure structure)

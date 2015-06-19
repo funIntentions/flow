@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by Dan on 6/18/2015.
  */
-public class DevicePanel extends JScrollPane implements SubscribedView
+public class DevicePanel extends JScrollPane
 {
     private String title;
     private JTable templateTable;
@@ -36,19 +36,9 @@ public class DevicePanel extends JScrollPane implements SubscribedView
         return title;
     }
 
-    public void modelPropertyChange(PropertyChangeEvent event)
+    public void addDevice(Device device)
     {
-        if (event.getPropertyName().equals(TemplateManager.PC_TEMPLATE_READY))
-        {
-            Template template = (Template)event.getNewValue();
-
-            List<Device> devices = template.getDeviceTemplates();
-
-            for (Device device : devices)
-            {
-                deviceTable.addRow(device);
-            }
-        }
+        deviceTable.addRow(device);
     }
 
     public JTable getIndividualTable()

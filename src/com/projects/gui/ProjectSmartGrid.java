@@ -76,7 +76,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         dataPropertyPanel = new DataPropertyPanel(new NodeSelectedListener());
         statusBar = new StatusPanel("Application Started");
 
-        StructureCreationControl structureCreationControl = new StructureCreationControl(frame);
+        StructureCreationControl structureCreationControl = new StructureCreationControl(frame, controller);
 
         //removeSelectedInstanceAction = new RemoveSelectedAction("Remove Instance", null, null, null,worldStructuresPanel.getWorldInstanceTree(), controller);
         removeSelectedIndividualAction = new RemoveSelectedAction("Remove Individual", null, null, null, prefabPanel.getPrefabTree(), controller);

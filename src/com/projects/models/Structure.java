@@ -28,6 +28,11 @@ public class Structure
         this(structure, structureType, propertyList, new ArrayList<Device>(), new ArrayList<Device>(), new ArrayList<Device>());
     }
 
+    public Structure(Structure structure)
+    {
+        this(structure.getName(), structure.getType());
+    }
+
     public Structure(String structure,
                      StructureType structureType,
                      List<PropertyModel> propertyList,

@@ -1,11 +1,10 @@
 package com.projects.gui;
 
 import com.projects.gui.table.PropertiesTable;
+import com.projects.helper.DeviceType;
 import com.projects.helper.StructureType;
-import com.projects.models.Prefab;
-import com.projects.models.Structure;
-import com.projects.models.Template;
-import com.projects.models.TemplateManager;
+import com.projects.management.SystemController;
+import com.projects.models.*;
 
 import javax.swing.*;
 import javax.swing.event.TableModelListener;
@@ -32,6 +31,7 @@ public class StructureCreationControl implements SubscribedView
     private JPanel creationPanel;
     private JPanel leftPanel;
     private JPanel rightPanel;
+    private DeviceTabbedPane deviceTabbedPane;
     private JDialog creationDialog;
     PropertiesTable propertiesTable;
     JTable propertyTable;
@@ -39,10 +39,11 @@ public class StructureCreationControl implements SubscribedView
     private int result;
     private Template template;
     private Structure structure;
+    private SystemController controller;
 
-    public StructureCreationControl(JFrame frame)
+    public StructureCreationControl(JFrame frame, SystemController systemController)
     {
-        //prefabs = prefabList;
+        controller = systemController;
         nameField = new JTextField(14);
         suffixField = new JTextField(5);
         infoLabel = new JLabel("Enter a unique name and suffix.");
@@ -65,6 +66,8 @@ public class StructureCreationControl implements SubscribedView
 
     public void display(Structure structureToCreate)
     {
+        structure = new Structure(structureToCreate);
+        nameField.setText(structure.getName());
         creationDialog.setVisible(true);
     }
 
@@ -170,7 +173,7 @@ public class StructureCreationControl implements SubscribedView
         inputPanel.add(suffixField);
         left.add(inputPanel, BorderLayout.PAGE_START);
 
-        DeviceTabbedPane deviceTabbedPane = new DeviceTabbedPane();
+        deviceTabbedPane = new DeviceTabbedPane();
         deviceTabbedPane.setBorder(BorderFactory.createTitledBorder("Structure's Devices"));
         left.add(deviceTabbedPane, BorderLayout.CENTER);
 
@@ -179,7 +182,7 @@ public class StructureCreationControl implements SubscribedView
             @Override
             public void actionPerformed(ActionEvent e)
             {
-
+                controller.addDeviceToStructure(DeviceType.APPLIANCE);
             }
         };
 
@@ -188,7 +191,7 @@ public class StructureCreationControl implements SubscribedView
             @Override
             public void actionPerformed(ActionEvent e)
             {
-
+                controller.addDeviceToStructure(DeviceType.ENERGY_SOURCE);
             }
         };
 
@@ -197,7 +200,7 @@ public class StructureCreationControl implements SubscribedView
             @Override
             public void actionPerformed(ActionEvent e)
             {
-
+                controller.addDeviceToStructure(DeviceType.ENERGY_STORAGE);
             }
         };
 
@@ -248,7 +251,30 @@ public class StructureCreationControl implements SubscribedView
     @Override
     public void modelPropertyChange(PropertyChangeEvent event)
     {
-        if (event.getPropertyName().equals(TemplateManager.PC_TEMPLATE_READY))
+        if (event.getPropertyName().equals(TemplateManager.PC_ADD_DEVICE))
+        {
+            Device device = (Device)event.getNewValue();
+
+            switch(device.getType())
+            {
+                case APPLIANCE:
+                {
+                    deviceTabbedPane.addAppliance(device);
+                    structure.getAppliances().add(device);
+                } break;
+                case ENERGY_SOURCE:
+                {
+                    deviceTabbedPane.addEnergySource(device);
+                    structure.getEnergySources().add(device);
+                } break;
+                case ENERGY_STORAGE:
+                {
+                    deviceTabbedPane.addEnergyStorage(device);
+                    structure.getEnergyStorageDevices().add(device);
+                } break;
+            }
+        }
+        else if (event.getPropertyName().equals(TemplateManager.PC_TEMPLATE_READY))
         {
             template = (Template)event.getNewValue();
         }

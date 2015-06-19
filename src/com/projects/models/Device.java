@@ -14,11 +14,21 @@ public class Device
     private DeviceType type;
     private List<PropertyModel> properties;
 
+    public Device(Device device)
+    {
+       this(device.getName(), device.getType(), device.getProperties());
+    }
+
     public Device(String device, DeviceType deviceType, List<PropertyModel> deviceProperties)
     {
         name = device;
         type = deviceType;
-        properties = deviceProperties;
+        properties = new ArrayList<PropertyModel>();
+
+        for (PropertyModel property : deviceProperties)
+        {
+            properties.add(new PropertyModel(property));
+        }
     }
 
     public String getName() {
