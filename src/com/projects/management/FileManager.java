@@ -22,6 +22,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.lang.System;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -134,7 +135,7 @@ class FileManager
 
                     String name = getElementStringFromTag(propertyElement, "name");
 
-                    NodeList nodeList = propertiesElement.getElementsByTagName("value");
+                    NodeList nodeList = propertyElement.getElementsByTagName("value");
                     Element element = (Element)nodeList.item(0);
                     String value = element.getChildNodes().item(0).getNodeValue().trim();
 
