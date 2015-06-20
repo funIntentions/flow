@@ -1,5 +1,6 @@
 package com.projects.gui;
 
+import com.projects.actions.DevicePropertiesTableListener;
 import com.projects.actions.DeviceSelectedListener;
 import com.projects.gui.table.PropertiesTable;
 import com.projects.helper.DeviceType;
@@ -34,12 +35,10 @@ public class StructureCreationControl implements SubscribedView
     private DeviceSelectedListener deviceSelectedListener;
     private DeviceTabbedPane deviceTabbedPane;
     private JDialog creationDialog;
-    PropertiesTable propertiesTable;
-    JTable propertyTable;
-    TableModelListener propertiesTableListener;
+    private PropertiesTable propertiesTable;
+    private JTable propertyTable;
+    private TableModelListener devicePropertiesTableListener;
     private int result;
-    private Template template;
-    private Structure structure;
     private SystemController controller;
 
     public StructureCreationControl(JFrame frame, SystemController systemController)
@@ -67,8 +66,7 @@ public class StructureCreationControl implements SubscribedView
 
     public void display(Structure structureToCreate)
     {
-        structure = new Structure(structureToCreate);
-        nameField.setText(structure.getName());
+        nameField.setText(structureToCreate.getName());
         creationDialog.setVisible(true);
     }
 
@@ -80,8 +78,9 @@ public class StructureCreationControl implements SubscribedView
         infoPanel.add(infoLabel);
         right.add(infoPanel, BorderLayout.PAGE_START);
 
+        devicePropertiesTableListener = new DevicePropertiesTableListener(controller);
         propertiesTable = new PropertiesTable();
-        //propertiesTable.addTableModelListener(propertiesTableListener); TODO: look into a special listener for this?
+        propertiesTable.addTableModelListener(devicePropertiesTableListener);
         propertyTable = new JTable(propertiesTable)
         {
             private static final long serialVersionUID = 1L;
@@ -262,17 +261,14 @@ public class StructureCreationControl implements SubscribedView
                 case APPLIANCE:
                 {
                     deviceTabbedPane.addAppliance(device);
-                    structure.getAppliances().add(device);
                 } break;
                 case ENERGY_SOURCE:
                 {
                     deviceTabbedPane.addEnergySource(device);
-                    structure.getEnergySources().add(device);
                 } break;
                 case ENERGY_STORAGE:
                 {
                     deviceTabbedPane.addEnergyStorage(device);
-                    structure.getEnergyStorageDevices().add(device);
                 } break;
             }
         }
@@ -288,20 +284,11 @@ public class StructureCreationControl implements SubscribedView
                 propertiesTable.addRow(row);
             }
         }
-        else if (event.getPropertyName().equals(TemplateManager.PC_TEMPLATE_READY))
-        {
-            template = (Template)event.getNewValue();
-        }
     }
 
     public int getResult()
     {
         return result;
-    }
-
-    public Structure getStructure()
-    {
-        return structure;
     }
 
     public String getName()

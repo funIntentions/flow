@@ -26,7 +26,8 @@ On Going
 - When prefabs are loaded in before the ontology nothing really works... Which it shouldn't but a binding of Prefabs and the Ontology will have to exist
 
 - To Structure Creation Control gui add device name as an option to change
--
+- TODO: Instead of opening the creation from the createStructureAction call a method that will make the templateManager (should rename that) send an event with needed information.
+    - Structures should also not be created every time the user selects a template.
 - Rename tool bar and menu buttons
 
 - Prefabs as a more rigidly defined construct - extend from Placement, can be of specific types only...

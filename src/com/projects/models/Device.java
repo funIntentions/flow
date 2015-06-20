@@ -11,6 +11,7 @@ import java.util.List;
 public class Device
 {
     private String name;
+    private Integer id;
     private DeviceType type;
     private List<PropertyModel> properties;
 
@@ -22,6 +23,7 @@ public class Device
     public Device(String device, DeviceType deviceType, List<PropertyModel> deviceProperties)
     {
         name = device;
+        id = -1;
         type = deviceType;
         properties = new ArrayList<PropertyModel>();
 
@@ -31,12 +33,25 @@ public class Device
         }
     }
 
+    public void changePropertyValue(int index, Object value)
+    {
+        properties.get(index).setValue(value);
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public DeviceType getType() {

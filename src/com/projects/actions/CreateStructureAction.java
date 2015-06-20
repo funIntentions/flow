@@ -37,6 +37,6 @@ public class CreateStructureAction extends AbstractAction
 
         structureCreationControl.display(structure);
 
-        controller.addStructureToWorld(structure);
+        controller.addStructureToWorld();
     }
 }

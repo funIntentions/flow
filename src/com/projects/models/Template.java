@@ -61,7 +61,7 @@ public class Template
         this.energySourceTemplate = energySourceTemplate;
     }
 
-    public Device getEnergyStorageTempalte() {
+    public Device getEnergyStorageTemplate() {
         return energyStorageTempalte;
     }
 

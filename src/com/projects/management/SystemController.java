@@ -171,8 +171,9 @@ public class SystemController implements PropertyChangeListener
         }
     }
 
-    public void addStructureToWorld(Structure structure)
+    public void addStructureToWorld()
     {
+        Structure structure = templateManager.getStructureBeingCreated();
         worldModel.addNewStructure(structure);
     }
 
@@ -181,14 +182,19 @@ public class SystemController implements PropertyChangeListener
         templateManager.addDevice(deviceType);
     }
 
-    public void structureTemplateSelected(Structure structure)
+    public void selectStructureTemplate(Structure structure)
     {
         templateManager.structureTemplateSelected(structure);
     }
 
-    public void deviceSelected(Device device)
+    public void selectDevice(int id)
     {
-        templateManager.deviceSelected(device);
+        templateManager.deviceSelected(id);
+    }
+
+    public void editDeviceProperty(int index, Object value)
+    {
+        templateManager.editDeviceProperty(index, value);
     }
 
     /**

@@ -25,7 +25,6 @@ public class StructureSelectedListener extends MouseAdapter
     {
         JTable target = (JTable)event.getSource();
         Structure structure = ((StructureTable)target.getModel()).getRow(target.getSelectedRow());
-        controller.structureTemplateSelected(structure);
-        //controller.ontologyIndividualSelected(model.getId(), false);
+        controller.selectStructureTemplate(structure);
     }
 }

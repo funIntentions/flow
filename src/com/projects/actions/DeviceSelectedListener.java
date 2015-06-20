@@ -26,6 +26,6 @@ public class DeviceSelectedListener extends MouseAdapter
         super.mousePressed(event);
         JTable target = (JTable)event.getSource();
         Device device = ((DeviceTable)target.getModel()).getRow(target.getSelectedRow());
-        controller.deviceSelected(device);
+        controller.selectDevice(device.getId());
     }
 }
