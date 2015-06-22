@@ -30,7 +30,7 @@ public class Structure
 
     public Structure(Structure structure)
     {
-        this(structure.getName(), structure.getType(), structure.getProperties());
+        this(structure.getName(), structure.getType(), structure.getProperties(), structure.getAppliances(), structure.getEnergySources(), structure.getEnergyStorageDevices());
     }
 
     public Structure(String structure,

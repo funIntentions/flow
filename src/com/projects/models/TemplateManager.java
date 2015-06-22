@@ -1,6 +1,7 @@
 package com.projects.models;
 
 import com.projects.helper.DeviceType;
+import com.projects.helper.StructureType;
 
 import java.util.HashMap;
 
@@ -46,7 +47,11 @@ public class TemplateManager extends System
 
     public void createNewStructure(Structure structure)
     {
-        structureBeingCreated = new Structure(structure);
+        if (structure.getType() == StructureType.COMPOSITE_UNIT)
+            structureBeingCreated = new CompositeStructure(structure);
+        else
+            structureBeingCreated = new Structure(structure);
+
         structureBeingCreated.setId(getNextAvailableStructureId());
         changeSupport.firePropertyChange(PC_CREATE_STRUCTURE, null, structureBeingCreated);
     }
