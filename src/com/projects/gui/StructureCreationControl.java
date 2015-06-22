@@ -14,6 +14,8 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
 
@@ -33,7 +35,8 @@ public class StructureCreationControl implements SubscribedView
     private DeviceSelectedListener deviceSelectedListener;
     private DeviceTabbedPane deviceTabbedPane;
     private JDialog creationDialog;
-    private PropertiesTable propertiesTable;
+    private PropertiesTable devicePropertiesTable;
+    private PropertiesTable buildingPropertiesTable;
     private JTable propertyTable;
     private TableModelListener devicePropertiesTableListener;
     private SystemController controller;
@@ -42,6 +45,7 @@ public class StructureCreationControl implements SubscribedView
     private JPanel inputInfoPanel;
     private JPanel notificationPanel;
     private JScrollPane devicePropertiesScrollPane;
+    private JScrollPane buildingPropertiesScrollPane;
     private JPanel creationControlButtons;
 
     private StructureType structureType;
@@ -58,8 +62,7 @@ public class StructureCreationControl implements SubscribedView
         leftPanel = new JPanel(new BorderLayout(10,10));
         rightPanel = new JPanel(new BorderLayout(10,10));
 
-        createLeftPanel();
-        createRightPanel();
+        createComponents();
 
         creationPanel.add(leftPanel);
         creationPanel.add(rightPanel);
@@ -70,6 +73,14 @@ public class StructureCreationControl implements SubscribedView
         creationDialog.setResizable(false);
         creationDialog.setVisible(false);
         structureType = StructureType.NO_STRUCTURE;
+
+        creationDialog.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                close();
+            }
+        });
     }
 
     public void display(Structure structureToCreate)
@@ -89,7 +100,7 @@ public class StructureCreationControl implements SubscribedView
             } break;
             case POWER_PLANT:
             {
-
+                setupPowerPlantCreaterComponents(structureToCreate);
             } break;
         }
 
@@ -110,7 +121,7 @@ public class StructureCreationControl implements SubscribedView
             } break;
             case POWER_PLANT:
             {
-
+                removePowerPlantCreaterComponents();
             } break;
         }
 
@@ -118,15 +129,15 @@ public class StructureCreationControl implements SubscribedView
         creationDialog.setVisible(false);
     }
 
-    private void createRightPanel()
+    private void createComponents()
     {
         notificationPanel = new JPanel(new FlowLayout());
         notificationPanel.add(infoLabel);
 
         devicePropertiesTableListener = new DevicePropertiesTableListener(controller);
-        propertiesTable = new PropertiesTable();
-        propertiesTable.addTableModelListener(devicePropertiesTableListener);
-        propertyTable = new JTable(propertiesTable)
+        devicePropertiesTable = new PropertiesTable();
+        devicePropertiesTable.addTableModelListener(devicePropertiesTableListener);
+        propertyTable = new JTable(devicePropertiesTable)
         {
             private static final long serialVersionUID = 1L;
             private Class editingClass;
@@ -174,6 +185,11 @@ public class StructureCreationControl implements SubscribedView
         devicePropertiesScrollPane = new JScrollPane(propertyTable);
         devicePropertiesScrollPane.setBorder(BorderFactory.createTitledBorder("Selected Device"));
 
+        buildingPropertiesTable = new PropertiesTable();
+        JTable buildingPropertyTable = new JTable(buildingPropertiesTable);
+        buildingPropertiesScrollPane = new JScrollPane(buildingPropertyTable);
+        buildingPropertiesScrollPane.setBorder(BorderFactory.createTitledBorder("Building Properties"));
+
         AbstractAction okAction = new AbstractAction("OK")
         {
             @Override
@@ -199,10 +215,7 @@ public class StructureCreationControl implements SubscribedView
         creationControlButtons = new JPanel(new FlowLayout());
         creationControlButtons.add(new JButton(okAction));
         creationControlButtons.add(new JButton(cancelAction));
-    }
 
-    private void createLeftPanel()
-    {
         inputInfoPanel = new JPanel(new FlowLayout());
         inputInfoPanel.add(nameLabel);
         inputInfoPanel.add(nameField);
@@ -274,9 +287,31 @@ public class StructureCreationControl implements SubscribedView
 
     }
 
-    private void setupPowerPlantCreaterComponents()
+    private void setupPowerPlantCreaterComponents(Structure structure)
     {
+        rightPanel.add(notificationPanel, BorderLayout.PAGE_START);
+        rightPanel.add(creationControlButtons, BorderLayout.PAGE_END);
 
+        leftPanel.add(inputInfoPanel, BorderLayout.PAGE_START);
+        leftPanel.add(buildingPropertiesScrollPane, BorderLayout.CENTER);
+
+        buildingPropertiesTable.clearTable();
+        List<PropertyModel> properties = structure.getProperties();
+
+        for (PropertyModel property : properties)
+        {
+            Object[] row = {property.getName(), property.getValue()};
+            buildingPropertiesTable.addRow(row);
+        }
+    }
+
+    private void removePowerPlantCreaterComponents()
+    {
+        rightPanel.remove(notificationPanel);
+        rightPanel.remove(creationControlButtons);
+
+        leftPanel.remove(inputInfoPanel);
+        leftPanel.remove(buildingPropertiesScrollPane);
     }
 
     Boolean conflictsExist()
@@ -339,14 +374,14 @@ public class StructureCreationControl implements SubscribedView
         }
         else if (event.getPropertyName().equals(TemplateManager.PC_DEVICE_SELECTED))
         {
-            propertiesTable.clearTable();
+            devicePropertiesTable.clearTable();
             Device device = (Device)event.getNewValue();
             List<PropertyModel> properties = device.getProperties();
 
             for (PropertyModel property : properties)
             {
                 Object[] row = {property.getName(), property.getValue()};
-                propertiesTable.addRow(row);
+                devicePropertiesTable.addRow(row);
             }
         }
     }
