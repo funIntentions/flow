@@ -14,6 +14,7 @@ public class TemplateManager extends System
     private Integer deviceBeingEdited;
     public static final String PC_TEMPLATE_READY = "PC_TEMPLATE_READY";
     public static final String PC_TEMPLATE_SELECTED = "PC_TEMPLATE_SELECTED";
+    public static final String PC_CREATE_STRUCTURE = "PC_CREATE_STRUCTURE";
     public static final String PC_ADD_DEVICE = "PC_ADD_DEVICE";
     public static final String PC_DEVICE_SELECTED = "PC_DEVICE_SELECTED";
     private static Integer nextAvailableStructureId = 0;
@@ -43,10 +44,15 @@ public class TemplateManager extends System
         changeSupport.firePropertyChange(PC_TEMPLATE_READY, null, template);
     }
 
-    public void structureTemplateSelected(Structure structure)
+    public void createNewStructure(Structure structure)
     {
         structureBeingCreated = new Structure(structure);
         structureBeingCreated.setId(getNextAvailableStructureId());
+        changeSupport.firePropertyChange(PC_CREATE_STRUCTURE, null, structureBeingCreated);
+    }
+
+    public void structureTemplateSelected(Structure structure)
+    {
         changeSupport.firePropertyChange(PC_TEMPLATE_SELECTED, null, structure);
     }
 

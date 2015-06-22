@@ -7,5 +7,6 @@ public enum StructureType
 {
     SINGLE_UNIT,
     COMPOSITE_UNIT,
-    POWER_PLANT
+    POWER_PLANT,
+    NO_STRUCTURE
 }

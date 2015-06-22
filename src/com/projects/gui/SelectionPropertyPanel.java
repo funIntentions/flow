@@ -98,7 +98,7 @@ public class SelectionPropertyPanel extends JPanel implements SubscribedView
         details.add(descriptionScrollPane);
         details.add(propertyScrollPane);
         add(details, BorderLayout.CENTER);
-        currentlyDisplaying = SelectionType.NONE;
+        currentlyDisplaying = SelectionType.NO_SELECTION;
     }
 
     private void setSelectionsName(String name)

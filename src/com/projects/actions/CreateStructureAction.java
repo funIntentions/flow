@@ -16,10 +16,9 @@ public class CreateStructureAction extends AbstractAction
 {
     private SystemController controller;
     private StructureTable structuresTable;
-    private StructureCreationControl structureCreationControl;
     private JTable table;
 
-    public CreateStructureAction(String text, ImageIcon icon, String desc, Integer mnemonic, StructureCreationControl structureCreationControl, StructureTable structuresTable, JTable table, SystemController control)
+    public CreateStructureAction(String text, ImageIcon icon, String desc, Integer mnemonic, StructureTable structuresTable, JTable table, SystemController control)
     {
         super(text, icon);
         putValue(SHORT_DESCRIPTION, desc);
@@ -27,7 +26,6 @@ public class CreateStructureAction extends AbstractAction
         controller = control;
         this.structuresTable = structuresTable;
         this.table = table;
-        this.structureCreationControl = structureCreationControl;
     }
 
     public void actionPerformed(ActionEvent event)
@@ -35,8 +33,6 @@ public class CreateStructureAction extends AbstractAction
         int i = table.getSelectedRow();
         Structure structure = structuresTable.getRow(i);
 
-        structureCreationControl.display(structure);
-
-        controller.addStructureToWorld();
+        controller.createStructure(structure);
     }
 }

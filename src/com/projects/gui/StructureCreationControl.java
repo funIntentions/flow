@@ -4,6 +4,7 @@ import com.projects.actions.DevicePropertiesTableListener;
 import com.projects.actions.DeviceSelectedListener;
 import com.projects.gui.table.PropertiesTable;
 import com.projects.helper.DeviceType;
+import com.projects.helper.StructureType;
 import com.projects.management.SystemController;
 import com.projects.models.*;
 
@@ -21,9 +22,6 @@ import java.util.List;
  */
 public class StructureCreationControl implements SubscribedView
 {
-    public static final int OK = 0;
-    private static final int NOT_OK = 1;
-
     private JLabel nameLabel;
     private JLabel suffixLabel;
     private JLabel infoLabel;
@@ -38,8 +36,15 @@ public class StructureCreationControl implements SubscribedView
     private PropertiesTable propertiesTable;
     private JTable propertyTable;
     private TableModelListener devicePropertiesTableListener;
-    private int result;
     private SystemController controller;
+
+    private JPanel deviceButtonPanel;
+    private JPanel inputInfoPanel;
+    private JPanel notificationPanel;
+    private JScrollPane devicePropertiesScrollPane;
+    private JPanel creationControlButtons;
+
+    private StructureType structureType;
 
     public StructureCreationControl(JFrame frame, SystemController systemController)
     {
@@ -50,9 +55,11 @@ public class StructureCreationControl implements SubscribedView
         nameLabel = new JLabel("Structure's Name: ");
         suffixLabel = new JLabel("Member Suffix: ");
         creationPanel = new JPanel(new GridLayout(1,2));
-        leftPanel = createLeftPanel();
-        rightPanel = createRightPanel();
+        leftPanel = new JPanel(new BorderLayout(10,10));
+        rightPanel = new JPanel(new BorderLayout(10,10));
 
+        createLeftPanel();
+        createRightPanel();
 
         creationPanel.add(leftPanel);
         creationPanel.add(rightPanel);
@@ -62,21 +69,59 @@ public class StructureCreationControl implements SubscribedView
         creationDialog.setSize(new Dimension(800, 600));
         creationDialog.setResizable(false);
         creationDialog.setVisible(false);
+        structureType = StructureType.NO_STRUCTURE;
     }
 
     public void display(Structure structureToCreate)
     {
         nameField.setText(structureToCreate.getName());
+        structureType = structureToCreate.getType();
+
+        switch (structureType)
+        {
+            case SINGLE_UNIT:
+            {
+                setupSingleUnitCreaterComponents();
+            } break;
+            case COMPOSITE_UNIT:
+            {
+
+            } break;
+            case POWER_PLANT:
+            {
+
+            } break;
+        }
+
         creationDialog.setVisible(true);
     }
 
-    private JPanel createRightPanel()
+    private void close()
     {
-        JPanel right = new JPanel(new BorderLayout(10,10));
+        switch (structureType)
+        {
+            case SINGLE_UNIT:
+            {
+                removeSingleUnitCreaterComponents();
+            } break;
+            case COMPOSITE_UNIT:
+            {
 
-        JPanel infoPanel = new JPanel(new FlowLayout());
-        infoPanel.add(infoLabel);
-        right.add(infoPanel, BorderLayout.PAGE_START);
+            } break;
+            case POWER_PLANT:
+            {
+
+            } break;
+        }
+
+        structureType = StructureType.NO_STRUCTURE;
+        creationDialog.setVisible(false);
+    }
+
+    private void createRightPanel()
+    {
+        notificationPanel = new JPanel(new FlowLayout());
+        notificationPanel.add(infoLabel);
 
         devicePropertiesTableListener = new DevicePropertiesTableListener(controller);
         propertiesTable = new PropertiesTable();
@@ -126,9 +171,8 @@ public class StructureCreationControl implements SubscribedView
             }
         };
 
-        JScrollPane propertiesScrollPane = new JScrollPane(propertyTable);
-        propertiesScrollPane.setBorder(BorderFactory.createTitledBorder("Selected Device"));
-        right.add(propertiesScrollPane, BorderLayout.CENTER);
+        devicePropertiesScrollPane = new JScrollPane(propertyTable);
+        devicePropertiesScrollPane.setBorder(BorderFactory.createTitledBorder("Selected Device"));
 
         AbstractAction okAction = new AbstractAction("OK")
         {
@@ -137,8 +181,8 @@ public class StructureCreationControl implements SubscribedView
             {
                 if (!conflictsExist())
                 {
-                    creationDialog.setVisible(false);
-                    result = OK;
+                    controller.addStructureToWorld();
+                    close();
                 }
             }
         };
@@ -148,35 +192,27 @@ public class StructureCreationControl implements SubscribedView
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                result = NOT_OK;
-                creationDialog.setVisible(false);
+                close();
             }
         };
 
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonPanel.add(new JButton(okAction));
-        buttonPanel.add(new JButton(cancelAction));
-        right.add(buttonPanel, BorderLayout.PAGE_END);
-
-        return right;
+        creationControlButtons = new JPanel(new FlowLayout());
+        creationControlButtons.add(new JButton(okAction));
+        creationControlButtons.add(new JButton(cancelAction));
     }
 
-    private JPanel createLeftPanel()
+    private void createLeftPanel()
     {
-        JPanel left = new JPanel(new BorderLayout(10,10));
-
-        JPanel inputPanel = new JPanel(new FlowLayout());
-        inputPanel.add(nameLabel);
-        inputPanel.add(nameField);
-        inputPanel.add(Box.createHorizontalStrut(15));
-        inputPanel.add(suffixLabel);
-        inputPanel.add(suffixField);
-        left.add(inputPanel, BorderLayout.PAGE_START);
+        inputInfoPanel = new JPanel(new FlowLayout());
+        inputInfoPanel.add(nameLabel);
+        inputInfoPanel.add(nameField);
+        inputInfoPanel.add(Box.createHorizontalStrut(15));
+        inputInfoPanel.add(suffixLabel);
+        inputInfoPanel.add(suffixField);
 
         deviceSelectedListener = new DeviceSelectedListener(controller);
         deviceTabbedPane = new DeviceTabbedPane(deviceSelectedListener);
         deviceTabbedPane.setBorder(BorderFactory.createTitledBorder("Structure's Devices"));
-        left.add(deviceTabbedPane, BorderLayout.CENTER);
 
         AbstractAction addApplianceAction = new AbstractAction("Add Appliance")
         {
@@ -205,13 +241,42 @@ public class StructureCreationControl implements SubscribedView
             }
         };
 
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonPanel.add(new JButton(addApplianceAction));
-        buttonPanel.add(new JButton(addSourceAction));
-        buttonPanel.add(new JButton(addStorageAction));
-        left.add(buttonPanel, BorderLayout.PAGE_END);
+        deviceButtonPanel = new JPanel(new FlowLayout());
+        deviceButtonPanel.add(new JButton(addApplianceAction));
+        deviceButtonPanel.add(new JButton(addSourceAction));
+        deviceButtonPanel.add(new JButton(addStorageAction));
+    }
 
-        return left;
+    private void setupSingleUnitCreaterComponents()
+    {
+        rightPanel.add(notificationPanel, BorderLayout.PAGE_START);
+        rightPanel.add(devicePropertiesScrollPane, BorderLayout.CENTER);
+        rightPanel.add(creationControlButtons, BorderLayout.PAGE_END);
+
+        leftPanel.add(inputInfoPanel, BorderLayout.PAGE_START);
+        leftPanel.add(deviceTabbedPane, BorderLayout.CENTER);
+        leftPanel.add(deviceButtonPanel, BorderLayout.PAGE_END);
+    }
+
+    private void removeSingleUnitCreaterComponents()
+    {
+        rightPanel.remove(notificationPanel);
+        rightPanel.remove(devicePropertiesScrollPane);
+        rightPanel.remove(creationControlButtons);
+
+        leftPanel.remove(inputInfoPanel);
+        leftPanel.remove(deviceTabbedPane);
+        leftPanel.remove(deviceButtonPanel);
+    }
+
+    private void setupCompositeUnitCreaterComponents()
+    {
+
+    }
+
+    private void setupPowerPlantCreaterComponents()
+    {
+
     }
 
     Boolean conflictsExist()
@@ -284,11 +349,6 @@ public class StructureCreationControl implements SubscribedView
                 propertiesTable.addRow(row);
             }
         }
-    }
-
-    public int getResult()
-    {
-        return result;
     }
 
     public String getName()

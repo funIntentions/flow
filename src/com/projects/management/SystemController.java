@@ -63,7 +63,7 @@ public class SystemController implements PropertyChangeListener
         worldModel.addPropertyChangeListener(this);
         systems.add(templateManager); //TODO: add the rest after refactoring them
 
-        currentlySelected = SelectionType.NONE;
+        currentlySelected = SelectionType.NO_SELECTION;
         frame = f;
         testTask = new Task(0, "File Loading", "Waiting");
         testTask.addPropertyChangeListener(this);
@@ -169,6 +169,11 @@ public class SystemController implements PropertyChangeListener
         {
             ontologyModel.loadOntology(result);
         }
+    }
+
+    public void createStructure(Structure structure)
+    {
+        templateManager.createNewStructure(structure);
     }
 
     public void addStructureToWorld()

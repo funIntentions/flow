@@ -5,6 +5,7 @@ import com.projects.helper.SelectionType;
 import com.projects.management.SystemController;
 import com.projects.actions.*;
 import com.projects.models.OntologyModel;
+import com.projects.models.Structure;
 import com.projects.models.TemplateManager;
 import com.projects.models.WorldModel;
 
@@ -53,6 +54,8 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     private JButton addIndividualButton, removeInstanceButton, removeIndividualButton, createPrefabButton, addPrefabButton; // ToolBar Buttons
     private JMenuItem addIndividualItem, removeInstanceItem, removeIndividualItem, createPrefabItem, addPrefabItem; // MenuItems
 
+    StructureCreationControl structureCreationControl;
+
     private ProjectSmartGrid(JFrame frame)
     {
         controller = new SystemController(frame);
@@ -76,11 +79,11 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         dataPropertyPanel = new DataPropertyPanel(new NodeSelectedListener());
         statusBar = new StatusPanel("Application Started");
 
-        StructureCreationControl structureCreationControl = new StructureCreationControl(frame, controller);
+        structureCreationControl = new StructureCreationControl(frame, controller);
 
         //removeSelectedInstanceAction = new RemoveSelectedAction("Remove Instance", null, null, null,worldStructuresPanel.getWorldInstanceTree(), controller);
         removeSelectedIndividualAction = new RemoveSelectedAction("Remove Individual", null, null, null, prefabPanel.getPrefabTree(), controller);
-        createPrefabAction = new CreateStructureAction("Create Prefab", null, null, null, structureCreationControl, templateStructuresPanel.getStructureTable(), templateStructuresPanel.getTemplateTable(), controller); // TODO: refactor so I don't have to get the table
+        createPrefabAction = new CreateStructureAction("Create Prefab", null, null, null, templateStructuresPanel.getStructureTable(), templateStructuresPanel.getTemplateTable(), controller); // TODO: refactor so I don't have to get the table
         addPrefabAction = new AddPrefabAction("Add Prefab", null, null, null, prefabPanel.getPrefabTree(), controller);
 
         controller.subscribeView(structureCreationControl);
@@ -323,6 +326,11 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
             removeToolBarAndMenuOptions();
             createPrefabItem.setEnabled(true);
             toolBar.add(createPrefabButton);
+        }
+        else if (event.getPropertyName().equals(TemplateManager.PC_CREATE_STRUCTURE))
+        {
+            Structure structure = (Structure)event.getNewValue();
+            structureCreationControl.display(structure);
         }
 
         if (event.getPropertyName().equals(OntologyModel.PC_ONTOLOGY_CLEARED) || event.getPropertyName().equals(WorldModel.PC_WORLD_CLEARED))

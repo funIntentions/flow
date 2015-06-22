@@ -12,5 +12,5 @@ public enum SelectionType
     WORLD_PREFAB,
     ONTOLOGY_PREFAB_MEMBER,
     WORLD_PREFAB_MEMBER,
-    NONE
+    NO_SELECTION
 }
