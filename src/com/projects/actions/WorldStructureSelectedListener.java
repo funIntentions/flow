@@ -3,20 +3,22 @@ package com.projects.actions;
 import com.projects.gui.table.StructureTable;
 import com.projects.management.SystemController;
 import com.projects.models.IndividualModel;
+import com.projects.models.Prefab;
 import com.projects.models.Structure;
 
 import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
- * Created by Dan on 5/28/2015.
+ * Created by Dan on 5/29/2015.
  */
-public class StructureSelectedListener extends MouseAdapter
+public class WorldStructureSelectedListener extends MouseAdapter
 {
     private SystemController controller;
 
-    public StructureSelectedListener(SystemController control)
+    public WorldStructureSelectedListener(SystemController control)
     {
         controller = control;
     }
@@ -25,6 +27,7 @@ public class StructureSelectedListener extends MouseAdapter
     {
         JTable target = (JTable)event.getSource();
         Structure structure = ((StructureTable)target.getModel()).getRow(target.getSelectedRow());
-        controller.selectStructureTemplate(structure);
+
+        controller.selectWorldStructure(structure);
     }
 }

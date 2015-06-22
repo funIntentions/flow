@@ -13,6 +13,7 @@ public class Structure
     private String name;
     private Integer id;
     private StructureType type;
+    private Integer numberOfUnits;
     private List<PropertyModel> properties;
     private List<Device> appliances;
     private List<Device> energySources;
@@ -43,6 +44,7 @@ public class Structure
         name = structure;
         id = -1;
         type = structureType;
+        numberOfUnits = 1;
         properties = propertyList;
         appliances = applianceList;
         energySources = energySourceList;

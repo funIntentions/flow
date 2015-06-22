@@ -187,9 +187,19 @@ public class SystemController implements PropertyChangeListener
         templateManager.addDevice(deviceType);
     }
 
-    public void selectStructureTemplate(Structure structure)
+    public void selectTemplateStructure(Structure structure)
     {
-        templateManager.structureTemplateSelected(structure);
+        templateManager.selectTemplateStructure(structure);
+    }
+
+    public void selectWorldStructure(Structure structure)
+    {
+        worldModel.selectStructure(structure);
+    }
+
+    public void editWorldStructure(Structure structure)
+    {
+        worldModel.editStructure(structure);
     }
 
     public void selectDevice(int id)
@@ -235,8 +245,8 @@ public class SystemController implements PropertyChangeListener
 
     public void worldPrefabSelected(int id)
     {
-        currentlySelected = SelectionType.WORLD_PREFAB;
-        worldModel.changeSelectedPrefab(id);
+        /*currentlySelected = SelectionType.WORLD_PREFAB;
+        worldModel.changeSelectedPrefab(id);*/
     }
 
     /**

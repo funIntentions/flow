@@ -76,7 +76,7 @@ public class StructureCreationControl implements SubscribedView
         creationPanel.add(rightPanel);
         creationDialog = new JDialog(frame, "Structure Creation", true);
         creationDialog.setContentPane(creationPanel);
-        creationDialog.setPreferredSize(new Dimension(800, 600));
+        creationDialog.setPreferredSize(new Dimension(800, 400));
         creationDialog.setResizable(false);
         creationDialog.setVisible(false);
         structureType = StructureType.NO_STRUCTURE;
@@ -90,24 +90,24 @@ public class StructureCreationControl implements SubscribedView
         });
     }
 
-    public void display(Structure structureToCreate)
+    public void display(Structure structure)
     {
-        nameField.setText(structureToCreate.getName());
-        structureType = structureToCreate.getType();
+        nameField.setText(structure.getName());
+        structureType = structure.getType();
 
         switch (structureType)
         {
             case SINGLE_UNIT:
             {
-                setupSingleUnitCreaterComponents();
+                setupSingleUnitCreaterComponents(structure);
             } break;
             case COMPOSITE_UNIT:
             {
-                setupCompositeUnitCreaterComponents();
+                setupCompositeUnitCreaterComponents(structure);
             } break;
             case POWER_PLANT:
             {
-                setupPowerPlantCreaterComponents(structureToCreate);
+                setupPowerPlantCreaterComponents(structure);
             } break;
         }
 
@@ -224,7 +224,7 @@ public class StructureCreationControl implements SubscribedView
         creationControlButtons.add(new JButton(okAction));
         creationControlButtons.add(new JButton(cancelAction));
 
-        inputCompositeUnitInfoPanel = new JPanel(new GridLayout(3,2));
+        inputCompositeUnitInfoPanel = new JPanel(new GridLayout(2,2));
         inputCompositeUnitInfoPanel.setBorder(BorderFactory.createTitledBorder("Information"));
         inputUnitInfoPanel = new JPanel(new GridLayout(1,2));
         inputUnitInfoPanel.setBorder(BorderFactory.createTitledBorder("Information"));
@@ -273,7 +273,39 @@ public class StructureCreationControl implements SubscribedView
         deviceButtonPanel.add(new JButton(addStorageAction));
     }
 
-    private void setupSingleUnitCreaterComponents()
+    private void populateStructureDevicesAndProperties(Structure structure)
+    {
+        deviceTabbedPane.clearTables();
+
+        List<Device> devices = structure.getAppliances();
+        for (Device device : devices)
+        {
+            deviceTabbedPane.addAppliance(device);
+        }
+
+        devices = structure.getEnergySources();
+        for (Device device : devices)
+        {
+            deviceTabbedPane.addEnergySource(device);
+        }
+
+        devices = structure.getEnergyStorageDevices();
+        for (Device device : devices)
+        {
+            deviceTabbedPane.addEnergyStorage(device);
+        }
+
+        buildingPropertiesTable.clearTable();
+        List<PropertyModel> properties = structure.getProperties();
+
+        for (PropertyModel property : properties)
+        {
+            Object[] row = {property.getName(), property.getValue()};
+            buildingPropertiesTable.addRow(row);
+        }
+    }
+
+    private void setupSingleUnitCreaterComponents(Structure structure)
     {
         inputUnitInfoPanel.add(nameLabel);
         inputUnitInfoPanel.add(nameField);
@@ -285,6 +317,8 @@ public class StructureCreationControl implements SubscribedView
         leftPanel.add(inputUnitInfoPanel, BorderLayout.PAGE_START);
         leftPanel.add(deviceTabbedPane, BorderLayout.CENTER);
         leftPanel.add(deviceButtonPanel, BorderLayout.PAGE_END);
+
+        populateStructureDevicesAndProperties(structure);
     }
 
     private void removeSingleUnitCreaterComponents()
@@ -301,12 +335,12 @@ public class StructureCreationControl implements SubscribedView
         leftPanel.remove(deviceButtonPanel);
     }
 
-    private void setupCompositeUnitCreaterComponents()
+    private void setupCompositeUnitCreaterComponents(Structure structure)
     {
         inputCompositeUnitInfoPanel.add(nameLabel);
         inputCompositeUnitInfoPanel.add(nameField);
-        inputCompositeUnitInfoPanel.add(unitNameLabel);
-        inputCompositeUnitInfoPanel.add(unitNameField);
+        //inputCompositeUnitInfoPanel.add(unitNameLabel);
+        //inputCompositeUnitInfoPanel.add(unitNameField);
         inputCompositeUnitInfoPanel.add(numberOfUnitsLabel);
         inputCompositeUnitInfoPanel.add(numberOfUnitsField);
 
@@ -315,16 +349,18 @@ public class StructureCreationControl implements SubscribedView
         rightPanel.add(creationControlButtons, BorderLayout.PAGE_END);
 
         leftPanel.add(inputCompositeUnitInfoPanel, BorderLayout.PAGE_START);
-        leftPanel.add(compositeUnitDevicePanes, BorderLayout.CENTER);
+        leftPanel.add(deviceTabbedPane, BorderLayout.CENTER);
         leftPanel.add(deviceButtonPanel, BorderLayout.PAGE_END);
+
+        populateStructureDevicesAndProperties(structure);
     }
 
     private void removeCompositeUnitCreaterComponents()
     {
         inputCompositeUnitInfoPanel.remove(nameLabel);
         inputCompositeUnitInfoPanel.remove(nameField);
-        inputCompositeUnitInfoPanel.remove(unitNameLabel);
-        inputCompositeUnitInfoPanel.remove(unitNameField);
+        //inputCompositeUnitInfoPanel.remove(unitNameLabel);
+        //inputCompositeUnitInfoPanel.remove(unitNameField);
         inputCompositeUnitInfoPanel.remove(numberOfUnitsLabel);
         inputCompositeUnitInfoPanel.remove(numberOfUnitsField);
 
@@ -333,7 +369,7 @@ public class StructureCreationControl implements SubscribedView
         rightPanel.remove(creationControlButtons);
 
         leftPanel.remove(inputCompositeUnitInfoPanel);
-        leftPanel.remove(compositeUnitDevicePanes);
+        leftPanel.remove(deviceTabbedPane);
         leftPanel.remove(deviceButtonPanel);
     }
 
@@ -348,14 +384,7 @@ public class StructureCreationControl implements SubscribedView
         leftPanel.add(inputUnitInfoPanel, BorderLayout.PAGE_START);
         leftPanel.add(buildingPropertiesScrollPane, BorderLayout.CENTER);
 
-        buildingPropertiesTable.clearTable();
-        List<PropertyModel> properties = structure.getProperties();
-
-        for (PropertyModel property : properties)
-        {
-            Object[] row = {property.getName(), property.getValue()};
-            buildingPropertiesTable.addRow(row);
-        }
+        populateStructureDevicesAndProperties(structure);
     }
 
     private void removePowerPlantCreaterComponents()

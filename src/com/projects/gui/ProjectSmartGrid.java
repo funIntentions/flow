@@ -23,14 +23,14 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
             loadOntologyAction,
             closeOntologyAction,
             addIndividualAction,
-            removeSelectedInstanceAction,
+            removeStructureAction,
             removeSelectedIndividualAction,
             createPrefabAction,
-            addPrefabAction,
+            editStructureAction,
             loadPrefabsAction,
             savePrefabsAction;
-    private StructureSelectedListener structureSelectedListener;
-    private InstanceSelectedListener instanceSelectedListener;
+    private TemplateStructureSelectedListener templateStructureSelectedListener;
+    private WorldStructureSelectedListener worldStructureSelectedListener;
     private PropertiesTableListener propertiesTableListener;
     private ClassSelectedListener classSelectedListener;
     private PrefabSelectedListener prefabSelectedListener;
@@ -51,8 +51,8 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     JTabbedPane worldPane;
 
     private JToolBar toolBar;
-    private JButton addIndividualButton, removeInstanceButton, removeIndividualButton, createPrefabButton, addPrefabButton; // ToolBar Buttons
-    private JMenuItem addIndividualItem, removeInstanceItem, removeIndividualItem, createPrefabItem, addPrefabItem; // MenuItems
+    private JButton addIndividualButton, removeStructureButton, removeIndividualButton, createPrefabButton, editStructureButton; // ToolBar Buttons
+    private JMenuItem addIndividualItem, removeStructureItem, removeIndividualItem, createStructureItem, editStructureItem; // MenuItems
 
     StructureCreationControl structureCreationControl;
 
@@ -65,14 +65,14 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         loadPrefabsAction = new OpenFileAction("Open Prefabs", null, null, null, this, controller, Constants.PREFABS);
         savePrefabsAction = new SaveFileAction("Save Prefabs", null, null, null, this, controller, Constants.PREFABS);
         addIndividualAction = new AddIndividualAction("Add Individual", null, null, null, controller);
-        structureSelectedListener = new StructureSelectedListener(controller);
-        instanceSelectedListener = new InstanceSelectedListener(controller);
+        templateStructureSelectedListener = new TemplateStructureSelectedListener(controller);
+        worldStructureSelectedListener = new WorldStructureSelectedListener(controller);
         propertiesTableListener = new PropertiesTableListener(controller);
         classSelectedListener = new ClassSelectedListener(controller);
         prefabSelectedListener = new PrefabSelectedListener(controller);
         selectionInfoPanel = new SelectionPropertyPanel("Selection", propertiesTableListener);
-        worldStructuresPanel = new WorldStructuresPanel(instanceSelectedListener);
-        templateStructuresPanel = new TemplateStructuresPanel(structureSelectedListener);
+        worldStructuresPanel = new WorldStructuresPanel(worldStructureSelectedListener);
+        templateStructuresPanel = new TemplateStructuresPanel(templateStructureSelectedListener);
         classPanel = new ClassPanel(classSelectedListener);
         prefabPanel = new PrefabPanel(prefabSelectedListener);
         objectPropertyPanel = new ObjectPropertyPanel(new NodeSelectedListener());
@@ -81,10 +81,10 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
         structureCreationControl = new StructureCreationControl(frame, controller);
 
-        //removeSelectedInstanceAction = new RemoveSelectedAction("Remove Instance", null, null, null,worldStructuresPanel.getWorldInstanceTree(), controller);
+        //removeStructureAction = new RemoveSelectedAction("Remove Instance", null, null, null,worldStructuresPanel.getWorldInstanceTree(), controller);
         removeSelectedIndividualAction = new RemoveSelectedAction("Remove Individual", null, null, null, prefabPanel.getPrefabTree(), controller);
         createPrefabAction = new CreateStructureAction("Create Prefab", null, null, null, templateStructuresPanel.getStructureTable(), templateStructuresPanel.getTemplateTable(), controller); // TODO: refactor so I don't have to get the table
-        addPrefabAction = new AddPrefabAction("Add Prefab", null, null, null, prefabPanel.getPrefabTree(), controller);
+        editStructureAction = new EditStructureAction("Edit Structure", null, null, null, worldStructuresPanel.getStructureTable(), worldStructuresPanel.getTemplateTable(), controller);
 
         controller.subscribeView(structureCreationControl);
         controller.subscribeView(dataPropertyPanel);
@@ -147,15 +147,15 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     {
         toolBar = new JToolBar("Available Options");
         addIndividualButton = new JButton(addIndividualAction);
-        removeInstanceButton = new JButton(removeSelectedInstanceAction);
+        removeStructureButton = new JButton(removeStructureAction);
         removeIndividualButton = new JButton(removeSelectedIndividualAction);
         createPrefabButton = new JButton(createPrefabAction);
-        addPrefabButton = new JButton(addPrefabAction);
+        editStructureButton = new JButton(editStructureAction);
         toolBar.add(addIndividualButton);
-        toolBar.add(removeInstanceButton);
+        toolBar.add(removeStructureButton);
         toolBar.add(removeIndividualButton);
         toolBar.add(createPrefabButton);
-        toolBar.add(addPrefabButton);
+        toolBar.add(editStructureButton);
         return toolBar;
     }
 
@@ -258,17 +258,17 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         addIndividualItem = new JMenuItem(addIndividualAction);
         menu.add(addIndividualItem);
 
-        removeInstanceItem = new JMenuItem(removeSelectedInstanceAction);
-        menu.add(removeInstanceItem);
+        removeStructureItem = new JMenuItem(removeStructureAction);
+        menu.add(removeStructureItem);
 
         removeIndividualItem = new JMenuItem(removeSelectedIndividualAction);
         menu.add(removeIndividualItem);
 
-        createPrefabItem = new JMenuItem(createPrefabAction);
-        menu.add(createPrefabItem);
+        createStructureItem = new JMenuItem(createPrefabAction);
+        menu.add(createStructureItem);
 
-        addPrefabItem = new JMenuItem(addPrefabAction);
-        menu.add(addPrefabItem);
+        editStructureItem = new JMenuItem(editStructureAction);
+        menu.add(editStructureItem);
 
         menu = new JMenu("View");
         menuBar.add(menu);
@@ -312,10 +312,10 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     {
         toolBar.removeAll();
         addIndividualItem.setEnabled(false);
-        removeInstanceItem.setEnabled(false);
+        removeStructureItem.setEnabled(false);
         removeIndividualItem.setEnabled(false);
-        createPrefabItem.setEnabled(false);
-        addPrefabItem.setEnabled(false);
+        createStructureItem.setEnabled(false);
+        editStructureItem.setEnabled(false);
         toolBar.updateUI();
     }
 
@@ -324,10 +324,23 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         if (event.getPropertyName().equals(TemplateManager.PC_TEMPLATE_SELECTED))
         {
             removeToolBarAndMenuOptions();
-            createPrefabItem.setEnabled(true);
+            createStructureItem.setEnabled(true);
             toolBar.add(createPrefabButton);
         }
         else if (event.getPropertyName().equals(TemplateManager.PC_CREATE_STRUCTURE))
+        {
+            Structure structure = (Structure)event.getNewValue();
+            structureCreationControl.display(structure);
+        }
+        else if (event.getPropertyName().equals(WorldModel.PC_STRUCTURE_SELECTED))
+        {
+            removeToolBarAndMenuOptions();
+            editStructureItem.setEnabled(true);
+            removeStructureItem.setEnabled(true);
+            toolBar.add(editStructureButton);
+            toolBar.add(removeStructureButton);
+        }
+        else if (event.getPropertyName().equals(WorldModel.PC_EDIT_STRUCTURE))
         {
             Structure structure = (Structure)event.getNewValue();
             structureCreationControl.display(structure);
@@ -340,8 +353,8 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         if (event.getPropertyName().equals(OntologyModel.PC_NEW_ONTOLOGY_PREFAB_SELECTED))
         {
             removeToolBarAndMenuOptions();
-            addPrefabItem.setEnabled(true);
-            toolBar.add(addPrefabButton);
+            editStructureItem.setEnabled(true);
+            toolBar.add(editStructureButton);
             toolBar.add(removeIndividualButton);
             removeIndividualItem.setEnabled(true);
         }
@@ -352,7 +365,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
             if (controller.getCurrentlySelected() == SelectionType.ONTOLOGY_INDIVIDUAL)
             {
-                createPrefabItem.setEnabled(true);
+                createStructureItem.setEnabled(true);
                 removeIndividualItem.setEnabled(false);
                 toolBar.add(createPrefabButton);
                 toolBar.add(addIndividualButton);
@@ -372,8 +385,8 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
                 || event.getPropertyName().equals(WorldModel.PC_NEW_WORLD_PREFAB_SELECTED))
         {
             removeToolBarAndMenuOptions();
-            removeInstanceItem.setEnabled(true);
-            toolBar.add(removeInstanceButton);
+            removeStructureItem.setEnabled(true);
+            toolBar.add(removeStructureButton);
         }
     }
 

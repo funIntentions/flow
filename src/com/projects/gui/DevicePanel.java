@@ -41,6 +41,11 @@ public class DevicePanel extends JScrollPane
         deviceTable.addRow(device);
     }
 
+    public void clearTable()
+    {
+        deviceTable.clearTable();
+    }
+
     public JTable getIndividualTable()
     {
         return templateTable;

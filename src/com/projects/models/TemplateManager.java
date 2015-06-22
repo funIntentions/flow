@@ -47,16 +47,12 @@ public class TemplateManager extends System
 
     public void createNewStructure(Structure structure)
     {
-        if (structure.getType() == StructureType.COMPOSITE_UNIT)
-            structureBeingCreated = new CompositeStructure(structure);
-        else
-            structureBeingCreated = new Structure(structure);
-
+        structureBeingCreated = new Structure(structure);
         structureBeingCreated.setId(getNextAvailableStructureId());
         changeSupport.firePropertyChange(PC_CREATE_STRUCTURE, null, structureBeingCreated);
     }
 
-    public void structureTemplateSelected(Structure structure)
+    public void selectTemplateStructure(Structure structure)
     {
         changeSupport.firePropertyChange(PC_TEMPLATE_SELECTED, null, structure);
     }

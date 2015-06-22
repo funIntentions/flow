@@ -16,9 +16,9 @@ import java.beans.PropertyChangeEvent;
  */
 public class DeviceTabbedPane extends JTabbedPane
 {
-    DevicePanel applianceTab;
-    DevicePanel energySourceTab;
-    DevicePanel energyStorageTab;
+    private DevicePanel applianceTab;
+    private DevicePanel energySourceTab;
+    private DevicePanel energyStorageTab;
 
     public DeviceTabbedPane(MouseListener deviceSelectedListener)
     {
@@ -44,5 +44,12 @@ public class DeviceTabbedPane extends JTabbedPane
     public void addEnergyStorage(Device device)
     {
         energyStorageTab.addDevice(device);
+    }
+
+    public void clearTables()
+    {
+        applianceTab.clearTable();
+        energySourceTab.clearTable();
+        energyStorageTab.clearTable();
     }
 }

@@ -21,6 +21,8 @@ public class WorldModel
     private HashMap<String, Integer> prefabCount;
     private PropertyChangeSupport changeSupport;
     public static final String PC_NEW_STRUCTURE = "PC_NEW_STRUCTURE";
+    public static final String PC_STRUCTURE_SELECTED = "PC_STRUCTURE_SELECTED";
+    public static final String PC_EDIT_STRUCTURE = "PC_EDIT_STRUCTURE";
     public static final String PC_INSTANCE_DELETED = "PC_INSTANCE_DELETED";
     private static final String PC_PREFAB_DELETED = "PC_PREFAB_DELETED";
     public static final String PC_NEW_INSTANCE_SELECTED = "PC_NEW_INSTANCE_SELECTED";
@@ -168,14 +170,14 @@ public class WorldModel
         changeSupport.firePropertyChange(PC_NEW_INSTANCE_SELECTED, null, selected);
     }
 
-    public void changeSelectedPrefab(int id)
+    public void selectStructure(Structure structure)
     {
-        //Prefab selected = prefabs.get(id);
+        changeSupport.firePropertyChange(PC_STRUCTURE_SELECTED, null, structure);
+    }
 
-        /*if (selected != null)
-        {
-            changeSupport.firePropertyChange(PC_NEW_WORLD_PREFAB_SELECTED, null, selected);
-        }*/
+    public void editStructure(Structure structure)
+    {
+        changeSupport.firePropertyChange(PC_EDIT_STRUCTURE, null, structure);
     }
 
     public int getSelectedInstance() {return selectedInstance; }
