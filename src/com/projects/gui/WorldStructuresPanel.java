@@ -26,5 +26,19 @@ public class WorldStructuresPanel extends StructurePanel implements SubscribedVi
             Structure structure = (Structure)event.getNewValue();
             structureTable.addRow(structure);
         }
+        else if (event.getPropertyName().equals(TemplateManager.PC_STRUCTURE_EDITED))
+        {
+            Structure structure = (Structure)event.getNewValue();
+
+            int numberOfRows = structureTable.getRowCount();
+
+            for (int i = 0; i < numberOfRows; ++i)
+            {
+                if ((structureTable.getRow(i)).getId().intValue() == structure.getId().intValue())
+                {
+                    structureTable.setRow(i, structure);
+                }
+            }
+        }
     }
 }

@@ -174,7 +174,7 @@ public class SystemController implements PropertyChangeListener
 
     public void editingComplete()
     {
-        Structure structure = templateManager.getCopyOfStructureBeingEdited();
+        Structure structure = templateManager.finishedStructureEditing();
 
         if (activeSelection == SelectionType.WORLD)
         {

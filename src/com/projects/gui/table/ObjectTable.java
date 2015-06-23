@@ -46,6 +46,12 @@ public abstract class ObjectTable<T> extends AbstractTableModel
         return data.get(row);
     }
 
+    public void setRow(int rowNum, T row)
+    {
+        data.set(rowNum, row);
+        fireTableRowsUpdated(rowNum, rowNum);
+    }
+
     public void removeRow(int row)
     {
         data.remove(row);

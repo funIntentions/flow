@@ -20,6 +20,7 @@ public class TemplateManager extends System
     public static final String PC_TEMPLATE_SELECTED = "PC_TEMPLATE_SELECTED";
     public static final String PC_EDITING_STRUCTURE = "PC_EDIT_TEMPLATE";
     public static final String PC_CREATE_STRUCTURE = "PC_CREATE_STRUCTURE";
+    public static final String PC_STRUCTURE_EDITED = "PC_STRUCTURE_EDITED";
     public static final String PC_ADD_DEVICE = "PC_ADD_DEVICE";
     public static final String PC_DEVICE_SELECTED = "PC_DEVICE_SELECTED";
     private static Integer nextAvailableStructureId = 0;
@@ -199,8 +200,9 @@ public class TemplateManager extends System
         return structures.get(id);
     }
 
-    public Structure getCopyOfStructureBeingEdited()
+    public Structure finishedStructureEditing()
     {
+        changeSupport.firePropertyChange(PC_STRUCTURE_EDITED, null, structureBeingEdited);
         return new Structure(structureBeingEdited);
     }
 

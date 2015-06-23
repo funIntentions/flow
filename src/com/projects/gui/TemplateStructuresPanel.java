@@ -15,7 +15,7 @@ public class TemplateStructuresPanel extends StructurePanel implements Subscribe
 {
     public TemplateStructuresPanel(MouseListener mouseListener)
     {
-        super("Structures", mouseListener);
+        super("Template Structures", mouseListener);
     }
 
      public void modelPropertyChange(PropertyChangeEvent event)
@@ -29,6 +29,20 @@ public class TemplateStructuresPanel extends StructurePanel implements Subscribe
             for (Structure structure : structures)
             {
                 structureTable.addRow(structure);
+            }
+        }
+        else if (event.getPropertyName().equals(TemplateManager.PC_STRUCTURE_EDITED))
+        {
+            Structure structure = (Structure)event.getNewValue();
+
+            int numberOfRows = structureTable.getRowCount();
+
+            for (int i = 0; i < numberOfRows; ++i)
+            {
+                if ((structureTable.getRow(i)).getId().intValue() == structure.getId().intValue())
+                {
+                    structureTable.setRow(i, structure);
+                }
             }
         }
 
