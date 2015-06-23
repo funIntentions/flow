@@ -4,7 +4,6 @@ import com.projects.actions.DevicePropertiesTableListener;
 import com.projects.actions.DeviceSelectedListener;
 import com.projects.actions.ObjectPropertiesTableListener;
 import com.projects.gui.table.DeviceTable;
-import com.projects.gui.table.ObjectTable;
 import com.projects.gui.table.PropertiesTable;
 import com.projects.helper.DeviceType;
 import com.projects.helper.StructureType;

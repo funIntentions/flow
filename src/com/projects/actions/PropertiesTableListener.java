@@ -29,7 +29,7 @@ public class PropertiesTableListener implements TableModelListener
             {
                 TableModel model = (TableModel)e.getSource();
                 Object data = model.getValueAt(row, column);
-                controller.selectionPropertyChanged(row, data);
+                //controller.selectionPropertyChanged(row, data);
             }
         }
     }

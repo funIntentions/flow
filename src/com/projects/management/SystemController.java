@@ -1,6 +1,5 @@
 package com.projects.management;
 
-import com.projects.gui.StructureCreationControl;
 import com.projects.gui.SubscribedView;
 import com.projects.helper.Constants;
 import com.projects.helper.DeviceType;
@@ -8,7 +7,6 @@ import com.projects.helper.SelectionType;
 import com.projects.models.*;
 import com.projects.models.System;
 
-import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -253,21 +251,6 @@ public class SystemController implements PropertyChangeListener
     public void editObjectProperty(int index, Object value)
     {
         templateManager.editObjectProperty(index, value);
-    }
-
-    public void removeModel(Object model)
-    {
-
-    }
-
-    // TODO: implement those that need to be...
-    /**
-     * Changes a selected Models property
-     * @param index this index specifies which property belonging to the Model needs to change.
-     * @param newValue this Object is the new value for the property that's changing
-     */
-    public void selectionPropertyChanged(int index, Object newValue)
-    {
     }
 
     /**

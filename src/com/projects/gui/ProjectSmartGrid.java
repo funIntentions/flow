@@ -27,12 +27,10 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     private TemplateStructureSelectedListener templateStructureSelectedListener;
     private WorldStructureSelectedListener worldStructureSelectedListener;
     private PropertiesTableListener propertiesTableListener;
-    private PrefabSelectedListener prefabSelectedListener;
     private SelectionPropertyPanel selectionInfoPanel;
     private WorldStructuresPanel worldStructuresPanel;
     private SystemController controller;
     private TemplateStructuresPanel templateStructuresPanel;
-    private PrefabPanel prefabPanel;
     private StatusPanel statusBar;
 
     private JSplitPane rightSplitPane;
@@ -57,11 +55,9 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         templateStructureSelectedListener = new TemplateStructureSelectedListener(controller);
         worldStructureSelectedListener = new WorldStructureSelectedListener(controller);
         propertiesTableListener = new PropertiesTableListener(controller);
-        prefabSelectedListener = new PrefabSelectedListener(controller);
         selectionInfoPanel = new SelectionPropertyPanel("Selection", propertiesTableListener);
         worldStructuresPanel = new WorldStructuresPanel(worldStructureSelectedListener);
         templateStructuresPanel = new TemplateStructuresPanel(templateStructureSelectedListener);
-        prefabPanel = new PrefabPanel(prefabSelectedListener);
         statusBar = new StatusPanel("Application Started");
 
         structureCreationControl = new StructureCreationControl(frame, controller);
@@ -71,7 +67,6 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         editStructureAction = new EditStructureAction("Edit Structure", null, null, null, controller);
 
         controller.subscribeView(structureCreationControl);
-        controller.subscribeView(prefabPanel);
         controller.subscribeView(templateStructuresPanel);
         controller.subscribeView(selectionInfoPanel);
         controller.subscribeView(worldStructuresPanel);
@@ -243,11 +238,6 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
         rbMenuItem = new JRadioButtonMenuItem(templateStructuresPanel.getTitle());
         rbMenuItem.addItemListener(new TabTogglingListener(ontologyPane, templateStructuresPanel.getTitle(), templateStructuresPanel));
-        rbMenuItem.setSelected(true);
-        menu.add(rbMenuItem);
-
-        rbMenuItem = new JRadioButtonMenuItem(prefabPanel.getTitle());
-        rbMenuItem.addItemListener(new TabTogglingListener(ontologyPane, prefabPanel.getTitle(), prefabPanel));
         rbMenuItem.setSelected(true);
         menu.add(rbMenuItem);
 
