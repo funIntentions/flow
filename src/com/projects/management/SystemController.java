@@ -30,7 +30,7 @@ public class SystemController implements PropertyChangeListener
     private WorldModel worldModel;
     private FileManager fileManager;
     private TemplateManager templateManager;
-    private SelectionType currentlySelected;
+    private SelectionType activeSelection;
     private Task testTask;
 
     /**
@@ -55,7 +55,7 @@ public class SystemController implements PropertyChangeListener
         worldModel.addPropertyChangeListener(this);
         systems.add(templateManager); //TODO: add the rest after refactoring them
 
-        currentlySelected = SelectionType.NO_SELECTION;
+        activeSelection= SelectionType.NO_SELECTION;
         testTask = new Task(0, "File Loading", "Waiting");
         testTask.addPropertyChangeListener(this);
     }
@@ -162,19 +162,19 @@ public class SystemController implements PropertyChangeListener
         }
     }*/
 
-    public void createStructure(Structure structure)
-    {
-        templateManager.createNewStructure(structure);
-    }
-
-    public void editingStructureTemplate(Structure structure)
-    {
-        templateManager.editingStructureTemplate(structure);
-    }
 
     public void editingComplete()
     {
-        templateManager.editingCompleted();
+        Structure structure = templateManager.getStructureBeingEdited();
+
+        if (activeSelection == SelectionType.WORLD)
+        {
+            worldModel.setStructure(structure);
+        }
+        else if (activeSelection == SelectionType.TEMPLATE)
+        {
+            templateManager.setStructure(structure);
+        }
     }
 
     public void addStructureToWorld(Integer id)
@@ -191,6 +191,7 @@ public class SystemController implements PropertyChangeListener
     public void selectTemplateStructure(Structure structure)
     {
         templateManager.selectTemplateStructure(structure);
+        activeSelection = SelectionType.TEMPLATE;
     }
 
     public void removeWorldStructure(Integer id)
@@ -201,11 +202,30 @@ public class SystemController implements PropertyChangeListener
     public void selectWorldStructure(Structure structure)
     {
         worldModel.selectStructure(structure);
+        activeSelection = SelectionType.WORLD;
     }
 
-    public void editWorldStructure(Structure structure)
+    public void editActiveSelection()
     {
-        worldModel.editStructure(structure);
+        Structure structure = null;
+
+        if (activeSelection == SelectionType.TEMPLATE)
+        {
+            structure = templateManager.getLastSelected();
+        }
+        else if (activeSelection == SelectionType.WORLD)
+        {
+            structure = worldModel.getLastSelected();
+        }
+
+
+        if (structure == null)
+        {
+            return; // TODO: display message?
+        }
+
+
+        templateManager.editStructure(structure);
     }
 
     public void selectDevice(int id)
@@ -220,23 +240,7 @@ public class SystemController implements PropertyChangeListener
 
     public void removeModel(Object model)
     {
-        // Note that Ontology Individuals should never be removed.
-        switch (currentlySelected)
-        {
-            //case WORLD_INDIVIDUAL:
-            case WORLD_PREFAB:
-            case WORLD_PREFAB_MEMBER:
-            {
-                /*if (model instanceof Prefab)
-                {
-                    worldModel.removePrefab((Prefab)model);
-                }
-                else if (model instanceof IndividualModel)
-                {
-                    worldModel.removeIndividual((IndividualModel)model);
-                }*/
-            } break;
-        }
+
     }
 
     // TODO: implement those that need to be...
@@ -263,6 +267,6 @@ public class SystemController implements PropertyChangeListener
 
     public SelectionType getCurrentlySelected()
     {
-        return currentlySelected;
+        return activeSelection;
     }
 }

@@ -15,24 +15,18 @@ import java.awt.event.ActionEvent;
 public class EditStructureAction extends AbstractAction
 {
     private SystemController controller;
-    private StructureTable structuresTable;
-    private JTable table;
 
-    public EditStructureAction(String text, ImageIcon icon, String desc, Integer mnemonic, StructureTable structuresTable, JTable table, SystemController control)
+    public EditStructureAction(String text, ImageIcon icon, String desc, Integer mnemonic, SystemController control)
     {
         super(text, icon);
         putValue(SHORT_DESCRIPTION, desc);
         putValue(MNEMONIC_KEY, mnemonic);
         controller = control;
-        this.structuresTable = structuresTable;
-        this.table = table;
     }
 
     public void actionPerformed(ActionEvent event)
     {
-        int i = table.getSelectedRow();
-        Structure structure = structuresTable.getRow(i);
 
-        controller.editingStructureTemplate(structure);
+        controller.editActiveSelection();
     }
 }

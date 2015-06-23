@@ -12,13 +12,13 @@ import java.util.List;
 public class WorldModel
 {
     private int selectedInstance;
+    private Structure lastSelected;
     private HashMap<String, Integer> individualCount;
     private HashMap<Integer, Structure> structures;
     private HashMap<String, Integer> prefabCount;
     private PropertyChangeSupport changeSupport;
     public static final String PC_NEW_STRUCTURE = "PC_NEW_STRUCTURE";
     public static final String PC_STRUCTURE_SELECTED = "PC_STRUCTURE_SELECTED";
-    public static final String PC_EDIT_STRUCTURE = "PC_EDIT_STRUCTURE";
     public static final String PC_REMOVE_STRUCTURE = "PC_REMOVE_STRUCTURE";
     public static final String PC_WORLD_CLEARED = "PC_WORLD_CLEARED";
 
@@ -30,6 +30,7 @@ public class WorldModel
         changeSupport = new PropertyChangeSupport(this);
         prefabCount = new HashMap<String, Integer>();
         individualCount = new HashMap<String, Integer>();
+        lastSelected = null;
     }
 
     public void clearWorld()
@@ -38,12 +39,18 @@ public class WorldModel
         changeSupport.firePropertyChange(PC_WORLD_CLEARED, null, null);
     }
 
-    public void changePropertyValueOfSelected(int index, Object newValue)
+    public void setStructure(Structure structure)
     {
+        structures.put(structure.getId(), structure);
     }
 
     public void removeStructure(Integer id)
     {
+        if (id == lastSelected.getId())
+        {
+            lastSelected = null;
+        }
+
         structures.remove(id);
     }
 
@@ -66,11 +73,11 @@ public class WorldModel
 
     public void selectStructure(Structure structure)
     {
+        lastSelected = structure;
         changeSupport.firePropertyChange(PC_STRUCTURE_SELECTED, null, structure);
     }
 
-    public void editStructure(Structure structure)
-    {
-        changeSupport.firePropertyChange(PC_EDIT_STRUCTURE, null, structure);
+    public Structure getLastSelected() {
+        return lastSelected;
     }
 }

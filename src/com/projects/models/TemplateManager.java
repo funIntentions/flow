@@ -12,11 +12,12 @@ import java.util.List;
 public class TemplateManager extends System
 {
     private Template template;
-    private Structure structureBeingCreated;
+    private Structure lastSelected;
+    private Structure structureBeingEdited;
     private Integer deviceBeingEdited;
     public static final String PC_TEMPLATE_READY = "PC_TEMPLATE_READY";
     public static final String PC_TEMPLATE_SELECTED = "PC_TEMPLATE_SELECTED";
-    public static final String PC_EDIT_TEMPLATE = "PC_EDIT_TEMPLATE";
+    public static final String PC_EDITING_STRUCTURE = "PC_EDIT_TEMPLATE";
     public static final String PC_CREATE_STRUCTURE = "PC_CREATE_STRUCTURE";
     public static final String PC_ADD_DEVICE = "PC_ADD_DEVICE";
     public static final String PC_DEVICE_SELECTED = "PC_DEVICE_SELECTED";
@@ -39,7 +40,8 @@ public class TemplateManager extends System
         devices = new HashMap<Integer, Device>();
         structures = new HashMap<Integer, Structure>();
         this.template = template;
-        structureBeingCreated = null;
+        structureBeingEdited = null;
+        lastSelected = null;
         deviceBeingEdited = -1;
 
         List<Structure> templateStructures = template.getStructureTemplates();
@@ -57,26 +59,27 @@ public class TemplateManager extends System
         changeSupport.firePropertyChange(PC_TEMPLATE_READY, null, template);
     }
 
-    public void editingStructureTemplate(Structure structure)
+    public void editStructure(Structure structure)
     {
-        structureBeingCreated = new Structure(structures.get(structure.getId()));
-        changeSupport.firePropertyChange(PC_EDIT_TEMPLATE, null, structureBeingCreated);
+        structureBeingEdited = new Structure(structures.get(structure.getId()));
+        changeSupport.firePropertyChange(PC_EDITING_STRUCTURE, null, structureBeingEdited);
     }
 
-    public void editingCompleted()
+    public void setStructure(Structure structure)
     {
-        structures.put(structureBeingCreated.getId(), structureBeingCreated);
+        structures.put(structure.getId(), structure);
     }
 
     public void createNewStructure(Structure structure)
     {
-        structureBeingCreated = new Structure(structure);
-        structureBeingCreated.setId(getNextAvailableStructureId());
-        changeSupport.firePropertyChange(PC_CREATE_STRUCTURE, null, structureBeingCreated);
+        structureBeingEdited = new Structure(structure);
+        structureBeingEdited.setId(getNextAvailableStructureId());
+        changeSupport.firePropertyChange(PC_CREATE_STRUCTURE, null, structureBeingEdited);
     }
 
     public void selectTemplateStructure(Structure structure)
     {
+        lastSelected = structure;
         changeSupport.firePropertyChange(PC_TEMPLATE_SELECTED, null, new Structure(structure));
     }
 
@@ -102,21 +105,21 @@ public class TemplateManager extends System
                 device = new Device(template.getApplianceTemplate());
                 device.setId(getNextAvailableDeviceId());
                 devices.put(device.getId(), device);
-                structureBeingCreated.getAppliances().add(device);
+                structureBeingEdited.getAppliances().add(device);
             } break;
             case ENERGY_SOURCE:
             {
                 device = new Device(template.getEnergySourceTemplate());
                 device.setId(getNextAvailableDeviceId());
                 devices.put(device.getId(), device);
-                structureBeingCreated.getEnergySources().add(device);
+                structureBeingEdited.getEnergySources().add(device);
             } break;
             case ENERGY_STORAGE:
             {
                 device = new Device(template.getEnergyStorageTemplate());
                 device.setId(getNextAvailableDeviceId());
                 devices.put(device.getId(), device);
-                structureBeingCreated.getEnergyStorageDevices().add(device);
+                structureBeingEdited.getEnergyStorageDevices().add(device);
             } break;
         }
 
@@ -128,7 +131,13 @@ public class TemplateManager extends System
         return structures.get(id);
     }
 
-    public Structure getStructureBeingCreated() {
-        return structureBeingCreated;
+    public Structure getStructureBeingEdited()
+    {
+        return structureBeingEdited;
+    }
+
+    public Structure getLastSelected()
+    {
+        return lastSelected;
     }
 }
