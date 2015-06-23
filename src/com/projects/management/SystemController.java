@@ -193,6 +193,11 @@ public class SystemController implements PropertyChangeListener
         templateManager.selectTemplateStructure(structure);
     }
 
+    public void removeWorldStructure(Integer id)
+    {
+        worldModel.removeStructure(id);
+    }
+
     public void selectWorldStructure(Structure structure)
     {
         worldModel.selectStructure(structure);

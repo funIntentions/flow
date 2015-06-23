@@ -125,7 +125,6 @@ public class TemplateManager extends System
 
     public Structure getStructure(Integer id)
     {
-        java.lang.System.out.println(id);
         return structures.get(id);
     }
 

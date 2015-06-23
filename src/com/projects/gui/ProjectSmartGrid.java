@@ -66,7 +66,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
         structureCreationControl = new StructureCreationControl(frame, controller);
 
-        removeSelectedStructureAction = new RemoveSelectedStructureAction("Remove Structure", null, null, null, prefabPanel.getPrefabTree(), controller);
+        removeSelectedStructureAction = new RemoveSelectedStructureAction("Remove Structure", null, null, null, worldStructuresPanel.getStructureTable(), worldStructuresPanel.getTemplateTable(), controller);
         createPrefabAction = new CreateStructureAction("Add Structure", null, null, null, templateStructuresPanel.getStructureTable(), templateStructuresPanel.getTemplateTable(), controller); // TODO: refactor so I don't have to get the table
         editStructureAction = new EditStructureAction("Edit Structure", null, null, null, templateStructuresPanel.getStructureTable(), templateStructuresPanel.getTemplateTable(), controller);
 
@@ -227,6 +227,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         menu.add(menuItem);
 
         menu = new JMenu("Edit");
+        menuBar.add(menu);
 
         removeStructureItem = new JMenuItem(removeSelectedStructureAction);
         menu.add(removeStructureItem);

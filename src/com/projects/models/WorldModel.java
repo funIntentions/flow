@@ -19,6 +19,7 @@ public class WorldModel
     public static final String PC_NEW_STRUCTURE = "PC_NEW_STRUCTURE";
     public static final String PC_STRUCTURE_SELECTED = "PC_STRUCTURE_SELECTED";
     public static final String PC_EDIT_STRUCTURE = "PC_EDIT_STRUCTURE";
+    public static final String PC_REMOVE_STRUCTURE = "PC_REMOVE_STRUCTURE";
     public static final String PC_WORLD_CLEARED = "PC_WORLD_CLEARED";
 
 
@@ -39,6 +40,11 @@ public class WorldModel
 
     public void changePropertyValueOfSelected(int index, Object newValue)
     {
+    }
+
+    public void removeStructure(Integer id)
+    {
+        structures.remove(id);
     }
 
     public void addNewStructure(Structure structure)
