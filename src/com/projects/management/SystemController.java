@@ -167,6 +167,16 @@ public class SystemController implements PropertyChangeListener
         templateManager.createNewStructure(structure);
     }
 
+    public void editingStructureTemplate(Structure structure)
+    {
+        templateManager.editingStructureTemplate(structure);
+    }
+
+    public void editingComplete()
+    {
+        templateManager.editingCompleted();
+    }
+
     public void addStructureToWorld()
     {
         Structure structure = templateManager.getStructureBeingCreated();

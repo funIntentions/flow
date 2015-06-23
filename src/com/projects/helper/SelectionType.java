@@ -7,5 +7,7 @@ public enum SelectionType
 {
     WORLD_PREFAB,
     WORLD_PREFAB_MEMBER,
+    WORLD,
+    TEMPLATE,
     NO_SELECTION
 }

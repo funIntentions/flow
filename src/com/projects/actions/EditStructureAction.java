@@ -33,6 +33,6 @@ public class EditStructureAction extends AbstractAction
         int i = table.getSelectedRow();
         Structure structure = structuresTable.getRow(i);
 
-        controller.editWorldStructure(structure);
+        controller.editingStructureTemplate(structure);
     }
 }

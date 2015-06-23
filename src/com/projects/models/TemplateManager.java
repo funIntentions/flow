@@ -4,6 +4,7 @@ import com.projects.helper.DeviceType;
 import com.projects.helper.StructureType;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Dan on 6/19/2015.
@@ -15,12 +16,14 @@ public class TemplateManager extends System
     private Integer deviceBeingEdited;
     public static final String PC_TEMPLATE_READY = "PC_TEMPLATE_READY";
     public static final String PC_TEMPLATE_SELECTED = "PC_TEMPLATE_SELECTED";
+    public static final String PC_EDIT_TEMPLATE = "PC_EDIT_TEMPLATE";
     public static final String PC_CREATE_STRUCTURE = "PC_CREATE_STRUCTURE";
     public static final String PC_ADD_DEVICE = "PC_ADD_DEVICE";
     public static final String PC_DEVICE_SELECTED = "PC_DEVICE_SELECTED";
     private static Integer nextAvailableStructureId = 0;
     private static Integer nextAvailableDeviceId = 0;
     private HashMap<Integer, Device> devices;
+    private HashMap<Integer, Structure> structures;
 
     private static Integer getNextAvailableStructureId()
     {
@@ -34,15 +37,35 @@ public class TemplateManager extends System
     public TemplateManager(Template template)
     {
         devices = new HashMap<Integer, Device>();
+        structures = new HashMap<Integer, Structure>();
         this.template = template;
         structureBeingCreated = null;
         deviceBeingEdited = -1;
+
+        List<Structure> templateStructures = template.getStructureTemplates();
+
+        for (Structure structure : templateStructures)
+        {
+            structure.setId(getNextAvailableStructureId());
+            structures.put(structure.getId(), structure);
+        }
     }
 
     @Override
     public void postSetupSync()
     {
         changeSupport.firePropertyChange(PC_TEMPLATE_READY, null, template);
+    }
+
+    public void editingStructureTemplate(Structure structure)
+    {
+        structureBeingCreated = new Structure(structures.get(structure.getId()));
+        changeSupport.firePropertyChange(PC_EDIT_TEMPLATE, null, structureBeingCreated);
+    }
+
+    public void editingCompleted()
+    {
+        structures.put(structureBeingCreated.getId(), structureBeingCreated);
     }
 
     public void createNewStructure(Structure structure)

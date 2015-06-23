@@ -68,7 +68,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
         removeSelectedStructureAction = new RemoveSelectedStructureAction("Remove Structure", null, null, null, prefabPanel.getPrefabTree(), controller);
         createPrefabAction = new CreateStructureAction("Create Prefab", null, null, null, templateStructuresPanel.getStructureTable(), templateStructuresPanel.getTemplateTable(), controller); // TODO: refactor so I don't have to get the table
-        editStructureAction = new EditStructureAction("Edit Structure", null, null, null, worldStructuresPanel.getStructureTable(), worldStructuresPanel.getTemplateTable(), controller);
+        editStructureAction = new EditStructureAction("Edit Structure", null, null, null, templateStructuresPanel.getStructureTable(), templateStructuresPanel.getTemplateTable(), controller);
 
         controller.subscribeView(structureCreationControl);
         controller.subscribeView(prefabPanel);
@@ -274,7 +274,9 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         if (event.getPropertyName().equals(TemplateManager.PC_TEMPLATE_SELECTED))
         {
             removeToolBarAndMenuOptions();
+            editStructureItem.setEnabled(true);
             createStructureItem.setEnabled(true);
+            toolBar.add(editStructureButton);
             toolBar.add(createPrefabButton);
         }
         else if (event.getPropertyName().equals(TemplateManager.PC_CREATE_STRUCTURE))
@@ -290,7 +292,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
             toolBar.add(editStructureButton);
             toolBar.add(removeStructureButton);
         }
-        else if (event.getPropertyName().equals(WorldModel.PC_EDIT_STRUCTURE))
+        else if (event.getPropertyName().equals(TemplateManager.PC_EDIT_TEMPLATE))
         {
             Structure structure = (Structure)event.getNewValue();
             structureCreationControl.display(structure);

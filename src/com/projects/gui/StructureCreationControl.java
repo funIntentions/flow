@@ -205,7 +205,7 @@ public class StructureCreationControl implements SubscribedView
             {
                 if (!conflictsExist())
                 {
-                    controller.addStructureToWorld();
+                    controller.editingComplete();
                     close();
                 }
             }
