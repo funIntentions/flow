@@ -26,9 +26,7 @@ On Going
 - When prefabs are loaded in before the ontology nothing really works... Which it shouldn't but a binding of Prefabs and the Ontology will have to exist
 
 - To Structure Creation Control gui add device name as an option to change
-- TODO: Bug if you're editing a property of one type and switch tabs before entering it will change the value type in the cell of the new tab
 - TODO: remove prefabs from code
-- TODO: have structure names in lists update appropriately
 - Rename tool bar and menu buttons
     - Remove the unused
 

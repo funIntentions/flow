@@ -1,6 +1,7 @@
 package com.projects.actions;
 
 import com.projects.gui.table.DeviceTable;
+import com.projects.gui.table.ObjectTable;
 import com.projects.management.SystemController;
 import com.projects.models.Device;
 

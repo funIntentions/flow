@@ -138,6 +138,29 @@ public class TemplateManager extends System
         changeSupport.firePropertyChange(PC_ADD_DEVICE, null, device);
     }
 
+    public void removeDevice(int id)
+    {
+        Device device = devices.get(id);
+        switch (device.getType())
+        {
+            case APPLIANCE:
+            {
+                structureBeingEdited.getAppliances().remove(device);
+            } break;
+            case ENERGY_SOURCE:
+            {
+                structureBeingEdited.getEnergySources().remove(device);
+            } break;
+            case ENERGY_STORAGE:
+            {
+                structureBeingEdited.getEnergyStorageDevices().remove(device);
+            } break;
+        }
+
+        devices.remove(id);
+        structures.put(structureBeingEdited.getId(), structureBeingEdited);
+    }
+
     public void editName(String name)
     {
         structureBeingEdited.setName(name);
@@ -183,7 +206,6 @@ public class TemplateManager extends System
 
         to.setEnergyStorageDevices(copy);
     }
-
 
     public Structure createStructureFromTemplate(Integer id)
     {

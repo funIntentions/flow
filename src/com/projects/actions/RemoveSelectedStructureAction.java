@@ -31,9 +31,12 @@ public class RemoveSelectedStructureAction extends AbstractAction
     public void actionPerformed(ActionEvent event)
     {
         int i = table.getSelectedRow();
-        Structure structure = structuresTable.getRow(i);
-        structuresTable.removeRow(i);
+        if (i >= 0)
+        {
+            Structure structure = structuresTable.getRow(i);
+            structuresTable.removeRow(i);
 
-        controller.removeWorldStructure(structure.getId());
+            controller.removeWorldStructure(structure.getId());
+        }
     }
 }

@@ -3,6 +3,8 @@ package com.projects.gui;
 import com.projects.actions.DevicePropertiesTableListener;
 import com.projects.actions.DeviceSelectedListener;
 import com.projects.actions.ObjectPropertiesTableListener;
+import com.projects.gui.table.DeviceTable;
+import com.projects.gui.table.ObjectTable;
 import com.projects.gui.table.PropertiesTable;
 import com.projects.helper.DeviceType;
 import com.projects.helper.StructureType;
@@ -10,6 +12,8 @@ import com.projects.management.SystemController;
 import com.projects.models.*;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -246,6 +250,12 @@ public class StructureCreationControl implements SubscribedView
         deviceSelectedListener = new DeviceSelectedListener(controller);
         deviceTabbedPane = new DeviceTabbedPane(deviceSelectedListener);
         deviceTabbedPane.setBorder(BorderFactory.createTitledBorder("Building's Devices"));
+        deviceTabbedPane.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                devicePropertiesTable.clearTable();
+            }
+        });
 
         unitDeviceTabbedPane = new DeviceTabbedPane(deviceSelectedListener);
         unitDeviceTabbedPane.setBorder(BorderFactory.createTitledBorder("Unit's Devices"));
@@ -253,6 +263,25 @@ public class StructureCreationControl implements SubscribedView
         compositeUnitDevicePanes = new JPanel(new GridLayout(2,1));
         compositeUnitDevicePanes.add(unitDeviceTabbedPane);
         compositeUnitDevicePanes.add(deviceTabbedPane);
+
+        AbstractAction removeSelection = new AbstractAction("Remove Device")
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                DevicePanel devicePanel = (DevicePanel)deviceTabbedPane.getSelectedComponent();
+                int selectedRow = devicePanel.getTable().getSelectedRow();
+                if (selectedRow >= 0)
+                {
+                    DeviceTable deviceTable = (DeviceTable)devicePanel.getTable().getModel();
+                    Device device =  deviceTable.getRow(selectedRow);
+                    deviceTable.removeRow(selectedRow);
+
+                    devicePropertiesTable.clearTable();
+                    controller.removeDevice(device.getId());
+                }
+            }
+        };
 
         AbstractAction addApplianceAction = new AbstractAction("Add Appliance")
         {
@@ -281,10 +310,11 @@ public class StructureCreationControl implements SubscribedView
             }
         };
 
-        deviceButtonPanel = new JPanel(new FlowLayout());
+        deviceButtonPanel = new JPanel(new GridLayout(1, 4));
         deviceButtonPanel.add(new JButton(addApplianceAction));
         deviceButtonPanel.add(new JButton(addSourceAction));
         deviceButtonPanel.add(new JButton(addStorageAction));
+        deviceButtonPanel.add(new JButton(removeSelection));
     }
 
     private void populateStructureDevicesAndProperties(Structure structure)

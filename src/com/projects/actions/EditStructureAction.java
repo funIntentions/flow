@@ -26,7 +26,6 @@ public class EditStructureAction extends AbstractAction
 
     public void actionPerformed(ActionEvent event)
     {
-
         controller.editActiveSelection();
     }
 }
