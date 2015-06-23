@@ -77,7 +77,7 @@ public class TemplateManager extends System
 
     public void selectTemplateStructure(Structure structure)
     {
-        changeSupport.firePropertyChange(PC_TEMPLATE_SELECTED, null, structure);
+        changeSupport.firePropertyChange(PC_TEMPLATE_SELECTED, null, new Structure(structure));
     }
 
     public void deviceSelected(int id)
@@ -121,6 +121,12 @@ public class TemplateManager extends System
         }
 
         changeSupport.firePropertyChange(PC_ADD_DEVICE, null, device);
+    }
+
+    public Structure getStructure(Integer id)
+    {
+        java.lang.System.out.println(id);
+        return structures.get(id);
     }
 
     public Structure getStructureBeingCreated() {

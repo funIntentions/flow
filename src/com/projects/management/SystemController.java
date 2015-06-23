@@ -177,9 +177,9 @@ public class SystemController implements PropertyChangeListener
         templateManager.editingCompleted();
     }
 
-    public void addStructureToWorld()
+    public void addStructureToWorld(Integer id)
     {
-        Structure structure = templateManager.getStructureBeingCreated();
+        Structure structure = templateManager.getStructure(id);
         worldModel.addNewStructure(structure);
     }
 

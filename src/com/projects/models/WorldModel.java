@@ -11,7 +11,6 @@ import java.util.List;
  */
 public class WorldModel
 {
-    private static Integer nextAvailableStructureId = 0;
     private int selectedInstance;
     private HashMap<String, Integer> individualCount;
     private HashMap<Integer, Structure> structures;
@@ -22,10 +21,6 @@ public class WorldModel
     public static final String PC_EDIT_STRUCTURE = "PC_EDIT_STRUCTURE";
     public static final String PC_WORLD_CLEARED = "PC_WORLD_CLEARED";
 
-    private static Integer getNextAvailableStructureId()
-    {
-        return nextAvailableStructureId++;
-    }
 
     public WorldModel()
     {
@@ -48,7 +43,6 @@ public class WorldModel
 
     public void addNewStructure(Structure structure)
     {
-        structure.setId(getNextAvailableStructureId());
         structures.put(structure.getId(), structure);
         changeSupport.firePropertyChange(PC_NEW_STRUCTURE, null, structure);
     }

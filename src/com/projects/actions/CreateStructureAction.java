@@ -33,6 +33,6 @@ public class CreateStructureAction extends AbstractAction
         int i = table.getSelectedRow();
         Structure structure = structuresTable.getRow(i);
 
-        controller.createStructure(structure);
+        controller.addStructureToWorld(structure.getId());
     }
 }
