@@ -5,12 +5,7 @@ package com.projects.helper;
  */
 public enum SelectionType
 {
-    CLASS,
-    ONTOLOGY_INDIVIDUAL,
-    WORLD_INDIVIDUAL,
-    ONTOLOGY_PREFAB,
     WORLD_PREFAB,
-    ONTOLOGY_PREFAB_MEMBER,
     WORLD_PREFAB_MEMBER,
     NO_SELECTION
 }

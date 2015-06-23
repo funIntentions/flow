@@ -10,12 +10,12 @@ import java.awt.event.ActionEvent;
 /**
  * Created by Dan on 6/2/2015.
  */
-public class RemoveSelectedAction extends AbstractAction
+public class RemoveSelectedStructureAction extends AbstractAction
 {
     private SystemController controller;
     private JTree tree;
 
-    public RemoveSelectedAction(String text, ImageIcon icon, String desc, Integer mnemonic, JTree t, SystemController control)
+    public RemoveSelectedStructureAction(String text, ImageIcon icon, String desc, Integer mnemonic, JTree t, SystemController control)
     {
         super(text, icon);
         putValue(SHORT_DESCRIPTION, desc);

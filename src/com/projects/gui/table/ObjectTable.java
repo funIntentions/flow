@@ -1,6 +1,5 @@
 package com.projects.gui.table;
 
-import com.projects.models.IndividualModel;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;

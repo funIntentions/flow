@@ -1,8 +1,5 @@
 package com.projects.management;
 
-import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.ontology.OntModelSpec;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.projects.helper.DeviceType;
 import com.projects.helper.StructureType;
 import com.projects.helper.Utils;
@@ -36,7 +33,6 @@ class FileManager
     public FileManager()
     {
     }
-
 
     public Template readTemplate(File file)
     {
@@ -208,26 +204,7 @@ class FileManager
         return deviceList;
     }
 
-    public OntModel readOntology(File file)
-    {
-        OntModel model = null;
-
-        try
-        {
-            model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
-            InputStream in = new FileInputStream(file);
-            model.read(in, null);
-            in.close();
-        }
-        catch (Exception exception)
-        {
-            exception.printStackTrace();
-            //TODO: Handle this exception
-        }
-
-        return model;
-    }
-
+    /*
     public Collection<Prefab> readPrefabFile(File file)
     {
         Collection<Prefab> prefabCollection = null;
@@ -294,6 +271,7 @@ class FileManager
 
         return prefabs;
     }
+
 
     private List<IndividualModel> readPrefabMembers(NodeList members)
     {
@@ -481,5 +459,5 @@ class FileManager
         Element node = doc.createElement(elementName);
         node.appendChild(doc.createTextNode(value));
         return node;
-    }
+    }*/
 }

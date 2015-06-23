@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class Prefab
 {
-    private String name;
+    /*private String name;
     private String memberSuffix;
     private List<IndividualModel> members;
     private Integer id;
@@ -49,5 +49,5 @@ public class Prefab
     public String getMemberSuffix()
     {
         return memberSuffix;
-    }
+    }*/
 }

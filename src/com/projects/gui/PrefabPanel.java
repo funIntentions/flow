@@ -1,9 +1,5 @@
 package com.projects.gui;
 
-import com.projects.models.IndividualModel;
-import com.projects.models.OntologyModel;
-import com.projects.models.Prefab;
-
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -49,7 +45,7 @@ public class PrefabPanel extends JScrollPane implements SubscribedView
 
     public void modelPropertyChange(PropertyChangeEvent event)
     {
-        if (event.getPropertyName().equals(OntologyModel.PC_NEW_PREFAB_CREATED))
+        /*if (event.getPropertyName().equals(OntologyModel.PC_NEW_PREFAB_CREATED))
         {
             Prefab prefab = (Prefab)event.getNewValue();
 
@@ -68,7 +64,7 @@ public class PrefabPanel extends JScrollPane implements SubscribedView
         {
             root.removeAllChildren();
             prefabTreeModel.reload();
-        }
+        }*/
     }
 
     public JTree getPrefabTree()

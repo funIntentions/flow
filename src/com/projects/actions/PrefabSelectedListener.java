@@ -1,7 +1,6 @@
 package com.projects.actions;
 
 import com.projects.management.SystemController;
-import com.projects.models.IndividualModel;
 import com.projects.models.Prefab;
 
 import javax.swing.*;
@@ -30,7 +29,7 @@ public class PrefabSelectedListener extends MouseAdapter
         if (node == null) return;
 
         Object nodeInfo = node.getUserObject();
-        if (nodeInfo instanceof IndividualModel)
+        /*if (nodeInfo instanceof IndividualModel)
         {
             IndividualModel model = (IndividualModel)nodeInfo;
             controller.ontologyIndividualSelected(model.getId(), true);
@@ -39,6 +38,6 @@ public class PrefabSelectedListener extends MouseAdapter
         {
             Prefab prefab = (Prefab)nodeInfo;
             controller.ontologyPrefabSelected(prefab.getId());
-        }
+        }*/
     }
 }

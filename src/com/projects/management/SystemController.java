@@ -1,6 +1,5 @@
 package com.projects.management;
 
-import com.hp.hpl.jena.ontology.OntModel;
 import com.projects.gui.StructureCreationControl;
 import com.projects.gui.SubscribedView;
 import com.projects.helper.Constants;
@@ -16,8 +15,6 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -30,23 +27,19 @@ public class SystemController implements PropertyChangeListener
     private ArrayList<SubscribedView> views;
     private List<System> systems;
     private TaskManager taskManager;
-    private OntologyModel ontologyModel;
     private WorldModel worldModel;
     private FileManager fileManager;
     private TemplateManager templateManager;
     private SelectionType currentlySelected;
     private Task testTask;
-    private StructureCreationControl structureCreationControl;
-    private JFrame frame;
 
     /**
      * the constructor
      */
-    public SystemController(JFrame f)
+    public SystemController()
     {
         systems = new ArrayList<System>();
         views = new ArrayList<SubscribedView>();
-        ontologyModel = new OntologyModel();
         worldModel = new WorldModel();
         fileManager = new FileManager();
         taskManager = new TaskManager();
@@ -59,12 +52,10 @@ public class SystemController implements PropertyChangeListener
         templateManager = new TemplateManager(template);
 
         templateManager.addPropertyChangeListener(this);
-        ontologyModel.addPropertyChangeListener(this);
         worldModel.addPropertyChangeListener(this);
         systems.add(templateManager); //TODO: add the rest after refactoring them
 
         currentlySelected = SelectionType.NO_SELECTION;
-        frame = f;
         testTask = new Task(0, "File Loading", "Waiting");
         testTask.addPropertyChangeListener(this);
     }
@@ -93,22 +84,22 @@ public class SystemController implements PropertyChangeListener
      */
     public void loadOntology(File file)
     {
-        ontologyModel.clearOntology();
+        /*ontologyModel.clearOntology();
         worldModel.clearWorld();
         OntologyLoadingWorker ontologyLoadingWorker = new OntologyLoadingWorker(file, fileManager, ontologyModel);
         ontologyLoadingWorker.assignTask(testTask);
-        taskManager.submitWorker(ontologyLoadingWorker);
+        taskManager.submitWorker(ontologyLoadingWorker);*/
     }
 
     public void loadPrefabs(File file)
     {
-        Collection<Prefab> prefabs = fileManager.readPrefabFile(file);
-        ontologyModel.loadPrefabs(prefabs);
+        //Collection<Prefab> prefabs = fileManager.readPrefabFile(file);
+        //ontologyModel.loadPrefabs(prefabs);
     }
 
     public void savePrefabs(File file)
     {
-        fileManager.savePrefabs(file, ontologyModel.getPrefabCollection());
+        //fileManager.savePrefabs(file, ontologyModel.getPrefabCollection());
     }
 
     /**
@@ -116,7 +107,7 @@ public class SystemController implements PropertyChangeListener
      */
     public void closeOntology()
     {
-        ontologyModel.clearOntology();
+        // TODO: clear template manager
         worldModel.clearWorld();
     }
 
@@ -130,7 +121,7 @@ public class SystemController implements PropertyChangeListener
     }
 
     // TODO: should this be moved somewhere else?
-    private class OntologyLoadingWorker extends SwingWorker<Void, String>
+    /*private class OntologyLoadingWorker extends SwingWorker<Void, String>
     {
         FileManager fileManager;
         OntologyModel ontologyModel;
@@ -169,7 +160,7 @@ public class SystemController implements PropertyChangeListener
         {
             ontologyModel.loadOntology(result);
         }
-    }
+    }*/
 
     public void createStructure(Structure structure)
     {
@@ -212,128 +203,23 @@ public class SystemController implements PropertyChangeListener
         templateManager.editDeviceProperty(index, value);
     }
 
-    /**
-     * Changes the currently selected Model to an Individual from the OntologyModel
-     * @param id the unique id of the newly selected Individual
-     * @param inPrefab yes if this individual is part of a prefab
-     */
-    public void ontologyIndividualSelected(int id, Boolean inPrefab)
-    {
-        if (inPrefab)
-            currentlySelected = SelectionType.ONTOLOGY_PREFAB_MEMBER;
-        else
-            currentlySelected = SelectionType.ONTOLOGY_INDIVIDUAL;
-
-        ontologyModel.changeSelectedIndividual(id, inPrefab);
-    }
-
-    public void ontologyPrefabSelected(int id)
-    {
-        currentlySelected = SelectionType.ONTOLOGY_PREFAB;
-        ontologyModel.changeSelectedPrefab(id);
-    }
-
-    /**
-     * Changes the currently selected Model to an instance of an Individual in the WorldModel
-     * @param id the unique id of the newly selected instance
-     */
-    public void worldIndividualSelected(int id)
-    {
-        currentlySelected = SelectionType.WORLD_INDIVIDUAL;
-        worldModel.changeSelectedIndividual(id);
-    }
-
-    public void worldPrefabSelected(int id)
-    {
-        /*currentlySelected = SelectionType.WORLD_PREFAB;
-        worldModel.changeSelectedPrefab(id);*/
-    }
-
-    /**
-     * Changes the currently selected Model to a Class from the OntologyModel
-     * @param index the unique id of the newly selected Class
-     */
-    public void classSelected(int index)
-    {
-        currentlySelected = SelectionType.CLASS;
-        ontologyModel.changeSelectedClass(index);
-    }
-
-    /**
-     * Creates a new instance from the selected Individual which is defined in the OntologyModel. This new instance Individual will be added to the WorldModel.
-     */
-    public void createInstanceFromIndividual()
-    {
-        IndividualModel individual = ontologyModel.getIndividual(ontologyModel.getSelectedIndividual());
-        Integer count = worldModel.getIndividualCount(individual.getName());
-        //worldModel.addNewInstance(individual, count, false);
-    }
-
-    /**
-     * Creates a new instance Prefab(collection of Individuals) from the selected Prefab which is defined in the OntologyModel. This new instance Prefab will be added to the WorldModel.
-     * @param prefab the Prefab which has been selected to be the template for the new Prefab
-     */
-    public void createPrefabInstancesFromPrefab(Prefab prefab)
-    {
-        //Integer count = worldModel.getPrefabCount(prefab.getName());
-        //worldModel.addNewPrefab(prefab, count);
-    }
-
-    /**
-     * Creates a new Prefab(collection of Individuals) from a selected group of Individuals that are defined in the OntologyModel. This new Prefab will be added to the OntologyModel.
-     * @param selection the selected group of Individuals which will makeup the new Prefab
-     */
-    public void createPrefabFromSelection(Integer[] selection)
-    {
-        /*List<Integer> selectionList = Arrays.asList(selection);
-
-        String inputName, inputSuffix;
-        structureCreationControl = new StructureCreationControl(frame, ontologyModel.getPrefabCollection());
-
-        int result = structureCreationControl.getResult();
-
-        if (result == StructureCreationControl.OK)
-        {
-            inputName = structureCreationControl.getName();
-            inputSuffix = structureCreationControl.getSuffix();
-        }
-        else
-        {
-            return;
-        }
-
-        ontologyModel.createNewPrefab(inputName, inputSuffix, selectionList);*/
-    }
-
     public void removeModel(Object model)
     {
         // Note that Ontology Individuals should never be removed.
         switch (currentlySelected)
         {
-            case WORLD_INDIVIDUAL:
+            //case WORLD_INDIVIDUAL:
             case WORLD_PREFAB:
             case WORLD_PREFAB_MEMBER:
             {
-                if (model instanceof Prefab)
+                /*if (model instanceof Prefab)
                 {
                     worldModel.removePrefab((Prefab)model);
                 }
                 else if (model instanceof IndividualModel)
                 {
                     worldModel.removeIndividual((IndividualModel)model);
-                }
-            } break;
-            case ONTOLOGY_PREFAB:
-            case ONTOLOGY_PREFAB_MEMBER:
-            {
-                if (model instanceof Prefab)
-                {
-                    ontologyModel.removePrefab((Prefab)model);
-                }
-                else if (model instanceof IndividualModel)
-                {
-                    ontologyModel.removeIndividual((IndividualModel)model);
-                }
+                }*/
             } break;
         }
     }
@@ -346,23 +232,6 @@ public class SystemController implements PropertyChangeListener
      */
     public void selectionPropertyChanged(int index, Object newValue)
     {
-        switch (currentlySelected)
-        {
-            case CLASS:
-            {
-                // Not implemented
-            } break;
-            case ONTOLOGY_PREFAB_MEMBER:
-            case ONTOLOGY_INDIVIDUAL:
-            {
-                ontologyModel.changePropertyValueOfSelected(index, newValue);
-            } break;
-            case WORLD_PREFAB_MEMBER:
-            case WORLD_INDIVIDUAL:
-            {
-                worldModel.changePropertyValueOfSelected(index, newValue);
-            } break;
-        }
     }
 
     /**

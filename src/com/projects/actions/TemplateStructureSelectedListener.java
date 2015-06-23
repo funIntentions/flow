@@ -2,7 +2,6 @@ package com.projects.actions;
 
 import com.projects.gui.table.StructureTable;
 import com.projects.management.SystemController;
-import com.projects.models.IndividualModel;
 import com.projects.models.Structure;
 
 import javax.swing.*;
