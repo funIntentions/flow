@@ -86,6 +86,11 @@ public class Structure
         return copy;
     }
 
+    public void changePropertyValue(int index, Object value)
+    {
+        properties.get(index).setValue(value);
+    }
+
     public List<Device> getEnergyStorageDevices() {
         return energyStorageDevices;
     }

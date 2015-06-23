@@ -2,6 +2,7 @@ package com.projects.gui;
 
 import com.projects.actions.DevicePropertiesTableListener;
 import com.projects.actions.DeviceSelectedListener;
+import com.projects.actions.ObjectPropertiesTableListener;
 import com.projects.gui.table.PropertiesTable;
 import com.projects.helper.DeviceType;
 import com.projects.helper.StructureType;
@@ -118,7 +119,7 @@ public class StructureCreationControl implements SubscribedView
     private void completeEditing()
     {
         controller.editStructuresName(nameField.getText());
-        controller.editStructuresNumberOfUnits(((Number)numberOfUnitsField.getValue()).intValue());
+        controller.editStructuresNumberOfUnits(((Number) numberOfUnitsField.getValue()).intValue());
         nameField.setText("");
         numberOfUnitsField.setValue(1);
         controller.editingComplete();
@@ -204,7 +205,9 @@ public class StructureCreationControl implements SubscribedView
         devicePropertiesScrollPane = new JScrollPane(propertyTable);
         devicePropertiesScrollPane.setBorder(BorderFactory.createTitledBorder("Selected Device"));
 
+        ObjectPropertiesTableListener objectPropertiesTableListener = new ObjectPropertiesTableListener(controller);
         buildingPropertiesTable = new PropertiesTable();
+        buildingPropertiesTable.addTableModelListener(objectPropertiesTableListener);
         JTable buildingPropertyTable = new JTable(buildingPropertiesTable);
         buildingPropertiesScrollPane = new JScrollPane(buildingPropertyTable);
         buildingPropertiesScrollPane.setBorder(BorderFactory.createTitledBorder("Building Properties"));

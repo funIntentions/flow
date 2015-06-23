@@ -99,6 +99,12 @@ public class TemplateManager extends System
         devices.get(deviceBeingEdited).changePropertyValue(index, value);
     }
 
+    public void editObjectProperty(int index, Object value)
+    {
+        structureBeingEdited.changePropertyValue(index, value);
+        structures.put(structureBeingEdited.getId(), structureBeingEdited);
+    }
+
     public void addDevice(DeviceType deviceType)
     {
         Device device = null;

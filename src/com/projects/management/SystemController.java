@@ -245,6 +245,11 @@ public class SystemController implements PropertyChangeListener
         templateManager.editDeviceProperty(index, value);
     }
 
+    public void editObjectProperty(int index, Object value)
+    {
+        templateManager.editObjectProperty(index, value);
+    }
+
     public void removeModel(Object model)
     {
 
