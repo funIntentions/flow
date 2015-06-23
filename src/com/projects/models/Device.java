@@ -17,13 +17,13 @@ public class Device
 
     public Device(Device device)
     {
-       this(device.getName(), device.getType(), device.getProperties());
+       this(device.getName(), device.getId(), device.getType(), device.getProperties());
     }
 
-    public Device(String device, DeviceType deviceType, List<PropertyModel> deviceProperties)
+    public Device(String device, Integer id, DeviceType deviceType, List<PropertyModel> deviceProperties)
     {
         name = device;
-        id = -1;
+        this.id = id;
         type = deviceType;
         properties = new ArrayList<PropertyModel>();
 

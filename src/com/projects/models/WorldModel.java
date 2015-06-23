@@ -13,9 +13,7 @@ public class WorldModel
 {
     private int selectedInstance;
     private Structure lastSelected;
-    private HashMap<String, Integer> individualCount;
     private HashMap<Integer, Structure> structures;
-    private HashMap<String, Integer> prefabCount;
     private PropertyChangeSupport changeSupport;
     public static final String PC_NEW_STRUCTURE = "PC_NEW_STRUCTURE";
     public static final String PC_STRUCTURE_SELECTED = "PC_STRUCTURE_SELECTED";
@@ -28,8 +26,6 @@ public class WorldModel
         selectedInstance = -1;
         structures = new HashMap<Integer, Structure>();
         changeSupport = new PropertyChangeSupport(this);
-        prefabCount = new HashMap<String, Integer>();
-        individualCount = new HashMap<String, Integer>();
         lastSelected = null;
     }
 

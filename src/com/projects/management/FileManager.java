@@ -195,7 +195,7 @@ class FileManager
                     NodeList propertiesList = deviceElement.getElementsByTagName("properties");
                     List<PropertyModel> properties = readProperties(propertiesList);
 
-                    Device device = new Device(name, deviceType, properties);
+                    Device device = new Device(name, -1, deviceType, properties); // TODO: should I be setting these to -1?
                     deviceList.add(device);
                 }
             }

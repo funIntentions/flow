@@ -134,6 +134,8 @@ public class StructureCreationControl implements SubscribedView
         }
 
         structureType = StructureType.NO_STRUCTURE;
+        buildingPropertiesTable.clearTable();
+        devicePropertiesTable.clearTable();
         creationDialog.setVisible(false);
     }
 

@@ -165,7 +165,7 @@ public class SystemController implements PropertyChangeListener
 
     public void editingComplete()
     {
-        Structure structure = templateManager.getStructureBeingEdited();
+        Structure structure = templateManager.getCopyOfStructureBeingEdited();
 
         if (activeSelection == SelectionType.WORLD)
         {
@@ -179,7 +179,7 @@ public class SystemController implements PropertyChangeListener
 
     public void addStructureToWorld(Integer id)
     {
-        Structure structure = templateManager.getStructure(id);
+        Structure structure = templateManager.createStructureFromTemplate(id);
         worldModel.addNewStructure(structure);
     }
 
@@ -218,12 +218,10 @@ public class SystemController implements PropertyChangeListener
             structure = worldModel.getLastSelected();
         }
 
-
         if (structure == null)
         {
             return; // TODO: display message?
         }
-
 
         templateManager.editStructure(structure);
     }

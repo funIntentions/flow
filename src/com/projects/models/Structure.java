@@ -21,20 +21,21 @@ public class Structure
 
     public Structure(String structure, StructureType structureType)
     {
-        this(structure, structureType, new ArrayList<PropertyModel>(), new ArrayList<Device>(), new ArrayList<Device>() , new ArrayList<Device>());
+        this(structure, -1, structureType, new ArrayList<PropertyModel>(), new ArrayList<Device>(), new ArrayList<Device>() , new ArrayList<Device>());
     }
 
     public Structure(String structure, StructureType structureType, List<PropertyModel> propertyList)
     {
-        this(structure, structureType, propertyList, new ArrayList<Device>(), new ArrayList<Device>(), new ArrayList<Device>());
+        this(structure, -1, structureType, propertyList, new ArrayList<Device>(), new ArrayList<Device>(), new ArrayList<Device>());
     }
 
     public Structure(Structure structure)
     {
-        this(structure.getName(), structure.getType(), structure.getProperties(), structure.getAppliances(), structure.getEnergySources(), structure.getEnergyStorageDevices());
+        this(structure.getName(),structure.getId(), structure.getType(), structure.getProperties(), structure.getAppliances(), structure.getEnergySources(), structure.getEnergyStorageDevices());
     }
 
     public Structure(String structure,
+                     Integer id,
                      StructureType structureType,
                      List<PropertyModel> propertyList,
                      List<Device> applianceList,
@@ -42,13 +43,39 @@ public class Structure
                      List<Device> energyStorageList)
     {
         name = structure;
-        id = -1;
+        this.id = id;
         type = structureType;
         numberOfUnits = 1;
-        properties = propertyList;
-        appliances = applianceList;
-        energySources = energySourceList;
-        energyStorageDevices = energyStorageList;
+
+        properties = copyProperties(propertyList);
+
+        appliances = copyDevices(applianceList);
+        energySources = copyDevices(energySourceList);
+        energyStorageDevices = copyDevices(energyStorageList);
+    }
+
+    private List<PropertyModel> copyProperties(List<PropertyModel> list)
+    {
+        List<PropertyModel> copy = new ArrayList<PropertyModel>();
+
+        for (PropertyModel property : list)
+        {
+            copy.add(new PropertyModel(property));
+        }
+
+        return copy;
+    }
+
+    private List<Device> copyDevices(List<Device> list)
+    {
+        List<Device> copy = new ArrayList<Device>();
+
+        for (Device device : list)
+        {
+            copy.add(new Device(device));
+        }
+
+        return copy;
     }
 
     public List<Device> getEnergyStorageDevices() {

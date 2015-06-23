@@ -3,6 +3,7 @@ package com.projects.models;
 import com.projects.helper.DeviceType;
 import com.projects.helper.StructureType;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -51,6 +52,16 @@ public class TemplateManager extends System
             structure.setId(getNextAvailableStructureId());
             structures.put(structure.getId(), structure);
         }
+
+        template.getApplianceTemplate().setId(getNextAvailableDeviceId());
+        devices.put(template.getApplianceTemplate().getId(), template.getApplianceTemplate());
+
+        template.getEnergySourceTemplate().setId(getNextAvailableDeviceId());
+        devices.put(template.getEnergySourceTemplate().getId(), template.getEnergySourceTemplate());
+
+        template.getEnergyStorageTemplate().setId(getNextAvailableDeviceId());
+        devices.put(template.getEnergyStorageTemplate().getId(), template.getEnergyStorageTemplate());
+
     }
 
     @Override
@@ -70,17 +81,10 @@ public class TemplateManager extends System
         structures.put(structure.getId(), structure);
     }
 
-    public void createNewStructure(Structure structure)
-    {
-        structureBeingEdited = new Structure(structure);
-        structureBeingEdited.setId(getNextAvailableStructureId());
-        changeSupport.firePropertyChange(PC_CREATE_STRUCTURE, null, structureBeingEdited);
-    }
-
     public void selectTemplateStructure(Structure structure)
     {
         lastSelected = structure;
-        changeSupport.firePropertyChange(PC_TEMPLATE_SELECTED, null, new Structure(structure));
+        changeSupport.firePropertyChange(PC_TEMPLATE_SELECTED, null, structure);
     }
 
     public void deviceSelected(int id)
@@ -123,7 +127,53 @@ public class TemplateManager extends System
             } break;
         }
 
+        structures.put(structureBeingEdited.getId(), structureBeingEdited);
         changeSupport.firePropertyChange(PC_ADD_DEVICE, null, device);
+    }
+
+    private void copyDevices(Structure from, Structure to)
+    {
+
+        List<Device> copy = new ArrayList<Device>();
+        for (Device device : from.getAppliances())
+        {
+            Device copiedDevice = new Device(device.getName(), getNextAvailableDeviceId(), device.getType(), device.getProperties());
+            copy.add(copiedDevice);
+            devices.put(copiedDevice.getId(), copiedDevice);
+        }
+
+        to.setAppliances(copy);
+
+        copy = new ArrayList<Device>();
+        for (Device device: from.getEnergySources())
+        {
+            Device copiedDevice = new Device(device.getName(), getNextAvailableDeviceId(), device.getType(), device.getProperties());
+            copy.add(copiedDevice);
+            devices.put(copiedDevice.getId(), copiedDevice);
+        }
+
+        to.setEnergySources(copy);
+
+        copy = new ArrayList<Device>();
+        for (Device device : from.getEnergyStorageDevices())
+        {
+            Device copiedDevice = new Device(device.getName(), getNextAvailableDeviceId(), device.getType(), device.getProperties());
+            copy.add(copiedDevice);
+            devices.put(copiedDevice.getId(), copiedDevice);
+        }
+
+        to.setEnergyStorageDevices(copy);
+    }
+
+
+    public Structure createStructureFromTemplate(Integer id)
+    {
+        Structure template = structures.get(id);
+        Structure structure = new Structure(template);
+        copyDevices(template, structure);
+        structure.setId(getNextAvailableStructureId());
+        structures.put(structure.getId(), structure);
+        return structure;
     }
 
     public Structure getStructure(Integer id)
@@ -131,9 +181,9 @@ public class TemplateManager extends System
         return structures.get(id);
     }
 
-    public Structure getStructureBeingEdited()
+    public Structure getCopyOfStructureBeingEdited()
     {
-        return structureBeingEdited;
+        return new Structure(structureBeingEdited);
     }
 
     public Structure getLastSelected()
