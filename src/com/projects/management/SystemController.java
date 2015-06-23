@@ -162,6 +162,15 @@ public class SystemController implements PropertyChangeListener
         }
     }*/
 
+    public void editStructuresName(String name)
+    {
+        templateManager.editName(name);
+    }
+
+    public void editStructuresNumberOfUnits(Integer num)
+    {
+        templateManager.editNumberOfUnits(num);
+    }
 
     public void editingComplete()
     {

@@ -9,7 +9,6 @@ import com.projects.management.SystemController;
 import com.projects.models.*;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -30,8 +29,7 @@ public class StructureCreationControl implements SubscribedView
     private JLabel numberOfUnitsLabel;
     private JLabel infoLabel;
     private JTextField nameField;
-    private JTextField unitNameField;
-    private JTextField numberOfUnitsField;
+    private JFormattedTextField numberOfUnitsField;
     private JPanel creationPanel;
     private JPanel leftPanel;
     private JPanel rightPanel;
@@ -60,8 +58,9 @@ public class StructureCreationControl implements SubscribedView
     {
         controller = systemController;
         nameField = new JTextField(14);
-        unitNameField = new JTextField(14);
-        numberOfUnitsField = new JTextField(4);
+        numberOfUnitsField = new JFormattedTextField();
+        numberOfUnitsField.setValue(1);
+        numberOfUnitsField.setColumns(4);
         unitNameLabel = new JLabel("Unit Name: ");
         numberOfUnitsLabel = new JLabel("Number of Units: ");
         infoLabel = new JLabel("Enter a unique name and suffix.");
@@ -93,6 +92,7 @@ public class StructureCreationControl implements SubscribedView
     public void display(Structure structure)
     {
         nameField.setText(structure.getName());
+        numberOfUnitsField.setValue(structure.getNumberOfUnits());
         structureType = structure.getType();
 
         switch (structureType)
@@ -113,6 +113,15 @@ public class StructureCreationControl implements SubscribedView
 
         creationDialog.pack();
         creationDialog.setVisible(true);
+    }
+
+    private void completeEditing()
+    {
+        controller.editStructuresName(nameField.getText());
+        controller.editStructuresNumberOfUnits(((Number)numberOfUnitsField.getValue()).intValue());
+        nameField.setText("");
+        numberOfUnitsField.setValue(1);
+        controller.editingComplete();
     }
 
     private void close()
@@ -207,7 +216,7 @@ public class StructureCreationControl implements SubscribedView
             {
                 if (!conflictsExist())
                 {
-                    controller.editingComplete();
+                    completeEditing();
                     close();
                 }
             }

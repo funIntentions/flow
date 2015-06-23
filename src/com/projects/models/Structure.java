@@ -21,22 +21,30 @@ public class Structure
 
     public Structure(String structure, StructureType structureType)
     {
-        this(structure, -1, structureType, new ArrayList<PropertyModel>(), new ArrayList<Device>(), new ArrayList<Device>() , new ArrayList<Device>());
+        this(structure, -1, structureType, 1, new ArrayList<PropertyModel>(), new ArrayList<Device>(), new ArrayList<Device>() , new ArrayList<Device>());
     }
 
     public Structure(String structure, StructureType structureType, List<PropertyModel> propertyList)
     {
-        this(structure, -1, structureType, propertyList, new ArrayList<Device>(), new ArrayList<Device>(), new ArrayList<Device>());
+        this(structure, -1, structureType, 1, propertyList, new ArrayList<Device>(), new ArrayList<Device>(), new ArrayList<Device>());
     }
 
     public Structure(Structure structure)
     {
-        this(structure.getName(),structure.getId(), structure.getType(), structure.getProperties(), structure.getAppliances(), structure.getEnergySources(), structure.getEnergyStorageDevices());
+        this(structure.getName(),
+                structure.getId(),
+                structure.getType(),
+                structure.getNumberOfUnits(),
+                structure.getProperties(),
+                structure.getAppliances(),
+                structure.getEnergySources(),
+                structure.getEnergyStorageDevices());
     }
 
     public Structure(String structure,
                      Integer id,
                      StructureType structureType,
+                     Integer numberOfUnits,
                      List<PropertyModel> propertyList,
                      List<Device> applianceList,
                      List<Device> energySourceList,
@@ -45,7 +53,7 @@ public class Structure
         name = structure;
         this.id = id;
         type = structureType;
-        numberOfUnits = 1;
+        this.numberOfUnits = numberOfUnits;
 
         properties = copyProperties(propertyList);
 
@@ -118,6 +126,16 @@ public class Structure
         return type;
     }
 
+    public Integer getNumberOfUnits()
+    {
+        return numberOfUnits;
+    }
+
+    public void setNumberOfUnits(Integer numberOfUnits)
+    {
+        this.numberOfUnits = numberOfUnits;
+    }
+
     public void setType(StructureType type) {
         this.type = type;
     }
@@ -140,4 +158,6 @@ public class Structure
     {
         this.id = id;
     }
+
+
 }

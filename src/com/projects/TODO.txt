@@ -27,6 +27,7 @@ On Going
 
 - To Structure Creation Control gui add device name as an option to change
 - TODO: Bug if you're editing a property of one type and switch tabs before entering it will change the value type in the cell of the new tab
+- TODO: Editing the PowerPlants properties doesn't work
 - Rename tool bar and menu buttons
     - Remove the unused
 

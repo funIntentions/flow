@@ -15,25 +15,25 @@ public class CompositeStructure extends Structure
 
     public CompositeStructure(String structureName, String unitName)
     {
-        super(structureName, -1, StructureType.COMPOSITE_UNIT, new ArrayList<PropertyModel>(), new ArrayList<Device>(), new ArrayList<Device>(), new ArrayList<Device>());
+        super(structureName, -1, StructureType.COMPOSITE_UNIT, 1, new ArrayList<PropertyModel>(), new ArrayList<Device>(), new ArrayList<Device>(), new ArrayList<Device>());
         unit = new Structure(unitName, StructureType.SINGLE_UNIT);
     }
 
     public CompositeStructure(String structure, List<PropertyModel> propertyList)
     {
-        super(structure, -1, StructureType.COMPOSITE_UNIT, propertyList, new ArrayList<Device>(), new ArrayList<Device>(), new ArrayList<Device>());
+        super(structure, -1, StructureType.COMPOSITE_UNIT, 1, propertyList, new ArrayList<Device>(), new ArrayList<Device>(), new ArrayList<Device>());
     }
 
     public CompositeStructure(Structure structure)
     {
-        super(structure.getName(),structure.getId(), structure.getType(), structure.getProperties(), structure.getAppliances(), structure.getEnergySources(), structure.getEnergyStorageDevices());
+        super(structure.getName(),structure.getId(), structure.getType(), 1, structure.getProperties(), structure.getAppliances(), structure.getEnergySources(), structure.getEnergyStorageDevices());
         numberOfUnits = 0;
         unit = new Structure("Default", StructureType.SINGLE_UNIT);
     }
 
     public CompositeStructure(CompositeStructure structure)
     {
-        super(structure.getName(), structure.getId(), structure.getType(), structure.getProperties(), structure.getAppliances(), structure.getEnergySources(), structure.getEnergyStorageDevices());
+        super(structure.getName(), structure.getId(), structure.getType(), 1, structure.getProperties(), structure.getAppliances(), structure.getEnergySources(), structure.getEnergyStorageDevices());
         numberOfUnits = structure.getNumberOfUnits();
         unit = new Structure(structure.getUnit());
     }

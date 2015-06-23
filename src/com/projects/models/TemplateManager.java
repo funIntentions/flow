@@ -83,7 +83,7 @@ public class TemplateManager extends System
 
     public void selectTemplateStructure(Structure structure)
     {
-        lastSelected = structure;
+        lastSelected = structures.get(structure.getId());
         changeSupport.firePropertyChange(PC_TEMPLATE_SELECTED, null, structure);
     }
 
@@ -129,6 +129,18 @@ public class TemplateManager extends System
 
         structures.put(structureBeingEdited.getId(), structureBeingEdited);
         changeSupport.firePropertyChange(PC_ADD_DEVICE, null, device);
+    }
+
+    public void editName(String name)
+    {
+        structureBeingEdited.setName(name);
+        structures.put(structureBeingEdited.getId(), structureBeingEdited);
+    }
+
+    public void editNumberOfUnits(Integer num)
+    {
+        structureBeingEdited.setNumberOfUnits(num);
+        structures.put(structureBeingEdited.getId(), structureBeingEdited);
     }
 
     private void copyDevices(Structure from, Structure to)

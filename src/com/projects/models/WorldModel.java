@@ -56,7 +56,6 @@ public class WorldModel
         changeSupport.firePropertyChange(PC_NEW_STRUCTURE, null, structure);
     }
 
-
     public void addPropertyChangeListener(PropertyChangeListener l)
     {
         changeSupport.addPropertyChangeListener(l);
