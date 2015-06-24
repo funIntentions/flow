@@ -1,7 +1,7 @@
-package com.projects.models;
+package com.projects.systems;
 
 import com.projects.helper.DeviceType;
-import com.projects.helper.StructureType;
+import com.projects.models.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

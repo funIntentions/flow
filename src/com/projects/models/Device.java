@@ -13,23 +13,23 @@ public class Device
     private String name;
     private Integer id;
     private DeviceType type;
-    private List<PropertyModel> properties;
+    private List<Property> properties;
 
     public Device(Device device)
     {
        this(device.getName(), device.getId(), device.getType(), device.getProperties());
     }
 
-    public Device(String device, Integer id, DeviceType deviceType, List<PropertyModel> deviceProperties)
+    public Device(String device, Integer id, DeviceType deviceType, List<Property> deviceProperties)
     {
         name = device;
         this.id = id;
         type = deviceType;
-        properties = new ArrayList<PropertyModel>();
+        properties = new ArrayList<Property>();
 
-        for (PropertyModel property : deviceProperties)
+        for (Property property : deviceProperties)
         {
-            properties.add(new PropertyModel(property));
+            properties.add(new Property(property));
         }
     }
 
@@ -62,11 +62,11 @@ public class Device
         this.type = type;
     }
 
-    public List<PropertyModel> getProperties() {
+    public List<Property> getProperties() {
         return properties;
     }
 
-    public void setProperties(List<PropertyModel> properties) {
+    public void setProperties(List<Property> properties) {
         this.properties = properties;
     }
 }

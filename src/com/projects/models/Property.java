@@ -3,12 +3,12 @@ package com.projects.models;
 /**
  * Created by Dan on 5/29/2015.
  */
-public class PropertyModel <T>
+public class Property<T>
 {
     private String name;
     private T value;
 
-    public PropertyModel(String n, T val)
+    public Property(String n, T val)
     {
         name = n;
         value = val;
@@ -29,7 +29,7 @@ public class PropertyModel <T>
         return value;
     }
 
-    public PropertyModel (PropertyModel model)
+    public Property(Property model)
     {
         name = model.getName();
         //TODO: check this cast;

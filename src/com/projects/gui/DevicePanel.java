@@ -2,13 +2,9 @@ package com.projects.gui;
 
 import com.projects.gui.table.DeviceTable;
 import com.projects.models.Device;
-import com.projects.models.Template;
-import com.projects.models.TemplateManager;
 
 import javax.swing.*;
 import java.awt.event.MouseListener;
-import java.beans.PropertyChangeEvent;
-import java.util.List;
 
 /**
  * Created by Dan on 6/18/2015.

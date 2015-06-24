@@ -9,6 +9,7 @@ import com.projects.helper.DeviceType;
 import com.projects.helper.StructureType;
 import com.projects.management.SystemController;
 import com.projects.models.*;
+import com.projects.systems.TemplateManager;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -26,7 +27,7 @@ import java.util.List;
 /**
  * Created by Dan on 6/9/2015.
  */
-public class StructureCreationControl implements SubscribedView
+public class StructureEditor implements SubscribedView
 {
     private JLabel nameLabel;
     private JLabel unitNameLabel;
@@ -58,7 +59,7 @@ public class StructureCreationControl implements SubscribedView
 
     private StructureType structureType;
 
-    public StructureCreationControl(JFrame frame, SystemController systemController)
+    public StructureEditor(JFrame frame, SystemController systemController)
     {
         controller = systemController;
         nameField = new JTextField(14);
@@ -77,7 +78,7 @@ public class StructureCreationControl implements SubscribedView
 
         creationPanel.add(leftPanel);
         creationPanel.add(rightPanel);
-        creationDialog = new JDialog(frame, "Structure Creation", true);
+        creationDialog = new JDialog(frame, "Structure Editor", true);
         creationDialog.setContentPane(creationPanel);
         creationDialog.setPreferredSize(new Dimension(800, 400));
         creationDialog.setResizable(false);
@@ -339,9 +340,9 @@ public class StructureCreationControl implements SubscribedView
         }
 
         buildingPropertiesTable.clearTable();
-        List<PropertyModel> properties = structure.getProperties();
+        List<Property> properties = structure.getProperties();
 
-        for (PropertyModel property : properties)
+        for (Property property : properties)
         {
             Object[] row = {property.getName(), property.getValue()};
             buildingPropertiesTable.addRow(row);
@@ -497,9 +498,9 @@ public class StructureCreationControl implements SubscribedView
         {
             devicePropertiesTable.clearTable();
             Device device = (Device)event.getNewValue();
-            List<PropertyModel> properties = device.getProperties();
+            List<Property> properties = device.getProperties();
 
-            for (PropertyModel property : properties)
+            for (Property property : properties)
             {
                 Object[] row = {property.getName(), property.getValue()};
                 devicePropertiesTable.addRow(row);

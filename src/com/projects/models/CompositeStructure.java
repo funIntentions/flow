@@ -15,11 +15,11 @@ public class CompositeStructure extends Structure
 
     public CompositeStructure(String structureName, String unitName)
     {
-        super(structureName, -1, StructureType.COMPOSITE_UNIT, 1, new ArrayList<PropertyModel>(), new ArrayList<Device>(), new ArrayList<Device>(), new ArrayList<Device>());
+        super(structureName, -1, StructureType.COMPOSITE_UNIT, 1, new ArrayList<Property>(), new ArrayList<Device>(), new ArrayList<Device>(), new ArrayList<Device>());
         unit = new Structure(unitName, StructureType.SINGLE_UNIT);
     }
 
-    public CompositeStructure(String structure, List<PropertyModel> propertyList)
+    public CompositeStructure(String structure, List<Property> propertyList)
     {
         super(structure, -1, StructureType.COMPOSITE_UNIT, 1, propertyList, new ArrayList<Device>(), new ArrayList<Device>(), new ArrayList<Device>());
     }

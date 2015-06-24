@@ -1,13 +1,11 @@
 package com.projects.actions;
 
-import com.projects.gui.StructureCreationControl;
 import com.projects.gui.table.StructureTable;
 import com.projects.management.SystemController;
 import com.projects.models.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.lang.System;
 
 /**
  * Created by Dan on 6/3/2015.

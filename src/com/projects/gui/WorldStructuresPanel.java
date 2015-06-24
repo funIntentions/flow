@@ -1,13 +1,11 @@
 package com.projects.gui;
 
 import com.projects.models.Structure;
-import com.projects.models.Template;
-import com.projects.models.TemplateManager;
-import com.projects.models.WorldModel;
+import com.projects.systems.TemplateManager;
+import com.projects.systems.simulation.World;
 
 import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
-import java.util.List;
 
 /**
  * Created by Dan on 6/19/2015.
@@ -21,7 +19,7 @@ public class WorldStructuresPanel extends StructurePanel implements SubscribedVi
 
     public void modelPropertyChange(PropertyChangeEvent event)
     {
-        if (event.getPropertyName().equals(WorldModel.PC_NEW_STRUCTURE))
+        if (event.getPropertyName().equals(World.PC_NEW_STRUCTURE))
         {
             Structure structure = (Structure)event.getNewValue();
             structureTable.addRow(structure);

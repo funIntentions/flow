@@ -11,17 +11,8 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.lang.System;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -92,7 +83,7 @@ class FileManager
                     }
 
                     NodeList structureProperties = structureElement.getElementsByTagName("properties");
-                    List<PropertyModel> properties = readProperties(structureProperties);
+                    List<Property> properties = readProperties(structureProperties);
 
                     Structure structure = new Structure(name, structureType, properties);
                     structureList.add(structure);
@@ -111,9 +102,9 @@ class FileManager
         return childNodes.item(0).getNodeValue().trim();
     }
 
-    public List<PropertyModel> readProperties(NodeList propertiesList)
+    public List<Property> readProperties(NodeList propertiesList)
     {
-        List<PropertyModel> propertyList = new ArrayList<PropertyModel>();
+        List<Property> propertyList = new ArrayList<Property>();
         Node propertiesNode = propertiesList.item(0);
 
         if (propertiesNode.getNodeType() == Node.ELEMENT_NODE)
@@ -136,15 +127,15 @@ class FileManager
                     String value = element.getChildNodes().item(0).getNodeValue().trim();
 
                     String type = nodeList.item(0).getAttributes().getNamedItem("type").getNodeValue();
-                    PropertyModel property;
+                    Property property;
 
                     if (type.equals("BOOLEAN"))
                     {
-                        property = new PropertyModel<Boolean>(name, Boolean.valueOf(value));
+                        property = new Property<Boolean>(name, Boolean.valueOf(value));
                     }
                     else if (type.equals("DOUBLE"))
                     {
-                        property = new PropertyModel<Double>(name, Double.valueOf(value));
+                        property = new Property<Double>(name, Double.valueOf(value));
                     }
                     else
                     {
@@ -193,7 +184,7 @@ class FileManager
                     }
 
                     NodeList propertiesList = deviceElement.getElementsByTagName("properties");
-                    List<PropertyModel> properties = readProperties(propertiesList);
+                    List<Property> properties = readProperties(propertiesList);
 
                     Device device = new Device(name, -1, deviceType, properties); // TODO: should I be setting these to -1?
                     deviceList.add(device);
@@ -319,7 +310,7 @@ class FileManager
                 Element propertiesElement = (Element)propertiesList.item(0);
 
                 NodeList propertyList = propertiesElement.getElementsByTagName("Property");
-                List<PropertyModel> memberProperties = readMemberProperties(propertyList);
+                List<Property> memberProperties = readMemberProperties(propertyList);
 
                 IndividualModel member = new IndividualModel(memberId, memberName, memberClassName, memberDescription, memberProperties);
                 memberIndividuals.add(member);
@@ -329,9 +320,9 @@ class FileManager
         return memberIndividuals;
     }
 
-    private List<PropertyModel> readMemberProperties(NodeList properties)
+    private List<Property> readMemberProperties(NodeList properties)
     {
-        List<PropertyModel> memberProperties = new ArrayList<PropertyModel>();
+        List<Property> memberProperties = new ArrayList<Property>();
 
         int length = properties.getLength();
         for (int property = 0; property < length; ++property)
@@ -356,12 +347,12 @@ class FileManager
 
                 if (value.equals("true") || value.equals("false")) // TODO: remove repetition here and in Individual Model
                 {
-                    PropertyModel<Boolean> newProperty = new PropertyModel<Boolean>(propertyName, Boolean.getBoolean(value));
+                    Property<Boolean> newProperty = new Property<Boolean>(propertyName, Boolean.getBoolean(value));
                     memberProperties.add(newProperty);
                 }
                 else
                 {
-                    PropertyModel<Double> newProperty = new PropertyModel<Double>(propertyName, Double.parseDouble(value));
+                    Property<Double> newProperty = new Property<Double>(propertyName, Double.parseDouble(value));
                     memberProperties.add(newProperty);
                 }
             }
@@ -435,8 +426,8 @@ class FileManager
         individualNode.appendChild(getElement(doc, "ID", String.valueOf(individual.getId())));
         individualNode.appendChild(individualProperties);
 
-        List<PropertyModel> properties = individual.getProperties();
-        for (PropertyModel propertyModel : properties)
+        List<Property> properties = individual.getProperties();
+        for (Property propertyModel : properties)
         {
             individualProperties.appendChild(getPropertyNode(doc, propertyModel));
         }
@@ -444,7 +435,7 @@ class FileManager
         return individualNode;
     }
 
-    private Node getPropertyNode(Document doc, PropertyModel property)
+    private Node getPropertyNode(Document doc, Property property)
     {
         Element propertyNode = doc.createElement("Property");
 

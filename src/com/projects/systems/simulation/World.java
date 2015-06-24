@@ -1,27 +1,25 @@
-package com.projects.models;
+package com.projects.systems.simulation;
 
-import java.beans.PropertyChangeListener;
+import com.projects.models.*;
+
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Dan on 5/27/2015.
  */
-public class WorldModel
+public class World extends com.projects.systems.System
 {
     private int selectedInstance;
     private Structure lastSelected;
     private HashMap<Integer, Structure> structures;
-    private PropertyChangeSupport changeSupport;
     public static final String PC_NEW_STRUCTURE = "PC_NEW_STRUCTURE";
     public static final String PC_STRUCTURE_SELECTED = "PC_STRUCTURE_SELECTED";
     public static final String PC_REMOVE_STRUCTURE = "PC_REMOVE_STRUCTURE";
     public static final String PC_WORLD_CLEARED = "PC_WORLD_CLEARED";
 
 
-    public WorldModel()
+    public World()
     {
         selectedInstance = -1;
         structures = new HashMap<Integer, Structure>();
@@ -54,16 +52,6 @@ public class WorldModel
     {
         structures.put(structure.getId(), structure);
         changeSupport.firePropertyChange(PC_NEW_STRUCTURE, null, structure);
-    }
-
-    public void addPropertyChangeListener(PropertyChangeListener l)
-    {
-        changeSupport.addPropertyChangeListener(l);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener l)
-    {
-        changeSupport.removePropertyChangeListener(l);
     }
 
     public void selectStructure(Structure structure)

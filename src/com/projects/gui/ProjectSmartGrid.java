@@ -4,8 +4,8 @@ import com.projects.helper.Constants;
 import com.projects.management.SystemController;
 import com.projects.actions.*;
 import com.projects.models.Structure;
-import com.projects.models.TemplateManager;
-import com.projects.models.WorldModel;
+import com.projects.systems.TemplateManager;
+import com.projects.systems.simulation.World;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,7 +43,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     private JButton removeStructureButton, createPrefabButton, editStructureButton; // ToolBar Buttons
     private JMenuItem removeStructureItem, createStructureItem, editStructureItem; // MenuItems
 
-    StructureCreationControl structureCreationControl;
+    StructureEditor structureEditor;
 
     private ProjectSmartGrid(JFrame frame)
     {
@@ -60,13 +60,13 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         templateStructuresPanel = new TemplateStructuresPanel(templateStructureSelectedListener);
         statusBar = new StatusPanel("Application Started");
 
-        structureCreationControl = new StructureCreationControl(frame, controller);
+        structureEditor = new StructureEditor(frame, controller);
 
         removeSelectedStructureAction = new RemoveSelectedStructureAction("Remove Structure", null, null, null, worldStructuresPanel.getStructureTable(), worldStructuresPanel.getTemplateTable(), controller);
         createPrefabAction = new CreateStructureAction("Add Structure", null, null, null, templateStructuresPanel.getStructureTable(), templateStructuresPanel.getTemplateTable(), controller); // TODO: refactor so I don't have to get the table
         editStructureAction = new EditStructureAction("Edit Structure", null, null, null, controller);
 
-        controller.subscribeView(structureCreationControl);
+        controller.subscribeView(structureEditor);
         controller.subscribeView(templateStructuresPanel);
         controller.subscribeView(selectionInfoPanel);
         controller.subscribeView(worldStructuresPanel);
@@ -273,9 +273,9 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         else if (event.getPropertyName().equals(TemplateManager.PC_CREATE_STRUCTURE))
         {
             Structure structure = (Structure)event.getNewValue();
-            structureCreationControl.display(structure);
+            structureEditor.display(structure);
         }
-        else if (event.getPropertyName().equals(WorldModel.PC_STRUCTURE_SELECTED))
+        else if (event.getPropertyName().equals(World.PC_STRUCTURE_SELECTED))
         {
             removeToolBarAndMenuOptions();
             editStructureItem.setEnabled(true);
@@ -286,7 +286,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         else if (event.getPropertyName().equals(TemplateManager.PC_EDITING_STRUCTURE))
         {
             Structure structure = (Structure)event.getNewValue();
-            structureCreationControl.display(structure);
+            structureEditor.display(structure);
         }
     }
 

@@ -5,7 +5,9 @@ import com.projects.helper.Constants;
 import com.projects.helper.DeviceType;
 import com.projects.helper.SelectionType;
 import com.projects.models.*;
-import com.projects.models.System;
+import com.projects.systems.System;
+import com.projects.systems.TemplateManager;
+import com.projects.systems.simulation.World;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -25,7 +27,7 @@ public class SystemController implements PropertyChangeListener
     private ArrayList<SubscribedView> views;
     private List<System> systems;
     private TaskManager taskManager;
-    private WorldModel worldModel;
+    private World world;
     private FileManager fileManager;
     private TemplateManager templateManager;
     private SelectionType activeSelection;
@@ -38,7 +40,7 @@ public class SystemController implements PropertyChangeListener
     {
         systems = new ArrayList<System>();
         views = new ArrayList<SubscribedView>();
-        worldModel = new WorldModel();
+        world = new World();
         fileManager = new FileManager();
         taskManager = new TaskManager();
 
@@ -50,7 +52,7 @@ public class SystemController implements PropertyChangeListener
         templateManager = new TemplateManager(template);
 
         templateManager.addPropertyChangeListener(this);
-        worldModel.addPropertyChangeListener(this);
+        world.addPropertyChangeListener(this);
         systems.add(templateManager); //TODO: add the rest after refactoring them
 
         activeSelection= SelectionType.NO_SELECTION;
@@ -83,7 +85,7 @@ public class SystemController implements PropertyChangeListener
     public void loadOntology(File file)
     {
         /*ontologyModel.clearOntology();
-        worldModel.clearWorld();
+        world.clearWorld();
         OntologyLoadingWorker ontologyLoadingWorker = new OntologyLoadingWorker(file, fileManager, ontologyModel);
         ontologyLoadingWorker.assignTask(testTask);
         taskManager.submitWorker(ontologyLoadingWorker);*/
@@ -106,7 +108,7 @@ public class SystemController implements PropertyChangeListener
     public void closeOntology()
     {
         // TODO: clear template manager
-        worldModel.clearWorld();
+        world.clearWorld();
     }
 
     /**
@@ -176,7 +178,7 @@ public class SystemController implements PropertyChangeListener
 
         if (activeSelection == SelectionType.WORLD)
         {
-            worldModel.setStructure(structure);
+            world.setStructure(structure);
         }
         else if (activeSelection == SelectionType.TEMPLATE)
         {
@@ -187,7 +189,7 @@ public class SystemController implements PropertyChangeListener
     public void addStructureToWorld(Integer id)
     {
         Structure structure = templateManager.createStructureFromTemplate(id);
-        worldModel.addNewStructure(structure);
+        world.addNewStructure(structure);
     }
 
     public void addDeviceToStructure(DeviceType deviceType)
@@ -203,12 +205,12 @@ public class SystemController implements PropertyChangeListener
 
     public void removeWorldStructure(Integer id)
     {
-        worldModel.removeStructure(id);
+        world.removeStructure(id);
     }
 
     public void selectWorldStructure(Structure structure)
     {
-        worldModel.selectStructure(structure);
+        world.selectStructure(structure);
         activeSelection = SelectionType.WORLD;
     }
 
@@ -222,7 +224,7 @@ public class SystemController implements PropertyChangeListener
         }
         else if (activeSelection == SelectionType.WORLD)
         {
-            structure = worldModel.getLastSelected();
+            structure = world.getLastSelected();
         }
 
         if (structure == null)

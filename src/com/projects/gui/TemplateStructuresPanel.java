@@ -2,7 +2,7 @@ package com.projects.gui;
 
 import com.projects.models.Structure;
 import com.projects.models.Template;
-import com.projects.models.TemplateManager;
+import com.projects.systems.TemplateManager;
 
 import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;

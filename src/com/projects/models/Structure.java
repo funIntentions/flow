@@ -14,17 +14,17 @@ public class Structure
     private Integer id;
     private StructureType type;
     private Integer numberOfUnits;
-    private List<PropertyModel> properties;
+    private List<Property> properties;
     private List<Device> appliances;
     private List<Device> energySources;
     private List<Device> energyStorageDevices;
 
     public Structure(String structure, StructureType structureType)
     {
-        this(structure, -1, structureType, 1, new ArrayList<PropertyModel>(), new ArrayList<Device>(), new ArrayList<Device>() , new ArrayList<Device>());
+        this(structure, -1, structureType, 1, new ArrayList<Property>(), new ArrayList<Device>(), new ArrayList<Device>() , new ArrayList<Device>());
     }
 
-    public Structure(String structure, StructureType structureType, List<PropertyModel> propertyList)
+    public Structure(String structure, StructureType structureType, List<Property> propertyList)
     {
         this(structure, -1, structureType, 1, propertyList, new ArrayList<Device>(), new ArrayList<Device>(), new ArrayList<Device>());
     }
@@ -45,7 +45,7 @@ public class Structure
                      Integer id,
                      StructureType structureType,
                      Integer numberOfUnits,
-                     List<PropertyModel> propertyList,
+                     List<Property> propertyList,
                      List<Device> applianceList,
                      List<Device> energySourceList,
                      List<Device> energyStorageList)
@@ -62,13 +62,13 @@ public class Structure
         energyStorageDevices = copyDevices(energyStorageList);
     }
 
-    private List<PropertyModel> copyProperties(List<PropertyModel> list)
+    private List<Property> copyProperties(List<Property> list)
     {
-        List<PropertyModel> copy = new ArrayList<PropertyModel>();
+        List<Property> copy = new ArrayList<Property>();
 
-        for (PropertyModel property : list)
+        for (Property property : list)
         {
-            copy.add(new PropertyModel(property));
+            copy.add(new Property(property));
         }
 
         return copy;
@@ -117,12 +117,12 @@ public class Structure
         this.appliances = appliances;
     }
 
-    public List<PropertyModel> getProperties() {
+    public List<Property> getProperties() {
 
         return properties;
     }
 
-    public void setProperties(List<PropertyModel> properties) {
+    public void setProperties(List<Property> properties) {
         this.properties = properties;
     }
 

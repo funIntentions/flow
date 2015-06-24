@@ -3,9 +3,9 @@ package com.projects.gui;
 
 import com.projects.gui.table.PropertiesTable;
 import com.projects.helper.SelectionType;
-import com.projects.models.PropertyModel;
+import com.projects.models.Property;
 import com.projects.models.Structure;
-import com.projects.models.TemplateManager;
+import com.projects.systems.TemplateManager;
 
 import javax.swing.*;
 import javax.swing.event.TableModelListener;
@@ -141,11 +141,11 @@ public class SelectionPropertyPanel extends JPanel implements SubscribedView
             Structure structure = (Structure)event.getNewValue();
             setSelectionsName(structure.getName());
             setSelectionsClass("Classes are gone?");
-            List<PropertyModel> properties = structure.getProperties();
+            List<Property> properties = structure.getProperties();
 
             selectionDescription.setText("need to added desc still");
 
-            for (PropertyModel property : properties)
+            for (Property property : properties)
             {
                 Object[] row = {property.getName(), property.getValue()};
                 propertiesTable.addRow(row);
@@ -153,12 +153,12 @@ public class SelectionPropertyPanel extends JPanel implements SubscribedView
         }
 
         /*if (event.getPropertyName().equals(OntologyModel.PC_NEW_ONTOLOGY_PREFAB_SELECTED)
-                || event.getPropertyName().equals(WorldModel.PC_NEW_WORLD_PREFAB_SELECTED))
+                || event.getPropertyName().equals(World.PC_NEW_WORLD_PREFAB_SELECTED))
         {
             clearAll();
         }
         else if (event.getPropertyName().equals(OntologyModel.PC_NEW_INDIVIDUAL_SELECTED)
-                || event.getPropertyName().equals(WorldModel.PC_NEW_INSTANCE_SELECTED))
+                || event.getPropertyName().equals(World.PC_NEW_INSTANCE_SELECTED))
         {
             if (event.getPropertyName().equals(OntologyModel.PC_NEW_INDIVIDUAL_SELECTED)) // TODO: make nicer
             {
@@ -173,13 +173,13 @@ public class SelectionPropertyPanel extends JPanel implements SubscribedView
             IndividualModel model = (IndividualModel)event.getNewValue();
             setSelectionsName(model.getName());
             setSelectionsClass(model.getClassName());
-            Iterator<PropertyModel> i = model.listProperties();
+            Iterator<Property> i = model.listProperties();
 
             selectionDescription.setText(model.getDescription());
 
             while (i.hasNext())
             {
-                PropertyModel property = i.next();
+                Property property = i.next();
                 Object[] row = {property.getName(), property.getValue()};
                 propertiesTable.addRow(row);
             }
@@ -195,13 +195,13 @@ public class SelectionPropertyPanel extends JPanel implements SubscribedView
 
             currentlyDisplaying = SelectionType.CLASS;
         }
-        else if (event.getPropertyName().equals(OntologyModel.PC_ONTOLOGY_CLEARED) || event.getPropertyName().equals(WorldModel.PC_WORLD_CLEARED))
+        else if (event.getPropertyName().equals(OntologyModel.PC_ONTOLOGY_CLEARED) || event.getPropertyName().equals(World.PC_WORLD_CLEARED))
         {
             clearSelectionsName();
             clearSelectionsClass();
             propertiesTable.clearTable();
         }
-        else if (event.getPropertyName().equals(WorldModel.PC_INSTANCE_DELETED))
+        else if (event.getPropertyName().equals(World.PC_INSTANCE_DELETED))
         {
             if (currentlyDisplaying == SelectionType.WORLD_INDIVIDUAL)
             {
