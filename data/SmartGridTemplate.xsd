@@ -58,6 +58,12 @@
         </xs:sequence>
     </xs:complexType>
 
+    <xs:complexType name="deviceListType">
+        <xs:sequence>
+            <xs:element name="device" type="deviceTemplate" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
     <xs:complexType name="deviceTemplate">
         <xs:sequence>
             <xs:element name="name" type="stringType"/>
@@ -68,19 +74,31 @@
 
     <xs:complexType name="structureTemplate">
         <xs:sequence>
+            <xs:element name="id" type="intType"/>
             <xs:element name="name" type="stringType"/>
             <xs:element name="type" type="structureType"/>
+            <xs:element name="numberOfUnits" type="intType"/>
             <xs:element name="properties" type="propertyListType"/>
+            <xs:element name="appliances" type="deviceListType"/>
+            <xs:element name="energySources" type="deviceListType"/>
+            <xs:element name="energyStorageDevices" type="deviceListType"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:element name="smartGrid">
         <xs:complexType>
             <xs:all>
-                <xs:element name="structures">
+                <xs:element name="template">
                     <xs:complexType>
                         <xs:sequence>
                             <xs:element name="structure" type="structureTemplate" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="world">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="structure" type="structureTemplate" minOccurs="0" maxOccurs="unbounded"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>

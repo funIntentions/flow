@@ -3,7 +3,7 @@
 <smartGrid
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
-    <structures>
+    <template>
         <structure>
             <name>Home</name>
             <type>SINGLE_UNIT</type>
@@ -61,7 +61,10 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                 </property>
             </properties>
         </structure>
-    </structures>
+    </template>
+
+    <world>
+    </world>
 
     <devices>
         <device>

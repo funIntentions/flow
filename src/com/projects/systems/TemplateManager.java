@@ -293,4 +293,14 @@ public class TemplateManager extends System
     {
         return lastSelected;
     }
+
+    public HashMap<Integer, Structure> getStructures()
+    {
+        return structures;
+    }
+
+    public Template getTemplate()
+    {
+        return template;
+    }
 }

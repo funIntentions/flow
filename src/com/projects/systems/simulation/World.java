@@ -116,4 +116,9 @@ public class World extends com.projects.systems.System
     public Structure getLastSelected() {
         return lastSelected;
     }
+
+    public HashMap<Integer, Structure> getStructures()
+    {
+        return structures;
+    }
 }

@@ -5,8 +5,7 @@ package com.projects.helper;
  */
 public class Constants
 {
-    public static final String OWL = "owl";
-    public static final String PREFABS = "prefabs";
+    public static final String SMART_GRID_FILE = "grid";
     public static final String TEMPLATE_FILE_PATH = "/data/SmartGridTemplate.xml";
     public static final int FRAME_WIDTH = 1200;
     public static final int FRAME_HEIGHT = 800;

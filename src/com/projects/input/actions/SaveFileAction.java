@@ -60,8 +60,8 @@ public class SaveFileAction extends AbstractAction
             if (!fileChooser.getSelectedFile().getAbsolutePath().endsWith(ext))
                 file = new File (fileChooser.getSelectedFile() + "." + ext);
 
-            if (ext.equals(Constants.PREFABS))
-                controller.savePrefabs(file);
+            if (ext.equals(Constants.SMART_GRID_FILE))
+                controller.saveSimulation(file);
         }
         else
         {

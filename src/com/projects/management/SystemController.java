@@ -97,9 +97,15 @@ public class SystemController implements PropertyChangeListener
         //ontologyModel.loadPrefabs(prefabs);
     }
 
-    public void savePrefabs(File file)
+    public void saveSimulation(File file)
     {
-        //fileManager.savePrefabs(file, ontologyModel.getPrefabCollection());
+        List<Integer> ids = new ArrayList<Integer>();
+        for (Structure structure : templateManager.getTemplate().getStructureTemplates())
+        {
+            ids.add(structure.getId());
+        }
+
+        fileManager.saveSimulation(file, templateManager.getStructures(), ids, world.getStructures().keySet());
     }
 
     /**

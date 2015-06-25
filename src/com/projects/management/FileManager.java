@@ -11,8 +11,15 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -35,7 +42,7 @@ class FileManager
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
             Document doc = docBuilder.parse(file);
 
-            NodeList structureNodes = doc.getElementsByTagName("structures");
+            NodeList structureNodes = doc.getElementsByTagName("template");
             List<Structure> structures = readStructures(structureNodes);
             NodeList deviceNodes = doc.getElementsByTagName("devices");
             List<Device> devices = readDevices(deviceNodes);
@@ -195,6 +202,199 @@ class FileManager
         return deviceList;
     }
 
+    public void saveSimulation(File file, HashMap<Integer, Structure> structures, Collection<Integer> templateStructures, Collection<Integer> worldStructures)
+    {
+        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder documentBuilder;
+        Document doc;
+
+        try
+        {
+            documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            doc = documentBuilder.newDocument();
+
+            Element mainRootElement = doc.createElementNS("", "smartGrid"); // TODO: use proper NS
+            doc.appendChild(mainRootElement);
+
+            Element template = doc.createElement("template");
+            for (int structure : templateStructures)
+            {
+                template.appendChild(getStructureNode(doc, structures.get(structure)));
+            }
+            mainRootElement.appendChild(template);
+
+            Element world = doc.createElement("world");
+            for (int structure : worldStructures)
+            {
+                world.appendChild(getStructureNode(doc, structures.get(structure)));
+            }
+            mainRootElement.appendChild(world);
+
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            DOMSource source = new DOMSource(doc);
+            StreamResult outputFile = new StreamResult(file);
+
+            transformer.transform(source, outputFile);
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+        }
+    }
+
+    private Node getStructureNode(Document doc, Structure structure)
+    {
+        Element structureNode = doc.createElement("structure");
+
+        structureNode.appendChild(getElement(doc, "name", structure.getName()));
+        structureNode.appendChild(getElement(doc, "id", String.valueOf(structure.getId())));
+        structureNode.appendChild(getElement(doc, "type", String.valueOf(structure.getType())));
+        structureNode.appendChild(getElement(doc, "numberOfUnits", String.valueOf(structure.getNumberOfUnits())));
+
+        Element propertyMembers = doc.createElement("properties");
+        List<Property> propertyList = structure.getProperties();
+        for (Property property : propertyList)
+        {
+            propertyMembers.appendChild(getPropertyNode(doc, property));
+        }
+        structureNode.appendChild(propertyMembers);
+
+        Element appliances = doc.createElement("appliances");
+        List<Device> deviceList = structure.getAppliances();
+        for (Device device : deviceList)
+        {
+            appliances.appendChild(getDeviceNode(doc, device));
+        }
+        structureNode.appendChild(appliances);
+
+        Element energySources = doc.createElement("energySources");
+        deviceList = structure.getEnergySources();
+        for (Device device : deviceList)
+        {
+            energySources.appendChild(getDeviceNode(doc, device));
+        }
+        structureNode.appendChild(energySources);
+
+        Element energyStorageDevices = doc.createElement("energyStorageDevices");
+        deviceList = structure.getEnergyStorageDevices();
+        for (Device device : deviceList)
+        {
+            energyStorageDevices.appendChild(getDeviceNode(doc, device));
+        }
+        structureNode.appendChild(energyStorageDevices);
+
+        return structureNode;
+    }
+
+    private Node getDeviceNode(Document doc, Device device)
+    {
+        Element deviceNode = doc.createElement("device");
+
+        deviceNode.appendChild(getElement(doc, "name", device.getName()));
+        deviceNode.appendChild(getElement(doc, "id", String.valueOf(device.getId())));
+        deviceNode.appendChild(getElement(doc, "type", String.valueOf(device.getType())));
+
+        Element propertyMembers = doc.createElement("properties");
+        List<Property> properties = device.getProperties();
+        for (Property property : properties)
+        {
+            propertyMembers.appendChild(getPropertyNode(doc, property));
+        }
+        deviceNode.appendChild(propertyMembers);
+
+        return deviceNode;
+    }
+
+    private Node getElement(Document doc, String elementName, String value)
+    {
+        Element node = doc.createElement(elementName);
+        node.appendChild(doc.createTextNode(value));
+        return node;
+    }
+
+    private Node getPropertyNode(Document doc, Property property)
+    {
+        Element propertyNode = doc.createElement("property");
+
+        propertyNode.appendChild(getElement(doc, "name", property.getName()));
+        propertyNode.appendChild(getElement(doc, "value", String.valueOf(property.getValue()))); // TODO: store type of value
+
+        return propertyNode;
+    }
+    /*public void savePrefabs(File file, Collection<Prefab> prefabs)
+    {
+        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder documentBuilder;
+        Document doc;
+
+        try
+        {
+            documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            doc = documentBuilder.newDocument();
+
+            Element mainRootElement = doc.createElementNS("www.test.com/", "Prefabs"); // TODO: use proper NS
+            doc.appendChild(mainRootElement);
+
+            for (Prefab prefab : prefabs)
+            {
+                mainRootElement.appendChild(getPrefabNode(doc, prefab));
+            }
+
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            DOMSource source = new DOMSource(doc);
+            StreamResult outputFile = new StreamResult(file);
+
+            transformer.transform(source, outputFile);
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+        }
+
+    }
+
+    private Node getPrefabNode(Document doc, Prefab prefab)
+    {
+        Element prefabNode = doc.createElement("Prefab");
+        Element prefabMembers = doc.createElement("PrefabMembers");
+
+        prefabNode.appendChild(getElement(doc, "Name", prefab.getName()));
+        prefabNode.appendChild(getElement(doc, "MemberSuffix", prefab.getMemberSuffix()));
+        prefabNode.appendChild(getElement(doc, "ID", String.valueOf(prefab.getId())));
+        prefabNode.appendChild(prefabMembers);
+
+        List<IndividualModel> members = prefab.getMembers();
+        for (IndividualModel member : members)
+        {
+            prefabMembers.appendChild(getIndividualNode(doc, member));
+        }
+
+        return prefabNode;
+    }
+
+    private Node getIndividualNode(Document doc, IndividualModel individual)
+    {
+        Element individualNode = doc.createElement("Individual");
+        Element individualProperties = doc.createElement("Properties");
+        //TODO: save the jena individual or get rid of it from IndividualModel?
+        individualNode.appendChild(getElement(doc, "Name", individual.getName()));
+        String desc = individual.getDescription();
+        if (desc == null) desc = ""; // TODO: This check should happen elsewhere
+        individualNode.appendChild(getElement(doc, "Description", desc));
+        individualNode.appendChild(getElement(doc, "ClassName", individual.getClassName()));
+        individualNode.appendChild(getElement(doc, "ID", String.valueOf(individual.getId())));
+        individualNode.appendChild(individualProperties);
+
+        List<Property> properties = individual.getProperties();
+        for (Property propertyModel : properties)
+        {
+            individualProperties.appendChild(getPropertyNode(doc, propertyModel));
+        }
+
+        return individualNode;
+    }*/
     /*
     public Collection<Prefab> readPrefabFile(File file)
     {
@@ -361,94 +561,5 @@ class FileManager
         return memberProperties;
     }
 
-    public void savePrefabs(File file, Collection<Prefab> prefabs)
-    {
-        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder documentBuilder;
-        Document doc;
-
-        try
-        {
-            documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            doc = documentBuilder.newDocument();
-
-            Element mainRootElement = doc.createElementNS("www.test.com/", "Prefabs"); // TODO: use proper NS
-            doc.appendChild(mainRootElement);
-
-            for (Prefab prefab : prefabs)
-            {
-                mainRootElement.appendChild(getPrefabNode(doc, prefab));
-            }
-
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            DOMSource source = new DOMSource(doc);
-            StreamResult outputFile = new StreamResult(file);
-
-            transformer.transform(source, outputFile);
-        }
-        catch (Exception exception)
-        {
-            exception.printStackTrace();
-        }
-
-    }
-
-    private Node getPrefabNode(Document doc, Prefab prefab)
-    {
-        Element prefabNode = doc.createElement("Prefab");
-        Element prefabMembers = doc.createElement("PrefabMembers");
-
-        prefabNode.appendChild(getElement(doc, "Name", prefab.getName()));
-        prefabNode.appendChild(getElement(doc, "MemberSuffix", prefab.getMemberSuffix()));
-        prefabNode.appendChild(getElement(doc, "ID", String.valueOf(prefab.getId())));
-        prefabNode.appendChild(prefabMembers);
-
-        List<IndividualModel> members = prefab.getMembers();
-        for (IndividualModel member : members)
-        {
-            prefabMembers.appendChild(getIndividualNode(doc, member));
-        }
-
-        return prefabNode;
-    }
-
-    private Node getIndividualNode(Document doc, IndividualModel individual)
-    {
-        Element individualNode = doc.createElement("Individual");
-        Element individualProperties = doc.createElement("Properties");
-        //TODO: save the jena individual or get rid of it from IndividualModel?
-        individualNode.appendChild(getElement(doc, "Name", individual.getName()));
-        String desc = individual.getDescription();
-        if (desc == null) desc = ""; // TODO: This check should happen elsewhere
-        individualNode.appendChild(getElement(doc, "Description", desc));
-        individualNode.appendChild(getElement(doc, "ClassName", individual.getClassName()));
-        individualNode.appendChild(getElement(doc, "ID", String.valueOf(individual.getId())));
-        individualNode.appendChild(individualProperties);
-
-        List<Property> properties = individual.getProperties();
-        for (Property propertyModel : properties)
-        {
-            individualProperties.appendChild(getPropertyNode(doc, propertyModel));
-        }
-
-        return individualNode;
-    }
-
-    private Node getPropertyNode(Document doc, Property property)
-    {
-        Element propertyNode = doc.createElement("Property");
-
-        propertyNode.appendChild(getElement(doc, "Name", property.getName()));
-        propertyNode.appendChild(getElement(doc, "Value", String.valueOf(property.getValue()))); // TODO: will I have to store the type of value as an attribute?
-
-        return propertyNode;
-    }
-
-    private Node getElement(Document doc, String elementName, String value)
-    {
-        Element node = doc.createElement(elementName);
-        node.appendChild(doc.createTextNode(value));
-        return node;
-    }*/
+    */
 }

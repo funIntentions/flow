@@ -22,12 +22,11 @@ import java.beans.PropertyChangeEvent;
 public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: Maybe create JPanel instance instead of extending it
 {
     private Action quitApplicationAction,
-            loadOntologyAction,
             removeSelectedStructureAction,
             createPrefabAction,
             editStructureAction,
-            loadPrefabsAction,
-            savePrefabsAction,
+            loadFileAction,
+            saveFileAction,
             runSimulationAction,
             pauseSimulationAction;
     private TemplateStructureSelectedListener templateStructureSelectedListener;
@@ -56,9 +55,8 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     {
         controller = new SystemController();
         quitApplicationAction = new QuitApplicationAction("Quit", null, null, null, controller);
-        loadOntologyAction = new OpenFileAction("Open Ontology", null, null, null, this, controller, Constants.OWL);
-        loadPrefabsAction = new OpenFileAction("Open Prefabs", null, null, null, this, controller, Constants.PREFABS);
-        savePrefabsAction = new SaveFileAction("Save Prefabs", null, null, null, this, controller, Constants.PREFABS);
+        loadFileAction = new OpenFileAction("Open File", null, null, null, this, controller, Constants.SMART_GRID_FILE);
+        saveFileAction = new SaveFileAction("Save File", null, null, null, this, controller, Constants.SMART_GRID_FILE);
         runSimulationAction = new RunSimulationAction("Run", null, controller);
         pauseSimulationAction = new PauseSimulationAction("Pause", null, controller);
         templateStructureSelectedListener = new TemplateStructureSelectedListener(controller);
@@ -219,22 +217,15 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         menu = new JMenu("File");
         menuBar.add(menu);
 
-        menuItem = new JMenuItem(loadOntologyAction);
-        menuItem.getAccessibleContext().setAccessibleDescription("Loads Ontology");
+        menuItem = new JMenuItem(loadFileAction);
         menu.add(menuItem);
 
-        menuItem = new JMenuItem(loadPrefabsAction);
-        menuItem.getAccessibleContext().setAccessibleDescription("Loads Prefabs");
-        menu.add(menuItem);
-
-        menuItem = new JMenuItem(savePrefabsAction);
-        menuItem.getAccessibleContext().setAccessibleDescription("Saves Prefabs");
+        menuItem = new JMenuItem(saveFileAction);
         menu.add(menuItem);
 
         menu.addSeparator();
 
         menuItem = new JMenuItem(quitApplicationAction);
-        menuItem.getAccessibleContext().setAccessibleDescription("Quits the application");
         menu.add(menuItem);
 
         menu = new JMenu("Edit");
