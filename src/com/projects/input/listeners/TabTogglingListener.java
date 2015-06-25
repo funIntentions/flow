@@ -1,4 +1,4 @@
-package com.projects.actions;
+package com.projects.input.listeners;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;

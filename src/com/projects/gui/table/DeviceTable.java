@@ -1,7 +1,6 @@
 package com.projects.gui.table;
 
 import com.projects.models.Device;
-import com.projects.models.Structure;
 
 /**
  * Created by Dan on 6/18/2015.
@@ -27,5 +26,17 @@ public class DeviceTable extends ObjectTable<Device>
         }
 
         return value;
+    }
+
+    @Override
+    public boolean isCellEditable(int row, int col)
+    {
+        return (col == 0);
+    }
+
+    @Override
+    public void setValueAt(Object value, int row, int col) {
+        data.get(row).setName(value.toString());
+        fireTableCellUpdated(row, col);
     }
 }

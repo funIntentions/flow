@@ -3,6 +3,7 @@ package com.projects.gui;
 import com.projects.models.Device;
 
 import javax.swing.*;
+import javax.swing.event.TableModelListener;
 import java.awt.event.MouseListener;
 
 /**
@@ -14,11 +15,11 @@ public class DeviceTabbedPane extends JTabbedPane
     private DevicePanel energySourceTab;
     private DevicePanel energyStorageTab;
 
-    public DeviceTabbedPane(MouseListener deviceSelectedListener)
+    public DeviceTabbedPane(TableModelListener tableModelListener, MouseListener deviceSelectedListener)
     {
-        applianceTab = new DevicePanel("Appliances", deviceSelectedListener);
-        energySourceTab = new DevicePanel("Energy Sources", deviceSelectedListener);
-        energyStorageTab = new DevicePanel("Energy Storage", deviceSelectedListener);
+        applianceTab = new DevicePanel("Appliances", tableModelListener, deviceSelectedListener);
+        energySourceTab = new DevicePanel("Energy Sources", tableModelListener, deviceSelectedListener);
+        energyStorageTab = new DevicePanel("Energy Storage", tableModelListener, deviceSelectedListener);
 
         addTab(applianceTab.getTitle(), applianceTab);
         addTab(energySourceTab.getTitle(), energySourceTab);

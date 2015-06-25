@@ -1,8 +1,12 @@
 package com.projects.gui;
 
 import com.projects.helper.Constants;
+import com.projects.input.actions.*;
+import com.projects.input.listeners.PropertiesTableListener;
+import com.projects.input.listeners.TabTogglingListener;
+import com.projects.input.listeners.TemplateStructureSelectedListener;
+import com.projects.input.listeners.WorldStructureSelectedListener;
 import com.projects.management.SystemController;
-import com.projects.actions.*;
 import com.projects.models.Structure;
 import com.projects.systems.TemplateManager;
 import com.projects.systems.simulation.World;

@@ -1,4 +1,4 @@
-package com.projects.actions;
+package com.projects.input.actions;
 
 import com.projects.management.SystemController;
 
@@ -8,11 +8,11 @@ import java.awt.event.ActionEvent;
 /**
  * Created by Dan on 6/24/2015.
  */
-public class RunSimulationAction extends AbstractAction
+public class PauseSimulationAction extends AbstractAction
 {
     SystemController controller;
 
-    public RunSimulationAction(String text, Icon icon, SystemController systemController)
+    public PauseSimulationAction(String text, Icon icon, SystemController systemController)
     {
         super(text, icon);
         controller = systemController;
@@ -20,6 +20,6 @@ public class RunSimulationAction extends AbstractAction
 
     public void actionPerformed(ActionEvent event)
     {
-        controller.runSimulation();
+        controller.pauseSimulation();
     }
 }

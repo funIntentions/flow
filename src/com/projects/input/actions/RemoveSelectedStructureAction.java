@@ -1,22 +1,22 @@
-package com.projects.actions;
+package com.projects.input.actions;
 
 import com.projects.gui.table.StructureTable;
 import com.projects.management.SystemController;
-import com.projects.models.*;
+import com.projects.models.Structure;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 /**
- * Created by Dan on 6/3/2015.
+ * Created by Dan on 6/2/2015.
  */
-public class CreateStructureAction extends AbstractAction
+public class RemoveSelectedStructureAction extends AbstractAction
 {
     private SystemController controller;
     private StructureTable structuresTable;
     private JTable table;
 
-    public CreateStructureAction(String text, ImageIcon icon, String desc, Integer mnemonic, StructureTable structuresTable, JTable table, SystemController control)
+    public RemoveSelectedStructureAction(String text, ImageIcon icon, String desc, Integer mnemonic, StructureTable structuresTable, JTable table, SystemController control)
     {
         super(text, icon);
         putValue(SHORT_DESCRIPTION, desc);
@@ -29,8 +29,12 @@ public class CreateStructureAction extends AbstractAction
     public void actionPerformed(ActionEvent event)
     {
         int i = table.getSelectedRow();
-        Structure structure = structuresTable.getRow(i);
+        if (i >= 0)
+        {
+            Structure structure = structuresTable.getRow(i);
+            structuresTable.removeRow(i);
 
-        controller.addStructureToWorld(structure.getId());
+            controller.removeWorldStructure(structure.getId());
+        }
     }
 }

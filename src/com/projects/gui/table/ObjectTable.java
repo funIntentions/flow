@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public abstract class ObjectTable<T> extends AbstractTableModel
 {
-    protected String[] columnNames = {"Instances"};
+    protected String[] columnNames = {""};
     protected ArrayList<T> data;
 
     public ObjectTable()

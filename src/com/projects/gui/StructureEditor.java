@@ -1,8 +1,9 @@
 package com.projects.gui;
 
-import com.projects.actions.DevicePropertiesTableListener;
-import com.projects.actions.DeviceSelectedListener;
-import com.projects.actions.ObjectPropertiesTableListener;
+import com.projects.input.listeners.DevicePropertiesTableListener;
+import com.projects.input.listeners.DeviceSelectedListener;
+import com.projects.input.listeners.DeviceTableListener;
+import com.projects.input.listeners.ObjectPropertiesTableListener;
 import com.projects.gui.table.DeviceTable;
 import com.projects.gui.table.PropertiesTable;
 import com.projects.helper.DeviceType;
@@ -38,7 +39,6 @@ public class StructureEditor implements SubscribedView
     private JPanel creationPanel;
     private JPanel leftPanel;
     private JPanel rightPanel;
-    private DeviceSelectedListener deviceSelectedListener;
     private DeviceTabbedPane deviceTabbedPane;
     private DeviceTabbedPane unitDeviceTabbedPane;
     private JDialog creationDialog;
@@ -247,8 +247,9 @@ public class StructureEditor implements SubscribedView
         inputUnitInfoPanel = new JPanel(new GridLayout(1,2));
         inputUnitInfoPanel.setBorder(BorderFactory.createTitledBorder("Information"));
 
-        deviceSelectedListener = new DeviceSelectedListener(controller);
-        deviceTabbedPane = new DeviceTabbedPane(deviceSelectedListener);
+        DeviceSelectedListener deviceSelectedListener = new DeviceSelectedListener(controller);
+        DeviceTableListener deviceTableListener = new DeviceTableListener(controller);
+        deviceTabbedPane = new DeviceTabbedPane(deviceTableListener, deviceSelectedListener);
         deviceTabbedPane.setBorder(BorderFactory.createTitledBorder("Building's Devices"));
         deviceTabbedPane.addChangeListener(new ChangeListener() {
             @Override
@@ -257,7 +258,7 @@ public class StructureEditor implements SubscribedView
             }
         });
 
-        unitDeviceTabbedPane = new DeviceTabbedPane(deviceSelectedListener);
+        unitDeviceTabbedPane = new DeviceTabbedPane(deviceTableListener, deviceSelectedListener);
         unitDeviceTabbedPane.setBorder(BorderFactory.createTitledBorder("Unit's Devices"));
 
         compositeUnitDevicePanes = new JPanel(new GridLayout(2,1));

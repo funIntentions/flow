@@ -1,4 +1,4 @@
-package com.projects.actions;
+package com.projects.input.actions;
 
 import com.projects.management.SystemController;
 

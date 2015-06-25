@@ -1,4 +1,4 @@
-package com.projects.actions;
+package com.projects.input.listeners;
 
 import com.projects.management.SystemController;
 
@@ -7,13 +7,13 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 /**
- * Created by Dan on 6/23/2015.
+ * Created by Dan on 6/19/2015.
  */
-public class ObjectPropertiesTableListener implements TableModelListener
+public class DevicePropertiesTableListener implements TableModelListener
 {
     private SystemController controller;
 
-    public ObjectPropertiesTableListener(SystemController control)
+    public DevicePropertiesTableListener(SystemController control)
     {
         controller = control;
     }
@@ -29,7 +29,7 @@ public class ObjectPropertiesTableListener implements TableModelListener
             {
                 TableModel model = (TableModel)e.getSource();
                 Object value = model.getValueAt(row, column);
-                controller.editObjectProperty(row, value);
+                controller.editDeviceProperty(row, value);
             }
         }
     }

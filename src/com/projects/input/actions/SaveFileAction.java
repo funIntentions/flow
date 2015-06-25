@@ -1,4 +1,4 @@
-package com.projects.actions;
+package com.projects.input.actions;
 
 import com.projects.helper.Constants;
 import com.projects.helper.Utils;
@@ -10,16 +10,16 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 
 /**
- * Created by Dan on 5/27/2015.
+ * Created by Dan on 6/12/2015.
  */
-public class OpenFileAction extends AbstractAction
+public class SaveFileAction extends AbstractAction
 {
     private JFileChooser fileChooser;
     private JPanel owner;
     private SystemController controller;
     private String ext;
 
-    public OpenFileAction(String text, ImageIcon icon, String desc, Integer mnemonic, JPanel panel, SystemController control, final String fileExtension)
+    public SaveFileAction(String text, ImageIcon icon, String desc, Integer mnemonic, JPanel panel, SystemController control, final String fileExtension)
     {
         super(text, icon);
         putValue(SHORT_DESCRIPTION, desc);
@@ -51,20 +51,21 @@ public class OpenFileAction extends AbstractAction
     public void actionPerformed(ActionEvent e)
     {
         File file;
-        int result = fileChooser.showOpenDialog(owner);
+        int result = fileChooser.showSaveDialog(owner);
 
         if (result == JFileChooser.APPROVE_OPTION)
         {
             file = fileChooser.getSelectedFile();
 
-            if (ext.equals(Constants.OWL))
-                controller.loadOntology(file);
-            else if (ext.equals(Constants.PREFABS))
-                controller.loadPrefabs(file);
+            if (!fileChooser.getSelectedFile().getAbsolutePath().endsWith(ext))
+                file = new File (fileChooser.getSelectedFile() + "." + ext);
+
+            if (ext.equals(Constants.PREFABS))
+                controller.savePrefabs(file);
         }
         else
         {
-            System.out.println("File Open Command Cancelled."); //TODO: log once logger is integrated
+            System.out.println("File Save Command Cancelled."); //TODO: log once logger is integrated
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.projects.actions;
+package com.projects.input.listeners;
 
 import com.projects.gui.table.StructureTable;
 import com.projects.management.SystemController;

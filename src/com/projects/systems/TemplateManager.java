@@ -95,6 +95,28 @@ public class TemplateManager extends System
         changeSupport.firePropertyChange(PC_DEVICE_SELECTED, null, device);
     }
 
+    public void editDeviceName(int index, String name)
+    {
+        Device device = devices.get(deviceBeingEdited);
+        device.setName(name);
+
+        switch (device.getType())
+        {
+            case APPLIANCE:
+            {
+                structureBeingEdited.getAppliances().set(index, device);
+            } break;
+            case ENERGY_SOURCE:
+            {
+                structureBeingEdited.getEnergySources().set(index, device);
+            } break;
+            case ENERGY_STORAGE:
+            {
+                structureBeingEdited.getEnergyStorageDevices().set(index, device);
+            } break;
+        }
+    }
+
     public void editDeviceProperty(int index, Object value)
     {
         Device device = devices.get(deviceBeingEdited);

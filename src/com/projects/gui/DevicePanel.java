@@ -4,6 +4,7 @@ import com.projects.gui.table.DeviceTable;
 import com.projects.models.Device;
 
 import javax.swing.*;
+import javax.swing.event.TableModelListener;
 import java.awt.event.MouseListener;
 
 /**
@@ -14,15 +15,14 @@ public class DevicePanel extends JScrollPane
     private String title;
     private JTable templateTable;
     private DeviceTable deviceTable;
-    private MouseListener selectionListener;
 
-    public DevicePanel(String panelTitle, MouseListener listener)
+    public DevicePanel(String panelTitle, TableModelListener tableModelListener, MouseListener mouseListener)
     {
         title = panelTitle;
-        selectionListener = listener;
         deviceTable = new DeviceTable();
+        deviceTable.addTableModelListener(tableModelListener);
         templateTable = new JTable(deviceTable);
-        templateTable.addMouseListener(selectionListener);
+        templateTable.addMouseListener(mouseListener);
         templateTable.setTableHeader(null);
         getViewport().add(templateTable);
     }
