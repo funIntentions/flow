@@ -44,10 +44,12 @@ class FileManager
 
             NodeList structureNodes = doc.getElementsByTagName("template");
             List<Structure> structures = readStructures(structureNodes);
+            structureNodes = doc.getElementsByTagName("world");
+            List<Structure> worldStructures = readStructures(structureNodes);
             NodeList deviceNodes = doc.getElementsByTagName("devices");
             List<Device> devices = readDevices(deviceNodes);
 
-            template = new Template(devices, structures);
+            template = new Template(devices, structures, worldStructures);
         }
         catch (Exception exception)
         {
@@ -76,7 +78,9 @@ class FileManager
                     Element structureElement = (Element)structureNode;
 
                     String name = getElementStringFromTag(structureElement, "name");
+                    Integer id = Integer.valueOf(getElementStringFromTag(structureElement, "id"));
                     String type = getElementStringFromTag(structureElement, "type");
+                    Integer numberOfUnits = Integer.valueOf(getElementStringFromTag(structureElement, "numberOfUnits"));
                     StructureType structureType;
 
                     if (Utils.isInEnum(type, StructureType.class))
@@ -91,8 +95,14 @@ class FileManager
 
                     NodeList structureProperties = structureElement.getElementsByTagName("properties");
                     List<Property> properties = readProperties(structureProperties);
+                    NodeList devices = structureElement.getElementsByTagName("appliances");
+                    List<Device> appliances = readDevices(devices);
+                    devices = structureElement.getElementsByTagName("energySources");
+                    List<Device> energySources = readDevices(devices);
+                    devices = structureElement.getElementsByTagName("energyStorageDevices");
+                    List<Device> energyStorageDevices = readDevices(devices);
 
-                    Structure structure = new Structure(name, structureType, properties);
+                    Structure structure = new Structure(name, id, structureType, numberOfUnits, properties, appliances, energySources, energyStorageDevices);
                     structureList.add(structure);
                 }
             }
@@ -202,7 +212,7 @@ class FileManager
         return deviceList;
     }
 
-    public void saveSimulation(File file, HashMap<Integer, Structure> structures, Collection<Integer> templateStructures, Collection<Integer> worldStructures)
+    public void saveSimulation(File file, HashMap<Integer, Structure> structures, Collection<Integer> templateStructures, Collection<Integer> worldStructures, Template temp)
     {
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder;
@@ -229,6 +239,13 @@ class FileManager
                 world.appendChild(getStructureNode(doc, structures.get(structure)));
             }
             mainRootElement.appendChild(world);
+
+
+            Element devices = doc.createElement("devices"); // TODO: this is purely temporary!!
+            devices.appendChild(getDeviceNode(doc, temp.getApplianceTemplate()));
+            devices.appendChild(getDeviceNode(doc, temp.getEnergySourceTemplate()));
+            devices.appendChild(getDeviceNode(doc, temp.getEnergyStorageTemplate()));
+            mainRootElement.appendChild(devices);
 
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -306,7 +323,7 @@ class FileManager
         return deviceNode;
     }
 
-    private Node getElement(Document doc, String elementName, String value)
+    private Element getElement(Document doc, String elementName, String value)
     {
         Element node = doc.createElement(elementName);
         node.appendChild(doc.createTextNode(value));
@@ -318,7 +335,14 @@ class FileManager
         Element propertyNode = doc.createElement("property");
 
         propertyNode.appendChild(getElement(doc, "name", property.getName()));
-        propertyNode.appendChild(getElement(doc, "value", String.valueOf(property.getValue()))); // TODO: store type of value
+        Element value = getElement(doc, "value", String.valueOf(property.getValue()));
+
+        if (property.getValue() instanceof Double)
+            value.setAttribute("type", "DOUBLE");
+        else
+            value.setAttribute("type", "BOOLEAN");
+
+        propertyNode.appendChild(value);
 
         return propertyNode;
     }

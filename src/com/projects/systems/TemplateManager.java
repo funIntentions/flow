@@ -37,10 +37,20 @@ public class TemplateManager extends System
         return nextAvailableDeviceId++;
     }
 
-    public TemplateManager(Template template)
+    public TemplateManager()
     {
         devices = new HashMap<Integer, Device>();
         structures = new HashMap<Integer, Structure>();
+        this.template = null;
+        structureBeingEdited = null;
+        lastSelected = null;
+        deviceBeingEdited = -1;
+    }
+
+    public void newTemplate(Template template) // TODO: this and the constructor have similarities
+    {
+        devices.clear();
+        structures.clear();
         this.template = template;
         structureBeingEdited = null;
         lastSelected = null;
@@ -52,6 +62,24 @@ public class TemplateManager extends System
         {
             structure.setId(getNextAvailableStructureId());
             structures.put(structure.getId(), structure);
+
+            for (Device device : structure.getAppliances())
+            {
+                device.setId(getNextAvailableDeviceId());
+                devices.put(device.getId(), device);
+            }
+
+            for (Device device : structure.getEnergySources())
+            {
+                device.setId(getNextAvailableDeviceId());
+                devices.put(device.getId(), device);
+            }
+
+            for (Device device : structure.getEnergyStorageDevices())
+            {
+                device.setId(getNextAvailableDeviceId());
+                devices.put(device.getId(), device);
+            }
         }
 
         template.getApplianceTemplate().setId(getNextAvailableDeviceId());
@@ -63,7 +91,38 @@ public class TemplateManager extends System
         template.getEnergyStorageTemplate().setId(getNextAvailableDeviceId());
         devices.put(template.getEnergyStorageTemplate().getId(), template.getEnergyStorageTemplate());
 
+        changeSupport.firePropertyChange(PC_TEMPLATE_READY, null, template);
     }
+
+    public List<Structure> syncWorldStructures(List<Structure> worldStructures)
+    {
+        for (Structure structure : worldStructures)
+        {
+            structure.setId(getNextAvailableStructureId());
+            structures.put(structure.getId(), structure);
+
+            for (Device device : structure.getAppliances())
+            {
+                device.setId(getNextAvailableDeviceId());
+                devices.put(device.getId(), device);
+            }
+
+            for (Device device : structure.getEnergySources())
+            {
+                device.setId(getNextAvailableDeviceId());
+                devices.put(device.getId(), device);
+            }
+
+            for (Device device : structure.getEnergyStorageDevices())
+            {
+                device.setId(getNextAvailableDeviceId());
+                devices.put(device.getId(), device);
+            }
+        }
+
+        return worldStructures;
+    }
+
 
     @Override
     public void postSetupSync()

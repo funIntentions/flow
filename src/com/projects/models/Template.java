@@ -13,10 +13,12 @@ public class Template
     private Device energySourceTemplate;
     private Device energyStorageTempalte;
     private List<Structure> structureTemplates;
+    private List<Structure> worldStructures;
 
-    public Template(List<Device> devices, List<Structure> structures)
+    public Template(List<Device> devices, List<Structure> structures, List<Structure> world)
     {
         structureTemplates = structures;
+        worldStructures = world;
 
         for (Device device : devices)
         {
@@ -33,6 +35,11 @@ public class Template
                 energyStorageTempalte = device;
             }
         }
+    }
+
+    public List<Structure> getWorldStructures()
+    {
+        return worldStructures;
     }
 
     public List<Structure> getStructureTemplates()

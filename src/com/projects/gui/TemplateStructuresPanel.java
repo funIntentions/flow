@@ -22,6 +22,7 @@ public class TemplateStructuresPanel extends StructurePanel implements Subscribe
     {
         if (event.getPropertyName().equals(TemplateManager.PC_TEMPLATE_READY))
         {
+            structureTable.clearTable();
             Template template = (Template)event.getNewValue();
 
             List<Structure> structures = template.getStructureTemplates();

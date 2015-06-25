@@ -6,7 +6,7 @@
     </xs:simpleType>
 
     <xs:simpleType name="intType">
-        <xs:restriction base="xs:positiveInteger"/>
+        <xs:restriction base="xs:integer"/>
     </xs:simpleType>
 
     <xs:simpleType name="decType">
@@ -74,8 +74,8 @@
 
     <xs:complexType name="structureTemplate">
         <xs:sequence>
-            <xs:element name="id" type="intType"/>
             <xs:element name="name" type="stringType"/>
+            <xs:element name="id" type="intType"/>
             <xs:element name="type" type="structureType"/>
             <xs:element name="numberOfUnits" type="intType"/>
             <xs:element name="properties" type="propertyListType"/>

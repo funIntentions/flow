@@ -7,6 +7,7 @@ import com.projects.systems.*;
 import java.beans.PropertyChangeSupport;
 import java.lang.System;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -49,10 +50,15 @@ public class World extends com.projects.systems.System
         resetSimulation();
     }
 
-    public void clearWorld()
+    public void newWorld(List<Structure> structureList)
     {
-        selectedInstance = -1;
-        changeSupport.firePropertyChange(PC_WORLD_CLEARED, null, null);
+        structures.clear();
+        lastSelected = null;
+
+        for (Structure structure : structureList)
+        {
+            addNewStructure(structure);
+        }
     }
 
     public void setStructure(Structure structure)

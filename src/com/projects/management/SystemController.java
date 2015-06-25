@@ -40,16 +40,17 @@ public class SystemController implements PropertyChangeListener
     {
         systems = new ArrayList<System>();
         views = new ArrayList<SubscribedView>();
-        world = new World();
         fileManager = new FileManager();
         taskManager = new TaskManager();
 
         Path currentRelativePath = Paths.get("");
         String workingDir = currentRelativePath.toAbsolutePath().toString();
         File templateFile = new File(workingDir + Constants.TEMPLATE_FILE_PATH);
-        Template template = fileManager.readTemplate(templateFile);
 
-        templateManager = new TemplateManager(template);
+        templateManager = new TemplateManager();
+        world = new World();
+
+        loadFile(templateFile);
 
         templateManager.addPropertyChangeListener(this);
         world.addPropertyChangeListener(this);
@@ -77,24 +78,13 @@ public class SystemController implements PropertyChangeListener
         views.add(view);
     }
 
-    /**
-     * Clears any currently loaded data and/or running systems before spawning a new worker to load in a specified ontology file.
-     *
-     * @param file an ontology file specified by the user which will be loaded into the application
-     */
-    public void loadOntology(File file)
+    public void loadFile(File file)
     {
-        /*ontologyModel.clearOntology();
-        world.clearWorld();
-        OntologyLoadingWorker ontologyLoadingWorker = new OntologyLoadingWorker(file, fileManager, ontologyModel);
-        ontologyLoadingWorker.assignTask(testTask);
-        taskManager.submitWorker(ontologyLoadingWorker);*/
-    }
+        Template template = fileManager.readTemplate(file);
 
-    public void loadPrefabs(File file)
-    {
-        //Collection<Prefab> prefabs = fileManager.readPrefabFile(file);
-        //ontologyModel.loadPrefabs(prefabs);
+        templateManager.newTemplate(template);
+        List<Structure> worldStructures = templateManager.syncWorldStructures(template.getWorldStructures());
+        world.newWorld(worldStructures);
     }
 
     public void saveSimulation(File file)
@@ -105,16 +95,7 @@ public class SystemController implements PropertyChangeListener
             ids.add(structure.getId());
         }
 
-        fileManager.saveSimulation(file, templateManager.getStructures(), ids, world.getStructures().keySet());
-    }
-
-    /**
-     * Clears any data loaded in from the current ontology file.
-     */
-    public void closeOntology()
-    {
-        // TODO: clear template manager
-        world.clearWorld();
+        fileManager.saveSimulation(file, templateManager.getStructures(), ids, world.getStructures().keySet(), templateManager.getTemplate());
     }
 
     /**

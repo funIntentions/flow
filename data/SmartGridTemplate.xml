@@ -6,42 +6,79 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
     <template>
         <structure>
             <name>Home</name>
+            <id>-1</id>
             <type>SINGLE_UNIT</type>
+            <numberOfUnits>1</numberOfUnits>
             <properties/>
+            <appliances/>
+            <energySources/>
+            <energyStorageDevices/>
         </structure>
         <structure>
             <name>Apartment</name>
+            <id>-1</id>
             <type>SINGLE_UNIT</type>
+            <numberOfUnits>1</numberOfUnits>
             <properties/>
+            <appliances/>
+            <energySources/>
+            <energyStorageDevices/>
         </structure>
         <structure>
             <name>Apartment Building</name>
+            <id>-1</id>
             <type>COMPOSITE_UNIT</type>
+            <numberOfUnits>1</numberOfUnits>
             <properties/>
+            <appliances/>
+            <energySources/>
+            <energyStorageDevices/>
         </structure>
         <structure>
             <name>Office Building</name>
+            <id>-1</id>
             <type>COMPOSITE_UNIT</type>
+            <numberOfUnits>1</numberOfUnits>
             <properties/>
+            <appliances/>
+            <energySources/>
+            <energyStorageDevices/>
         </structure>
         <structure>
             <name>Shop</name>
+            <id>-1</id>
             <type>SINGLE_UNIT</type>
+            <numberOfUnits>1</numberOfUnits>
             <properties/>
+            <appliances/>
+            <energySources/>
+            <energyStorageDevices/>
         </structure>
         <structure>
             <name>Mall</name>
+            <id>-1</id>
             <type>COMPOSITE_UNIT</type>
+            <numberOfUnits>1</numberOfUnits>
             <properties/>
+            <appliances/>
+            <energySources/>
+            <energyStorageDevices/>
         </structure>
         <structure>
             <name>Microgeneration Installation</name>
+            <id>-1</id>
             <type>SINGLE_UNIT</type>
+            <numberOfUnits>1</numberOfUnits>
             <properties/>
+            <appliances/>
+            <energySources/>
+            <energyStorageDevices/>
         </structure>
         <structure>
             <name>Power Plant</name>
+            <id>-1</id>
             <type>POWER_PLANT</type>
+            <numberOfUnits>1</numberOfUnits>
             <properties>
                 <property>
                     <name>CapitalCost</name>
@@ -60,6 +97,9 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                     <value type="DOUBLE">0</value>
                 </property>
             </properties>
+            <appliances/>
+            <energySources/>
+            <energyStorageDevices/>
         </structure>
     </template>
 

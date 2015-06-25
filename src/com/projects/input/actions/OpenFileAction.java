@@ -58,7 +58,7 @@ public class OpenFileAction extends AbstractAction
             file = fileChooser.getSelectedFile();
 
             if (ext.equals(Constants.SMART_GRID_FILE))
-                controller.loadPrefabs(file);
+                controller.loadFile(file);
         }
         else
         {
