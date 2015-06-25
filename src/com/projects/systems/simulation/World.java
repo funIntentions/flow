@@ -24,6 +24,7 @@ public class World extends com.projects.systems.System
     public static final String PC_STRUCTURE_SELECTED = "PC_STRUCTURE_SELECTED";
     public static final String PC_REMOVE_STRUCTURE = "PC_REMOVE_STRUCTURE";
     public static final String PC_WORLD_CLEARED = "PC_WORLD_CLEARED";
+    public static final String PC_WORLD_TIME_UPDATE = "PC_WORLD_TIME_UPDATE";
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final Runnable simulationTick = new Runnable()
@@ -34,6 +35,7 @@ public class World extends com.projects.systems.System
 
     private boolean running;
     private ConsumptionManager consumptionManager;
+    private double totalTime;
 
     public World()
     {
@@ -44,6 +46,7 @@ public class World extends com.projects.systems.System
 
         running = false;
         consumptionManager = new ConsumptionManager();
+        resetSimulation();
     }
 
     public void clearWorld()
@@ -99,13 +102,15 @@ public class World extends com.projects.systems.System
 
     public void resetSimulation()
     {
-
+        totalTime = 0;
     }
 
     private void tick(double time)
     {
+        totalTime += time;
         System.out.println("+++ Tick +++");
         System.out.println(consumptionManager.calculateConsumption(time));
+        changeSupport.firePropertyChange(PC_WORLD_TIME_UPDATE, null, totalTime);
     }
 
     public Structure getLastSelected() {

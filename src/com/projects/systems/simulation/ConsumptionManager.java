@@ -23,9 +23,13 @@ public class ConsumptionManager
     {
         double totalConsumption = 0;
 
+        System.out.println("Structures: " + structures.size());
+
         for (Structure structure : structures)
         {
             List<Device> appliances = structure.getAppliances();
+
+            System.out.println("Appliances: " + appliances.size());
 
             for (Device appliance : appliances)
             {
@@ -40,6 +44,8 @@ public class ConsumptionManager
                 }
             }
         }
+
+        System.out.println("Total Consumption: " + totalConsumption);
 
         return totalConsumption;
     }

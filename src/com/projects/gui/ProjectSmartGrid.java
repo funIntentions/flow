@@ -31,6 +31,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     private PropertiesTableListener propertiesTableListener;
     private SelectionPropertyPanel selectionInfoPanel;
     private WorldStructuresPanel worldStructuresPanel;
+    private SimulationInfoPanel simulationInfoPanel;
     private SystemController controller;
     private TemplateStructuresPanel templateStructuresPanel;
     private StatusPanel statusBar;
@@ -62,6 +63,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         selectionInfoPanel = new SelectionPropertyPanel("Selection", propertiesTableListener);
         worldStructuresPanel = new WorldStructuresPanel(worldStructureSelectedListener);
         templateStructuresPanel = new TemplateStructuresPanel(templateStructureSelectedListener);
+        simulationInfoPanel = new SimulationInfoPanel();
         statusBar = new StatusPanel("Application Started");
 
         structureEditor = new StructureEditor(frame, controller);
@@ -70,6 +72,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         createPrefabAction = new CreateStructureAction("Add Structure", null, null, null, templateStructuresPanel.getStructureTable(), templateStructuresPanel.getTemplateTable(), controller); // TODO: refactor so I don't have to get the table
         editStructureAction = new EditStructureAction("Edit Structure", null, null, null, controller);
 
+        controller.subscribeView(simulationInfoPanel);
         controller.subscribeView(structureEditor);
         controller.subscribeView(templateStructuresPanel);
         controller.subscribeView(selectionInfoPanel);
@@ -160,7 +163,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
     private JSplitPane createRightBottomPanel()
     {
-        JSplitPane rightBottomPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, selectionInfoPanel, createSimulationInfoPanel());
+        JSplitPane rightBottomPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, selectionInfoPanel, simulationInfoPanel);
         rightBottomPanel.setBackground(Color.ORANGE);
         rightBottomPanel.setContinuousLayout(true);
         rightBottomPanel.setResizeWeight(0.5);
