@@ -80,7 +80,21 @@ public class Structure
 
         for (Device device : list)
         {
-            copy.add(new Device(device));
+            Device deviceCopy = null;
+
+            if (device instanceof Appliance)
+            {
+                deviceCopy = new Appliance((Appliance)device);
+            }
+            else if (device instanceof EnergySource)
+            {
+                deviceCopy = new EnergySource((EnergySource)device);
+            }
+            else if (device instanceof EnergyStorage)
+            {
+                deviceCopy = new EnergyStorage((EnergyStorage)device);
+            }
+            copy.add(deviceCopy);
         }
 
         return copy;
@@ -91,43 +105,49 @@ public class Structure
         properties.get(index).setValue(value);
     }
 
-    public List<Device> getEnergyStorageDevices() {
+    public List<Device> getEnergyStorageDevices()
+    {
         return energyStorageDevices;
     }
 
-    public void setEnergyStorageDevices(List<Device> energyStorageDevices) {
+    public void setEnergyStorageDevices(List<Device> energyStorageDevices)
+    {
         this.energyStorageDevices = energyStorageDevices;
     }
 
-    public List<Device> getEnergySources() {
+    public List<Device> getEnergySources()
+    {
 
         return energySources;
     }
 
-    public void setEnergySources(List<Device> energySources) {
+    public void setEnergySources(List<Device> energySources)
+    {
         this.energySources = energySources;
     }
 
-    public List<Device> getAppliances() {
-
+    public List<Device> getAppliances()
+    {
         return appliances;
     }
 
-    public void setAppliances(List<Device> appliances) {
+    public void setAppliances(List<Device> appliances)
+    {
         this.appliances = appliances;
     }
 
-    public List<Property> getProperties() {
-
+    public List<Property> getProperties()
+    {
         return properties;
     }
 
-    public void setProperties(List<Property> properties) {
+    public void setProperties(List<Property> properties)
+    {
         this.properties = properties;
     }
 
-    public StructureType getType() {
-
+    public StructureType getType()
+    {
         return type;
     }
 
@@ -141,16 +161,18 @@ public class Structure
         this.numberOfUnits = numberOfUnits;
     }
 
-    public void setType(StructureType type) {
+    public void setType(StructureType type)
+    {
         this.type = type;
     }
 
-    public String getName() {
-
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 

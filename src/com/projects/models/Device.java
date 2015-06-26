@@ -8,12 +8,12 @@ import java.util.List;
 /**
  * Created by Dan on 6/18/2015.
  */
-public class Device
+public abstract class Device
 {
-    private String name;
-    private Integer id;
-    private DeviceType type;
-    private List<Property> properties;
+    protected String name;
+    protected Integer id;
+    protected DeviceType type; // maybe not needed anymore?
+    protected List<Property> properties;
 
     public Device(Device device)
     {
@@ -30,13 +30,13 @@ public class Device
         for (Property property : deviceProperties)
         {
             properties.add(new Property(property));
+            changePropertyVariableValue(property);
         }
     }
 
-    public void changePropertyValue(int index, Object value)
-    {
-        properties.get(index).setValue(value);
-    }
+    public abstract void changePropertyValue(int index, Object value);
+
+    protected abstract void changePropertyVariableValue(Property property);
 
     public String getName() {
         return name;

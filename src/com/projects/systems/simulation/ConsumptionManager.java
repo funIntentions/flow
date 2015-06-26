@@ -1,5 +1,6 @@
 package com.projects.systems.simulation;
 
+import com.projects.models.Appliance;
 import com.projects.models.Device;
 import com.projects.models.Property;
 import com.projects.models.Structure;
@@ -27,21 +28,13 @@ public class ConsumptionManager
 
         for (Structure structure : structures)
         {
-            List<Device> appliances = structure.getAppliances();
+            List<Appliance> appliances = (List)structure.getAppliances();
 
             System.out.println("Appliances: " + appliances.size());
 
-            for (Device appliance : appliances)
+            for (Appliance appliance : appliances)
             {
-                List<Property> properties = appliance.getProperties();
-
-                for (Property property : properties)
-                {
-                    if (property.getName().equals("AverageConsumption"))
-                    {
-                        totalConsumption += Double.valueOf(property.getValue().toString()) * time;
-                    }
-                }
+                totalConsumption += appliance.getAverageConsumption() * time;
             }
         }
 

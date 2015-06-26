@@ -221,21 +221,21 @@ public class TemplateManager extends System
         {
             case APPLIANCE:
             {
-                device = new Device(template.getApplianceTemplate());
+                device = new Appliance(template.getApplianceTemplate().getProperties());
                 device.setId(getNextAvailableDeviceId());
                 devices.put(device.getId(), device);
                 structureBeingEdited.getAppliances().add(device);
             } break;
             case ENERGY_SOURCE:
             {
-                device = new Device(template.getEnergySourceTemplate());
+                device = new EnergySource(template.getEnergySourceTemplate().getProperties());
                 device.setId(getNextAvailableDeviceId());
                 devices.put(device.getId(), device);
                 structureBeingEdited.getEnergySources().add(device);
             } break;
             case ENERGY_STORAGE:
             {
-                device = new Device(template.getEnergyStorageTemplate());
+                device = new EnergyStorage(template.getEnergyStorageTemplate().getProperties());
                 device.setId(getNextAvailableDeviceId());
                 devices.put(device.getId(), device);
                 structureBeingEdited.getEnergyStorageDevices().add(device);
@@ -299,7 +299,7 @@ public class TemplateManager extends System
         List<Device> copy = new ArrayList<Device>();
         for (Device device : from.getAppliances())
         {
-            Device copiedDevice = new Device(device.getName(), getNextAvailableDeviceId(), device.getType(), device.getProperties());
+            Device copiedDevice = new Appliance(device.getName(), getNextAvailableDeviceId(), device.getProperties());
             copy.add(copiedDevice);
             devices.put(copiedDevice.getId(), copiedDevice);
         }
@@ -309,7 +309,7 @@ public class TemplateManager extends System
         copy = new ArrayList<Device>();
         for (Device device: from.getEnergySources())
         {
-            Device copiedDevice = new Device(device.getName(), getNextAvailableDeviceId(), device.getType(), device.getProperties());
+            Device copiedDevice = new EnergySource(device.getName(), getNextAvailableDeviceId(), device.getProperties());
             copy.add(copiedDevice);
             devices.put(copiedDevice.getId(), copiedDevice);
         }
@@ -319,7 +319,7 @@ public class TemplateManager extends System
         copy = new ArrayList<Device>();
         for (Device device : from.getEnergyStorageDevices())
         {
-            Device copiedDevice = new Device(device.getName(), getNextAvailableDeviceId(), device.getType(), device.getProperties());
+            Device copiedDevice = new EnergyStorage(device.getName(), getNextAvailableDeviceId(), device.getProperties());
             copy.add(copiedDevice);
             devices.put(copiedDevice.getId(), copiedDevice);
         }

@@ -203,7 +203,24 @@ class FileManager
                     NodeList propertiesList = deviceElement.getElementsByTagName("properties");
                     List<Property> properties = readProperties(propertiesList);
 
-                    Device device = new Device(name, -1, deviceType, properties); // TODO: should I be setting these to -1?
+                    Device device = null;
+
+                    switch (deviceType)
+                    {
+                        case APPLIANCE:
+                        {
+                            device = new Appliance(name, -1, properties);
+                        } break;
+                        case ENERGY_SOURCE:
+                        {
+                            device = new EnergySource(name, -1, properties);
+                        } break;
+                        case ENERGY_STORAGE:
+                        {
+                            device = new EnergyStorage(name, -1, properties);
+                        } break;
+                    }
+
                     deviceList.add(device);
                 }
             }
