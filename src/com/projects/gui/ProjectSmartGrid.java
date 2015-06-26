@@ -25,6 +25,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
             removeSelectedStructureAction,
             createPrefabAction,
             editStructureAction,
+            loadDefaultAction,
             loadFileAction,
             saveFileAction,
             runSimulationAction,
@@ -54,14 +55,18 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     private ProjectSmartGrid(JFrame frame)
     {
         controller = new SystemController();
+
         quitApplicationAction = new QuitApplicationAction("Quit", null, null, null, controller);
+        loadDefaultAction = new LoadDefaultAction("Open Default", null, controller);
         loadFileAction = new OpenFileAction("Open File", null, null, null, this, controller, Constants.SMART_GRID_FILE);
         saveFileAction = new SaveFileAction("Save File", null, null, null, this, controller, Constants.SMART_GRID_FILE);
         runSimulationAction = new RunSimulationAction("Run", null, controller);
         pauseSimulationAction = new PauseSimulationAction("Pause", null, controller);
+
         templateStructureSelectedListener = new TemplateStructureSelectedListener(controller);
         worldStructureSelectedListener = new WorldStructureSelectedListener(controller);
         propertiesTableListener = new PropertiesTableListener(controller);
+
         selectionInfoPanel = new SelectionPropertyPanel("Selection", propertiesTableListener);
         worldStructuresPanel = new WorldStructuresPanel(worldStructureSelectedListener);
         templateStructuresPanel = new TemplateStructuresPanel(templateStructureSelectedListener);
@@ -71,7 +76,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         structureEditor = new StructureEditor(frame, controller);
 
         removeSelectedStructureAction = new RemoveSelectedStructureAction("Remove Structure", null, null, null, worldStructuresPanel.getStructureTable(), worldStructuresPanel.getTemplateTable(), controller);
-        createPrefabAction = new CreateStructureAction("Add Structure", null, null, null, templateStructuresPanel.getStructureTable(), templateStructuresPanel.getTemplateTable(), controller); // TODO: refactor so I don't have to get the table
+        createPrefabAction = new AddStructureAction("Add Structure", null, null, null, templateStructuresPanel.getStructureTable(), templateStructuresPanel.getTemplateTable(), controller); // TODO: refactor so I don't have to get the table
         editStructureAction = new EditStructureAction("Edit Structure", null, null, null, controller);
 
         controller.subscribeView(simulationInfoPanel);
@@ -216,6 +221,9 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
         menu = new JMenu("File");
         menuBar.add(menu);
+
+        menuItem = new JMenuItem(loadDefaultAction);
+        menu.add(menuItem);
 
         menuItem = new JMenuItem(loadFileAction);
         menu.add(menuItem);

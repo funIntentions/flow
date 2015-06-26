@@ -10,13 +10,13 @@ import java.awt.event.ActionEvent;
 /**
  * Created by Dan on 6/3/2015.
  */
-public class CreateStructureAction extends AbstractAction
+public class AddStructureAction extends AbstractAction
 {
     private SystemController controller;
     private StructureTable structuresTable;
     private JTable table;
 
-    public CreateStructureAction(String text, ImageIcon icon, String desc, Integer mnemonic, StructureTable structuresTable, JTable table, SystemController control)
+    public AddStructureAction(String text, ImageIcon icon, String desc, Integer mnemonic, StructureTable structuresTable, JTable table, SystemController control)
     {
         super(text, icon);
         putValue(SHORT_DESCRIPTION, desc);
@@ -29,8 +29,11 @@ public class CreateStructureAction extends AbstractAction
     public void actionPerformed(ActionEvent event)
     {
         int i = table.getSelectedRow();
-        Structure structure = structuresTable.getRow(i);
+        if (i >= 0)
+        {
+            Structure structure = structuresTable.getRow(i);
 
-        controller.addStructureToWorld(structure.getId());
+            controller.addStructureToWorld(structure.getId());
+        }
     }
 }

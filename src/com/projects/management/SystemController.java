@@ -43,14 +43,10 @@ public class SystemController implements PropertyChangeListener
         fileManager = new FileManager();
         taskManager = new TaskManager();
 
-        Path currentRelativePath = Paths.get("");
-        String workingDir = currentRelativePath.toAbsolutePath().toString();
-        File templateFile = new File(workingDir + Constants.TEMPLATE_FILE_PATH);
-
         templateManager = new TemplateManager();
         world = new World();
 
-        loadFile(templateFile);
+        loadDefault();
 
         templateManager.addPropertyChangeListener(this);
         world.addPropertyChangeListener(this);
@@ -76,6 +72,15 @@ public class SystemController implements PropertyChangeListener
     public void subscribeView(SubscribedView view)
     {
         views.add(view);
+    }
+
+    public void loadDefault()
+    {
+        Path currentRelativePath = Paths.get("");
+        String workingDir = currentRelativePath.toAbsolutePath().toString();
+        File templateFile = new File(workingDir + Constants.TEMPLATE_FILE_PATH);
+
+        loadFile(templateFile);
     }
 
     public void loadFile(File file)
