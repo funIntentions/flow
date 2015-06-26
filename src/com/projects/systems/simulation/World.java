@@ -21,6 +21,7 @@ public class World extends com.projects.systems.System
     private int selectedInstance;
     private Structure lastSelected;
     private HashMap<Integer, Structure> structures;
+    public static final String PC_NEW_WORLD = "PC_NEW_WORLD";
     public static final String PC_NEW_STRUCTURE = "PC_NEW_STRUCTURE";
     public static final String PC_STRUCTURE_SELECTED = "PC_STRUCTURE_SELECTED";
     public static final String PC_REMOVE_STRUCTURE = "PC_REMOVE_STRUCTURE";
@@ -57,8 +58,10 @@ public class World extends com.projects.systems.System
 
         for (Structure structure : structureList)
         {
-            addNewStructure(structure);
+            setStructure(structure);
         }
+
+        changeSupport.firePropertyChange(PC_NEW_WORLD, null, structureList);
     }
 
     public void setStructure(Structure structure)

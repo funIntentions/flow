@@ -6,6 +6,7 @@ import com.projects.systems.simulation.World;
 
 import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
+import java.util.List;
 
 /**
  * Created by Dan on 6/19/2015.
@@ -36,6 +37,16 @@ public class WorldStructuresPanel extends StructurePanel implements SubscribedVi
                 {
                     structureTable.setRow(i, structure);
                 }
+            }
+        }
+        else if (event.getPropertyName().equals(World.PC_NEW_WORLD))
+        {
+            structureTable.clearTable();
+            List<Structure> structureList = (List<Structure>)event.getNewValue();
+
+            for (Structure structure : structureList)
+            {
+                structureTable.addRow(structure);
             }
         }
     }
