@@ -31,13 +31,17 @@ public class World extends com.projects.systems.System
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final Runnable simulationTick = new Runnable()
     {
-        public void run() {tick(Constants.FIXED_SIMULATION_RATE_SECONDS);}
+        public void run()
+        {
+            tick(Constants.FIXED_SIMULATION_RATE_SECONDS);
+        }
     };
     private ScheduledFuture<?> simulationHandle;
 
     private boolean running;
     private ConsumptionManager consumptionManager;
     private double totalTime;
+    private Time time;
 
     public World()
     {
@@ -48,6 +52,7 @@ public class World extends com.projects.systems.System
 
         running = false;
         consumptionManager = new ConsumptionManager();
+        time = new Time();
         resetSimulation();
     }
 
@@ -114,12 +119,12 @@ public class World extends com.projects.systems.System
         totalTime = 0;
     }
 
-    private void tick(double time)
+    private void tick(double fixedTime)
     {
-        totalTime += time;
+        time.tick(fixedTime);
         System.out.println("+++ Tick +++");
-        System.out.println(consumptionManager.calculateConsumption(time));
-        changeSupport.firePropertyChange(PC_WORLD_TIME_UPDATE, null, totalTime);
+        System.out.println(consumptionManager.calculateConsumption(fixedTime));
+        changeSupport.firePropertyChange(PC_WORLD_TIME_UPDATE, null, time);
     }
 
     public Structure getLastSelected() {

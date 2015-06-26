@@ -1,5 +1,6 @@
 package com.projects.gui;
 
+import com.projects.models.Time;
 import com.projects.systems.simulation.World;
 
 import javax.swing.*;
@@ -11,21 +12,21 @@ import java.beans.PropertyChangeEvent;
  */
 public class SimulationInfoPanel extends JPanel implements SubscribedView
 {
-    private JLabel time;
+    private JLabel timeLabel;
 
     public SimulationInfoPanel()
     {
         setLayout(new FlowLayout());
-        time = new JLabel("Time: ");
-        add(time);
+        timeLabel = new JLabel("Time: ");
+        add(timeLabel);
     }
 
     public void modelPropertyChange(PropertyChangeEvent event)
     {
         if (event.getPropertyName().equals(World.PC_WORLD_TIME_UPDATE))
         {
-            double totalTime = (Double)event.getNewValue();
-            time.setText("Time: " + String.valueOf(totalTime));
+            Time time = (Time)event.getNewValue();
+            timeLabel.setText("Time: " + time.getTotalTime() + " Day: " + time.getDay() + " Week: " + time.getWeek() + " Month: " + time.getMonth() + " Year: " + time.getYear());
         }
     }
 }
