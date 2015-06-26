@@ -97,7 +97,34 @@ public class TemplateManager extends System
 
     public void editDeviceProperty(int index, Object value)
     {
-        devices.get(deviceBeingEdited).changePropertyValue(index, value);
+        Device device = devices.get(deviceBeingEdited);
+        device.changePropertyValue(index, value);
+        List<Device> deviceList = new ArrayList<Device>();
+
+        switch (device.getType())
+        {
+            case APPLIANCE:
+            {
+                deviceList = structureBeingEdited.getAppliances();
+            } break;
+            case ENERGY_SOURCE:
+            {
+                deviceList = structureBeingEdited.getEnergySources();
+            } break;
+            case ENERGY_STORAGE:
+            {
+                deviceList = structureBeingEdited.getEnergyStorageDevices();
+            } break;
+        }
+
+        for (Device d : deviceList)
+        {
+            if (d.getId().intValue() == device.getId().intValue())
+            {
+                d.changePropertyValue(index, value);
+            }
+        }
+
     }
 
     public void editObjectProperty(int index, Object value)
@@ -145,20 +172,32 @@ public class TemplateManager extends System
         {
             case APPLIANCE:
             {
-                structureBeingEdited.getAppliances().remove(device);
+                removeDeviceFromList(structureBeingEdited.getAppliances(), device);
             } break;
             case ENERGY_SOURCE:
             {
-                structureBeingEdited.getEnergySources().remove(device);
+                removeDeviceFromList(structureBeingEdited.getEnergySources(), device);
             } break;
             case ENERGY_STORAGE:
             {
-                structureBeingEdited.getEnergyStorageDevices().remove(device);
+                removeDeviceFromList(structureBeingEdited.getEnergyStorageDevices(), device);
             } break;
         }
 
         devices.remove(id);
         structures.put(structureBeingEdited.getId(), structureBeingEdited);
+    }
+
+    private void removeDeviceFromList(List<Device> deviceList, Device deviceToRemove)
+    {
+        for (Device device : deviceList)
+        {
+            if (device.getId().intValue() == deviceToRemove.getId().intValue())
+            {
+                deviceList.remove(device);
+                return;
+            }
+        }
     }
 
     public void editName(String name)
