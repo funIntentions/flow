@@ -40,7 +40,6 @@ public class World extends com.projects.systems.System
 
     private boolean running;
     private ConsumptionManager consumptionManager;
-    private double totalTime;
     private Time time;
 
     public World()
@@ -116,7 +115,12 @@ public class World extends com.projects.systems.System
 
     public void resetSimulation()
     {
-        totalTime = 0;
+        time.reset();
+    }
+
+    public void changeUpdateRate(Time.UpdateRate updateRate)
+    {
+        time.setUpdateRate(updateRate);
     }
 
     private void tick(double fixedTime)

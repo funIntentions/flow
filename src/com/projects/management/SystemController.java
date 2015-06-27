@@ -252,6 +252,11 @@ public class SystemController implements PropertyChangeListener
         templateManager.editObjectProperty(index, value);
     }
 
+    public void changeSimulationUpdateRate(Time.UpdateRate updateRate)
+    {
+        world.changeUpdateRate(updateRate);
+    }
+
     public void runSimulation()
     {
         world.runSimulation();

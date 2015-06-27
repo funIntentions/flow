@@ -5,7 +5,7 @@ package com.projects.models;
  */
 public class Time
 {
-    enum UpdateRate
+    public enum UpdateRate
     {
         SECONDS,
         MINUTES,
@@ -35,14 +35,8 @@ public class Time
 
     public Time()
     {
-        updateRate = UpdateRate.MONTHS;
-        isAM = true;
-        totalTime = 0;
-        timeOfDay = 0;
-        day = 0;
-        week = 0;
-        month = 0;
-        year = 0;
+        updateRate = UpdateRate.SECONDS;
+        reset();
     }
 
     public void tick(double deltaTime)
@@ -93,6 +87,22 @@ public class Time
         }
 
         return time;
+    }
+
+    public void reset()
+    {
+        isAM = true;
+        totalTime = 0;
+        timeOfDay = 0;
+        day = 0;
+        week = 0;
+        month = 0;
+        year = 0;
+    }
+
+    public void setUpdateRate(UpdateRate updateRate)
+    {
+        this.updateRate = updateRate;
     }
 
     public boolean isAM()
