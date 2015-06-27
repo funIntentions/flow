@@ -116,6 +116,7 @@ public class World extends com.projects.systems.System
     public void resetSimulation()
     {
         time.reset();
+        changeSupport.firePropertyChange(PC_WORLD_TIME_UPDATE, null, time);
     }
 
     public void changeUpdateRate(Time.UpdateRate updateRate)

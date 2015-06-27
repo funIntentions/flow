@@ -257,6 +257,11 @@ public class SystemController implements PropertyChangeListener
         world.changeUpdateRate(updateRate);
     }
 
+    public void resetSimulation()
+    {
+        world.resetSimulation();
+    }
+
     public void runSimulation()
     {
         world.runSimulation();
