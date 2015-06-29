@@ -25,13 +25,10 @@ public class ConsumptionManager
     public void calculateConsumption(double totalHours)
     {
         totalUsageInWatts = 0;
-        System.out.println("Structures: " + structures.size());
 
         for (Structure structure : structures)
         {
             List<Appliance> appliances = (List)structure.getAppliances();
-
-            System.out.println("Appliances: " + appliances.size());
 
             for (Appliance appliance : appliances)
             {
@@ -58,6 +55,11 @@ public class ConsumptionManager
                 return;
             }
         }
+    }
+
+    public void removeAllStructures()
+    {
+        structures.clear();
     }
 
     public void syncStructures(Structure changedStructure)

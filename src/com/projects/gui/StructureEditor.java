@@ -68,7 +68,7 @@ public class StructureEditor implements SubscribedView
         numberOfUnitsField.setColumns(4);
         unitNameLabel = new JLabel("Unit Name: ");
         numberOfUnitsLabel = new JLabel("Number of Units: ");
-        infoLabel = new JLabel("Enter a unique name and suffix.");
+        infoLabel = new JLabel("");
         nameLabel = new JLabel("Structure's Name: ");
         creationPanel = new JPanel(new GridLayout(1,2));
         leftPanel = new JPanel(new BorderLayout(10,10));

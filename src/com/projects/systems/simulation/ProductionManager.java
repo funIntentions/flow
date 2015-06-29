@@ -65,6 +65,12 @@ public class ProductionManager
         }
     }
 
+    public void removeAllStructures()
+    {
+        powerPlants.clear();
+        structures.clear();
+    }
+
     public void syncStructures(Structure changedStructure)
     {
         int structureIndex = -1;
@@ -120,8 +126,6 @@ public class ProductionManager
             }
         }
     }
-
-
 
     public double getPriceOfProduction() {
         return priceOfProduction;

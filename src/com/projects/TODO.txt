@@ -1,9 +1,8 @@
 Future Thoughts
 
 On Going
-TODO: Loading in another file or loading default doesn't sync with the consumption manager
 - Cleanup the task manager, remove the testTask from SystemController and have it created in TaskManager if possible
-- Prefab creation dialog box should preform a robust check on the entered name and suffix (e.i. Are there characters? Are they valid characters.. no : or }, etc)
+- Structure Creation should preform a robust check on the entered name (e.i. Are there characters? Are they valid characters.. no : or }, etc)
 
 ** Prefab Design **
 

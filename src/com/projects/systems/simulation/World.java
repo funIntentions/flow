@@ -61,6 +61,11 @@ public class World extends com.projects.systems.System
 
     public void newWorld(List<Structure> structureList)
     {
+        pauseSimulation();
+        resetSimulation();
+        consumptionManager.removeAllStructures();
+        productionManager.removeAllStructures();
+
         structures.clear();
         lastSelected = null;
 
@@ -105,7 +110,6 @@ public class World extends com.projects.systems.System
 
     public void runSimulation()
     {
-        System.out.println("--- Run ---");
         if (!running)
             simulationHandle = scheduler.scheduleAtFixedRate(simulationTick, 0, Constants.FIXED_SIMULATION_RATE_MILLISECONDS, TimeUnit.MILLISECONDS);
         running = true;
@@ -113,7 +117,6 @@ public class World extends com.projects.systems.System
 
     public void pauseSimulation()
     {
-        System.out.println("--- Pause ---");
         if (running)
             simulationHandle.cancel(true);
         running = false;
@@ -138,7 +141,6 @@ public class World extends com.projects.systems.System
     private void tick(double fixedTime)
     {
         time.tick(fixedTime);
-        System.out.println("+++ Tick +++");
         consumptionManager.calculateConsumption(time.getHour());
         productionManager.calculateProduction(consumptionManager.getTotalUsageInkWh());
 
