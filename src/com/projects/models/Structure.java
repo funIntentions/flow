@@ -14,7 +14,7 @@ public class Structure
     private Integer id;
     private StructureType type;
     private Integer numberOfUnits;
-    private List<Property> properties;
+    protected List<Property> properties;
     private List<Device> appliances;
     private List<Device> energySources;
     private List<Device> energyStorageDevices;

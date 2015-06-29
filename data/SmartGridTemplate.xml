@@ -96,6 +96,10 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                     <name>EmissionRate</name>
                     <value type="DOUBLE">0</value>
                 </property>
+                <property>
+                    <name>ProductionCost</name>
+                    <value type="DOUBLE">0</value>
+                </property>
             </properties>
             <appliances/>
             <energySources/>

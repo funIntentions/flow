@@ -132,7 +132,7 @@ public class TemplateManager extends System
 
     public void editStructure(Structure structure)
     {
-        structureBeingEdited = new Structure(structures.get(structure.getId()));
+        structureBeingEdited = structures.get(structure.getId());
         changeSupport.firePropertyChange(PC_EDITING_STRUCTURE, null, structureBeingEdited);
     }
 
@@ -330,7 +330,17 @@ public class TemplateManager extends System
     public Structure createStructureFromTemplate(Integer id)
     {
         Structure template = structures.get(id);
-        Structure structure = new Structure(template);
+        Structure structure;
+
+        if (template instanceof PowerPlant)
+        {
+            structure = new PowerPlant(template);
+        }
+        else
+        {
+            structure = new Structure(template);
+        }
+
         copyDevices(template, structure);
         structure.setId(getNextAvailableStructureId());
         structures.put(structure.getId(), structure);
@@ -345,7 +355,7 @@ public class TemplateManager extends System
     public Structure finishedStructureEditing()
     {
         changeSupport.firePropertyChange(PC_STRUCTURE_EDITED, null, structureBeingEdited);
-        return new Structure(structureBeingEdited);
+        return structureBeingEdited;
     }
 
     public Structure getLastSelected()

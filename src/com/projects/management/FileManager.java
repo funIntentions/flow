@@ -102,7 +102,13 @@ class FileManager
                     devices = structureElement.getElementsByTagName("energyStorageDevices");
                     List<Device> energyStorageDevices = readDevices(devices);
 
-                    Structure structure = new Structure(name, id, structureType, numberOfUnits, properties, appliances, energySources, energyStorageDevices);
+                    Structure structure;
+
+                    if (structureType != StructureType.POWER_PLANT)
+                        structure =  new Structure(name, id, structureType, numberOfUnits, properties, appliances, energySources, energyStorageDevices);
+                    else
+                        structure = new PowerPlant(name, id, numberOfUnits, properties, appliances, energySources, energyStorageDevices);
+
                     structureList.add(structure);
                 }
             }

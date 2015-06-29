@@ -40,6 +40,7 @@ public class World extends com.projects.systems.System
 
     private boolean running;
     private ConsumptionManager consumptionManager;
+    private ProductionManager productionManager;
     private Time time;
 
     public World()
@@ -51,6 +52,7 @@ public class World extends com.projects.systems.System
 
         running = false;
         consumptionManager = new ConsumptionManager();
+        productionManager = new ProductionManager();
         time = new Time();
         resetSimulation();
     }
@@ -72,6 +74,7 @@ public class World extends com.projects.systems.System
     {
         structures.put(structure.getId(), structure);
         consumptionManager.syncStructures(structure);
+        productionManager.syncStructures(structure);
     }
 
     public void removeStructure(Integer id)
@@ -82,6 +85,7 @@ public class World extends com.projects.systems.System
         }
 
         consumptionManager.removeStructure(structures.get(id));
+        productionManager.removeStructure(structures.get(id));
         structures.remove(id);
     }
 
@@ -116,6 +120,7 @@ public class World extends com.projects.systems.System
     public void resetSimulation()
     {
         time.reset();
+        consumptionManager.reset();
         changeSupport.firePropertyChange(PC_WORLD_TIME_UPDATE, null, time);
     }
 
@@ -128,7 +133,8 @@ public class World extends com.projects.systems.System
     {
         time.tick(fixedTime);
         System.out.println("+++ Tick +++");
-        System.out.println(consumptionManager.calculateConsumption(fixedTime, time.getHour()));
+        consumptionManager.calculateConsumption(time.getHour());
+        productionManager.calculateProduction(consumptionManager.getTotalKWh());
         changeSupport.firePropertyChange(PC_WORLD_TIME_UPDATE, null, time);
     }
 

@@ -44,7 +44,7 @@ public class Time
     {
         totalTime += modifyWithRate(deltaTime);
 
-        hour = (int)(totalTime / SECONDS_IN_HOUR);
+        hour = (totalTime / SECONDS_IN_HOUR);
         day = (int)(totalTime / SECONDS_IN_DAY);
         week = (int)(day / DAYS_IN_WEEK);
         month = (int)(day / AVERAGE_NUMBER_OF_DAYS_IN_MONTH);
