@@ -19,6 +19,7 @@ public class Time
     private boolean isAM;
     private double totalTime;
     private double timeOfDay;
+    private double hour;
     private int day;
     private int week;
     private int month;
@@ -43,6 +44,7 @@ public class Time
     {
         totalTime += modifyWithRate(deltaTime);
 
+        hour = (int)(totalTime / SECONDS_IN_HOUR);
         day = (int)(totalTime / SECONDS_IN_DAY);
         week = (int)(day / DAYS_IN_WEEK);
         month = (int)(day / AVERAGE_NUMBER_OF_DAYS_IN_MONTH);
@@ -94,6 +96,7 @@ public class Time
         isAM = true;
         totalTime = 0;
         timeOfDay = 0;
+        hour = 0;
         day = 0;
         week = 0;
         month = 0;
@@ -118,6 +121,11 @@ public class Time
     public double getTimeOfDay()
     {
         return timeOfDay;
+    }
+
+    public double getHour()
+    {
+        return hour;
     }
 
     public int getDay()

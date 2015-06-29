@@ -128,7 +128,7 @@ public class World extends com.projects.systems.System
     {
         time.tick(fixedTime);
         System.out.println("+++ Tick +++");
-        System.out.println(consumptionManager.calculateConsumption(fixedTime));
+        System.out.println(consumptionManager.calculateConsumption(fixedTime, time.getHour()));
         changeSupport.firePropertyChange(PC_WORLD_TIME_UPDATE, null, time);
     }
 

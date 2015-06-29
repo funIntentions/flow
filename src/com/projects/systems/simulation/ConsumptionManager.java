@@ -13,17 +13,17 @@ import java.util.List;
  */
 public class ConsumptionManager
 {
-    List<Structure> structures;
+    private List<Structure> structures;
+    private double totalConsumptionInWatts = 0;
 
     public ConsumptionManager()
     {
         structures = new ArrayList<Structure>();
     }
 
-    public double calculateConsumption(double time)
+    public double calculateConsumption(double elapsedTime, double totalHours)
     {
-        double totalConsumption = 0;
-
+        totalConsumptionInWatts = 0;
         System.out.println("Structures: " + structures.size());
 
         for (Structure structure : structures)
@@ -34,13 +34,18 @@ public class ConsumptionManager
 
             for (Appliance appliance : appliances)
             {
-                totalConsumption += appliance.getAverageConsumption() * time;
+                totalConsumptionInWatts += appliance.getAverageConsumption();
             }
         }
 
-        System.out.println("Total Consumption: " + totalConsumption);
+        System.out.println("kW*h: " + (totalConsumptionInWatts * totalHours) / 1000);
 
-        return totalConsumption;
+        return totalConsumptionInWatts;
+    }
+
+    public void reset()
+    {
+        totalConsumptionInWatts = 0;
     }
 
     public void removeStructure(Structure structureToRemove)
