@@ -14,17 +14,17 @@ import java.util.List;
 public class ConsumptionManager
 {
     private List<Structure> structures;
-    private double totalConsumptionInWatts;
-    private double totalKWh;
+    private double totalUsageInWatts;
+    private double totalUsageInkWh;
 
     public ConsumptionManager()
     {
         structures = new ArrayList<Structure>();
     }
 
-    public double calculateConsumption(double totalHours)
+    public void calculateConsumption(double totalHours)
     {
-        totalConsumptionInWatts = 0;
+        totalUsageInWatts = 0;
         System.out.println("Structures: " + structures.size());
 
         for (Structure structure : structures)
@@ -35,19 +35,17 @@ public class ConsumptionManager
 
             for (Appliance appliance : appliances)
             {
-                totalConsumptionInWatts += appliance.getAverageConsumption();
+                totalUsageInWatts += appliance.getAverageConsumption();
             }
         }
 
-        totalKWh = (totalConsumptionInWatts * totalHours) / 1000;
-
-        return totalConsumptionInWatts;
+        totalUsageInkWh = (totalUsageInWatts * totalHours) / 1000;
     }
 
     public void reset()
     {
-        totalConsumptionInWatts = 0;
-        totalKWh = 0;
+        totalUsageInWatts = 0;
+        totalUsageInkWh = 0;
     }
 
     public void removeStructure(Structure structureToRemove)
@@ -93,19 +91,12 @@ public class ConsumptionManager
         }
     }
 
-    public double getTotalKWh() {
-        return totalKWh;
+    public double getTotalUsageInkWh() {
+        return totalUsageInkWh;
     }
 
-    public void setTotalKWh(double totalKWh) {
-        this.totalKWh = totalKWh;
-    }
-
-    public double getTotalConsumptionInWatts() {
-        return totalConsumptionInWatts;
-    }
-
-    public void setTotalConsumptionInWatts(double totalConsumptionInWatts) {
-        this.totalConsumptionInWatts = totalConsumptionInWatts;
+    public double getTotalUsageInWatts()
+    {
+        return totalUsageInWatts;
     }
 }

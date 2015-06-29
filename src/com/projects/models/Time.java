@@ -16,10 +16,11 @@ public class Time
         YEARS,
     }
 
-    private boolean isAM;
-    private double totalTime;
-    private double timeOfDay;
+    private double totalTimeInSeconds;
     private double hour;
+    private int hourOfDay;
+    private int minutesOfHour;
+    private int secondsOfMinute;
     private int day;
     private int week;
     private int month;
@@ -29,6 +30,7 @@ public class Time
     private static final double SECONDS_IN_MINUTE = 60;
     private static final double SECONDS_IN_HOUR = 3600;
     private static final double SECONDS_IN_DAY = 86400;
+    private static final int HOURS_IN_DAY = 24;
     private static final double DAYS_IN_WEEK = 7;
     private static final double AVERAGE_NUMBER_OF_DAYS_IN_MONTH = 30.42;
     private static final double MONTHS_IN_YEAR = 12;
@@ -42,13 +44,17 @@ public class Time
 
     public void tick(double deltaTime)
     {
-        totalTime += modifyWithRate(deltaTime);
+        totalTimeInSeconds += modifyWithRate(deltaTime);
 
-        hour = (totalTime / SECONDS_IN_HOUR);
-        day = (int)(totalTime / SECONDS_IN_DAY);
+        hour = (totalTimeInSeconds / SECONDS_IN_HOUR);
+        day = (int)(totalTimeInSeconds / SECONDS_IN_DAY);
         week = (int)(day / DAYS_IN_WEEK);
         month = (int)(day / AVERAGE_NUMBER_OF_DAYS_IN_MONTH);
         year = (int)(month / MONTHS_IN_YEAR);
+        hourOfDay =  (int)Math.floor(hour % HOURS_IN_DAY);
+        minutesOfHour = (int)Math.floor((totalTimeInSeconds % SECONDS_IN_HOUR) / 60);
+        secondsOfMinute = (int)Math.floor((totalTimeInSeconds % SECONDS_IN_MINUTE));
+
     }
 
     private double modifyWithRate(double deltaTime)
@@ -93,9 +99,10 @@ public class Time
 
     public void reset()
     {
-        isAM = true;
-        totalTime = 0;
-        timeOfDay = 0;
+        hourOfDay = 0;
+        minutesOfHour = 0;
+        secondsOfMinute = 0;
+        totalTimeInSeconds = 0;
         hour = 0;
         day = 0;
         week = 0;
@@ -108,19 +115,21 @@ public class Time
         this.updateRate = updateRate;
     }
 
-    public boolean isAM()
-    {
-        return isAM;
+    public int getHourOfDay() {
+        return hourOfDay;
     }
 
-    public double getTotalTime()
-    {
-        return totalTime;
+    public int getMinutesOfHour() {
+        return minutesOfHour;
     }
 
-    public double getTimeOfDay()
+    public int getSecondsOfMinute() {
+        return secondsOfMinute;
+    }
+
+    public double getTotalTimeInSeconds()
     {
-        return timeOfDay;
+        return totalTimeInSeconds;
     }
 
     public double getHour()

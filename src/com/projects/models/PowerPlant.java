@@ -15,6 +15,7 @@ public class PowerPlant extends Structure
     private double efficiency;
     private double emissionRate;
     private double productionCost;
+    private double capacity;
 
     public PowerPlant(String structure)
     {
@@ -82,10 +83,22 @@ public class PowerPlant extends Structure
         {
             productionCost = Double.valueOf(value.toString());
         }
+        else if (property.getName().equals("Capacity"))
+        {
+            capacity = Double.valueOf(value.toString());
+        }
     }
 
     public double getProductionCost() {
         return productionCost;
+    }
+
+    public double getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(double capacity) {
+        this.capacity = capacity;
     }
 
     public void setProductionCost(double productionCost) {

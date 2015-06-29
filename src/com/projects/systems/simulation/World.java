@@ -26,7 +26,7 @@ public class World extends com.projects.systems.System
     public static final String PC_STRUCTURE_SELECTED = "PC_STRUCTURE_SELECTED";
     public static final String PC_REMOVE_STRUCTURE = "PC_REMOVE_STRUCTURE";
     public static final String PC_WORLD_CLEARED = "PC_WORLD_CLEARED";
-    public static final String PC_WORLD_TIME_UPDATE = "PC_WORLD_TIME_UPDATE";
+    public static final String PC_WORLD_UPDATE = "PC_WORLD_UPDATE";
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final Runnable simulationTick = new Runnable()
@@ -42,6 +42,7 @@ public class World extends com.projects.systems.System
     private ConsumptionManager consumptionManager;
     private ProductionManager productionManager;
     private Time time;
+    private SimulationStatus simulationStatus;
 
     public World()
     {
@@ -54,6 +55,7 @@ public class World extends com.projects.systems.System
         consumptionManager = new ConsumptionManager();
         productionManager = new ProductionManager();
         time = new Time();
+        simulationStatus = new SimulationStatus();
         resetSimulation();
     }
 
@@ -121,7 +123,10 @@ public class World extends com.projects.systems.System
     {
         time.reset();
         consumptionManager.reset();
-        changeSupport.firePropertyChange(PC_WORLD_TIME_UPDATE, null, time);
+        simulationStatus.totalUsageInkWh = 0;
+        simulationStatus.priceOfProduction = 0;
+        simulationStatus.time = time;
+        changeSupport.firePropertyChange(PC_WORLD_UPDATE, null, simulationStatus);
     }
 
     public void changeUpdateRate(Time.UpdateRate updateRate)
@@ -134,8 +139,13 @@ public class World extends com.projects.systems.System
         time.tick(fixedTime);
         System.out.println("+++ Tick +++");
         consumptionManager.calculateConsumption(time.getHour());
-        productionManager.calculateProduction(consumptionManager.getTotalKWh());
-        changeSupport.firePropertyChange(PC_WORLD_TIME_UPDATE, null, time);
+        productionManager.calculateProduction(consumptionManager.getTotalUsageInkWh());
+
+        simulationStatus.time = time;
+        simulationStatus.priceOfProduction = productionManager.getPriceOfProduction();
+        simulationStatus.totalUsageInkWh = consumptionManager.getTotalUsageInkWh();
+
+        changeSupport.firePropertyChange(PC_WORLD_UPDATE, null, simulationStatus);
     }
 
     public Structure getLastSelected() {
