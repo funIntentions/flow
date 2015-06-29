@@ -29,7 +29,7 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
     public SimulationInfoPanel(final SystemController systemController)
     {
         setLayout(new GridBagLayout());
-        decimalFormat = new DecimalFormat("#.00");
+        decimalFormat = new DecimalFormat("0.00");
         decimalFormat.setRoundingMode(RoundingMode.FLOOR);
         timeFormat = new DecimalFormat("00");
         GridBagConstraints constraints = new GridBagConstraints();
@@ -79,13 +79,13 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
             Time time = simulationStatus.time;
 
             timeLabel.setText("Time: " + timeFormat.format(time.getHourOfDay()) + ":" + timeFormat.format(time.getMinutesOfHour()) + ":" + timeFormat.format(time.getSecondsOfMinute())
-                    + " Day: " + time.getDay() 
+                    + " Day: " + time.getDay()
                     + " Week: " + time.getWeek()
                     + " Month: " + time.getMonth()
                     + " Year: " + time.getYear());
             usageLabel.setText("Usage: " + decimalFormat.format(simulationStatus.totalUsageInkWh) + " kWh");
             costLabel.setText("Cost: $" + decimalFormat.format(simulationStatus.priceOfProduction));
-            emissionsLabel.setText("Emissions: ");
+            emissionsLabel.setText("Emissions: " + decimalFormat.format(simulationStatus.emissions) + "g");
         }
     }
 }

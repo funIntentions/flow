@@ -10,4 +10,5 @@ public class SimulationStatus
     public Time time;
     public double priceOfProduction;
     public double totalUsageInkWh;
+    public double emissions;
 }

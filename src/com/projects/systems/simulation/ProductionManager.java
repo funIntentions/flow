@@ -15,6 +15,7 @@ public class ProductionManager
     private List<PowerPlant> powerPlants;
     private List<Structure> structures;
     private double priceOfProduction;
+    private double emissions;
 
     public ProductionManager()
     {
@@ -33,14 +34,14 @@ public class ProductionManager
             double capacity = powerPlant.getCapacity();
 
             priceOfProduction = kWh * powerPlant.getProductionCost();
-
+            emissions = kWh * powerPlant.getEmissionRate();
             break; // TODO : have it factor in all available plants instead of just the first, at the moment the plant just instantly meets the energy demands.
         }
-
     }
 
     public void reset()
     {
+        emissions = 0;
         priceOfProduction = 0;
     }
 
@@ -120,11 +121,14 @@ public class ProductionManager
         }
     }
 
+
+
     public double getPriceOfProduction() {
         return priceOfProduction;
     }
 
-    public void setPriceOfProduction(double priceOfProduction) {
-        this.priceOfProduction = priceOfProduction;
+    public double getEmissions()
+    {
+        return emissions;
     }
 }

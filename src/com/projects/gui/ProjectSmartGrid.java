@@ -172,15 +172,15 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         return new GraphicsPanel();
     }
 
-    private JSplitPane createRightBottomPanel()
+    private JPanel createRightBottomPanel()
     {
-        JSplitPane rightBottomPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, selectionInfoPanel, simulationInfoPanel);
-        rightBottomPanel.setBackground(Color.ORANGE);
+        //JSplitPane rightBottomPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, selectionInfoPanel, simulationInfoPanel);
+        /*rightBottomPanel.setBackground(Color.ORANGE);
         rightBottomPanel.setContinuousLayout(true);
         rightBottomPanel.setResizeWeight(0.5);
-        rightBottomPanel.setOneTouchExpandable(true);
+        rightBottomPanel.setOneTouchExpandable(true);*/
 
-        return rightBottomPanel;
+        return simulationInfoPanel;
     }
 
     JPanel createSimulationInfoPanel()

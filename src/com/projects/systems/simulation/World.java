@@ -126,6 +126,7 @@ public class World extends com.projects.systems.System
         simulationStatus.totalUsageInkWh = 0;
         simulationStatus.priceOfProduction = 0;
         simulationStatus.time = time;
+        simulationStatus.emissions = 0;
         changeSupport.firePropertyChange(PC_WORLD_UPDATE, null, simulationStatus);
     }
 
@@ -144,6 +145,7 @@ public class World extends com.projects.systems.System
         simulationStatus.time = time;
         simulationStatus.priceOfProduction = productionManager.getPriceOfProduction();
         simulationStatus.totalUsageInkWh = consumptionManager.getTotalUsageInkWh();
+        simulationStatus.emissions = productionManager.getEmissions();
 
         changeSupport.firePropertyChange(PC_WORLD_UPDATE, null, simulationStatus);
     }
