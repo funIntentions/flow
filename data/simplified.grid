@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<smartGrid>
+<template>
+<structure>
+<name>Home</name>
+<id>8</id>
+<type>SINGLE_UNIT</type>
+<numberOfUnits>1</numberOfUnits>
+<properties/>
+<appliances>
+<device>
+<name>Appliance</name>
+<id>3</id>
+<type>APPLIANCE</type>
+<properties>
+<property>
+<name>StandbyConsumption</name>
+<value type="DOUBLE">0.0</value>
+</property>
+<property>
+<name>AverageConsumption</name>
+<value type="DOUBLE">1232.0</value>
+</property>
+<property>
+<name>Power</name>
+<value type="DOUBLE">0.0</value>
+</property>
+</properties>
+</device>
+</appliances>
+<energySources/>
+<energyStorageDevices/>
+</structure>
+<structure>
+<name>Apartment</name>
+<id>9</id>
+<type>SINGLE_UNIT</type>
+<numberOfUnits>1</numberOfUnits>
+<properties/>
+<appliances/>
+<energySources/>
+<energyStorageDevices/>
+</structure>
+<structure>
+<name>Apartment Building</name>
+<id>10</id>
+<type>COMPOSITE_UNIT</type>
+<numberOfUnits>1</numberOfUnits>
+<properties/>
+<appliances/>
+<energySources/>
+<energyStorageDevices/>
+</structure>
+<structure>
+<name>Office Building</name>
+<id>11</id>
+<type>COMPOSITE_UNIT</type>
+<numberOfUnits>1</numberOfUnits>
+<properties/>
+<appliances/>
+<energySources/>
+<energyStorageDevices/>
+</structure>
+<structure>
+<name>Shop</name>
+<id>12</id>
+<type>SINGLE_UNIT</type>
+<numberOfUnits>1</numberOfUnits>
+<properties/>
+<appliances/>
+<energySources/>
+<energyStorageDevices/>
+</structure>
+<structure>
+<name>Mall</name>
+<id>13</id>
+<type>COMPOSITE_UNIT</type>
+<numberOfUnits>1</numberOfUnits>
+<properties/>
+<appliances/>
+<energySources/>
+<energyStorageDevices/>
+</structure>
+<structure>
+<name>Microgeneration Installation</name>
+<id>14</id>
+<type>SINGLE_UNIT</type>
+<numberOfUnits>1</numberOfUnits>
+<properties/>
+<appliances/>
+<energySources/>
+<energyStorageDevices/>
+</structure>
+<structure>
+<name>Power Plant</name>
+<id>15</id>
+<type>POWER_PLANT</type>
+<numberOfUnits>1</numberOfUnits>
+<properties>
+<property>
+<name>CapitalCost</name>
+<value type="DOUBLE">0.0</value>
+</property>
+<property>
+<name>MonthlyExpense</name>
+<value type="DOUBLE">0.0</value>
+</property>
+<property>
+<name>Efficiency</name>
+<value type="DOUBLE">0.0</value>
+</property>
+<property>
+<name>EmissionRate</name>
+<value type="DOUBLE">15.0</value>
+</property>
+<property>
+<name>ProductionCost</name>
+<value type="DOUBLE">0.5</value>
+</property>
+<property>
+<name>Capacity</name>
+<value type="DOUBLE">0.0</value>
+</property>
+</properties>
+<appliances/>
+<energySources/>
+<energyStorageDevices/>
+</structure>
+</template>
+<world>
+<structure>
+<name>Home</name>
+<id>16</id>
+<type>SINGLE_UNIT</type>
+<numberOfUnits>1</numberOfUnits>
+<properties/>
+<appliances>
+<device>
+<name>Appliance</name>
+<id>7</id>
+<type>APPLIANCE</type>
+<properties>
+<property>
+<name>StandbyConsumption</name>
+<value type="DOUBLE">0.0</value>
+</property>
+<property>
+<name>AverageConsumption</name>
+<value type="DOUBLE">1232.0</value>
+</property>
+<property>
+<name>Power</name>
+<value type="DOUBLE">0.0</value>
+</property>
+</properties>
+</device>
+</appliances>
+<energySources/>
+<energyStorageDevices/>
+</structure>
+<structure>
+<name>Power Plant</name>
+<id>17</id>
+<type>POWER_PLANT</type>
+<numberOfUnits>1</numberOfUnits>
+<properties>
+<property>
+<name>CapitalCost</name>
+<value type="DOUBLE">0.0</value>
+</property>
+<property>
+<name>MonthlyExpense</name>
+<value type="DOUBLE">0.0</value>
+</property>
+<property>
+<name>Efficiency</name>
+<value type="DOUBLE">0.0</value>
+</property>
+<property>
+<name>EmissionRate</name>
+<value type="DOUBLE">15.0</value>
+</property>
+<property>
+<name>ProductionCost</name>
+<value type="DOUBLE">0.5</value>
+</property>
+<property>
+<name>Capacity</name>
+<value type="DOUBLE">0.0</value>
+</property>
+</properties>
+<appliances/>
+<energySources/>
+<energyStorageDevices/>
+</structure>
+</world>
+<devices>
+<device>
+<name>Appliance</name>
+<id>4</id>
+<type>APPLIANCE</type>
+<properties>
+<property>
+<name>StandbyConsumption</name>
+<value type="DOUBLE">0.0</value>
+</property>
+<property>
+<name>AverageConsumption</name>
+<value type="DOUBLE">0.0</value>
+</property>
+<property>
+<name>Power</name>
+<value type="DOUBLE">0.0</value>
+</property>
+</properties>
+</device>
+<device>
+<name>EnergySource</name>
+<id>5</id>
+<type>ENERGY_SOURCE</type>
+<properties>
+<property>
+<name>IsGenerating</name>
+<value type="BOOLEAN">false</value>
+</property>
+<property>
+<name>RatedDCVoltage</name>
+<value type="DOUBLE">0.0</value>
+</property>
+<property>
+<name>Current</name>
+<value type="DOUBLE">0.0</value>
+</property>
+<property>
+<name>RatedACVoltage</name>
+<value type="DOUBLE">0.0</value>
+</property>
+<property>
+<name>PowerFactor</name>
+<value type="DOUBLE">0.0</value>
+</property>
+</properties>
+</device>
+<device>
+<name>EnergyStorage</name>
+<id>6</id>
+<type>ENERGY_STORAGE</type>
+<properties>
+<property>
+<name>IsCharging</name>
+<value type="BOOLEAN">false</value>
+</property>
+<property>
+<name>IsReleasingEnergy</name>
+<value type="BOOLEAN">false</value>
+</property>
+<property>
+<name>ChargingRate</name>
+<value type="DOUBLE">0.0</value>
+</property>
+<property>
+<name>StoredEnergy</name>
+<value type="DOUBLE">0.0</value>
+</property>
+<property>
+<name>ConnectionPower</name>
+<value type="DOUBLE">0.0</value>
+</property>
+</properties>
+</device>
+</devices>
+</smartGrid>
