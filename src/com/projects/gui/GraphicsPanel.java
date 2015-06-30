@@ -6,7 +6,11 @@ import com.projects.systems.StructureManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +21,21 @@ import java.util.List;
 public class GraphicsPanel extends JPanel implements SubscribedView
 {
     Dimension worldDimensions;
+    Dimension cellDimensions;
+    private int numberOfHorizonalCells;
+    private int numberOfVerticalCells;
     List<StructureImage> images;
+    List<StructureImage> scaledImages;
 
     public GraphicsPanel()
     {
         setBackground(Color.PINK);
-        worldDimensions = new Dimension(800, 600); // this is the preferred dimension
+        numberOfHorizonalCells = 25;
+        numberOfVerticalCells = 25;
+        cellDimensions = new Dimension(32, 32);
+        worldDimensions = new Dimension((int)(numberOfHorizonalCells * cellDimensions.getWidth()), (int)(numberOfVerticalCells * cellDimensions.getHeight())); // this is the preferred dimension
         images = new ArrayList<StructureImage>();
+        scaledImages = new ArrayList<StructureImage>();
     }
 
     @Override
@@ -42,19 +54,44 @@ public class GraphicsPanel extends JPanel implements SubscribedView
     }
 
     @Override
-    public void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g)
+    {
         int margin = 10;
         Dimension dim = getSize();
         dim.setSize(dim.getWidth() - margin * 2, dim.getHeight() - margin * 2);
         Dimension scaledWorld = getScaledDimension(worldDimensions, dim);
+        double widthRatio = scaledWorld.getWidth() / worldDimensions.getWidth();
+        double heightRatio = scaledWorld.getHeight() / worldDimensions.getHeight();
+        Dimension scaledCell = new Dimension((int)(widthRatio * cellDimensions.getWidth()), (int)(heightRatio * cellDimensions.getHeight()));
         super.paintComponent(g);
         g.setColor(Color.DARK_GRAY);
-        g.fillRect(margin + (int)(dim.getWidth()/2 - scaledWorld.getWidth()/2), margin + (int)(dim.getHeight()/2 - scaledWorld.getHeight()/2), (int)scaledWorld.getWidth(), (int)scaledWorld.getHeight());
 
-        for (StructureImage structureImage : images)
+        int xOffset = margin + (int)(dim.getWidth()/2 - scaledWorld.getWidth()/2);
+        int yOffset = margin + (int)(dim.getHeight()/2 - scaledWorld.getHeight()/2);
+
+        g.fillRect(xOffset, yOffset, (int)scaledWorld.getWidth(), (int)scaledWorld.getHeight());
+
+        BufferedImage scaledImage = resizeImage(images.get(0).getImage(), widthRatio, heightRatio);
+
+        for (int x = 0; x < numberOfHorizonalCells; ++x)
         {
-            g.drawImage(structureImage.getImage(), 0, 0, null);
+            for (int y = 0; y < numberOfVerticalCells; ++y)
+            {
+                g.drawImage(scaledImage, xOffset + (int)(x * scaledCell.getWidth()), yOffset + (int)(y * scaledCell.getHeight()), null);
+            }
         }
+    }
+
+    public BufferedImage resizeImage(BufferedImage before, double widthRatio, double heightRatio)
+    {
+        int w = before.getWidth();
+        int h = before.getHeight();
+        BufferedImage after = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        AffineTransform at = new AffineTransform();
+        at.scale(widthRatio, heightRatio);
+        AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+        after = scaleOp.filter(before, after);
+        return after;
     }
 
     public void modelPropertyChange(PropertyChangeEvent event)
@@ -65,7 +102,8 @@ public class GraphicsPanel extends JPanel implements SubscribedView
         }
     }
 
-    public static Dimension getScaledDimension(Dimension imgSize, Dimension boundary)
+
+    public Dimension getScaledDimension(Dimension imgSize, Dimension boundary)
     {
         int original_width = imgSize.width;
         int original_height = imgSize.height;
