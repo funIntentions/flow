@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by Dan on 6/19/2015.
  */
-public class TemplateManager extends System
+public class StructureManager extends System
 {
     private Template template;
     private Structure lastSelected;
@@ -23,8 +23,10 @@ public class TemplateManager extends System
     public static final String PC_STRUCTURE_EDITED = "PC_STRUCTURE_EDITED";
     public static final String PC_ADD_DEVICE = "PC_ADD_DEVICE";
     public static final String PC_DEVICE_SELECTED = "PC_DEVICE_SELECTED";
+    public static final String PC_IMAGES_READY = "PC_IMAGES_READ";
     private static Integer nextAvailableStructureId = 0;
     private static Integer nextAvailableDeviceId = 0;
+    private List<StructureImage> images;
     private HashMap<Integer, Device> devices;
     private HashMap<Integer, Structure> structures;
 
@@ -37,8 +39,9 @@ public class TemplateManager extends System
         return nextAvailableDeviceId++;
     }
 
-    public TemplateManager()
+    public StructureManager(List<StructureImage> structureImages)
     {
+        images = structureImages;
         devices = new HashMap<Integer, Device>();
         structures = new HashMap<Integer, Structure>();
         this.template = null;
@@ -123,11 +126,11 @@ public class TemplateManager extends System
         return worldStructures;
     }
 
-
     @Override
     public void postSetupSync()
     {
         changeSupport.firePropertyChange(PC_TEMPLATE_READY, null, template);
+        changeSupport.firePropertyChange(PC_IMAGES_READY, null, images);
     }
 
     public void editStructure(Structure structure)

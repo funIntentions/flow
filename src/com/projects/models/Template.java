@@ -12,6 +12,8 @@ public class Template
     private Device applianceTemplate;
     private Device energySourceTemplate;
     private Device energyStorageTempalte;
+    private StructureImage houseImage;
+    private StructureImage powerPlantImage;
     private List<Structure> structureTemplates;
     private List<Structure> worldStructures;
 

@@ -10,7 +10,7 @@ import com.projects.helper.DeviceType;
 import com.projects.helper.StructureType;
 import com.projects.management.SystemController;
 import com.projects.models.*;
-import com.projects.systems.TemplateManager;
+import com.projects.systems.StructureManager;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -475,7 +475,7 @@ public class StructureEditor implements SubscribedView
     @Override
     public void modelPropertyChange(PropertyChangeEvent event)
     {
-        if (event.getPropertyName().equals(TemplateManager.PC_ADD_DEVICE))
+        if (event.getPropertyName().equals(StructureManager.PC_ADD_DEVICE))
         {
             Device device = (Device)event.getNewValue();
 
@@ -495,7 +495,7 @@ public class StructureEditor implements SubscribedView
                 } break;
             }
         }
-        else if (event.getPropertyName().equals(TemplateManager.PC_DEVICE_SELECTED))
+        else if (event.getPropertyName().equals(StructureManager.PC_DEVICE_SELECTED))
         {
             devicePropertiesTable.clearTable();
             Device device = (Device)event.getNewValue();

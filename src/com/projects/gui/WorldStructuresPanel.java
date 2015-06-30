@@ -1,7 +1,7 @@
 package com.projects.gui;
 
 import com.projects.models.Structure;
-import com.projects.systems.TemplateManager;
+import com.projects.systems.StructureManager;
 import com.projects.systems.simulation.World;
 
 import java.awt.event.MouseListener;
@@ -25,7 +25,7 @@ public class WorldStructuresPanel extends StructurePanel implements SubscribedVi
             Structure structure = (Structure)event.getNewValue();
             structureTable.addRow(structure);
         }
-        else if (event.getPropertyName().equals(TemplateManager.PC_STRUCTURE_EDITED))
+        else if (event.getPropertyName().equals(StructureManager.PC_STRUCTURE_EDITED))
         {
             Structure structure = (Structure)event.getNewValue();
 

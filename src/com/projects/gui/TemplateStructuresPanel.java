@@ -2,7 +2,7 @@ package com.projects.gui;
 
 import com.projects.models.Structure;
 import com.projects.models.Template;
-import com.projects.systems.TemplateManager;
+import com.projects.systems.StructureManager;
 
 import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
@@ -20,7 +20,7 @@ public class TemplateStructuresPanel extends StructurePanel implements Subscribe
 
      public void modelPropertyChange(PropertyChangeEvent event)
     {
-        if (event.getPropertyName().equals(TemplateManager.PC_TEMPLATE_READY))
+        if (event.getPropertyName().equals(StructureManager.PC_TEMPLATE_READY))
         {
             structureTable.clearTable();
             Template template = (Template)event.getNewValue();
@@ -32,7 +32,7 @@ public class TemplateStructuresPanel extends StructurePanel implements Subscribe
                 structureTable.addRow(structure);
             }
         }
-        else if (event.getPropertyName().equals(TemplateManager.PC_STRUCTURE_EDITED))
+        else if (event.getPropertyName().equals(StructureManager.PC_STRUCTURE_EDITED))
         {
             Structure structure = (Structure)event.getNewValue();
 

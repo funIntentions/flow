@@ -1,19 +1,29 @@
 package com.projects.gui;
 
+import com.projects.models.Structure;
+import com.projects.models.StructureImage;
+import com.projects.systems.StructureManager;
+
 import javax.swing.*;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by Dan on 6/10/2015.
  */
-public class GraphicsPanel extends JPanel
+public class GraphicsPanel extends JPanel implements SubscribedView
 {
     Dimension worldDimensions;
+    List<StructureImage> images;
 
     public GraphicsPanel()
     {
         setBackground(Color.PINK);
         worldDimensions = new Dimension(800, 600); // this is the preferred dimension
+        images = new ArrayList<StructureImage>();
     }
 
     @Override
@@ -40,6 +50,19 @@ public class GraphicsPanel extends JPanel
         super.paintComponent(g);
         g.setColor(Color.DARK_GRAY);
         g.fillRect(margin + (int)(dim.getWidth()/2 - scaledWorld.getWidth()/2), margin + (int)(dim.getHeight()/2 - scaledWorld.getHeight()/2), (int)scaledWorld.getWidth(), (int)scaledWorld.getHeight());
+
+        for (StructureImage structureImage : images)
+        {
+            g.drawImage(structureImage.getImage(), 0, 0, null);
+        }
+    }
+
+    public void modelPropertyChange(PropertyChangeEvent event)
+    {
+        if (event.getPropertyName().equals(StructureManager.PC_IMAGES_READY))
+        {
+            images = (List<StructureImage>)event.getNewValue();
+        }
     }
 
     public static Dimension getScaledDimension(Dimension imgSize, Dimension boundary)

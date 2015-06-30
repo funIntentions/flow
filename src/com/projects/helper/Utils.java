@@ -1,6 +1,8 @@
 package com.projects.helper;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,5 +35,11 @@ public class Utils
         }
 
         return false;
+    }
+
+    public static String getWorkingDir()
+    {
+        Path currentRelativePath = Paths.get("");
+        return currentRelativePath.toAbsolutePath().toString();
     }
 }

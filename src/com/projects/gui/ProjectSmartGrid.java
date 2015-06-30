@@ -8,7 +8,7 @@ import com.projects.input.listeners.TemplateStructureSelectedListener;
 import com.projects.input.listeners.WorldStructureSelectedListener;
 import com.projects.management.SystemController;
 import com.projects.models.Structure;
-import com.projects.systems.TemplateManager;
+import com.projects.systems.StructureManager;
 import com.projects.systems.simulation.World;
 
 import javax.swing.*;
@@ -40,6 +40,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     private SystemController controller;
     private TemplateStructuresPanel templateStructuresPanel;
     private StatusPanel statusBar;
+    private GraphicsPanel graphics;
 
     private JSplitPane rightSplitPane;
     private JSplitPane centerSplitPane;
@@ -75,6 +76,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         simulationInfoPanel = new SimulationInfoPanel(controller);
         statusBar = new StatusPanel("Application Started");
 
+        graphics = new GraphicsPanel();
         structureEditor = new StructureEditor(frame, controller);
 
         removeSelectedStructureAction = new RemoveSelectedStructureAction("Remove Structure", null, null, null, worldStructuresPanel.getStructureTable(), worldStructuresPanel.getTemplateTable(), controller);
@@ -87,6 +89,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         controller.subscribeView(selectionInfoPanel);
         controller.subscribeView(worldStructuresPanel);
         controller.subscribeView(statusBar);
+        controller.subscribeView(graphics);
         controller.subscribeView(this);
         controller.setupComplete();
         setupPane();
@@ -98,7 +101,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
         setBackground(Color.RED);
 
-        rightSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, createRightTopPanel(), createRightBottomPanel());
+        rightSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, graphics, createRightBottomPanel());
         rightSplitPane.setResizeWeight(0.5);
         rightSplitPane.setOneTouchExpandable(true);
         rightSplitPane.setContinuousLayout(true);
@@ -132,7 +135,6 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         mainFrame.setContentPane(project);
         mainFrame.pack();
         mainFrame.setVisible(true);
-        project.removeToolBarAndMenuOptions();
     }
 
     private JToolBar createToolBar()
@@ -144,10 +146,6 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         runSimulationButton = new JButton(runSimulationAction);
         pauseSimulationButton = new JButton(pauseSimulationAction);
         resetSimulationButton = new JButton(resetSimulationAction);
-        toolBar.add(removeStructureButton);
-        toolBar.add(createPrefabButton);
-        toolBar.add(editStructureButton);
-        toolBar.addSeparator();
         toolBar.add(runSimulationButton);
         toolBar.add(pauseSimulationButton);
         toolBar.add(resetSimulationButton);
@@ -165,11 +163,6 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         leftPanel.setOneTouchExpandable(true);
         leftPanel.setContinuousLayout(true);
         return leftPanel;
-    }
-
-    private JPanel createRightTopPanel()
-    {
-        return new GraphicsPanel();
     }
 
     private JPanel createRightBottomPanel()
@@ -289,7 +282,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
     public void modelPropertyChange(PropertyChangeEvent event)
     {
-        if (event.getPropertyName().equals(TemplateManager.PC_TEMPLATE_SELECTED))
+        if (event.getPropertyName().equals(StructureManager.PC_TEMPLATE_SELECTED))
         {
             removeToolBarAndMenuOptions();
             editStructureItem.setEnabled(true);
@@ -298,7 +291,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
             toolBar.add(createPrefabButton);
             addToolBarSimulationControls();
         }
-        else if (event.getPropertyName().equals(TemplateManager.PC_CREATE_STRUCTURE))
+        else if (event.getPropertyName().equals(StructureManager.PC_CREATE_STRUCTURE))
         {
             Structure structure = (Structure)event.getNewValue();
             structureEditor.display(structure);
@@ -312,7 +305,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
             toolBar.add(removeStructureButton);
             addToolBarSimulationControls();
         }
-        else if (event.getPropertyName().equals(TemplateManager.PC_EDITING_STRUCTURE))
+        else if (event.getPropertyName().equals(StructureManager.PC_EDITING_STRUCTURE))
         {
             Structure structure = (Structure)event.getNewValue();
             structureEditor.display(structure);

@@ -5,7 +5,7 @@ import com.projects.gui.table.PropertiesTable;
 import com.projects.helper.SelectionType;
 import com.projects.models.Property;
 import com.projects.models.Structure;
-import com.projects.systems.TemplateManager;
+import com.projects.systems.StructureManager;
 
 import javax.swing.*;
 import javax.swing.event.TableModelListener;
@@ -135,7 +135,7 @@ public class SelectionPropertyPanel extends JPanel implements SubscribedView
 
     public void modelPropertyChange(PropertyChangeEvent event)
     {
-        if (event.getPropertyName().equals(TemplateManager.PC_TEMPLATE_SELECTED))
+        if (event.getPropertyName().equals(StructureManager.PC_TEMPLATE_SELECTED))
         {
             propertiesTable.clearTable();
             Structure structure = (Structure)event.getNewValue();

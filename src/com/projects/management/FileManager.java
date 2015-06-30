@@ -1,5 +1,6 @@
 package com.projects.management;
 
+import com.projects.helper.Constants;
 import com.projects.helper.DeviceType;
 import com.projects.helper.StructureType;
 import com.projects.helper.Utils;
@@ -9,6 +10,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -16,7 +18,9 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -30,6 +34,29 @@ class FileManager
 
     public FileManager()
     {
+    }
+
+    public List<StructureImage> readImages()
+    {
+        List<StructureImage> images = new ArrayList<StructureImage>();
+
+        BufferedImage img = null;
+        String workingDir = Utils.getWorkingDir();
+
+        try
+        {
+            img = ImageIO.read(new File(workingDir + Constants.HOUSE_IMAGE_PATH));
+            images.add(new StructureImage(StructureType.SINGLE_UNIT, img));
+
+            img = ImageIO.read(new File(workingDir + Constants.POWER_PLANT_IMAGE_PATH));
+            images.add(new StructureImage(StructureType.POWER_PLANT, img));
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return images;
     }
 
     public Template readTemplate(File file)

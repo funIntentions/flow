@@ -4,16 +4,15 @@ import com.projects.gui.SubscribedView;
 import com.projects.helper.Constants;
 import com.projects.helper.DeviceType;
 import com.projects.helper.SelectionType;
+import com.projects.helper.Utils;
 import com.projects.models.*;
 import com.projects.systems.System;
-import com.projects.systems.TemplateManager;
+import com.projects.systems.StructureManager;
 import com.projects.systems.simulation.World;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class SystemController implements PropertyChangeListener
     private TaskManager taskManager;
     private World world;
     private FileManager fileManager;
-    private TemplateManager templateManager;
+    private StructureManager structureManager;
     private SelectionType activeSelection;
     private Task testTask;
 
@@ -43,14 +42,15 @@ public class SystemController implements PropertyChangeListener
         fileManager = new FileManager();
         taskManager = new TaskManager();
 
-        templateManager = new TemplateManager();
+        structureManager = new StructureManager(fileManager.readImages()); //TODO: uncouple images with structure manager
         world = new World();
 
         loadDefault();
 
-        templateManager.addPropertyChangeListener(this);
+        structureManager.addPropertyChangeListener(this);
         world.addPropertyChangeListener(this);
-        systems.add(templateManager); //TODO: add the rest after refactoring them
+        systems.add(structureManager); //TODO: add the rest after refactoring them
+        systems.add(world);
 
         activeSelection= SelectionType.NO_SELECTION;
         testTask = new Task(0, "File Loading", "Waiting");
@@ -76,8 +76,7 @@ public class SystemController implements PropertyChangeListener
 
     public void loadDefault()
     {
-        Path currentRelativePath = Paths.get("");
-        String workingDir = currentRelativePath.toAbsolutePath().toString();
+        String workingDir = Utils.getWorkingDir();
         File templateFile = new File(workingDir + Constants.TEMPLATE_FILE_PATH);
 
         loadFile(templateFile);
@@ -87,20 +86,20 @@ public class SystemController implements PropertyChangeListener
     {
         Template template = fileManager.readTemplate(file);
 
-        templateManager.newTemplate(template);
-        List<Structure> worldStructures = templateManager.syncWorldStructures(template.getWorldStructures());
+        structureManager.newTemplate(template);
+        List<Structure> worldStructures = structureManager.syncWorldStructures(template.getWorldStructures());
         world.newWorld(worldStructures);
     }
 
     public void saveSimulation(File file)
     {
         List<Integer> ids = new ArrayList<Integer>();
-        for (Structure structure : templateManager.getTemplate().getStructureTemplates())
+        for (Structure structure : structureManager.getTemplate().getStructureTemplates())
         {
             ids.add(structure.getId());
         }
 
-        fileManager.saveSimulation(file, templateManager.getStructures(), ids, world.getStructures().keySet(), templateManager.getTemplate());
+        fileManager.saveSimulation(file, structureManager.getStructures(), ids, world.getStructures().keySet(), structureManager.getTemplate());
     }
 
     /**
@@ -156,17 +155,17 @@ public class SystemController implements PropertyChangeListener
 
     public void editStructuresName(String name)
     {
-        templateManager.editName(name);
+        structureManager.editName(name);
     }
 
     public void editStructuresNumberOfUnits(Integer num)
     {
-        templateManager.editNumberOfUnits(num);
+        structureManager.editNumberOfUnits(num);
     }
 
     public void editingComplete()
     {
-        Structure structure = templateManager.finishedStructureEditing();
+        Structure structure = structureManager.finishedStructureEditing();
 
         if (activeSelection == SelectionType.WORLD)
         {
@@ -174,24 +173,24 @@ public class SystemController implements PropertyChangeListener
         }
         else if (activeSelection == SelectionType.TEMPLATE)
         {
-            templateManager.setStructure(structure);
+            structureManager.setStructure(structure);
         }
     }
 
     public void addStructureToWorld(Integer id)
     {
-        Structure structure = templateManager.createStructureFromTemplate(id);
+        Structure structure = structureManager.createStructureFromTemplate(id);
         world.addNewStructure(structure);
     }
 
     public void addDeviceToStructure(DeviceType deviceType)
     {
-        templateManager.addDevice(deviceType);
+        structureManager.addDevice(deviceType);
     }
 
     public void selectTemplateStructure(Structure structure)
     {
-        templateManager.selectTemplateStructure(structure);
+        structureManager.selectTemplateStructure(structure);
         activeSelection = SelectionType.TEMPLATE;
     }
 
@@ -212,7 +211,7 @@ public class SystemController implements PropertyChangeListener
 
         if (activeSelection == SelectionType.TEMPLATE)
         {
-            structure = templateManager.getLastSelected();
+            structure = structureManager.getLastSelected();
         }
         else if (activeSelection == SelectionType.WORLD)
         {
@@ -224,32 +223,32 @@ public class SystemController implements PropertyChangeListener
             return; // TODO: display message?
         }
 
-        templateManager.editStructure(structure);
+        structureManager.editStructure(structure);
     }
 
     public void selectDevice(int id)
     {
-        templateManager.deviceSelected(id);
+        structureManager.deviceSelected(id);
     }
 
     public void removeDevice(int id)
     {
-        templateManager.removeDevice(id);
+        structureManager.removeDevice(id);
     }
 
     public void editDeviceName(int index, String name)
     {
-        templateManager.editDeviceName(index, name);
+        structureManager.editDeviceName(index, name);
     }
 
     public void editDeviceProperty(int index, Object value)
     {
-        templateManager.editDeviceProperty(index, value);
+        structureManager.editDeviceProperty(index, value);
     }
 
     public void editObjectProperty(int index, Object value)
     {
-        templateManager.editObjectProperty(index, value);
+        structureManager.editObjectProperty(index, value);
     }
 
     public void changeSimulationUpdateRate(Time.UpdateRate updateRate)
