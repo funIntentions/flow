@@ -355,7 +355,8 @@ public class StructureEditor implements SubscribedView
         inputUnitInfoPanel.add(nameLabel);
         inputUnitInfoPanel.add(nameField);
 
-        rightPanel.add(notificationPanel, BorderLayout.PAGE_START);
+        rightPanel.add(notificationPanel, BorderLayout.PAGE_START); // TODO: use grid bag so that I can have more components
+        //rightPanel.add(buildingPropertiesScrollPane, BorderLayout.PAGE_START);
         rightPanel.add(devicePropertiesScrollPane, BorderLayout.CENTER);
         rightPanel.add(creationControlButtons, BorderLayout.PAGE_END);
 
@@ -372,6 +373,7 @@ public class StructureEditor implements SubscribedView
         inputUnitInfoPanel.remove(nameField);
 
         rightPanel.remove(notificationPanel);
+        //rightPanel.remove(buildingPropertiesScrollPane);
         rightPanel.remove(devicePropertiesScrollPane);
         rightPanel.remove(creationControlButtons);
 

@@ -9,7 +9,16 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <id>-1</id>
             <type>SINGLE_UNIT</type>
             <numberOfUnits>1</numberOfUnits>
-            <properties/>
+            <properties>
+                <property>
+                    <name>xCoordinate</name>
+                    <value type="DOUBLE">0</value>
+                </property>
+                <property>
+                    <name>yCoordinate</name>
+                    <value type="DOUBLE">0</value>
+                </property>
+            </properties>
             <appliances/>
             <energySources/>
             <energyStorageDevices/>
@@ -19,7 +28,16 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <id>-1</id>
             <type>SINGLE_UNIT</type>
             <numberOfUnits>1</numberOfUnits>
-            <properties/>
+            <properties>
+                <property>
+                    <name>xCoordinate</name>
+                    <value type="DOUBLE">0</value>
+                </property>
+                <property>
+                    <name>yCoordinate</name>
+                    <value type="DOUBLE">0</value>
+                </property>
+            </properties>
             <appliances/>
             <energySources/>
             <energyStorageDevices/>
@@ -29,7 +47,16 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <id>-1</id>
             <type>COMPOSITE_UNIT</type>
             <numberOfUnits>1</numberOfUnits>
-            <properties/>
+            <properties>
+                <property>
+                    <name>xCoordinate</name>
+                    <value type="DOUBLE">0</value>
+                </property>
+                <property>
+                    <name>yCoordinate</name>
+                    <value type="DOUBLE">0</value>
+                </property>
+            </properties>
             <appliances/>
             <energySources/>
             <energyStorageDevices/>
@@ -39,7 +66,16 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <id>-1</id>
             <type>COMPOSITE_UNIT</type>
             <numberOfUnits>1</numberOfUnits>
-            <properties/>
+            <properties>
+                <property>
+                    <name>xCoordinate</name>
+                    <value type="DOUBLE">0</value>
+                </property>
+                <property>
+                    <name>yCoordinate</name>
+                    <value type="DOUBLE">0</value>
+                </property>
+            </properties>
             <appliances/>
             <energySources/>
             <energyStorageDevices/>
@@ -49,7 +85,16 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <id>-1</id>
             <type>SINGLE_UNIT</type>
             <numberOfUnits>1</numberOfUnits>
-            <properties/>
+            <properties>
+                <property>
+                    <name>xCoordinate</name>
+                    <value type="DOUBLE">0</value>
+                </property>
+                <property>
+                    <name>yCoordinate</name>
+                    <value type="DOUBLE">0</value>
+                </property>
+            </properties>
             <appliances/>
             <energySources/>
             <energyStorageDevices/>
@@ -59,7 +104,16 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <id>-1</id>
             <type>COMPOSITE_UNIT</type>
             <numberOfUnits>1</numberOfUnits>
-            <properties/>
+            <properties>
+                <property>
+                    <name>xCoordinate</name>
+                    <value type="DOUBLE">0</value>
+                </property>
+                <property>
+                    <name>yCoordinate</name>
+                    <value type="DOUBLE">0</value>
+                </property>
+            </properties>
             <appliances/>
             <energySources/>
             <energyStorageDevices/>
@@ -69,7 +123,16 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <id>-1</id>
             <type>SINGLE_UNIT</type>
             <numberOfUnits>1</numberOfUnits>
-            <properties/>
+            <properties>
+                <property>
+                    <name>xCoordinate</name>
+                    <value type="DOUBLE">0</value>
+                </property>
+                <property>
+                    <name>yCoordinate</name>
+                    <value type="DOUBLE">0</value>
+                </property>
+            </properties>
             <appliances/>
             <energySources/>
             <energyStorageDevices/>
@@ -80,6 +143,14 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <type>POWER_PLANT</type>
             <numberOfUnits>1</numberOfUnits>
             <properties>
+                <property>
+                    <name>xCoordinate</name>
+                    <value type="DOUBLE">0</value>
+                </property>
+                <property>
+                    <name>yCoordinate</name>
+                    <value type="DOUBLE">0</value>
+                </property>
                 <property>
                     <name>CapitalCost</name>
                     <value type="DOUBLE">0</value>
