@@ -329,6 +329,7 @@ class FileManager
         structureNode.appendChild(getElement(doc, "name", structure.getName()));
         structureNode.appendChild(getElement(doc, "id", String.valueOf(structure.getId())));
         structureNode.appendChild(getElement(doc, "type", String.valueOf(structure.getType())));
+        structureNode.appendChild(getElement(doc, "image", String.valueOf(structure.getImage())));
         structureNode.appendChild(getElement(doc, "numberOfUnits", String.valueOf(structure.getNumberOfUnits())));
 
         Element propertyMembers = doc.createElement("properties");

@@ -39,6 +39,7 @@ public class StructureEditor implements SubscribedView
     private JPanel creationPanel;
     private JPanel leftPanel;
     private JPanel rightPanel;
+    private JPanel propertiesPanel;
     private DeviceTabbedPane deviceTabbedPane;
     private DeviceTabbedPane unitDeviceTabbedPane;
     private JDialog creationDialog;
@@ -73,6 +74,7 @@ public class StructureEditor implements SubscribedView
         creationPanel = new JPanel(new GridLayout(1,2));
         leftPanel = new JPanel(new BorderLayout(10,10));
         rightPanel = new JPanel(new BorderLayout(10,10));
+        propertiesPanel = new JPanel(new GridLayout(2, 1));
 
         createComponents();
 
@@ -273,6 +275,9 @@ public class StructureEditor implements SubscribedView
             }
         };
 
+        propertiesPanel.add(buildingPropertiesScrollPane);
+        propertiesPanel.add(devicePropertiesScrollPane);
+
         AbstractAction cancelAction = new AbstractAction("Cancel")
         {
             @Override
@@ -281,7 +286,6 @@ public class StructureEditor implements SubscribedView
                 close();
             }
         };
-
         creationControlButtons = new JPanel(new FlowLayout());
         creationControlButtons.add(new JButton(okAction));
         creationControlButtons.add(new JButton(cancelAction));
@@ -401,7 +405,8 @@ public class StructureEditor implements SubscribedView
 
         rightPanel.add(notificationPanel, BorderLayout.PAGE_START); // TODO: use grid bag so that I can have more components
         //rightPanel.add(buildingPropertiesScrollPane, BorderLayout.PAGE_START);
-        rightPanel.add(devicePropertiesScrollPane, BorderLayout.CENTER);
+        //rightPanel.add(devicePropertiesScrollPane, BorderLayout.CENTER);
+        rightPanel.add(propertiesPanel);
         rightPanel.add(creationControlButtons, BorderLayout.PAGE_END);
 
         leftPanel.add(inputUnitInfoPanel, BorderLayout.PAGE_START);
@@ -418,7 +423,8 @@ public class StructureEditor implements SubscribedView
 
         rightPanel.remove(notificationPanel);
         //rightPanel.remove(buildingPropertiesScrollPane);
-        rightPanel.remove(devicePropertiesScrollPane);
+        //rightPanel.remove(devicePropertiesScrollPane);
+        rightPanel.remove(propertiesPanel);
         rightPanel.remove(creationControlButtons);
 
         leftPanel.remove(inputUnitInfoPanel);
@@ -436,7 +442,8 @@ public class StructureEditor implements SubscribedView
         inputCompositeUnitInfoPanel.add(numberOfUnitsField);
 
         rightPanel.add(notificationPanel, BorderLayout.PAGE_START);
-        rightPanel.add(devicePropertiesScrollPane, BorderLayout.CENTER);
+        //rightPanel.add(devicePropertiesScrollPane, BorderLayout.CENTER);
+        rightPanel.add(propertiesPanel);
         rightPanel.add(creationControlButtons, BorderLayout.PAGE_END);
 
         leftPanel.add(inputCompositeUnitInfoPanel, BorderLayout.PAGE_START);
@@ -456,7 +463,8 @@ public class StructureEditor implements SubscribedView
         inputCompositeUnitInfoPanel.remove(numberOfUnitsField);
 
         rightPanel.remove(notificationPanel);
-        rightPanel.remove(devicePropertiesScrollPane);
+        //rightPanel.remove(devicePropertiesScrollPane);
+        rightPanel.remove(propertiesPanel);
         rightPanel.remove(creationControlButtons);
 
         leftPanel.remove(inputCompositeUnitInfoPanel);
@@ -473,7 +481,9 @@ public class StructureEditor implements SubscribedView
         rightPanel.add(creationControlButtons, BorderLayout.PAGE_END);
 
         leftPanel.add(inputUnitInfoPanel, BorderLayout.PAGE_START);
-        leftPanel.add(buildingPropertiesScrollPane, BorderLayout.CENTER);
+
+        propertiesPanel.remove(devicePropertiesScrollPane);
+        leftPanel.add(propertiesPanel, BorderLayout.CENTER);
 
         populateStructureDevicesAndProperties(structure);
     }
@@ -487,7 +497,8 @@ public class StructureEditor implements SubscribedView
         rightPanel.remove(creationControlButtons);
 
         leftPanel.remove(inputUnitInfoPanel);
-        leftPanel.remove(buildingPropertiesScrollPane);
+        leftPanel.remove(propertiesPanel);
+        propertiesPanel.add(devicePropertiesScrollPane);
     }
 
     Boolean conflictsExist()
