@@ -94,6 +94,7 @@ public class World extends com.projects.systems.System
         consumptionManager.removeStructure(structures.get(id));
         productionManager.removeStructure(structures.get(id));
         structures.remove(id);
+        changeSupport.firePropertyChange(PC_REMOVE_STRUCTURE, null, id);
     }
 
     public void addNewStructure(Structure structure)

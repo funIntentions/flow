@@ -120,9 +120,10 @@ public class GraphicsPanel extends JPanel implements SubscribedView
         }
         else if (event.getPropertyName().equals(World.PC_REMOVE_STRUCTURE))
         {
-            Structure removed = (Structure)event.getNewValue();
+            int removed = (Integer)event.getNewValue();
 
             removeStructure(removed);
+            repaint();
         }
         else if (event.getPropertyName().equals(World.PC_NEW_WORLD))
         {
@@ -137,11 +138,11 @@ public class GraphicsPanel extends JPanel implements SubscribedView
         //else if (event.getPropertyName().equals(World.))
     }
 
-    private void removeStructure(Structure removed)
+    private void removeStructure(int removed)
     {
         for (Structure structure : structures)
         {
-            if (structure.getId().intValue() == removed.getId().intValue());
+            if (structure.getId() == removed);
             {
                 structures.remove(structure);
                 return;
