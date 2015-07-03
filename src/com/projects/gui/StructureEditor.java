@@ -212,7 +212,51 @@ public class StructureEditor implements SubscribedView
         ObjectPropertiesTableListener objectPropertiesTableListener = new ObjectPropertiesTableListener(controller);
         buildingPropertiesTable = new PropertiesTable();
         buildingPropertiesTable.addTableModelListener(objectPropertiesTableListener);
-        JTable buildingPropertyTable = new JTable(buildingPropertiesTable);
+        JTable buildingPropertyTable = new JTable(buildingPropertiesTable)
+        {
+            private static final long serialVersionUID = 1L;
+            private Class editingClass;
+
+            @Override
+            public TableCellRenderer getCellRenderer(int row, int column) {
+                editingClass = null;
+                int modelColumn = convertColumnIndexToModel(column);
+                if (modelColumn == 1)
+                {
+                    Object value = getModel().getValueAt(row, modelColumn);
+                    if (value == null)
+                    {
+                        value = 0.0;
+                        getModel().setValueAt(value, row, column);
+                    }
+                    Class rowClass = value.getClass();
+                    return getDefaultRenderer(rowClass);
+                } else {
+                    return super.getCellRenderer(row, column);
+                }
+            }
+
+            @Override
+            public TableCellEditor getCellEditor(int row, int column) {
+                editingClass = null;
+                int modelColumn = convertColumnIndexToModel(column);
+                if (modelColumn == 1) {
+                    editingClass = getModel().getValueAt(row, modelColumn).getClass();
+                    return getDefaultEditor(editingClass);
+                } else {
+                    return super.getCellEditor(row, column);
+                }
+            }
+            //  This method is also invoked by the editor when the value in the editor
+            //  component is saved in the TableModel. The class was saved when the
+            //  editor was invoked so the proper class can be created.
+
+            @Override
+            public Class getColumnClass(int column) {
+                return editingClass != null ? editingClass : super.getColumnClass(column);
+            }
+        };
+
         buildingPropertiesScrollPane = new JScrollPane(buildingPropertyTable);
         buildingPropertiesScrollPane.setBorder(BorderFactory.createTitledBorder("Building Properties"));
 

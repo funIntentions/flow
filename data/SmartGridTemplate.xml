@@ -12,11 +12,11 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <properties>
                 <property>
                     <name>xCoordinate</name>
-                    <value type="DOUBLE">0</value>
+                    <value type="INTEGER">0</value>
                 </property>
                 <property>
                     <name>yCoordinate</name>
-                    <value type="DOUBLE">0</value>
+                    <value type="INTEGER">0</value>
                 </property>
             </properties>
             <appliances/>
@@ -31,11 +31,11 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <properties>
                 <property>
                     <name>xCoordinate</name>
-                    <value type="DOUBLE">0</value>
+                    <value type="INTEGER">0</value>
                 </property>
                 <property>
                     <name>yCoordinate</name>
-                    <value type="DOUBLE">0</value>
+                    <value type="INTEGER">0</value>
                 </property>
             </properties>
             <appliances/>
@@ -50,11 +50,11 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <properties>
                 <property>
                     <name>xCoordinate</name>
-                    <value type="DOUBLE">0</value>
+                    <value type="INTEGER">0</value>
                 </property>
                 <property>
                     <name>yCoordinate</name>
-                    <value type="DOUBLE">0</value>
+                    <value type="INTEGER">0</value>
                 </property>
             </properties>
             <appliances/>
@@ -69,11 +69,11 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <properties>
                 <property>
                     <name>xCoordinate</name>
-                    <value type="DOUBLE">0</value>
+                    <value type="INTEGER">0</value>
                 </property>
                 <property>
                     <name>yCoordinate</name>
-                    <value type="DOUBLE">0</value>
+                    <value type="INTEGER">0</value>
                 </property>
             </properties>
             <appliances/>
@@ -88,11 +88,11 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <properties>
                 <property>
                     <name>xCoordinate</name>
-                    <value type="DOUBLE">0</value>
+                    <value type="INTEGER">0</value>
                 </property>
                 <property>
                     <name>yCoordinate</name>
-                    <value type="DOUBLE">0</value>
+                    <value type="INTEGER">0</value>
                 </property>
             </properties>
             <appliances/>
@@ -107,11 +107,11 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <properties>
                 <property>
                     <name>xCoordinate</name>
-                    <value type="DOUBLE">0</value>
+                    <value type="INTEGER">0</value>
                 </property>
                 <property>
                     <name>yCoordinate</name>
-                    <value type="DOUBLE">0</value>
+                    <value type="INTEGER">0</value>
                 </property>
             </properties>
             <appliances/>
@@ -126,11 +126,11 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <properties>
                 <property>
                     <name>xCoordinate</name>
-                    <value type="DOUBLE">0</value>
+                    <value type="INTEGER">0</value>
                 </property>
                 <property>
                     <name>yCoordinate</name>
-                    <value type="DOUBLE">0</value>
+                    <value type="INTEGER">0</value>
                 </property>
             </properties>
             <appliances/>
@@ -145,11 +145,11 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <properties>
                 <property>
                     <name>xCoordinate</name>
-                    <value type="DOUBLE">0</value>
+                    <value type="INTEGER">0</value>
                 </property>
                 <property>
                     <name>yCoordinate</name>
-                    <value type="DOUBLE">0</value>
+                    <value type="INTEGER">0</value>
                 </property>
                 <property>
                     <name>CapitalCost</name>

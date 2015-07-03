@@ -1,8 +1,10 @@
 package com.projects.gui;
 
+import com.projects.helper.ImageType;
 import com.projects.models.Structure;
 import com.projects.models.StructureImage;
 import com.projects.systems.StructureManager;
+import com.projects.systems.simulation.World;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +14,7 @@ import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.nio.Buffer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -24,8 +27,9 @@ public class GraphicsPanel extends JPanel implements SubscribedView
     Dimension cellDimensions;
     private int numberOfHorizonalCells;
     private int numberOfVerticalCells;
-    List<StructureImage> images;
-    List<StructureImage> scaledImages;
+    HashMap<ImageType, BufferedImage> images;
+    HashMap<ImageType, BufferedImage> scaledImages;
+    List<Structure> structures;
 
     public GraphicsPanel()
     {
@@ -34,8 +38,9 @@ public class GraphicsPanel extends JPanel implements SubscribedView
         numberOfVerticalCells = 25;
         cellDimensions = new Dimension(32, 32);
         worldDimensions = new Dimension((int)(numberOfHorizonalCells * cellDimensions.getWidth()), (int)(numberOfVerticalCells * cellDimensions.getHeight())); // this is the preferred dimension
-        images = new ArrayList<StructureImage>();
-        scaledImages = new ArrayList<StructureImage>();
+        images = new HashMap<ImageType, BufferedImage>();
+        scaledImages = new HashMap<ImageType, BufferedImage>();
+        structures = new ArrayList<Structure>();
     }
 
     @Override
@@ -45,16 +50,16 @@ public class GraphicsPanel extends JPanel implements SubscribedView
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(400, 300);
+        return worldDimensions;
     }
 
     @Override
     public Dimension getMaximumSize() {
-        return new Dimension(800, 600);
+        return worldDimensions;
     }
 
     @Override
-    public void paintComponent(Graphics g)
+    public void paintComponent(Graphics graphics)
     {
         int margin = 10;
         Dimension dim = getSize();
@@ -63,22 +68,31 @@ public class GraphicsPanel extends JPanel implements SubscribedView
         double widthRatio = scaledWorld.getWidth() / worldDimensions.getWidth();
         double heightRatio = scaledWorld.getHeight() / worldDimensions.getHeight();
         Dimension scaledCell = new Dimension((int)(widthRatio * cellDimensions.getWidth()), (int)(heightRatio * cellDimensions.getHeight()));
-        super.paintComponent(g);
-        g.setColor(Color.DARK_GRAY);
+        super.paintComponent(graphics);
+        graphics.setColor(Color.DARK_GRAY);
 
         int xOffset = margin + (int)(dim.getWidth()/2 - scaledWorld.getWidth()/2);
         int yOffset = margin + (int)(dim.getHeight()/2 - scaledWorld.getHeight()/2);
 
-        g.fillRect(xOffset, yOffset, (int)scaledWorld.getWidth(), (int)scaledWorld.getHeight());
+        graphics.fillRect(xOffset, yOffset, (int) scaledWorld.getWidth(), (int) scaledWorld.getHeight());
 
-        BufferedImage scaledImage = resizeImage(images.get(0).getImage(), widthRatio, heightRatio);
-
-        for (int x = 0; x < numberOfHorizonalCells; ++x)
+        // Scale Images
+        for (ImageType imageType : ImageType.values())
         {
-            for (int y = 0; y < numberOfVerticalCells; ++y)
-            {
-                g.drawImage(scaledImage, xOffset + (int)(x * scaledCell.getWidth()), yOffset + (int)(y * scaledCell.getHeight()), null);
-            }
+            BufferedImage scaledImage = resizeImage(images.get(imageType), widthRatio, heightRatio);
+            scaledImages.put(imageType, scaledImage);
+        }
+
+        drawCells(graphics, xOffset, yOffset, scaledCell);
+    }
+
+    private void drawCells(Graphics graphics, int xOffset, int yOffset, Dimension cell)
+    {
+        for (Structure structure : structures)
+        {
+            BufferedImage scaledImage = scaledImages.get(structure.getImage());
+
+            graphics.drawImage(scaledImage, xOffset + structure.getX() * (int)cell.getWidth(), yOffset + structure.getY() * (int)cell.getHeight(), null);
         }
     }
 
@@ -98,7 +112,40 @@ public class GraphicsPanel extends JPanel implements SubscribedView
     {
         if (event.getPropertyName().equals(StructureManager.PC_IMAGES_READY))
         {
-            images = (List<StructureImage>)event.getNewValue();
+            images = (HashMap<ImageType, BufferedImage>)event.getNewValue();
+        }
+        else if (event.getPropertyName().equals(World.PC_NEW_STRUCTURE))
+        {
+            structures.add((Structure) event.getNewValue());
+        }
+        else if (event.getPropertyName().equals(World.PC_REMOVE_STRUCTURE))
+        {
+            Structure removed = (Structure)event.getNewValue();
+
+            removeStructure(removed);
+        }
+        else if (event.getPropertyName().equals(World.PC_NEW_WORLD))
+        {
+            structures.clear();
+            structures = (List<Structure>)event.getNewValue();
+        }
+        else if (event.getPropertyName().equals(World.PC_STRUCTURE_UPDATE))
+        {
+            repaint();
+        }
+
+        //else if (event.getPropertyName().equals(World.))
+    }
+
+    private void removeStructure(Structure removed)
+    {
+        for (Structure structure : structures)
+        {
+            if (structure.getId().intValue() == removed.getId().intValue());
+            {
+                structures.remove(structure);
+                return;
+            }
         }
     }
 

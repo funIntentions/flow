@@ -1,9 +1,6 @@
 package com.projects.management;
 
-import com.projects.helper.Constants;
-import com.projects.helper.DeviceType;
-import com.projects.helper.StructureType;
-import com.projects.helper.Utils;
+import com.projects.helper.*;
 import com.projects.models.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -36,20 +33,20 @@ class FileManager
     {
     }
 
-    public List<StructureImage> readImages()
+    public HashMap<ImageType, BufferedImage> readImages()
     {
-        List<StructureImage> images = new ArrayList<StructureImage>();
+        HashMap<ImageType, BufferedImage> images = new HashMap<ImageType, BufferedImage>();
 
-        BufferedImage img = null;
+        BufferedImage img;
         String workingDir = Utils.getWorkingDir();
 
         try
         {
             img = ImageIO.read(new File(workingDir + Constants.HOUSE_IMAGE_PATH));
-            images.add(new StructureImage(StructureType.SINGLE_UNIT, img));
+            images.put(ImageType.HOUSE_IMAGE, img);
 
             img = ImageIO.read(new File(workingDir + Constants.POWER_PLANT_IMAGE_PATH));
-            images.add(new StructureImage(StructureType.POWER_PLANT, img));
+            images.put(ImageType.POWER_PLANT_IMAGE, img);
         }
         catch (IOException e)
         {
@@ -186,6 +183,10 @@ class FileManager
                     else if (type.equals("DOUBLE"))
                     {
                         property = new Property<Double>(name, Double.valueOf(value));
+                    }
+                    else if (type.equals("INTEGER"))
+                    {
+                        property = new Property<Integer>(name, Integer.valueOf(value));
                     }
                     else
                     {
@@ -389,8 +390,10 @@ class FileManager
 
         if (property.getValue() instanceof Double)
             value.setAttribute("type", "DOUBLE");
-        else
+        else if (property.getValue() instanceof Boolean)
             value.setAttribute("type", "BOOLEAN");
+        else if (property.getValue() instanceof  Integer)
+            value.setAttribute("type", "INTEGER");
 
         propertyNode.appendChild(value);
 

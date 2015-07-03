@@ -1,5 +1,6 @@
 package com.projects.models;
 
+import com.projects.helper.ImageType;
 import com.projects.helper.StructureType;
 
 import java.util.ArrayList;
@@ -10,14 +11,18 @@ import java.util.List;
  */
 public class Structure
 {
-    private String name;
-    private Integer id;
-    private StructureType type;
-    private Integer numberOfUnits;
+    protected String name;
+    protected Integer id;
+    protected StructureType type;
+    protected ImageType image;
+    protected Integer numberOfUnits;
+    protected int x;
+    protected int y;
+
     protected List<Property> properties;
-    private List<Device> appliances;
-    private List<Device> energySources;
-    private List<Device> energyStorageDevices;
+    protected List<Device> appliances;
+    protected List<Device> energySources;
+    protected List<Device> energyStorageDevices;
 
     public Structure(String structure, StructureType structureType)
     {
@@ -54,12 +59,18 @@ public class Structure
         this.id = id;
         type = structureType;
         this.numberOfUnits = numberOfUnits;
+        this.image = ImageType.HOUSE_IMAGE;
 
         properties = copyProperties(propertyList);
 
         appliances = copyDevices(applianceList);
         energySources = copyDevices(energySourceList);
         energyStorageDevices = copyDevices(energyStorageList);
+
+        for (Property property : properties)
+        {
+            changePropertyValue(properties.indexOf(property), property.getValue());
+        }
     }
 
     private List<Property> copyProperties(List<Property> list)
@@ -102,7 +113,17 @@ public class Structure
 
     public void changePropertyValue(int index, Object value)
     {
-        properties.get(index).setValue(value);
+        Property property = properties.get(index);
+        property.setValue(value);
+
+        if (property.getName().equals("xCoordinate"))
+        {
+            x = Integer.valueOf(property.getValue().toString());
+        }
+        else if (property.getName().equals("yCoordinate"))
+        {
+            y = Integer.valueOf(property.getValue().toString());
+        }
     }
 
     public List<Device> getEnergyStorageDevices()
@@ -186,5 +207,27 @@ public class Structure
         this.id = id;
     }
 
+    public ImageType getImage() {
+        return image;
+    }
 
+    public void setImage(ImageType image) {
+        this.image = image;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
 }

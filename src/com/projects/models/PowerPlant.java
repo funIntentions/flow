@@ -50,13 +50,14 @@ public class PowerPlant extends Structure
 
         for (Property property : propertyList)
         {
-            changePropertyVariableValue(property);
+            //changePropertyVariableValue(property);
         }
     }
 
 
     public void changePropertyValue(int index, Object value)
     {
+        super.changePropertyValue(index, value);
         Property property = properties.get(index);
         property.setValue(value);
 

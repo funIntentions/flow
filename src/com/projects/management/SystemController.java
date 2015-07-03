@@ -42,15 +42,17 @@ public class SystemController implements PropertyChangeListener
         fileManager = new FileManager();
         taskManager = new TaskManager();
 
-        structureManager = new StructureManager(fileManager.readImages()); //TODO: uncouple images with structure manager
+        structureManager = new StructureManager(); //TODO: uncouple images with structure manager
         world = new World();
 
-        loadDefault();
+        systems.add(structureManager); //TODO: add the rest after refactoring them
+        systems.add(world);
 
         structureManager.addPropertyChangeListener(this);
         world.addPropertyChangeListener(this);
-        systems.add(structureManager); //TODO: add the rest after refactoring them
-        systems.add(world);
+
+        loadDefault();
+        structureManager.newImages(fileManager.readImages());
 
         activeSelection= SelectionType.NO_SELECTION;
         testTask = new Task(0, "File Loading", "Waiting");
@@ -169,7 +171,7 @@ public class SystemController implements PropertyChangeListener
 
         if (activeSelection == SelectionType.WORLD)
         {
-            world.setStructure(structure);
+            world.updateStructure(structure);
         }
         else if (activeSelection == SelectionType.TEMPLATE)
         {

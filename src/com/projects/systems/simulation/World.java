@@ -25,7 +25,7 @@ public class World extends com.projects.systems.System
     public static final String PC_NEW_STRUCTURE = "PC_NEW_STRUCTURE";
     public static final String PC_STRUCTURE_SELECTED = "PC_STRUCTURE_SELECTED";
     public static final String PC_REMOVE_STRUCTURE = "PC_REMOVE_STRUCTURE";
-    public static final String PC_WORLD_CLEARED = "PC_WORLD_CLEARED";
+    public static final String PC_STRUCTURE_UPDATE = "PC_STRUCTURE_UPDATE";
     public static final String PC_WORLD_UPDATE = "PC_WORLD_UPDATE";
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
@@ -71,17 +71,17 @@ public class World extends com.projects.systems.System
 
         for (Structure structure : structureList)
         {
-            setStructure(structure);
+            updateStructure(structure);
         }
-
         changeSupport.firePropertyChange(PC_NEW_WORLD, null, structureList);
     }
 
-    public void setStructure(Structure structure)
+    public void updateStructure(Structure structure)
     {
         structures.put(structure.getId(), structure);
         consumptionManager.syncStructures(structure);
         productionManager.syncStructures(structure);
+        changeSupport.firePropertyChange(PC_STRUCTURE_UPDATE, null, structure);
     }
 
     public void removeStructure(Integer id)
@@ -98,7 +98,7 @@ public class World extends com.projects.systems.System
 
     public void addNewStructure(Structure structure)
     {
-        setStructure(structure);
+        updateStructure(structure);
         changeSupport.firePropertyChange(PC_NEW_STRUCTURE, null, structure);
     }
 

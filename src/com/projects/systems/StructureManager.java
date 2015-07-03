@@ -1,8 +1,10 @@
 package com.projects.systems;
 
 import com.projects.helper.DeviceType;
+import com.projects.helper.ImageType;
 import com.projects.models.*;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +28,7 @@ public class StructureManager extends System
     public static final String PC_IMAGES_READY = "PC_IMAGES_READ";
     private static Integer nextAvailableStructureId = 0;
     private static Integer nextAvailableDeviceId = 0;
-    private List<StructureImage> images;
+    private HashMap<ImageType, BufferedImage> images;
     private HashMap<Integer, Device> devices;
     private HashMap<Integer, Structure> structures;
 
@@ -39,15 +41,20 @@ public class StructureManager extends System
         return nextAvailableDeviceId++;
     }
 
-    public StructureManager(List<StructureImage> structureImages)
+    public StructureManager()
     {
-        images = structureImages;
+        images = new HashMap<ImageType, BufferedImage>();
         devices = new HashMap<Integer, Device>();
         structures = new HashMap<Integer, Structure>();
         this.template = null;
         structureBeingEdited = null;
         lastSelected = null;
         deviceBeingEdited = -1;
+    }
+
+    public void newImages(HashMap<ImageType, BufferedImage> structureImages)
+    {
+        images = structureImages;
     }
 
     public void newTemplate(Template template) // TODO: this and the constructor have similarities
