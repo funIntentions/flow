@@ -176,37 +176,6 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         return simulationInfoPanel;
     }
 
-    JPanel createSimulationInfoPanel()
-    {
-        JPanel simInfoPanel = new JPanel();
-        simInfoPanel.setLayout(new GridBagLayout());
-        GridBagConstraints constraints;
-
-        constraints = new GridBagConstraints();
-        constraints.gridx = 1;
-        constraints.gridy = 2;
-        constraints.fill = GridBagConstraints.BOTH;
-        constraints.insets = new Insets(4, 4, 4, 4);
-        simInfoPanel.add(new JLabel("Time: "), constraints);
-
-        constraints = new GridBagConstraints();
-        constraints.gridx = 3;
-        constraints.gridy = 2;
-        constraints.fill = GridBagConstraints.BOTH;
-        constraints.insets = new Insets(4, 4, 4, 4);
-        simInfoPanel.add(new JLabel("Cloud Cover: "), constraints);
-
-        constraints = new GridBagConstraints();
-        constraints.gridx = 5;
-        constraints.gridy = 2;
-        constraints.fill = GridBagConstraints.BOTH;
-        constraints.insets = new Insets(4, 4, 4, 4);
-        simInfoPanel.add(new JLabel("Wind Level: "), constraints);
-
-        simInfoPanel.setBorder(BorderFactory.createTitledBorder("Simulation"));
-        return simInfoPanel;
-    }
-
     JMenuBar createMenuBar()
     {
         JMenuBar menuBar;
