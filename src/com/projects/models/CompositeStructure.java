@@ -8,9 +8,9 @@ import java.util.List;
 /**
  * Created by Dan on 6/22/2015.
  */
-public class CompositeStructure extends Structure
+public class CompositeStructure //extends Structure
 {
-    private Integer numberOfUnits;
+    /*private Integer numberOfUnits;
     private Structure unit;
 
     public CompositeStructure(String structureName, String unitName)
@@ -52,5 +52,5 @@ public class CompositeStructure extends Structure
 
     public void setUnit(Structure unit) {
         this.unit = unit;
-    }
+    }*/
 }

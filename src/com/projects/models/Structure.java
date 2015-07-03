@@ -24,14 +24,14 @@ public class Structure
     protected List<Device> energySources;
     protected List<Device> energyStorageDevices;
 
-    public Structure(String structure, StructureType structureType)
+    public Structure(String structure, StructureType structureType, ImageType imageType)
     {
-        this(structure, -1, structureType, 1, new ArrayList<Property>(), new ArrayList<Device>(), new ArrayList<Device>() , new ArrayList<Device>());
+        this(structure, -1, structureType, imageType, 1, new ArrayList<Property>(), new ArrayList<Device>(), new ArrayList<Device>() , new ArrayList<Device>());
     }
 
-    public Structure(String structure, StructureType structureType, List<Property> propertyList)
+    public Structure(String structure, ImageType imageType, StructureType structureType, List<Property> propertyList)
     {
-        this(structure, -1, structureType, 1, propertyList, new ArrayList<Device>(), new ArrayList<Device>(), new ArrayList<Device>());
+        this(structure, -1, structureType, imageType, 1, propertyList, new ArrayList<Device>(), new ArrayList<Device>(), new ArrayList<Device>());
     }
 
     public Structure(Structure structure)
@@ -39,6 +39,7 @@ public class Structure
         this(structure.getName(),
                 structure.getId(),
                 structure.getType(),
+                structure.getImage(),
                 structure.getNumberOfUnits(),
                 structure.getProperties(),
                 structure.getAppliances(),
@@ -49,6 +50,7 @@ public class Structure
     public Structure(String structure,
                      Integer id,
                      StructureType structureType,
+                     ImageType imageType,
                      Integer numberOfUnits,
                      List<Property> propertyList,
                      List<Device> applianceList,
@@ -59,7 +61,7 @@ public class Structure
         this.id = id;
         type = structureType;
         this.numberOfUnits = numberOfUnits;
-        this.image = ImageType.HOUSE_IMAGE;
+        this.image = imageType;
 
         properties = copyProperties(propertyList);
 

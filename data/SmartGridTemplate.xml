@@ -8,25 +8,7 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <name>Home</name>
             <id>-1</id>
             <type>SINGLE_UNIT</type>
-            <numberOfUnits>1</numberOfUnits>
-            <properties>
-                <property>
-                    <name>xCoordinate</name>
-                    <value type="INTEGER">0</value>
-                </property>
-                <property>
-                    <name>yCoordinate</name>
-                    <value type="INTEGER">0</value>
-                </property>
-            </properties>
-            <appliances/>
-            <energySources/>
-            <energyStorageDevices/>
-        </structure>
-        <structure>
-            <name>Apartment</name>
-            <id>-1</id>
-            <type>SINGLE_UNIT</type>
+            <image>HOUSE_IMAGE</image>
             <numberOfUnits>1</numberOfUnits>
             <properties>
                 <property>
@@ -46,6 +28,7 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <name>Apartment Building</name>
             <id>-1</id>
             <type>COMPOSITE_UNIT</type>
+            <image>HOUSE_IMAGE</image>
             <numberOfUnits>1</numberOfUnits>
             <properties>
                 <property>
@@ -65,6 +48,7 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <name>Office Building</name>
             <id>-1</id>
             <type>COMPOSITE_UNIT</type>
+            <image>HOUSE_IMAGE</image>
             <numberOfUnits>1</numberOfUnits>
             <properties>
                 <property>
@@ -84,6 +68,7 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <name>Shop</name>
             <id>-1</id>
             <type>SINGLE_UNIT</type>
+            <image>HOUSE_IMAGE</image>
             <numberOfUnits>1</numberOfUnits>
             <properties>
                 <property>
@@ -103,6 +88,7 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <name>Mall</name>
             <id>-1</id>
             <type>COMPOSITE_UNIT</type>
+            <image>HOUSE_IMAGE</image>
             <numberOfUnits>1</numberOfUnits>
             <properties>
                 <property>
@@ -122,6 +108,7 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <name>Microgeneration Installation</name>
             <id>-1</id>
             <type>SINGLE_UNIT</type>
+            <image>HOUSE_IMAGE</image>
             <numberOfUnits>1</numberOfUnits>
             <properties>
                 <property>
@@ -141,6 +128,7 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <name>Power Plant</name>
             <id>-1</id>
             <type>POWER_PLANT</type>
+            <image>POWER_PLANT_IMAGE</image>
             <numberOfUnits>1</numberOfUnits>
             <properties>
                 <property>

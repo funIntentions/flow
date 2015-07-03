@@ -37,6 +37,13 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:simpleType name="imageType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="HOUSE_IMAGE"/>
+            <xs:enumeration value="POWER_PLANT_IMAGE"/>
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:complexType name="genericType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
@@ -77,6 +84,7 @@
             <xs:element name="name" type="stringType"/>
             <xs:element name="id" type="intType"/>
             <xs:element name="type" type="structureType"/>
+            <xs:element name="image" type="imageType"/>
             <xs:element name="numberOfUnits" type="intType"/>
             <xs:element name="properties" type="propertyListType"/>
             <xs:element name="appliances" type="deviceListType"/>

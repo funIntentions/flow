@@ -104,9 +104,10 @@ class FileManager
                     String name = getElementStringFromTag(structureElement, "name");
                     Integer id = Integer.valueOf(getElementStringFromTag(structureElement, "id"));
                     String type = getElementStringFromTag(structureElement, "type");
+                    String image = getElementStringFromTag(structureElement, "image");
                     Integer numberOfUnits = Integer.valueOf(getElementStringFromTag(structureElement, "numberOfUnits"));
-                    StructureType structureType;
 
+                    StructureType structureType;
                     if (Utils.isInEnum(type, StructureType.class))
                     {
                         structureType = StructureType.valueOf(type);
@@ -114,6 +115,16 @@ class FileManager
                     else
                     {
                         // TODO: should be error or something...
+                        continue;
+                    }
+
+                    ImageType imageType;
+                    if (Utils.isInEnum(image, ImageType.class))
+                    {
+                        imageType = ImageType.valueOf(image);
+                    }
+                    else
+                    {
                         continue;
                     }
 
@@ -129,7 +140,7 @@ class FileManager
                     Structure structure;
 
                     if (structureType != StructureType.POWER_PLANT)
-                        structure =  new Structure(name, id, structureType, numberOfUnits, properties, appliances, energySources, energyStorageDevices);
+                        structure =  new Structure(name, id, structureType, imageType, numberOfUnits, properties, appliances, energySources, energyStorageDevices);
                     else
                         structure = new PowerPlant(name, id, numberOfUnits, properties, appliances, energySources, energyStorageDevices);
 

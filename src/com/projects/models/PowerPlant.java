@@ -1,5 +1,6 @@
 package com.projects.models;
 
+import com.projects.helper.ImageType;
 import com.projects.helper.StructureType;
 
 import java.util.ArrayList;
@@ -46,12 +47,7 @@ public class PowerPlant extends Structure
                      List<Device> energySourceList,
                      List<Device> energyStorageList)
     {
-        super(structure, id, StructureType.POWER_PLANT, numberOfUnits, propertyList, applianceList, energySourceList, energyStorageList);
-
-        for (Property property : propertyList)
-        {
-            //changePropertyVariableValue(property);
-        }
+        super(structure, id, StructureType.POWER_PLANT, ImageType.POWER_PLANT_IMAGE, numberOfUnits, propertyList, applianceList, energySourceList, energyStorageList);
     }
 
 
