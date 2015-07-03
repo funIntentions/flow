@@ -1,9 +1,6 @@
 package com.projects.systems.simulation;
 
-import com.projects.models.Appliance;
-import com.projects.models.Device;
-import com.projects.models.Property;
-import com.projects.models.Structure;
+import com.projects.models.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +11,7 @@ import java.util.List;
 public class ConsumptionManager
 {
     private List<Structure> structures;
-    private double totalUsageInWatts;
+    private double usageInWattsPerHour;
     private double totalUsageInkWh;
 
     public ConsumptionManager()
@@ -22,9 +19,10 @@ public class ConsumptionManager
         structures = new ArrayList<Structure>();
     }
 
-    public void calculateConsumption(double totalHours)
+    public void calculateConsumption(double timeElapsedInSeconds)
     {
-        totalUsageInWatts = 0;
+        usageInWattsPerHour = 0;
+        double timeElapsedInHours = timeElapsedInSeconds / Time.SECONDS_IN_HOUR;
 
         for (Structure structure : structures)
         {
@@ -32,16 +30,17 @@ public class ConsumptionManager
 
             for (Appliance appliance : appliances)
             {
-                totalUsageInWatts += appliance.getAverageConsumption();
+                // TODO: check if appliance is on
+                usageInWattsPerHour += appliance.getAverageConsumption() * timeElapsedInHours;
             }
         }
 
-        totalUsageInkWh = (totalUsageInWatts * totalHours) / 1000;
+        totalUsageInkWh += usageInWattsPerHour / 1000;
     }
 
     public void reset()
     {
-        totalUsageInWatts = 0;
+        usageInWattsPerHour = 0;
         totalUsageInkWh = 0;
     }
 
@@ -97,8 +96,8 @@ public class ConsumptionManager
         return totalUsageInkWh;
     }
 
-    public double getTotalUsageInWatts()
+    public double getUsageInWattsPerHour()
     {
-        return totalUsageInWatts;
+        return usageInWattsPerHour;
     }
 }

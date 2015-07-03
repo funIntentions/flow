@@ -17,6 +17,7 @@ public class Time
     }
 
     private double totalTimeInSeconds;
+    private double modifiedTimeElapsedInSeconds;
     private double hour;
     private int hourOfDay;
     private int minutesOfHour;
@@ -27,14 +28,14 @@ public class Time
     private int year;
     private UpdateRate updateRate;
 
-    private static final double SECONDS_IN_MINUTE = 60;
-    private static final double SECONDS_IN_HOUR = 3600;
-    private static final double SECONDS_IN_DAY = 86400;
-    private static final int HOURS_IN_DAY = 24;
-    private static final double DAYS_IN_WEEK = 7;
-    private static final double AVERAGE_NUMBER_OF_DAYS_IN_MONTH = 30.42;
-    private static final double MONTHS_IN_YEAR = 12;
-    private static final double SECONDS_IN_MONTH = SECONDS_IN_DAY * AVERAGE_NUMBER_OF_DAYS_IN_MONTH;
+    public static final double SECONDS_IN_MINUTE = 60;
+    public static final double SECONDS_IN_HOUR = 3600;
+    public static final double SECONDS_IN_DAY = 86400;
+    public static final int HOURS_IN_DAY = 24;
+    public static final double DAYS_IN_WEEK = 7;
+    public static final double AVERAGE_NUMBER_OF_DAYS_IN_MONTH = 30.42;
+    public static final double MONTHS_IN_YEAR = 12;
+    public static final double SECONDS_IN_MONTH = SECONDS_IN_DAY * AVERAGE_NUMBER_OF_DAYS_IN_MONTH;
 
     public Time()
     {
@@ -44,7 +45,8 @@ public class Time
 
     public void tick(double deltaTime)
     {
-        totalTimeInSeconds += modifyWithRate(deltaTime);
+        modifiedTimeElapsedInSeconds = modifyWithRate(deltaTime);
+        totalTimeInSeconds += modifiedTimeElapsedInSeconds;
 
         hour = (totalTimeInSeconds / SECONDS_IN_HOUR);
         day = (int)(totalTimeInSeconds / SECONDS_IN_DAY);
@@ -103,6 +105,7 @@ public class Time
         minutesOfHour = 0;
         secondsOfMinute = 0;
         totalTimeInSeconds = 0;
+        modifiedTimeElapsedInSeconds = 0;
         hour = 0;
         day = 0;
         week = 0;
@@ -130,6 +133,10 @@ public class Time
     public double getTotalTimeInSeconds()
     {
         return totalTimeInSeconds;
+    }
+
+    public double getModifiedTimeElapsedInSeconds() {
+        return modifiedTimeElapsedInSeconds;
     }
 
     public double getHour()

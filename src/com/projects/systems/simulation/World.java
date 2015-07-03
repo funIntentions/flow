@@ -141,7 +141,7 @@ public class World extends com.projects.systems.System
     private void tick(double fixedTime)
     {
         time.tick(fixedTime);
-        consumptionManager.calculateConsumption(time.getHour());
+        consumptionManager.calculateConsumption(time.getModifiedTimeElapsedInSeconds());
         productionManager.calculateProduction(consumptionManager.getTotalUsageInkWh());
 
         simulationStatus.time = time;
