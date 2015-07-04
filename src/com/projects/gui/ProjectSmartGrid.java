@@ -1,5 +1,9 @@
 package com.projects.gui;
 
+import com.projects.gui.table.ObjectTable;
+import com.projects.gui.table.TimeEditor;
+import com.projects.gui.table.TimeRenderer;
+import com.projects.gui.table.UsageTable;
 import com.projects.helper.Constants;
 import com.projects.input.actions.*;
 import com.projects.input.listeners.PropertiesTableListener;
@@ -14,6 +18,8 @@ import com.projects.systems.simulation.World;
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * The entry point for the application that structures the GUI and initializes underlying systems.
@@ -167,7 +173,9 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
     private JPanel createRightBottomPanel()
     {
-        //JSplitPane rightBottomPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, selectionInfoPanel, simulationInfoPanel);
+        /*SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        DateFormatter dateFormatter*/
+
         /*rightBottomPanel.setBackground(Color.ORANGE);
         rightBottomPanel.setContinuousLayout(true);
         rightBottomPanel.setResizeWeight(0.5);

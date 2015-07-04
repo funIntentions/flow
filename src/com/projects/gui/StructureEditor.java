@@ -1,11 +1,10 @@
 package com.projects.gui;
 
+import com.projects.gui.table.*;
 import com.projects.input.listeners.DevicePropertiesTableListener;
 import com.projects.input.listeners.DeviceSelectedListener;
 import com.projects.input.listeners.DeviceTableListener;
 import com.projects.input.listeners.ObjectPropertiesTableListener;
-import com.projects.gui.table.DeviceTable;
-import com.projects.gui.table.PropertiesTable;
 import com.projects.helper.DeviceType;
 import com.projects.helper.StructureType;
 import com.projects.management.SystemController;
@@ -13,6 +12,7 @@ import com.projects.models.*;
 import com.projects.systems.StructureManager;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.TableModelListener;
@@ -23,6 +23,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -46,6 +48,7 @@ public class StructureEditor implements SubscribedView
     private PropertiesTable devicePropertiesTable;
     private PropertiesTable buildingPropertiesTable;
     private JTable propertyTable;
+    private JTable deviceUsageTable;
     private TableModelListener devicePropertiesTableListener;
     private SystemController controller;
 
@@ -54,6 +57,8 @@ public class StructureEditor implements SubscribedView
     private JPanel notificationPanel;
     private JScrollPane devicePropertiesScrollPane;
     private JScrollPane buildingPropertiesScrollPane;
+    private JScrollPane deviceUsageScrollPane;
+    private JPanel deviceUsagePanel;
     private JPanel creationControlButtons;
 
     private JPanel compositeUnitDevicePanes;
@@ -82,7 +87,7 @@ public class StructureEditor implements SubscribedView
         creationPanel.add(rightPanel);
         creationDialog = new JDialog(frame, "Structure Editor", true);
         creationDialog.setContentPane(creationPanel);
-        creationDialog.setPreferredSize(new Dimension(800, 400));
+        creationDialog.setPreferredSize(new Dimension(800, 600));
         creationDialog.setResizable(false);
         creationDialog.setVisible(false);
         structureType = StructureType.NO_STRUCTURE;
@@ -209,7 +214,7 @@ public class StructureEditor implements SubscribedView
         };
 
         devicePropertiesScrollPane = new JScrollPane(propertyTable);
-        devicePropertiesScrollPane.setBorder(BorderFactory.createTitledBorder("Selected Device"));
+        devicePropertiesScrollPane.setBorder(BorderFactory.createTitledBorder("Device Properties"));
 
         ObjectPropertiesTableListener objectPropertiesTableListener = new ObjectPropertiesTableListener(controller);
         buildingPropertiesTable = new PropertiesTable();
@@ -262,6 +267,59 @@ public class StructureEditor implements SubscribedView
         buildingPropertiesScrollPane = new JScrollPane(buildingPropertyTable);
         buildingPropertiesScrollPane.setBorder(BorderFactory.createTitledBorder("Building Properties"));
 
+        propertiesPanel.add(buildingPropertiesScrollPane);
+        propertiesPanel.add(devicePropertiesScrollPane);
+
+        propertiesPanel.setPreferredSize(new Dimension(400, 300));
+
+        final UsageTable usageTable = new UsageTable();
+        deviceUsageTable = new JTable(usageTable);
+        deviceUsageTable.setDefaultEditor(Date.class, new TimeEditor());
+        TimeRenderer renderer = new TimeRenderer();
+        deviceUsageTable.setDefaultRenderer(Date.class, renderer);
+        deviceUsageScrollPane = new JScrollPane(deviceUsageTable);
+
+        AbstractAction newUsageAction = new AbstractAction("Add Time Span")
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+
+                try
+                {
+                    Date date = format.parse("00:00");
+                    Date date1 = format.parse("00:00");
+
+                    Object[] newData = {date, date1};
+                    usageTable.addRow(newData);
+                }
+                catch (Exception exception)
+                {
+                    exception.printStackTrace();
+                }
+            }
+        };
+
+        AbstractAction removeUsageAction = new AbstractAction("Remove Time Span") {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                if (deviceUsageTable.getSelectedRow() >= 0)
+                    usageTable.removeRow(deviceUsageTable.getSelectedRow());
+            }
+        };
+
+        deviceUsagePanel = new JPanel(new GridLayout(2,1));
+        deviceUsagePanel.setPreferredSize(new Dimension(400, 200));
+        deviceUsagePanel.setBorder(BorderFactory.createTitledBorder("Daily Device Usage"));
+        deviceUsagePanel.add(deviceUsageScrollPane);
+
+        JPanel usageControls = new JPanel(new GridLayout(1, 2));
+        usageControls.add(new JButton(newUsageAction));
+        usageControls.add(new JButton(removeUsageAction));
+        deviceUsagePanel.add(usageControls);
+
         AbstractAction okAction = new AbstractAction("OK")
         {
             @Override
@@ -274,9 +332,6 @@ public class StructureEditor implements SubscribedView
                 }
             }
         };
-
-        propertiesPanel.add(buildingPropertiesScrollPane);
-        propertiesPanel.add(devicePropertiesScrollPane);
 
         AbstractAction cancelAction = new AbstractAction("Cancel")
         {
@@ -403,10 +458,11 @@ public class StructureEditor implements SubscribedView
         inputUnitInfoPanel.add(nameLabel);
         inputUnitInfoPanel.add(nameField);
 
-        rightPanel.add(notificationPanel, BorderLayout.PAGE_START); // TODO: use grid bag so that I can have more components
+        //rightPanel.add(notificationPanel, BorderLayout.PAGE_START); // TODO: use grid bag so that I can have more components
         //rightPanel.add(buildingPropertiesScrollPane, BorderLayout.PAGE_START);
         //rightPanel.add(devicePropertiesScrollPane, BorderLayout.CENTER);
-        rightPanel.add(propertiesPanel);
+        rightPanel.add(propertiesPanel, BorderLayout.PAGE_START);
+        rightPanel.add(deviceUsagePanel, BorderLayout.CENTER);
         rightPanel.add(creationControlButtons, BorderLayout.PAGE_END);
 
         leftPanel.add(inputUnitInfoPanel, BorderLayout.PAGE_START);
@@ -425,6 +481,7 @@ public class StructureEditor implements SubscribedView
         //rightPanel.remove(buildingPropertiesScrollPane);
         //rightPanel.remove(devicePropertiesScrollPane);
         rightPanel.remove(propertiesPanel);
+        rightPanel.remove(deviceUsageScrollPane);
         rightPanel.remove(creationControlButtons);
 
         leftPanel.remove(inputUnitInfoPanel);
