@@ -15,9 +15,9 @@ public class EnergySource extends Device
     private double current;
     private double powerFactor;
 
-    public EnergySource(List<Property> energySourceProperties)
+    public EnergySource(List<Property> energySourceProperties, ElectricityUsageSchedule deviceUsageSchedule)
     {
-        super("Energy Source", -1, DeviceType.ENERGY_SOURCE, energySourceProperties);
+        super("Energy Source", -1, DeviceType.ENERGY_SOURCE, energySourceProperties, deviceUsageSchedule);
     }
 
     public EnergySource(EnergySource energySource)
@@ -25,9 +25,9 @@ public class EnergySource extends Device
         super(energySource);
     }
 
-    public EnergySource(String name, int id, List<Property> propertyList)
+    public EnergySource(String name, int id, List<Property> propertyList, ElectricityUsageSchedule deviceUsageSchedule)
     {
-        super(name, id, DeviceType.ENERGY_SOURCE, propertyList);
+        super(name, id, DeviceType.ENERGY_SOURCE, propertyList, deviceUsageSchedule);
     }
 
     public void changePropertyValue(int index, Object value)

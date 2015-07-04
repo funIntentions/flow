@@ -22,7 +22,6 @@ public class ConsumptionManager
     public void calculateConsumption(double timeElapsedInSeconds)
     {
         usageInWattsPerHour = 0;
-        double timeElapsedInHours = timeElapsedInSeconds / Time.SECONDS_IN_HOUR;
 
         for (Structure structure : structures)
         {
@@ -30,12 +29,49 @@ public class ConsumptionManager
 
             for (Appliance appliance : appliances)
             {
-                // TODO: check if appliance is on
-                usageInWattsPerHour += appliance.getAverageConsumption() * timeElapsedInHours;
+                double applianceUsageInHours = getAppliancesUsageInHours(timeElapsedInSeconds, appliance) / Time.SECONDS_IN_HOUR;
+                usageInWattsPerHour += appliance.getAverageConsumption() * applianceUsageInHours;
             }
         }
 
         totalUsageInkWh += usageInWattsPerHour / 1000;
+    }
+
+    public double getAppliancesUsageInHours(double elapsedSeconds, Appliance appliance)
+    {
+        double usageInHours = 0;
+        double remainder = elapsedSeconds;
+        ElectricityUsageSchedule usageSchedule = appliance.getElectricityUsageSchedule();
+
+        /*if (remainder >= Time.SECONDS_IN_YEAR)
+        {
+            remainder = remainder % Time.SECONDS_IN_YEAR;
+            int numYears = (int)Math.floor(remainder / Time.SECONDS_IN_YEAR);
+        }
+        if (remainder >= Time.SECONDS_IN_MONTH)
+        {
+            remainder = remainder % Time.SECONDS_IN_MONTH;
+            int numMonths = (int)Math.floor(remainder / Time.SECONDS_IN_MONTH);
+        }
+        if (remainder >= Time.SECONDS_IN_WEEK)
+        {
+            remainder = remainder % Time.SECONDS_IN_WEEK;
+            int numWeeks = (int)Math.floor(remainder / Time.SECONDS_IN_WEEK);
+        }*/
+        if (remainder >= Time.SECONDS_IN_DAY)
+        {
+            int numDays = (int)Math.floor(remainder / Time.SECONDS_IN_DAY);
+            usageInHours += ((double)numDays) * usageSchedule.getUsagePerDay();
+
+            remainder = remainder % Time.SECONDS_IN_DAY;
+        }
+
+        if (remainder != 0)
+        {
+            usageInHours += usageSchedule.getElectricityUsageDuringSpan(new TimeSpan(0, remainder)); // TODO: should I optimize it if it'll always be 0?
+        }
+
+        return usageInHours;
     }
 
     public void reset()

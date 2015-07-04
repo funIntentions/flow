@@ -231,21 +231,21 @@ public class StructureManager extends System
         {
             case APPLIANCE:
             {
-                device = new Appliance(template.getApplianceTemplate().getProperties());
+                device = new Appliance(template.getApplianceTemplate().getProperties(), template.getApplianceTemplate().getElectricityUsageSchedule());
                 device.setId(getNextAvailableDeviceId());
                 devices.put(device.getId(), device);
                 structureBeingEdited.getAppliances().add(device);
             } break;
             case ENERGY_SOURCE:
             {
-                device = new EnergySource(template.getEnergySourceTemplate().getProperties());
+                device = new EnergySource(template.getEnergySourceTemplate().getProperties(), template.getEnergySourceTemplate().getElectricityUsageSchedule());
                 device.setId(getNextAvailableDeviceId());
                 devices.put(device.getId(), device);
                 structureBeingEdited.getEnergySources().add(device);
             } break;
             case ENERGY_STORAGE:
             {
-                device = new EnergyStorage(template.getEnergyStorageTemplate().getProperties());
+                device = new EnergyStorage(template.getEnergyStorageTemplate().getProperties(), template.getEnergyStorageTemplate().getElectricityUsageSchedule());
                 device.setId(getNextAvailableDeviceId());
                 devices.put(device.getId(), device);
                 structureBeingEdited.getEnergyStorageDevices().add(device);
@@ -309,7 +309,7 @@ public class StructureManager extends System
         List<Device> copy = new ArrayList<Device>();
         for (Device device : from.getAppliances())
         {
-            Device copiedDevice = new Appliance(device.getName(), getNextAvailableDeviceId(), device.getProperties());
+            Device copiedDevice = new Appliance(device.getName(), getNextAvailableDeviceId(), device.getProperties(), device.getElectricityUsageSchedule());
             copy.add(copiedDevice);
             devices.put(copiedDevice.getId(), copiedDevice);
         }
@@ -319,7 +319,7 @@ public class StructureManager extends System
         copy = new ArrayList<Device>();
         for (Device device: from.getEnergySources())
         {
-            Device copiedDevice = new EnergySource(device.getName(), getNextAvailableDeviceId(), device.getProperties());
+            Device copiedDevice = new EnergySource(device.getName(), getNextAvailableDeviceId(), device.getProperties(), device.getElectricityUsageSchedule());
             copy.add(copiedDevice);
             devices.put(copiedDevice.getId(), copiedDevice);
         }
@@ -329,7 +329,7 @@ public class StructureManager extends System
         copy = new ArrayList<Device>();
         for (Device device : from.getEnergyStorageDevices())
         {
-            Device copiedDevice = new EnergyStorage(device.getName(), getNextAvailableDeviceId(), device.getProperties());
+            Device copiedDevice = new EnergyStorage(device.getName(), getNextAvailableDeviceId(), device.getProperties(), device.getElectricityUsageSchedule());
             copy.add(copiedDevice);
             devices.put(copiedDevice.getId(), copiedDevice);
         }
@@ -355,6 +355,16 @@ public class StructureManager extends System
         structure.setId(getNextAvailableStructureId());
         structures.put(structure.getId(), structure);
         return structure;
+    }
+
+    public void editTimeSpanUsageFrom(int index, double fromSeconds)
+    {
+        devices.get(deviceBeingEdited).getElectricityUsageSchedule().setActiveTimeSpanFrom(index, fromSeconds);
+    }
+
+    public void editTimeSpanUsageTo(int index, double toSeconds)
+    {
+        devices.get(deviceBeingEdited).getElectricityUsageSchedule().setActiveTimeSpanTo(index, toSeconds);
     }
 
     public Structure getStructure(Integer id)

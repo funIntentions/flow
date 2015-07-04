@@ -35,7 +35,7 @@ public class TimeEditor extends DefaultCellEditor
         return editor;
     }
 
-    @Override
+    /*@Override
     public boolean stopCellEditing()
     {
         try {
@@ -45,8 +45,7 @@ public class TimeEditor extends DefaultCellEditor
         } catch (Exception ex) {
             return false;
         }
-
-    }
+    }*/
 
     @Override
     public Object getCellEditorValue()

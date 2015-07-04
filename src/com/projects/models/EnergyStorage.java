@@ -17,9 +17,9 @@ public class EnergyStorage extends Device
     private double storedEnergy;
     private double connectionPower;
 
-    public EnergyStorage(List<Property> energyStorageProperties)
+    public EnergyStorage(List<Property> energyStorageProperties, ElectricityUsageSchedule deviceUsageSchedule)
     {
-        super("Energy Storage", -1, DeviceType.ENERGY_STORAGE, energyStorageProperties);
+        super("Energy Storage", -1, DeviceType.ENERGY_STORAGE, energyStorageProperties, deviceUsageSchedule);
     }
 
     public EnergyStorage(EnergyStorage energyStorage)
@@ -27,9 +27,9 @@ public class EnergyStorage extends Device
         super(energyStorage);
     }
 
-    public EnergyStorage(String name, int id, List<Property> propertyList)
+    public EnergyStorage(String name, int id, List<Property> propertyList, ElectricityUsageSchedule deviceUsageSchedule)
     {
-        super(name, id, DeviceType.ENERGY_STORAGE, propertyList);
+        super(name, id, DeviceType.ENERGY_STORAGE, propertyList, deviceUsageSchedule);
 
         for (Property property : propertyList)
         {

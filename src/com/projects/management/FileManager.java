@@ -254,15 +254,15 @@ class FileManager
                     {
                         case APPLIANCE:
                         {
-                            device = new Appliance(name, -1, properties);
+                            device = new Appliance(name, -1, properties, new ElectricityUsageSchedule());
                         } break;
                         case ENERGY_SOURCE:
                         {
-                            device = new EnergySource(name, -1, properties);
+                            device = new EnergySource(name, -1, properties, new ElectricityUsageSchedule());
                         } break;
                         case ENERGY_STORAGE:
                         {
-                            device = new EnergyStorage(name, -1, properties);
+                            device = new EnergyStorage(name, -1, properties, new ElectricityUsageSchedule());
                         } break;
                     }
 

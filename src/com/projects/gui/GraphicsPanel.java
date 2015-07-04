@@ -2,7 +2,6 @@ package com.projects.gui;
 
 import com.projects.helper.ImageType;
 import com.projects.models.Structure;
-import com.projects.models.StructureImage;
 import com.projects.systems.StructureManager;
 import com.projects.systems.simulation.World;
 
@@ -12,7 +11,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
-import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -134,8 +132,6 @@ public class GraphicsPanel extends JPanel implements SubscribedView
         {
             repaint();
         }
-
-        //else if (event.getPropertyName().equals(World.))
     }
 
     private void removeStructure(int removed)
@@ -149,7 +145,6 @@ public class GraphicsPanel extends JPanel implements SubscribedView
             }
         }
     }
-
 
     public Dimension getScaledDimension(Dimension imgSize, Dimension boundary)
     {

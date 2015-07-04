@@ -14,18 +14,20 @@ public abstract class Device
     protected Integer id;
     protected DeviceType type; // maybe not needed anymore?
     protected List<Property> properties;
+    private ElectricityUsageSchedule electricityUsageSchedule;
 
     public Device(Device device)
     {
-       this(device.getName(), device.getId(), device.getType(), device.getProperties());
+       this(device.getName(), device.getId(), device.getType(), device.getProperties(), device.getElectricityUsageSchedule());
     }
 
-    public Device(String device, Integer id, DeviceType deviceType, List<Property> deviceProperties)
+    public Device(String device, Integer id, DeviceType deviceType, List<Property> deviceProperties, ElectricityUsageSchedule deviceUsageSchedule)
     {
         name = device;
         this.id = id;
         type = deviceType;
         properties = new ArrayList<Property>();
+        electricityUsageSchedule = new ElectricityUsageSchedule(deviceUsageSchedule);
 
         for (Property property : deviceProperties)
         {
@@ -68,5 +70,13 @@ public abstract class Device
 
     public void setProperties(List<Property> properties) {
         this.properties = properties;
+    }
+
+    public ElectricityUsageSchedule getElectricityUsageSchedule() {
+        return electricityUsageSchedule;
+    }
+
+    public void setElectricityUsageSchedule(ElectricityUsageSchedule electricityUsageSchedule) {
+        this.electricityUsageSchedule = electricityUsageSchedule;
     }
 }

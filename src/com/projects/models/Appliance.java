@@ -2,7 +2,6 @@ package com.projects.models;
 
 import com.projects.helper.DeviceType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,9 +13,9 @@ public class Appliance extends Device
     private double averageConsumption;
     private double power;
 
-    public Appliance(List<Property> applianceProperties)
+    public Appliance(List<Property> applianceProperties, ElectricityUsageSchedule deviceUsageSchedule)
     {
-        super("Appliance", -1, DeviceType.APPLIANCE, applianceProperties);
+        super("Appliance", -1, DeviceType.APPLIANCE, applianceProperties, deviceUsageSchedule);
     }
 
     public Appliance(Appliance appliance)
@@ -24,9 +23,9 @@ public class Appliance extends Device
         super(appliance);
     }
 
-    public Appliance(String name, int id, List<Property> propertyList)
+    public Appliance(String name, int id, List<Property> propertyList, ElectricityUsageSchedule deviceUsageSchedule)
     {
-        super(name, id, DeviceType.APPLIANCE, propertyList);
+        super(name, id, DeviceType.APPLIANCE, propertyList, deviceUsageSchedule);
     }
 
     public void changePropertyValue(int index, Object value)
@@ -88,4 +87,6 @@ public class Appliance extends Device
     {
         this.averageConsumption = averageConsumption;
     }
+
+
 }

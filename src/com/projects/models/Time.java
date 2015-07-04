@@ -35,7 +35,9 @@ public class Time
     public static final double DAYS_IN_WEEK = 7;
     public static final double AVERAGE_NUMBER_OF_DAYS_IN_MONTH = 30.42;
     public static final double MONTHS_IN_YEAR = 12;
+    public static final double SECONDS_IN_WEEK = SECONDS_IN_DAY * DAYS_IN_WEEK;
     public static final double SECONDS_IN_MONTH = SECONDS_IN_DAY * AVERAGE_NUMBER_OF_DAYS_IN_MONTH;
+    public static final double SECONDS_IN_YEAR = SECONDS_IN_MONTH * MONTHS_IN_YEAR;
 
     public Time()
     {

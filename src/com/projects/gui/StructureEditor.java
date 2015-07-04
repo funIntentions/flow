@@ -1,10 +1,7 @@
 package com.projects.gui;
 
 import com.projects.gui.table.*;
-import com.projects.input.listeners.DevicePropertiesTableListener;
-import com.projects.input.listeners.DeviceSelectedListener;
-import com.projects.input.listeners.DeviceTableListener;
-import com.projects.input.listeners.ObjectPropertiesTableListener;
+import com.projects.input.listeners.*;
 import com.projects.helper.DeviceType;
 import com.projects.helper.StructureType;
 import com.projects.management.SystemController;
@@ -273,6 +270,7 @@ public class StructureEditor implements SubscribedView
         propertiesPanel.setPreferredSize(new Dimension(400, 300));
 
         final UsageTable usageTable = new UsageTable();
+        usageTable.addTableModelListener(new DeviceUsageTableListener(controller));
         deviceUsageTable = new JTable(usageTable);
         deviceUsageTable.setDefaultEditor(Date.class, new TimeEditor());
         TimeRenderer renderer = new TimeRenderer();
