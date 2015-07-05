@@ -46,9 +46,9 @@ public class ElectricityUsageSchedule
     {
         usagePerDay = 0;
 
-        for (TimeSpan overlappingSpan : activeTimeSpans)
+        for (TimeSpan timeSpan : activeTimeSpans)
         {
-            usagePerDay += overlappingSpan.to - overlappingSpan.from;
+            usagePerDay += timeSpan.to - timeSpan.from;
         }
     }
 

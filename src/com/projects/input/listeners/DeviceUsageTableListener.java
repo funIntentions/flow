@@ -38,7 +38,7 @@ public class DeviceUsageTableListener implements TableModelListener
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(date);
 
-                int hours = calendar.get(Calendar.HOUR);
+                int hours = calendar.get(Calendar.HOUR_OF_DAY);
                 int minutes = calendar.get(Calendar.MINUTE);
 
                 double secondsOfTheDay = TimeUnit.HOURS.toSeconds(hours) + TimeUnit.MINUTES.toSeconds(minutes);

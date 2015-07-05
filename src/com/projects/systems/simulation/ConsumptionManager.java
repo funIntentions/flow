@@ -13,13 +13,15 @@ public class ConsumptionManager
     private List<Structure> structures;
     private double usageInWattsPerHour;
     private double totalUsageInkWh;
+    private double timeElapsedPreviously;
 
     public ConsumptionManager()
     {
         structures = new ArrayList<Structure>();
+        timeElapsedPreviously = 0; // start of day
     }
 
-    public void calculateConsumption(double timeElapsedInSeconds)
+    public void calculateConsumption(double timeElapsedInSeconds, double timeElapsedThisDayInSeconds)
     {
         usageInWattsPerHour = 0;
 
@@ -29,7 +31,7 @@ public class ConsumptionManager
 
             for (Appliance appliance : appliances)
             {
-                double applianceUsageInHours = getAppliancesUsageInHours(timeElapsedInSeconds, appliance) / Time.SECONDS_IN_HOUR;
+                double applianceUsageInHours = getAppliancesUsageInHours(timeElapsedInSeconds, timeElapsedThisDayInSeconds, appliance);
                 usageInWattsPerHour += appliance.getAverageConsumption() * applianceUsageInHours;
             }
         }
@@ -37,9 +39,9 @@ public class ConsumptionManager
         totalUsageInkWh += usageInWattsPerHour / 1000;
     }
 
-    public double getAppliancesUsageInHours(double elapsedSeconds, Appliance appliance)
+    public double getAppliancesUsageInHours(double elapsedSeconds, double timeElapsedThisDayInSeconds, Appliance appliance)
     {
-        double usageInHours = 0;
+        double usageInSeconds = 0;
         double remainder = elapsedSeconds;
         ElectricityUsageSchedule usageSchedule = appliance.getElectricityUsageSchedule();
 
@@ -61,23 +63,29 @@ public class ConsumptionManager
         if (remainder >= Time.SECONDS_IN_DAY)
         {
             int numDays = (int)Math.floor(remainder / Time.SECONDS_IN_DAY);
-            usageInHours += ((double)numDays) * usageSchedule.getUsagePerDay();
-
+            usageInSeconds += ((double)numDays) * usageSchedule.getUsagePerDay();
             remainder = remainder % Time.SECONDS_IN_DAY;
+
+            timeElapsedPreviously = 0;
+        }
+        else
+        {
+            timeElapsedPreviously = timeElapsedThisDayInSeconds - remainder;
         }
 
         if (remainder != 0)
         {
-            usageInHours += usageSchedule.getElectricityUsageDuringSpan(new TimeSpan(0, remainder)); // TODO: should I optimize it if it'll always be 0?
+            usageInSeconds += usageSchedule.getElectricityUsageDuringSpan(new TimeSpan(timeElapsedPreviously, timeElapsedThisDayInSeconds)); // TODO: should I optimize it if it'll always be 0?
         }
 
-        return usageInHours;
+        return usageInSeconds / Time.SECONDS_IN_HOUR;
     }
 
     public void reset()
     {
         usageInWattsPerHour = 0;
         totalUsageInkWh = 0;
+        timeElapsedPreviously = 0;
     }
 
     public void removeStructure(Structure structureToRemove)
