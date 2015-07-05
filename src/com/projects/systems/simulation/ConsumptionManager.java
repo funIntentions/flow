@@ -45,21 +45,6 @@ public class ConsumptionManager
         double remainder = elapsedSeconds;
         ElectricityUsageSchedule usageSchedule = appliance.getElectricityUsageSchedule();
 
-        /*if (remainder >= Time.SECONDS_IN_YEAR)
-        {
-            remainder = remainder % Time.SECONDS_IN_YEAR;
-            int numYears = (int)Math.floor(remainder / Time.SECONDS_IN_YEAR);
-        }
-        if (remainder >= Time.SECONDS_IN_MONTH)
-        {
-            remainder = remainder % Time.SECONDS_IN_MONTH;
-            int numMonths = (int)Math.floor(remainder / Time.SECONDS_IN_MONTH);
-        }
-        if (remainder >= Time.SECONDS_IN_WEEK)
-        {
-            remainder = remainder % Time.SECONDS_IN_WEEK;
-            int numWeeks = (int)Math.floor(remainder / Time.SECONDS_IN_WEEK);
-        }*/
         if (remainder >= Time.SECONDS_IN_DAY)
         {
             int numDays = (int)Math.floor(remainder / Time.SECONDS_IN_DAY);

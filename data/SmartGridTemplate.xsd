@@ -52,10 +52,23 @@
         </xs:simpleContent>
     </xs:complexType>
 
+    <xs:complexType name="timeSpanType">
+        <xs:sequence>
+            <xs:element name="from" type="intType"/>
+            <xs:element name="to" type="intType"/>
+        </xs:sequence>
+    </xs:complexType>
+
     <xs:complexType name="propertyType">
         <xs:sequence>
             <xs:element name="name" type="stringType"/>
             <xs:element name="value" type="genericType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="timeSpanListType">
+        <xs:sequence>
+            <xs:element name="timeSpan" type="timeSpanType" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -76,6 +89,7 @@
             <xs:element name="name" type="stringType"/>
             <xs:element name="type" type="deviceType"/>
             <xs:element name="properties" type="propertyListType"/>
+            <xs:element name="timeSpans" type="timeSpanListType"/>
         </xs:sequence>
     </xs:complexType>
 

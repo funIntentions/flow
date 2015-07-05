@@ -18,10 +18,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Dan on 5/27/2015.
@@ -160,6 +157,36 @@ class FileManager
         return childNodes.item(0).getNodeValue().trim();
     }
 
+    public List<TimeSpan> readTimeSpans(NodeList timeSpansList)
+    {
+        List<TimeSpan> timeSpanList = new ArrayList<TimeSpan>();
+        Node propertiesNode = timeSpansList.item(0);
+
+        if (propertiesNode.getNodeType() == Node.ELEMENT_NODE)
+        {
+            Element propertiesElement = (Element)propertiesNode;
+            NodeList properties = propertiesElement.getElementsByTagName("timeSpan");
+            int length = properties.getLength();
+
+            for (int i = 0; i < length; ++i)
+            {
+                Node propertyNode = properties.item(i);
+                if (propertyNode.getNodeType() == Node.ELEMENT_NODE)
+                {
+                    Element propertyElement = (Element)propertyNode;
+
+                    String from = getElementStringFromTag(propertyElement, "from");
+                    String to = getElementStringFromTag(propertyElement, "to");
+
+                    TimeSpan timeSpan = new TimeSpan(Double.valueOf(from), Double.valueOf(to));
+
+                    timeSpanList.add(timeSpan);
+                }
+            }
+        }
+
+        return timeSpanList;
+    }
     public List<Property> readProperties(NodeList propertiesList)
     {
         List<Property> propertyList = new ArrayList<Property>();
@@ -247,6 +274,8 @@ class FileManager
 
                     NodeList propertiesList = deviceElement.getElementsByTagName("properties");
                     List<Property> properties = readProperties(propertiesList);
+                    NodeList timeSpanList = deviceElement.getElementsByTagName("timeSpans");
+                    List<TimeSpan> timeSpans = readTimeSpans(timeSpanList);
 
                     Device device = null;
 
@@ -264,6 +293,11 @@ class FileManager
                         {
                             device = new EnergyStorage(name, -1, properties, new ElectricityUsageSchedule());
                         } break;
+                    }
+
+                    for (TimeSpan timeSpan : timeSpans) // TODO: refactor and take out this loop, add timeSpans through constructor
+                    {
+                        device.getElectricityUsageSchedule().addTimeSpanAndRecalculate(timeSpan);
                     }
 
                     deviceList.add(device);
@@ -383,6 +417,14 @@ class FileManager
         }
         deviceNode.appendChild(propertyMembers);
 
+        Element timeSpanMembers = doc.createElement("timeSpans");
+        List<TimeSpan> timeSpans = device.getElectricityUsageSchedule().getActiveTimeSpans();
+        for (TimeSpan timeSpan : timeSpans)
+        {
+            timeSpanMembers.appendChild(getTimeSpanNode(doc, timeSpan));
+        }
+        deviceNode.appendChild(timeSpanMembers);
+
         return deviceNode;
     }
 
@@ -410,5 +452,14 @@ class FileManager
         propertyNode.appendChild(value);
 
         return propertyNode;
+    }
+
+    private Node getTimeSpanNode(Document doc, TimeSpan timeSpan)
+    {
+        Element timeSpanNode = doc.createElement("timeSpan");
+        timeSpanNode.appendChild(getElement(doc, "from", String.valueOf(timeSpan.from)));
+        timeSpanNode.appendChild(getElement(doc, "to", String.valueOf(timeSpan.to)));
+
+        return timeSpanNode;
     }
 }

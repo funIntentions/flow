@@ -191,6 +191,7 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                     <value type="DOUBLE">0</value>
                 </property>
             </properties>
+            <timeSpans/>
         </device>
         <device>
             <name>EnergySource</name>
@@ -217,6 +218,7 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                     <value type="DOUBLE">0</value>
                 </property>
             </properties>
+            <timeSpans/>
         </device>
         <device>
             <name>EnergyStorage</name>
@@ -243,6 +245,7 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                     <value type="DOUBLE">0</value>
                 </property>
             </properties>
+            <timeSpans/>
         </device>
     </devices>
 </smartGrid>
