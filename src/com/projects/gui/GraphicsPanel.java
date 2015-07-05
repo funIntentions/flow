@@ -28,10 +28,11 @@ public class GraphicsPanel extends JPanel implements SubscribedView
     HashMap<ImageType, BufferedImage> images;
     HashMap<ImageType, BufferedImage> scaledImages;
     List<Structure> structures;
+    Color worldSpaceColor;
 
     public GraphicsPanel()
     {
-        setBackground(Color.PINK);
+        setBackground(Color.DARK_GRAY);
         numberOfHorizonalCells = 25;
         numberOfVerticalCells = 25;
         cellDimensions = new Dimension(32, 32);
@@ -39,6 +40,7 @@ public class GraphicsPanel extends JPanel implements SubscribedView
         images = new HashMap<ImageType, BufferedImage>();
         scaledImages = new HashMap<ImageType, BufferedImage>();
         structures = new ArrayList<Structure>();
+        worldSpaceColor = new Color(128,202,140);
     }
 
     @Override
@@ -67,7 +69,7 @@ public class GraphicsPanel extends JPanel implements SubscribedView
         double heightRatio = scaledWorld.getHeight() / worldDimensions.getHeight();
         Dimension scaledCell = new Dimension((int)(widthRatio * cellDimensions.getWidth()), (int)(heightRatio * cellDimensions.getHeight()));
         super.paintComponent(graphics);
-        graphics.setColor(Color.DARK_GRAY);
+        graphics.setColor(worldSpaceColor);
 
         int xOffset = margin + (int)(dim.getWidth()/2 - scaledWorld.getWidth()/2);
         int yOffset = margin + (int)(dim.getHeight()/2 - scaledWorld.getHeight()/2);

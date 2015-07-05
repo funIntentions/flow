@@ -3,100 +3,139 @@
 <template>
 <structure>
 <name>Home</name>
-<id>8</id>
+<id>16</id>
 <type>SINGLE_UNIT</type>
+<image>HOUSE_IMAGE</image>
 <numberOfUnits>1</numberOfUnits>
-<properties/>
-<appliances>
-<device>
-<name>Appliance</name>
-<id>3</id>
-<type>APPLIANCE</type>
 <properties>
 <property>
-<name>StandbyConsumption</name>
-<value type="DOUBLE">0.0</value>
+<name>xCoordinate</name>
+<value type="INTEGER">0</value>
 </property>
 <property>
-<name>AverageConsumption</name>
-<value type="DOUBLE">1232.0</value>
-</property>
-<property>
-<name>Power</name>
-<value type="DOUBLE">0.0</value>
+<name>yCoordinate</name>
+<value type="INTEGER">0</value>
 </property>
 </properties>
-</device>
-</appliances>
-<energySources/>
-<energyStorageDevices/>
-</structure>
-<structure>
-<name>Apartment</name>
-<id>9</id>
-<type>SINGLE_UNIT</type>
-<numberOfUnits>1</numberOfUnits>
-<properties/>
 <appliances/>
 <energySources/>
 <energyStorageDevices/>
 </structure>
 <structure>
 <name>Apartment Building</name>
-<id>10</id>
+<id>17</id>
 <type>COMPOSITE_UNIT</type>
+<image>HOUSE_IMAGE</image>
 <numberOfUnits>1</numberOfUnits>
-<properties/>
+<properties>
+<property>
+<name>xCoordinate</name>
+<value type="INTEGER">0</value>
+</property>
+<property>
+<name>yCoordinate</name>
+<value type="INTEGER">0</value>
+</property>
+</properties>
 <appliances/>
 <energySources/>
 <energyStorageDevices/>
 </structure>
 <structure>
 <name>Office Building</name>
-<id>11</id>
+<id>18</id>
 <type>COMPOSITE_UNIT</type>
+<image>HOUSE_IMAGE</image>
 <numberOfUnits>1</numberOfUnits>
-<properties/>
+<properties>
+<property>
+<name>xCoordinate</name>
+<value type="INTEGER">0</value>
+</property>
+<property>
+<name>yCoordinate</name>
+<value type="INTEGER">0</value>
+</property>
+</properties>
 <appliances/>
 <energySources/>
 <energyStorageDevices/>
 </structure>
 <structure>
 <name>Shop</name>
-<id>12</id>
+<id>19</id>
 <type>SINGLE_UNIT</type>
+<image>HOUSE_IMAGE</image>
 <numberOfUnits>1</numberOfUnits>
-<properties/>
+<properties>
+<property>
+<name>xCoordinate</name>
+<value type="INTEGER">0</value>
+</property>
+<property>
+<name>yCoordinate</name>
+<value type="INTEGER">0</value>
+</property>
+</properties>
 <appliances/>
 <energySources/>
 <energyStorageDevices/>
 </structure>
 <structure>
 <name>Mall</name>
-<id>13</id>
+<id>20</id>
 <type>COMPOSITE_UNIT</type>
+<image>HOUSE_IMAGE</image>
 <numberOfUnits>1</numberOfUnits>
-<properties/>
+<properties>
+<property>
+<name>xCoordinate</name>
+<value type="INTEGER">0</value>
+</property>
+<property>
+<name>yCoordinate</name>
+<value type="INTEGER">0</value>
+</property>
+</properties>
 <appliances/>
 <energySources/>
 <energyStorageDevices/>
 </structure>
 <structure>
 <name>Microgeneration Installation</name>
-<id>14</id>
+<id>21</id>
 <type>SINGLE_UNIT</type>
+<image>HOUSE_IMAGE</image>
 <numberOfUnits>1</numberOfUnits>
-<properties/>
+<properties>
+<property>
+<name>xCoordinate</name>
+<value type="INTEGER">0</value>
+</property>
+<property>
+<name>yCoordinate</name>
+<value type="INTEGER">0</value>
+</property>
+</properties>
 <appliances/>
 <energySources/>
 <energyStorageDevices/>
 </structure>
 <structure>
 <name>Power Plant</name>
-<id>15</id>
+<id>22</id>
 <type>POWER_PLANT</type>
+<image>POWER_PLANT_IMAGE</image>
 <numberOfUnits>1</numberOfUnits>
 <properties>
+<property>
+<name>xCoordinate</name>
+<value type="INTEGER">1</value>
+</property>
+<property>
+<name>yCoordinate</name>
+<value type="INTEGER">0</value>
+</property>
 <property>
 <name>CapitalCost</name>
 <value type="DOUBLE">0.0</value>
@@ -130,14 +169,24 @@
 <world>
 <structure>
 <name>Home</name>
-<id>16</id>
+<id>23</id>
 <type>SINGLE_UNIT</type>
+<image>HOUSE_IMAGE</image>
 <numberOfUnits>1</numberOfUnits>
-<properties/>
+<properties>
+<property>
+<name>xCoordinate</name>
+<value type="INTEGER">0</value>
+</property>
+<property>
+<name>yCoordinate</name>
+<value type="INTEGER">0</value>
+</property>
+</properties>
 <appliances>
 <device>
 <name>Appliance</name>
-<id>7</id>
+<id>10</id>
 <type>APPLIANCE</type>
 <properties>
 <property>
@@ -146,13 +195,23 @@
 </property>
 <property>
 <name>AverageConsumption</name>
-<value type="DOUBLE">1232.0</value>
+<value type="DOUBLE">1000.0</value>
 </property>
 <property>
 <name>Power</name>
 <value type="DOUBLE">0.0</value>
 </property>
 </properties>
+<timeSpans>
+<timeSpan>
+<from>0.0</from>
+<to>21600.0</to>
+</timeSpan>
+<timeSpan>
+<from>43200.0</from>
+<to>64800.0</to>
+</timeSpan>
+</timeSpans>
 </device>
 </appliances>
 <energySources/>
@@ -160,10 +219,19 @@
 </structure>
 <structure>
 <name>Power Plant</name>
-<id>17</id>
+<id>24</id>
 <type>POWER_PLANT</type>
+<image>POWER_PLANT_IMAGE</image>
 <numberOfUnits>1</numberOfUnits>
 <properties>
+<property>
+<name>xCoordinate</name>
+<value type="INTEGER">1</value>
+</property>
+<property>
+<name>yCoordinate</name>
+<value type="INTEGER">0</value>
+</property>
 <property>
 <name>CapitalCost</name>
 <value type="DOUBLE">0.0</value>
@@ -197,7 +265,7 @@
 <devices>
 <device>
 <name>Appliance</name>
-<id>4</id>
+<id>7</id>
 <type>APPLIANCE</type>
 <properties>
 <property>
@@ -213,10 +281,11 @@
 <value type="DOUBLE">0.0</value>
 </property>
 </properties>
+<timeSpans/>
 </device>
 <device>
 <name>EnergySource</name>
-<id>5</id>
+<id>8</id>
 <type>ENERGY_SOURCE</type>
 <properties>
 <property>
@@ -240,10 +309,11 @@
 <value type="DOUBLE">0.0</value>
 </property>
 </properties>
+<timeSpans/>
 </device>
 <device>
 <name>EnergyStorage</name>
-<id>6</id>
+<id>9</id>
 <type>ENERGY_STORAGE</type>
 <properties>
 <property>
@@ -267,6 +337,7 @@
 <value type="DOUBLE">0.0</value>
 </property>
 </properties>
+<timeSpans/>
 </device>
 </devices>
 </smartGrid>
