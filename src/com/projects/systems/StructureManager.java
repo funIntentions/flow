@@ -359,12 +359,22 @@ public class StructureManager extends System
 
     public void editTimeSpanUsageFrom(int index, double fromSeconds)
     {
-        devices.get(deviceBeingEdited).getElectricityUsageSchedule().setActiveTimeSpanFrom(index, fromSeconds);
+        devices.get(deviceBeingEdited).getElectricityUsageSchedule().setTimeSpanFromAndRecalculate(index, fromSeconds);
     }
 
     public void editTimeSpanUsageTo(int index, double toSeconds)
     {
-        devices.get(deviceBeingEdited).getElectricityUsageSchedule().setActiveTimeSpanTo(index, toSeconds);
+        devices.get(deviceBeingEdited).getElectricityUsageSchedule().setTimeSpanToAndRecalculate(index, toSeconds);
+    }
+
+    public void addTimeSpanUsage(TimeSpan timeSpan)
+    {
+        devices.get(deviceBeingEdited).getElectricityUsageSchedule().addTimeSpanAndRecalculate(timeSpan);
+    }
+
+    public void removeTimeSpanUsage(int index)
+    {
+        devices.get(deviceBeingEdited).getElectricityUsageSchedule().removeTimeSpanAndRecalculate(index);
     }
 
     public Structure getStructure(Integer id)

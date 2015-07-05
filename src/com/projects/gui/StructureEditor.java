@@ -7,6 +7,7 @@ import com.projects.helper.StructureType;
 import com.projects.management.SystemController;
 import com.projects.models.*;
 import com.projects.systems.StructureManager;
+import sun.java2d.pipe.SpanShapeRenderer;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -20,9 +21,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Dan on 6/9/2015.
@@ -46,6 +49,7 @@ public class StructureEditor implements SubscribedView
     private PropertiesTable buildingPropertiesTable;
     private JTable propertyTable;
     private JTable deviceUsageTable;
+    private UsageTable usageTable;
     private TableModelListener devicePropertiesTableListener;
     private SystemController controller;
 
@@ -61,6 +65,9 @@ public class StructureEditor implements SubscribedView
     private JPanel compositeUnitDevicePanes;
 
     private StructureType structureType;
+
+    private JButton newUsageButton;
+    private JButton removeUsageButton;
 
     public StructureEditor(JFrame frame, SystemController systemController)
     {
@@ -152,8 +159,12 @@ public class StructureEditor implements SubscribedView
         }
 
         structureType = StructureType.NO_STRUCTURE;
+        newUsageButton.setEnabled(false);
+        removeUsageButton.setEnabled(false);
+
         buildingPropertiesTable.clearTable();
         devicePropertiesTable.clearTable();
+        usageTable.clearTable();
         creationDialog.setVisible(false);
     }
 
@@ -269,7 +280,7 @@ public class StructureEditor implements SubscribedView
 
         propertiesPanel.setPreferredSize(new Dimension(400, 300));
 
-        final UsageTable usageTable = new UsageTable();
+        usageTable = new UsageTable();
         usageTable.addTableModelListener(new DeviceUsageTableListener(controller));
         deviceUsageTable = new JTable(usageTable);
         deviceUsageTable.setDefaultEditor(Date.class, new TimeEditor());
@@ -291,6 +302,7 @@ public class StructureEditor implements SubscribedView
 
                     Object[] newData = {date, date1};
                     usageTable.addRow(newData);
+                    controller.addTimeSpanUsage(new TimeSpan(0,0));
                 }
                 catch (Exception exception)
                 {
@@ -304,7 +316,11 @@ public class StructureEditor implements SubscribedView
             public void actionPerformed(ActionEvent e)
             {
                 if (deviceUsageTable.getSelectedRow() >= 0)
+                {
+                    controller.remvoeTimeSpanUsage(deviceUsageTable.getSelectedRow());
                     usageTable.removeRow(deviceUsageTable.getSelectedRow());
+                }
+
             }
         };
 
@@ -314,8 +330,12 @@ public class StructureEditor implements SubscribedView
         deviceUsagePanel.add(deviceUsageScrollPane);
 
         JPanel usageControls = new JPanel(new GridLayout(1, 2));
-        usageControls.add(new JButton(newUsageAction));
-        usageControls.add(new JButton(removeUsageAction));
+        newUsageButton = new JButton(newUsageAction);
+        newUsageButton.setEnabled(false);
+        removeUsageButton = new JButton(removeUsageAction);
+        removeUsageButton.setEnabled(false);
+        usageControls.add(newUsageButton);
+        usageControls.add(removeUsageButton);
         deviceUsagePanel.add(usageControls);
 
         AbstractAction okAction = new AbstractAction("OK")
@@ -609,14 +629,47 @@ public class StructureEditor implements SubscribedView
         }
         else if (event.getPropertyName().equals(StructureManager.PC_DEVICE_SELECTED))
         {
+            String format = "%02d:%02d";
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+
             devicePropertiesTable.clearTable();
+            usageTable.clearTable();
+
             Device device = (Device)event.getNewValue();
             List<Property> properties = device.getProperties();
+
+            newUsageButton.setEnabled(true);
+            removeUsageButton.setEnabled(true);
 
             for (Property property : properties)
             {
                 Object[] row = {property.getName(), property.getValue()};
                 devicePropertiesTable.addRow(row);
+            }
+
+            for (TimeSpan timeSpan : device.getElectricityUsageSchedule().getActiveTimeSpans())
+            {
+                long fromHours = TimeUnit.SECONDS.toHours((long)timeSpan.from);
+                long fromMinutes = TimeUnit.SECONDS.toMinutes((long)timeSpan.from) - TimeUnit.HOURS.toMinutes(fromHours);
+
+                long toHours = TimeUnit.SECONDS.toHours((long)timeSpan.to);
+                long toMinutes = TimeUnit.SECONDS.toMinutes((long)timeSpan.to) - TimeUnit.HOURS.toMinutes(toHours);
+
+                String fromTime = String.format(format, fromHours, fromMinutes);
+                String toTime = String.format(format, toHours, toMinutes);
+
+                try
+                {
+                    Date from = dateFormat.parse(fromTime);
+                    Date to = dateFormat.parse(toTime);
+
+                    Object[] deviceUsage = {from, to};
+                    usageTable.addRow(deviceUsage);
+                }
+                catch (ParseException exception)
+                {
+                    exception.printStackTrace();
+                }
             }
         }
     }

@@ -8,7 +8,9 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import java.lang.System;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Dan on 7/3/2015.
@@ -33,11 +35,13 @@ public class DeviceUsageTableListener implements TableModelListener
             {
                 TableModel model = (TableModel)e.getSource();
                 Date date = (Date)model.getValueAt(row, column);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
 
-                double secondsOfTheDay = date.getTime() % Time.SECONDS_IN_DAY;
+                int hours = calendar.get(Calendar.HOUR);
+                int minutes = calendar.get(Calendar.MINUTE);
 
-                System.out.println("Hours: " + secondsOfTheDay / Time.SECONDS_IN_HOUR);
-                System.out.println("Minutes: " + (secondsOfTheDay % Time.SECONDS_IN_HOUR) / Time.SECONDS_IN_MINUTE);
+                double secondsOfTheDay = TimeUnit.HOURS.toSeconds(hours) + TimeUnit.MINUTES.toSeconds(minutes);
 
                 if (column == 1)
                 {

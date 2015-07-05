@@ -28,7 +28,7 @@ public class ElectricityUsageSchedule
         }
     }
 
-    public void addTimeSpanAndRecalcualte(TimeSpan span)
+    public void addTimeSpanAndRecalculate(TimeSpan span)
     {
         activeTimeSpans.add(span);
 
@@ -52,14 +52,16 @@ public class ElectricityUsageSchedule
         }
     }
 
-    public void setActiveTimeSpanFrom(int index, double fromSeconds)
+    public void setTimeSpanFromAndRecalculate(int index, double fromSeconds)
     {
         activeTimeSpans.get(index).from = fromSeconds;
+        recalculateUsagePerDay();
     }
 
-    public void setActiveTimeSpanTo(int index, double toSeconds)
+    public void setTimeSpanToAndRecalculate(int index, double toSeconds)
     {
         activeTimeSpans.get(index).to = toSeconds;
+        recalculateUsagePerDay();
     }
 
     public double getElectricityUsageDuringSpan(TimeSpan timeSpan)

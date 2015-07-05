@@ -283,6 +283,16 @@ public class SystemController implements PropertyChangeListener
         structureManager.editTimeSpanUsageTo(timeSpanIndex, toSeconds);
     }
 
+    public void addTimeSpanUsage(TimeSpan timeSpan)
+    {
+        structureManager.addTimeSpanUsage(timeSpan);
+    }
+
+    public void remvoeTimeSpanUsage(int timeSpanIndex)
+    {
+        structureManager.removeTimeSpanUsage(timeSpanIndex);
+    }
+
     /**
      * Systems that the SystemController has registered with will send updates that back to it which the GUI may need to handle.
      * @param event the update that may need to be handled by a GUI component that has subscribed to the SystemController
