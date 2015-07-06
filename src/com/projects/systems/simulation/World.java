@@ -151,6 +151,11 @@ public class World extends com.projects.systems.System
         simulationStatus.emissions = productionManager.getEmissions();
 
         changeSupport.firePropertyChange(PC_WORLD_UPDATE, null, simulationStatus);
+
+        if (time.isTimeLimitReached())
+        {
+            pauseSimulation();
+        }
     }
 
     public Structure getLastSelected() {

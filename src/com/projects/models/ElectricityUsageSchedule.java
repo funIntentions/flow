@@ -83,6 +83,18 @@ public class ElectricityUsageSchedule
 
                 overlappingSpans.add(new TimeSpan(start, end));
             }
+            else if (timeSpan.from < deviceUsage.from && timeSpan.to >= deviceUsage.from)
+            {
+                double start = deviceUsage.from;
+                double end = timeSpan.to;
+
+                if (timeSpan.to > deviceUsage.to)
+                {
+                    end = deviceUsage.to;
+                }
+
+                overlappingSpans.add(new TimeSpan(start, end));
+            }
         }
 
         for (TimeSpan overlappingSpan : overlappingSpans)

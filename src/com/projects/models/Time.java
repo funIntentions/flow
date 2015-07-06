@@ -16,6 +16,9 @@ public class Time
         YEARS,
     }
 
+    private double timeLimit;
+    private boolean timeLimitReached;
+
     private double totalTimeInSeconds;
     private double modifiedTimeElapsedInSeconds;
     private double hour;
@@ -41,13 +44,22 @@ public class Time
 
     public Time()
     {
+        timeLimitReached = false;
         updateRate = UpdateRate.SECONDS;
+        timeLimit = SECONDS_IN_DAY;
         reset();
     }
 
     public void tick(double deltaTime)
     {
         modifiedTimeElapsedInSeconds = modifyWithRate(deltaTime);
+
+        if (totalTimeInSeconds + modifiedTimeElapsedInSeconds > timeLimit)
+        {
+            modifiedTimeElapsedInSeconds = timeLimit - totalTimeInSeconds;
+            timeLimitReached = true;
+        }
+
         totalTimeInSeconds += modifiedTimeElapsedInSeconds;
 
         hour = (totalTimeInSeconds / SECONDS_IN_HOUR);
@@ -58,7 +70,6 @@ public class Time
         hourOfDay =  (int)Math.floor(hour % HOURS_IN_DAY);
         minutesOfHour = (int)Math.floor((totalTimeInSeconds % SECONDS_IN_HOUR) / 60);
         secondsOfMinute = (int)Math.floor((totalTimeInSeconds % SECONDS_IN_MINUTE));
-
     }
 
     private double modifyWithRate(double deltaTime)
@@ -103,6 +114,7 @@ public class Time
 
     public void reset()
     {
+        timeLimitReached = false;
         hourOfDay = 0;
         minutesOfHour = 0;
         secondsOfMinute = 0;
@@ -164,5 +176,10 @@ public class Time
     public int getYear()
     {
         return year;
+    }
+
+    public Boolean isTimeLimitReached()
+    {
+        return timeLimitReached;
     }
 }

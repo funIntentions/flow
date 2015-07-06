@@ -39,10 +39,10 @@ public class ConsumptionManager
         totalUsageInkWh += usageInWattsPerHour / 1000;
     }
 
-    public double getAppliancesUsageInHours(double elapsedSeconds, double timeElapsedThisDayInSeconds, Appliance appliance)
+    public double getAppliancesUsageInHours(double elapsedSecondsThisFrame, double elapsedSecondsThisDay, Appliance appliance)
     {
         double usageInSeconds = 0;
-        double remainder = elapsedSeconds;
+        double remainder = elapsedSecondsThisFrame;
         ElectricityUsageSchedule usageSchedule = appliance.getElectricityUsageSchedule();
 
         if (remainder >= Time.SECONDS_IN_DAY)
@@ -55,12 +55,12 @@ public class ConsumptionManager
         }
         else
         {
-            timeElapsedPreviously = timeElapsedThisDayInSeconds - remainder;
+            timeElapsedPreviously = elapsedSecondsThisDay - remainder;
         }
 
         if (remainder != 0)
         {
-            usageInSeconds += usageSchedule.getElectricityUsageDuringSpan(new TimeSpan(timeElapsedPreviously, timeElapsedThisDayInSeconds)); // TODO: should I optimize it if it'll always be 0?
+            usageInSeconds += usageSchedule.getElectricityUsageDuringSpan(new TimeSpan(timeElapsedPreviously, elapsedSecondsThisDay));
         }
 
         return usageInSeconds / Time.SECONDS_IN_HOUR;
