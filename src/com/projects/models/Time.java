@@ -46,7 +46,7 @@ public class Time
     {
         timeLimitReached = false;
         updateRate = UpdateRate.SECONDS;
-        timeLimit = SECONDS_IN_DAY;
+        timeLimit = Double.MAX_VALUE;
         reset();
     }
 
@@ -110,6 +110,11 @@ public class Time
         }
 
         return time;
+    }
+
+    public void setTimeLimit(Double timeLimit)
+    {
+        this.timeLimit = timeLimit;
     }
 
     public void reset()

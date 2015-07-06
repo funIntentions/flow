@@ -27,6 +27,7 @@ public class World extends com.projects.systems.System
     public static final String PC_REMOVE_STRUCTURE = "PC_REMOVE_STRUCTURE";
     public static final String PC_STRUCTURE_UPDATE = "PC_STRUCTURE_UPDATE";
     public static final String PC_WORLD_UPDATE = "PC_WORLD_UPDATE";
+    public static final String PC_SIMULATION_STARTED = "PC_SIMULATION_STARTED";
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final Runnable simulationTick = new Runnable()
@@ -109,11 +110,19 @@ public class World extends com.projects.systems.System
         changeSupport.firePropertyChange(PC_STRUCTURE_SELECTED, null, structure);
     }
 
+    public void setTimeLimit(Double timeLimit)
+    {
+        time.setTimeLimit(timeLimit);
+    }
+
     public void runSimulation()
     {
         if (!running)
+        {
+            changeSupport.firePropertyChange(PC_SIMULATION_STARTED, null, null);
             simulationHandle = scheduler.scheduleAtFixedRate(simulationTick, 0, Constants.FIXED_SIMULATION_RATE_MILLISECONDS, TimeUnit.MILLISECONDS);
-        running = true;
+            running = true;
+        }
     }
 
     public void pauseSimulation()

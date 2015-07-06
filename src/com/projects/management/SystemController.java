@@ -283,6 +283,11 @@ public class SystemController implements PropertyChangeListener
         structureManager.editTimeSpanUsageTo(timeSpanIndex, toSeconds);
     }
 
+    public void setTimeLimit(Double timeLimit)
+    {
+        world.setTimeLimit(timeLimit);
+    }
+
     public void addTimeSpanUsage(TimeSpan timeSpan)
     {
         structureManager.addTimeSpanUsage(timeSpan);

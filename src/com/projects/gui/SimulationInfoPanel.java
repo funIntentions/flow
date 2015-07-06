@@ -6,10 +6,13 @@ import com.projects.systems.simulation.SimulationStatus;
 import com.projects.systems.simulation.World;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
@@ -25,9 +28,12 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
     private JLabel emissionsLabel;
     private DecimalFormat decimalFormat;
     private DecimalFormat timeFormat;
+    private JFormattedTextField timeLimitField;
+    SystemController controller;
 
     public SimulationInfoPanel(final SystemController systemController)
     {
+        controller = systemController;
         setLayout(new GridBagLayout());
         decimalFormat = new DecimalFormat("0.00");
         decimalFormat.setRoundingMode(RoundingMode.FLOOR);
@@ -54,6 +60,26 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
         constraints.gridy = 0;
         timeLabel = new JLabel("Time: ");
         add(timeLabel, constraints);
+
+        constraints.gridx = 1;
+        constraints.gridy = 1;
+        timeLimitField = new JFormattedTextField();
+        timeLimitField.setEditable(true);
+        timeLimitField.setPreferredSize(new Dimension(64, 14));
+        timeLimitField.setText("86400");
+        timeLimitField.addPropertyChangeListener("value", new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if (evt.getNewValue() != null) {
+                    String text = evt.getNewValue().toString();
+                    systemController.setTimeLimit(Double.valueOf(text));
+                }
+            }
+
+        });
+
+        add(timeLimitField, constraints);
 
         constraints.gridx = 0;
         constraints.gridy = 1;
@@ -86,6 +112,11 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
             usageLabel.setText("Usage: " + decimalFormat.format(simulationStatus.totalUsageInkWh) + " kWh");
             costLabel.setText("Cost: $" + decimalFormat.format(simulationStatus.priceOfProduction));
             emissionsLabel.setText("Emissions: " + decimalFormat.format(simulationStatus.emissions) + "g");
+        }
+        else if (event.getPropertyName().equals(World.PC_SIMULATION_STARTED))
+        {
+            // TODO: find way to get other listeners to work
+            controller.setTimeLimit(Double.valueOf(timeLimitField.getText()));
         }
     }
 }
