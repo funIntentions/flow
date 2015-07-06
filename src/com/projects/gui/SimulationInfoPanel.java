@@ -26,6 +26,7 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
     private JLabel costLabel;
     private JLabel usageLabel;
     private JLabel emissionsLabel;
+    private JLabel timeLimitLabel;
     private DecimalFormat decimalFormat;
     private DecimalFormat timeFormat;
     private JFormattedTextField timeLimitField;
@@ -63,23 +64,16 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
 
         constraints.gridx = 1;
         constraints.gridy = 1;
+        JPanel timeLimitPanel = new JPanel(new GridLayout(1,2));
+        timeLimitLabel = new JLabel("Time Limit(Days): ");
+        timeLimitPanel.add(timeLimitLabel);
+
         timeLimitField = new JFormattedTextField();
         timeLimitField.setEditable(true);
         timeLimitField.setPreferredSize(new Dimension(64, 14));
-        timeLimitField.setText("86400");
-        timeLimitField.addPropertyChangeListener("value", new PropertyChangeListener() {
-
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getNewValue() != null) {
-                    String text = evt.getNewValue().toString();
-                    systemController.setTimeLimit(Double.valueOf(text));
-                }
-            }
-
-        });
-
-        add(timeLimitField, constraints);
+        timeLimitField.setText("1");
+        timeLimitPanel.add(timeLimitField);
+        add(timeLimitPanel, constraints);
 
         constraints.gridx = 0;
         constraints.gridy = 1;
@@ -116,7 +110,7 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
         else if (event.getPropertyName().equals(World.PC_SIMULATION_STARTED))
         {
             // TODO: find way to get other listeners to work
-            controller.setTimeLimit(Double.valueOf(timeLimitField.getText()));
+            controller.setTimeLimit(Double.valueOf(timeLimitField.getText()) * Time.SECONDS_IN_DAY);
         }
     }
 }

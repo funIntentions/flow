@@ -154,7 +154,7 @@
 </property>
 <property>
 <name>ProductionCost</name>
-<value type="DOUBLE">0.5</value>
+<value type="DOUBLE">0.08</value>
 </property>
 <property>
 <name>Capacity</name>
