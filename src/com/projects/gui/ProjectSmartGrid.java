@@ -1,5 +1,6 @@
 package com.projects.gui;
 
+import com.projects.gui.panel.*;
 import com.projects.helper.Constants;
 import com.projects.input.actions.*;
 import com.projects.input.listeners.PropertiesTableListener;

@@ -1,5 +1,6 @@
-package com.projects.gui;
+package com.projects.gui.panel;
 
+import com.projects.gui.SubscribedView;
 import com.projects.management.SystemController;
 import com.projects.models.WorldTimer;
 import com.projects.systems.simulation.SimulationStatus;

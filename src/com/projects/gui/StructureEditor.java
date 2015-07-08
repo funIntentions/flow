@@ -1,5 +1,6 @@
 package com.projects.gui;
 
+import com.projects.gui.panel.DevicePanel;
 import com.projects.gui.table.*;
 import com.projects.input.listeners.*;
 import com.projects.helper.DeviceType;
@@ -14,11 +15,13 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -62,9 +65,9 @@ public class StructureEditor implements SubscribedView
     public StructureEditor(JFrame frame, SystemController systemController)
     {
         controller = systemController;
+
         nameField = new JTextField(14);
-        numberOfUnitsField = new JFormattedTextField();
-        numberOfUnitsField.setValue(1);
+        numberOfUnitsField = new ImprovedFormattedTextField(NumberFormat.getIntegerInstance(), 1);
         numberOfUnitsField.setColumns(4);
         numberOfUnitsLabel = new JLabel("Number of Units: ");
         infoLabel = new JLabel("");

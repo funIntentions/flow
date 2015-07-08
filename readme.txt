@@ -166,8 +166,6 @@ Selecting a device will also display the daily time spans which it is active dur
 |------------------------|
 - Editing Time Spans isn't very robust, restrictions are needed to:
 	- prevent multiple time spans that are the same or those who overlap
-- A bunch of time spans that are directly back to back seem to cause issues in the electricity usage calculation
-- There are occasionally rounding errors when calculating electricity usage
 - In the Time Limit Field letters can be enter which will throw errors
 
 - The buttons for adding devices in the Structure Editor are cut off a bit (there's not enough room for them in the current GUI)

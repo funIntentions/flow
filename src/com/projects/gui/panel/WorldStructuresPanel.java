@@ -1,5 +1,7 @@
-package com.projects.gui;
+package com.projects.gui.panel;
 
+import com.projects.gui.SubscribedView;
+import com.projects.gui.panel.StructurePanel;
 import com.projects.models.Structure;
 import com.projects.systems.StructureManager;
 import com.projects.systems.simulation.World;

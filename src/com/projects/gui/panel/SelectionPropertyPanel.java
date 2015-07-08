@@ -1,6 +1,7 @@
-package com.projects.gui;
+package com.projects.gui.panel;
 
 
+import com.projects.gui.SubscribedView;
 import com.projects.gui.table.PropertiesTable;
 import com.projects.helper.SelectionType;
 import com.projects.models.Property;

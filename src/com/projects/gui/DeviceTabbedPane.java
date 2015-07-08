@@ -1,5 +1,6 @@
 package com.projects.gui;
 
+import com.projects.gui.panel.DevicePanel;
 import com.projects.models.Device;
 
 import javax.swing.*;

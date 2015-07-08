@@ -1,4 +1,4 @@
-package com.projects.gui;
+package com.projects.gui.panel;
 
 import com.projects.gui.table.StructureTable;
 
