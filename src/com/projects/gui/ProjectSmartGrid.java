@@ -1,9 +1,5 @@
 package com.projects.gui;
 
-import com.projects.gui.table.ObjectTable;
-import com.projects.gui.table.TimeEditor;
-import com.projects.gui.table.TimeRenderer;
-import com.projects.gui.table.UsageTable;
 import com.projects.helper.Constants;
 import com.projects.input.actions.*;
 import com.projects.input.listeners.PropertiesTableListener;
@@ -18,8 +14,6 @@ import com.projects.systems.simulation.World;
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * The entry point for the application that structures the GUI and initializes underlying systems.
@@ -37,19 +31,11 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
             runSimulationAction,
             pauseSimulationAction,
             resetSimulationAction;
-    private TemplateStructureSelectedListener templateStructureSelectedListener;
-    private WorldStructureSelectedListener worldStructureSelectedListener;
-    private PropertiesTableListener propertiesTableListener;
-    private SelectionPropertyPanel selectionInfoPanel;
     private WorldStructuresPanel worldStructuresPanel;
     private SimulationInfoPanel simulationInfoPanel;
-    private SystemController controller;
     private TemplateStructuresPanel templateStructuresPanel;
     private StatusPanel statusBar;
     private GraphicsPanel graphics;
-
-    private JSplitPane rightSplitPane;
-    private JSplitPane centerSplitPane;
 
     JTabbedPane ontologyPane;
     JTabbedPane worldPane;
@@ -62,32 +48,32 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
     private ProjectSmartGrid(JFrame frame)
     {
-        controller = new SystemController();
+        SystemController controller = new SystemController();
 
-        quitApplicationAction = new QuitApplicationAction("Quit", null, null, null, controller);
-        loadDefaultAction = new LoadDefaultAction("Open Default", null, controller);
-        loadFileAction = new OpenFileAction("Open File", null, null, null, this, controller, Constants.SMART_GRID_FILE);
-        saveFileAction = new SaveFileAction("Save File", null, null, null, this, controller, Constants.SMART_GRID_FILE);
-        runSimulationAction = new RunSimulationAction("Run", null, controller);
-        pauseSimulationAction = new PauseSimulationAction("Pause", null, controller);
-        resetSimulationAction = new ResetSimulationAction("Reset", null, controller);
+        quitApplicationAction = new QuitApplicationAction(controller);
+        loadDefaultAction = new LoadDefaultAction(controller);
+        loadFileAction = new OpenFileAction(this, controller);
+        saveFileAction = new SaveFileAction(this, controller);
+        runSimulationAction = new RunSimulationAction(controller);
+        pauseSimulationAction = new PauseSimulationAction(controller);
+        resetSimulationAction = new ResetSimulationAction(controller);
 
-        templateStructureSelectedListener = new TemplateStructureSelectedListener(controller);
-        worldStructureSelectedListener = new WorldStructureSelectedListener(controller);
-        propertiesTableListener = new PropertiesTableListener(controller);
+        TemplateStructureSelectedListener templateStructureSelectedListener = new TemplateStructureSelectedListener(controller);
+        WorldStructureSelectedListener worldStructureSelectedListener = new WorldStructureSelectedListener(controller);
+        PropertiesTableListener propertiesTableListener = new PropertiesTableListener(controller);
 
-        selectionInfoPanel = new SelectionPropertyPanel("Selection", propertiesTableListener);
+        SelectionPropertyPanel selectionInfoPanel = new SelectionPropertyPanel(propertiesTableListener);
         worldStructuresPanel = new WorldStructuresPanel(worldStructureSelectedListener);
         templateStructuresPanel = new TemplateStructuresPanel(templateStructureSelectedListener);
         simulationInfoPanel = new SimulationInfoPanel(controller);
-        statusBar = new StatusPanel("Application Started");
+        statusBar = new StatusPanel();
 
         graphics = new GraphicsPanel();
         structureEditor = new StructureEditor(frame, controller);
 
-        removeSelectedStructureAction = new RemoveSelectedStructureAction("Remove Structure", null, null, null, worldStructuresPanel.getStructureTable(), worldStructuresPanel.getTemplateTable(), controller);
-        createPrefabAction = new AddStructureAction("Add Structure", null, null, null, templateStructuresPanel.getStructureTable(), templateStructuresPanel.getTemplateTable(), controller); // TODO: refactor so I don't have to get the table
-        editStructureAction = new EditStructureAction("Edit Structure", null, null, null, controller);
+        removeSelectedStructureAction = new RemoveSelectedStructureAction(worldStructuresPanel.getStructureTable(), worldStructuresPanel.getTemplateTable(), controller);
+        createPrefabAction = new AddStructureAction(templateStructuresPanel.getStructureTable(), templateStructuresPanel.getTemplateTable(), controller); // TODO: refactor so I don't have to get the table
+        editStructureAction = new EditStructureAction(controller);
 
         controller.subscribeView(simulationInfoPanel);
         controller.subscribeView(structureEditor);
@@ -107,12 +93,12 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
         setBackground(Color.RED);
 
-        rightSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, graphics, createRightBottomPanel());
+        JSplitPane rightSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, graphics, simulationInfoPanel);
         rightSplitPane.setResizeWeight(0.5);
         rightSplitPane.setOneTouchExpandable(true);
         rightSplitPane.setContinuousLayout(true);
 
-        centerSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, createLeftPanel(), rightSplitPane);
+        JSplitPane centerSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, createLeftPanel(), rightSplitPane);
         centerSplitPane.setResizeWeight(0.5);
         centerSplitPane.setOneTouchExpandable(true);
         centerSplitPane.setContinuousLayout(true);
@@ -169,19 +155,6 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         leftPanel.setOneTouchExpandable(true);
         leftPanel.setContinuousLayout(true);
         return leftPanel;
-    }
-
-    private JPanel createRightBottomPanel()
-    {
-        /*SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        DateFormatter dateFormatter*/
-
-        /*rightBottomPanel.setBackground(Color.ORANGE);
-        rightBottomPanel.setContinuousLayout(true);
-        rightBottomPanel.setResizeWeight(0.5);
-        rightBottomPanel.setOneTouchExpandable(true);*/
-
-        return simulationInfoPanel;
     }
 
     JMenuBar createMenuBar()

@@ -3,8 +3,6 @@ package com.projects.helper;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Dan on 6/8/2015.

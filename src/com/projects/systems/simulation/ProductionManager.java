@@ -1,6 +1,5 @@
 package com.projects.systems.simulation;
 
-import com.projects.helper.StructureType;
 import com.projects.models.PowerPlant;
 import com.projects.models.Structure;
 
@@ -31,8 +30,6 @@ public class ProductionManager
 
         for (PowerPlant powerPlant : powerPlants)
         {
-            double capacity = powerPlant.getCapacity();
-
             priceOfProduction = kWh * powerPlant.getProductionCost();
             emissions = kWh * powerPlant.getEmissionRate();
             break; // TODO : have it factor in all available plants instead of just the first, at the moment the plant just instantly meets the energy demands.

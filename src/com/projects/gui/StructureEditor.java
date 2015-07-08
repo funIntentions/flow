@@ -7,10 +7,8 @@ import com.projects.helper.StructureType;
 import com.projects.management.SystemController;
 import com.projects.models.*;
 import com.projects.systems.StructureManager;
-import sun.java2d.pipe.SpanShapeRenderer;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.TableModelListener;
@@ -33,36 +31,28 @@ import java.util.concurrent.TimeUnit;
 public class StructureEditor implements SubscribedView
 {
     private JLabel nameLabel;
-    private JLabel unitNameLabel;
     private JLabel numberOfUnitsLabel;
     private JLabel infoLabel;
     private JTextField nameField;
     private JFormattedTextField numberOfUnitsField;
-    private JPanel creationPanel;
     private JPanel leftPanel;
     private JPanel rightPanel;
     private JPanel propertiesPanel;
     private DeviceTabbedPane deviceTabbedPane;
-    private DeviceTabbedPane unitDeviceTabbedPane;
     private JDialog creationDialog;
     private PropertiesTable devicePropertiesTable;
     private PropertiesTable buildingPropertiesTable;
-    private JTable propertyTable;
     private JTable deviceUsageTable;
     private UsageTable usageTable;
-    private TableModelListener devicePropertiesTableListener;
     private SystemController controller;
 
     private JPanel deviceButtonPanel;
     private JPanel inputUnitInfoPanel, inputCompositeUnitInfoPanel;
     private JPanel notificationPanel;
     private JScrollPane devicePropertiesScrollPane;
-    private JScrollPane buildingPropertiesScrollPane;
     private JScrollPane deviceUsageScrollPane;
     private JPanel deviceUsagePanel;
     private JPanel creationControlButtons;
-
-    private JPanel compositeUnitDevicePanes;
 
     private StructureType structureType;
 
@@ -76,11 +66,10 @@ public class StructureEditor implements SubscribedView
         numberOfUnitsField = new JFormattedTextField();
         numberOfUnitsField.setValue(1);
         numberOfUnitsField.setColumns(4);
-        unitNameLabel = new JLabel("Unit Name: ");
         numberOfUnitsLabel = new JLabel("Number of Units: ");
         infoLabel = new JLabel("");
         nameLabel = new JLabel("Structure's Name: ");
-        creationPanel = new JPanel(new GridLayout(1,2));
+        JPanel creationPanel = new JPanel(new GridLayout(1, 2));
         leftPanel = new JPanel(new BorderLayout(10,10));
         rightPanel = new JPanel(new BorderLayout(10,10));
         propertiesPanel = new JPanel(new GridLayout(2, 1));
@@ -115,15 +104,15 @@ public class StructureEditor implements SubscribedView
         {
             case SINGLE_UNIT:
             {
-                setupSingleUnitCreaterComponents(structure);
+                setupSingleUnitEditorComponents(structure);
             } break;
             case COMPOSITE_UNIT:
             {
-                setupCompositeUnitCreaterComponents(structure);
+                setupCompositeUnitEditorComponents(structure);
             } break;
             case POWER_PLANT:
             {
-                setupPowerPlantCreaterComponents(structure);
+                setupPowerPlantEditorComponents(structure);
             } break;
         }
 
@@ -146,15 +135,15 @@ public class StructureEditor implements SubscribedView
         {
             case SINGLE_UNIT:
             {
-                removeSingleUnitCreaterComponents();
+                removeSingleUnitEditorComponents();
             } break;
             case COMPOSITE_UNIT:
             {
-                removeCompositeUnitCreaterComponents();
+                removeCompositeUnitEditorComponents();
             } break;
             case POWER_PLANT:
             {
-                removePowerPlantCreaterComponents();
+                removePowerPlantEditorComponents();
             } break;
         }
 
@@ -173,11 +162,10 @@ public class StructureEditor implements SubscribedView
         notificationPanel = new JPanel(new FlowLayout());
         notificationPanel.add(infoLabel);
 
-        devicePropertiesTableListener = new DevicePropertiesTableListener(controller);
+        TableModelListener devicePropertiesTableListener = new DevicePropertiesTableListener(controller);
         devicePropertiesTable = new PropertiesTable();
         devicePropertiesTable.addTableModelListener(devicePropertiesTableListener);
-        propertyTable = new JTable(devicePropertiesTable)
-        {
+        JTable propertyTable = new JTable(devicePropertiesTable) {
             private static final long serialVersionUID = 1L;
             private Class editingClass;
 
@@ -185,11 +173,9 @@ public class StructureEditor implements SubscribedView
             public TableCellRenderer getCellRenderer(int row, int column) {
                 editingClass = null;
                 int modelColumn = convertColumnIndexToModel(column);
-                if (modelColumn == 1)
-                {
+                if (modelColumn == 1) {
                     Object value = getModel().getValueAt(row, modelColumn);
-                    if (value == null)
-                    {
+                    if (value == null) {
                         value = 0.0;
                         getModel().setValueAt(value, row, column);
                     }
@@ -272,7 +258,7 @@ public class StructureEditor implements SubscribedView
             }
         };
 
-        buildingPropertiesScrollPane = new JScrollPane(buildingPropertyTable);
+        JScrollPane buildingPropertiesScrollPane = new JScrollPane(buildingPropertyTable);
         buildingPropertiesScrollPane.setBorder(BorderFactory.createTitledBorder("Building Properties"));
 
         propertiesPanel.add(buildingPropertiesScrollPane);
@@ -317,7 +303,7 @@ public class StructureEditor implements SubscribedView
             {
                 if (deviceUsageTable.getSelectedRow() >= 0)
                 {
-                    controller.remvoeTimeSpanUsage(deviceUsageTable.getSelectedRow());
+                    controller.removeTimeSpanUsage(deviceUsageTable.getSelectedRow());
                     usageTable.removeRow(deviceUsageTable.getSelectedRow());
                 }
 
@@ -379,10 +365,10 @@ public class StructureEditor implements SubscribedView
             }
         });
 
-        unitDeviceTabbedPane = new DeviceTabbedPane(deviceTableListener, deviceSelectedListener);
+        DeviceTabbedPane unitDeviceTabbedPane = new DeviceTabbedPane(deviceTableListener, deviceSelectedListener);
         unitDeviceTabbedPane.setBorder(BorderFactory.createTitledBorder("Unit's Devices"));
 
-        compositeUnitDevicePanes = new JPanel(new GridLayout(2,1));
+        JPanel compositeUnitDevicePanes = new JPanel(new GridLayout(2, 1));
         compositeUnitDevicePanes.add(unitDeviceTabbedPane);
         compositeUnitDevicePanes.add(deviceTabbedPane);
 
@@ -471,7 +457,7 @@ public class StructureEditor implements SubscribedView
         }
     }
 
-    private void setupSingleUnitCreaterComponents(Structure structure)
+    private void setupSingleUnitEditorComponents(Structure structure)
     {
         inputUnitInfoPanel.add(nameLabel);
         inputUnitInfoPanel.add(nameField);
@@ -490,7 +476,7 @@ public class StructureEditor implements SubscribedView
         populateStructureDevicesAndProperties(structure);
     }
 
-    private void removeSingleUnitCreaterComponents()
+    private void removeSingleUnitEditorComponents()
     {
         inputUnitInfoPanel.remove(nameLabel);
         inputUnitInfoPanel.remove(nameField);
@@ -507,7 +493,7 @@ public class StructureEditor implements SubscribedView
         leftPanel.remove(deviceButtonPanel);
     }
 
-    private void setupCompositeUnitCreaterComponents(Structure structure)
+    private void setupCompositeUnitEditorComponents(Structure structure)
     {
         inputCompositeUnitInfoPanel.add(nameLabel);
         inputCompositeUnitInfoPanel.add(nameField);
@@ -528,7 +514,7 @@ public class StructureEditor implements SubscribedView
         populateStructureDevicesAndProperties(structure);
     }
 
-    private void removeCompositeUnitCreaterComponents()
+    private void removeCompositeUnitEditorComponents()
     {
         inputCompositeUnitInfoPanel.remove(nameLabel);
         inputCompositeUnitInfoPanel.remove(nameField);
@@ -547,7 +533,7 @@ public class StructureEditor implements SubscribedView
         leftPanel.remove(deviceButtonPanel);
     }
 
-    private void setupPowerPlantCreaterComponents(Structure structure)
+    private void setupPowerPlantEditorComponents(Structure structure)
     {
         inputUnitInfoPanel.add(nameLabel);
         inputUnitInfoPanel.add(nameField);
@@ -563,7 +549,7 @@ public class StructureEditor implements SubscribedView
         populateStructureDevicesAndProperties(structure);
     }
 
-    private void removePowerPlantCreaterComponents()
+    private void removePowerPlantEditorComponents()
     {
         inputUnitInfoPanel.remove(nameLabel);
         inputUnitInfoPanel.remove(nameField);
@@ -585,21 +571,6 @@ public class StructureEditor implements SubscribedView
             infoLabel.setText("Name cannot be blank");
             return true;
         }
-
-        /*for (Prefab prefab : prefabs)
-        {
-            if (prefab.getName().equals(newName))
-            {
-                infoLabel.setText("A prefab with this name already exists");
-                return true;
-            }
-
-            if (prefab.getMemberSuffix().equals(newSuffix))
-            {
-                infoLabel.setText("A prefab with this suffix already exists");
-                return true;
-            }
-        }*/
 
         return false;
     }

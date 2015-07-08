@@ -6,13 +6,10 @@ import com.projects.systems.simulation.SimulationStatus;
 import com.projects.systems.simulation.World;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
@@ -26,7 +23,6 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
     private JLabel costLabel;
     private JLabel usageLabel;
     private JLabel emissionsLabel;
-    private JLabel timeLimitLabel;
     private DecimalFormat decimalFormat;
     private DecimalFormat timeFormat;
     private JFormattedTextField timeLimitField;
@@ -65,7 +61,7 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
         constraints.gridx = 1;
         constraints.gridy = 1;
         JPanel timeLimitPanel = new JPanel(new GridLayout(1,2));
-        timeLimitLabel = new JLabel("Time Limit(Days): ");
+        JLabel timeLimitLabel = new JLabel("Time Limit(Days): ");
         timeLimitPanel.add(timeLimitLabel);
 
         timeLimitField = new JFormattedTextField();

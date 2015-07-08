@@ -11,9 +11,7 @@ public class Template
 {
     private Device applianceTemplate;
     private Device energySourceTemplate;
-    private Device energyStorageTempalte;
-    private StructureImage houseImage;
-    private StructureImage powerPlantImage;
+    private Device energyStorageTemplate;
     private List<Structure> structureTemplates;
     private List<Structure> worldStructures;
 
@@ -34,7 +32,7 @@ public class Template
             }
             else if (device.getType() == DeviceType.ENERGY_STORAGE)
             {
-                energyStorageTempalte = device;
+                energyStorageTemplate = device;
             }
         }
     }
@@ -71,10 +69,10 @@ public class Template
     }
 
     public Device getEnergyStorageTemplate() {
-        return energyStorageTempalte;
+        return energyStorageTemplate;
     }
 
-    public void setEnergyStorageTempalte(Device energyStorageTempalte) {
-        this.energyStorageTempalte = energyStorageTempalte;
+    public void setEnergyStorageTemplate(Device energyStorageTemplate) {
+        this.energyStorageTemplate = energyStorageTemplate;
     }
 }

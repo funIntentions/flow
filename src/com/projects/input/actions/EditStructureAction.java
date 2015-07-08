@@ -12,11 +12,11 @@ public class EditStructureAction extends AbstractAction
 {
     private SystemController controller;
 
-    public EditStructureAction(String text, ImageIcon icon, String desc, Integer mnemonic, SystemController control)
+    public EditStructureAction(SystemController control)
     {
-        super(text, icon);
-        putValue(SHORT_DESCRIPTION, desc);
-        putValue(MNEMONIC_KEY, mnemonic);
+        super("Edit Structure", null);
+        putValue(SHORT_DESCRIPTION, null);
+        putValue(MNEMONIC_KEY, null);
         controller = control;
     }
 

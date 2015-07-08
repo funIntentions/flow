@@ -1,9 +1,7 @@
 package com.projects.models;
 
 import com.projects.helper.DeviceType;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -19,14 +19,14 @@ public class OpenFileAction extends AbstractAction
     private SystemController controller;
     private String ext;
 
-    public OpenFileAction(String text, ImageIcon icon, String desc, Integer mnemonic, JPanel panel, SystemController control, final String fileExtension)
+    public OpenFileAction(JPanel panel, SystemController control)
     {
-        super(text, icon);
-        putValue(SHORT_DESCRIPTION, desc);
-        putValue(MNEMONIC_KEY, mnemonic);
+        super("Open File", null);
+        putValue(SHORT_DESCRIPTION, null);
+        putValue(MNEMONIC_KEY, null);
         owner = panel;
         fileChooser = new JFileChooser();
-        ext = fileExtension;
+        ext = Constants.SMART_GRID_FILE;
 
         FileFilter fileFilter = new FileFilter() {
             @Override

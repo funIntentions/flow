@@ -1,7 +1,5 @@
 package com.projects.models;
 
-import java.util.Date;
-
 /**
  * Created by Dan on 7/3/2015.
  */

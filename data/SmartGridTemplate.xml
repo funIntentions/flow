@@ -105,7 +105,7 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <energyStorageDevices/>
         </structure>
         <structure>
-            <name>Microgeneration Installation</name>
+            <name>MicroGeneration Installation</name>
             <id>-1</id>
             <type>SINGLE_UNIT</type>
             <image>HOUSE_IMAGE</image>

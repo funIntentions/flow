@@ -12,9 +12,9 @@ public class RunSimulationAction extends AbstractAction
 {
     SystemController controller;
 
-    public RunSimulationAction(String text, Icon icon, SystemController systemController)
+    public RunSimulationAction(SystemController systemController)
     {
-        super(text, icon);
+        super("Run", null);
         controller = systemController;
     }
 

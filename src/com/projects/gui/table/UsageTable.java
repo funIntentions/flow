@@ -1,9 +1,7 @@
 package com.projects.gui.table;
 
 import javax.swing.table.AbstractTableModel;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by Dan on 7/3/2015.
@@ -16,8 +14,6 @@ public class UsageTable extends AbstractTableModel
     public UsageTable()
     {
         data = new ArrayList<Object[]>();
-
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
     }
 
     public int getColumnCount() {

@@ -1,6 +1,5 @@
 package com.projects.input.actions;
 
-import com.projects.gui.table.StructureTable;
 import com.projects.management.SystemController;
 
 import javax.swing.*;
@@ -13,9 +12,9 @@ public class ResetSimulationAction extends AbstractAction
 {
     private SystemController controller;
 
-    public ResetSimulationAction(String text, ImageIcon icon, SystemController control)
+    public ResetSimulationAction(SystemController control)
     {
-        super(text, icon);
+        super("Reset", null);
         controller = control;
     }
 

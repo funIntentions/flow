@@ -4,7 +4,6 @@ import com.projects.management.Task;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
-import java.awt.*;
 import java.beans.PropertyChangeEvent;
 
 /**
@@ -14,11 +13,11 @@ public class StatusPanel extends JPanel implements SubscribedView
 {
     JLabel statusLabel;
 
-    public StatusPanel(String initialStatus)
+    public StatusPanel()
     {
         setBorder(new BevelBorder(BevelBorder.LOWERED));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        statusLabel = new JLabel(" " + initialStatus);
+        statusLabel = new JLabel(" " + "Application Started");
         statusLabel.setHorizontalAlignment(SwingConstants.LEFT);
         add(statusLabel);
     }

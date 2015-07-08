@@ -14,7 +14,7 @@ public class Task
     private PropertyChangeSupport changeSupport;
     public static final String PC_TASK_UPDATE = "PC_TASK_UPDATE";
 
-    public Task(int id, String taskName, String taskDesc)
+    public Task(String taskName, String taskDesc)
     {
         name = taskName;
         description = taskDesc;

@@ -102,7 +102,7 @@
 <energyStorageDevices/>
 </structure>
 <structure>
-<name>Microgeneration Installation</name>
+<name>MicroGeneration Installation</name>
 <id>21</id>
 <type>SINGLE_UNIT</type>
 <image>HOUSE_IMAGE</image>

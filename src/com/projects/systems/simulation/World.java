@@ -2,10 +2,8 @@ package com.projects.systems.simulation;
 
 import com.projects.helper.Constants;
 import com.projects.models.*;
-import com.projects.systems.*;
 
 import java.beans.PropertyChangeSupport;
-import java.lang.System;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -18,7 +16,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class World extends com.projects.systems.System
 {
-    private int selectedInstance;
     private Structure lastSelected;
     private HashMap<Integer, Structure> structures;
     public static final String PC_NEW_WORLD = "PC_NEW_WORLD";
@@ -34,7 +31,7 @@ public class World extends com.projects.systems.System
     {
         public void run()
         {
-            tick(Constants.FIXED_SIMULATION_RATE_SECONDS);
+            tick();
         }
     };
     private ScheduledFuture<?> simulationHandle;
@@ -47,7 +44,6 @@ public class World extends com.projects.systems.System
 
     public World()
     {
-        selectedInstance = -1;
         structures = new HashMap<Integer, Structure>();
         changeSupport = new PropertyChangeSupport(this);
         lastSelected = null;
@@ -148,9 +144,9 @@ public class World extends com.projects.systems.System
         time.setUpdateRate(updateRate);
     }
 
-    private void tick(double fixedTime)
+    private void tick()
     {
-        time.tick(fixedTime);
+        time.tick(Constants.FIXED_SIMULATION_RATE_SECONDS);
         consumptionManager.calculateConsumption(time.getModifiedTimeElapsedInSeconds(), time.getTotalTimeInSeconds() - (time.getDay() * Time.SECONDS_IN_DAY));
         productionManager.calculateProduction(consumptionManager.getTotalUsageInkWh());
 

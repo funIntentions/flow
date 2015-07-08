@@ -28,7 +28,7 @@ public class TaskManager
 
     private Task createTask(String name, String desc)
     {
-        Task task = new Task(availableId, name, desc);
+        Task task = new Task(name, desc);
         ++availableId;
         return task;
     }

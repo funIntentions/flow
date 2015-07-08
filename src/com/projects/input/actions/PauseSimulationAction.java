@@ -12,9 +12,9 @@ public class PauseSimulationAction extends AbstractAction
 {
     SystemController controller;
 
-    public PauseSimulationAction(String text, Icon icon, SystemController systemController)
+    public PauseSimulationAction(SystemController systemController)
     {
-        super(text, icon);
+        super("Pause", null);
         controller = systemController;
     }
 

@@ -12,11 +12,11 @@ public class QuitApplicationAction extends AbstractAction
 {
      private SystemController controller;
 
-    public QuitApplicationAction(String text, ImageIcon icon, String desc, Integer mnemonic, SystemController control)
+    public QuitApplicationAction(SystemController control)
     {
-        super(text, icon);
-        putValue(SHORT_DESCRIPTION, desc);
-        putValue(MNEMONIC_KEY, mnemonic);
+        super("Quit", null);
+        putValue(SHORT_DESCRIPTION, null);
+        putValue(MNEMONIC_KEY, null);
         controller = control;
     }
 

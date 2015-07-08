@@ -29,10 +29,10 @@ public class SelectionPropertyPanel extends JPanel implements SubscribedView
     private JScrollPane descriptionScrollPane;
     private SelectionType currentlyDisplaying;
 
-    public SelectionPropertyPanel(String borderName, TableModelListener propertiesTableListener)
+    public SelectionPropertyPanel(TableModelListener propertiesTableListener)
     {
         setLayout(new BorderLayout());
-        setBorder(BorderFactory.createTitledBorder(borderName));
+        setBorder(BorderFactory.createTitledBorder("Selection"));
         propertiesTable = new PropertiesTable();
         propertiesTable.addTableModelListener(propertiesTableListener);
         propertyTable = new JTable(propertiesTable)
@@ -106,14 +106,14 @@ public class SelectionPropertyPanel extends JPanel implements SubscribedView
         selectionsName.setText("Name: " + name);
     }
 
-    private void setSelectionsClass(String className)
+    private void setSelectionsClass()
     {
         if (!selectionsClass.isVisible())
         {
             selectionsClass.setVisible(true);
         }
 
-        selectionsClass.setText("Class: " + className);
+        selectionsClass.setText("Class: " + "Classes are gone?");
     }
 
     private void clearSelectionsName()
@@ -140,7 +140,7 @@ public class SelectionPropertyPanel extends JPanel implements SubscribedView
             propertiesTable.clearTable();
             Structure structure = (Structure)event.getNewValue();
             setSelectionsName(structure.getName());
-            setSelectionsClass("Classes are gone?");
+            setSelectionsClass();
             List<Property> properties = structure.getProperties();
 
             selectionDescription.setText("need to added desc still");

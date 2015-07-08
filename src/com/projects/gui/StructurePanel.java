@@ -1,13 +1,9 @@
 package com.projects.gui;
 
 import com.projects.gui.table.StructureTable;
-import com.projects.models.*;
 
 import javax.swing.*;
 import java.awt.event.MouseListener;
-import java.beans.PropertyChangeEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Dan on 5/29/2015.

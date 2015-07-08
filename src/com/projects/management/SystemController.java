@@ -30,7 +30,6 @@ public class SystemController implements PropertyChangeListener
     private FileManager fileManager;
     private StructureManager structureManager;
     private SelectionType activeSelection;
-    private Task testTask;
 
     /**
      * the constructor
@@ -55,8 +54,9 @@ public class SystemController implements PropertyChangeListener
         structureManager.newImages(fileManager.readImages());
 
         activeSelection= SelectionType.NO_SELECTION;
-        testTask = new Task(0, "File Loading", "Waiting");
-        testTask.addPropertyChangeListener(this);
+
+        //Task testTask = new Task(0, "File Loading", "Waiting");
+        //testTask.addPropertyChangeListener(this);
     }
 
     public void setupComplete()
@@ -293,7 +293,7 @@ public class SystemController implements PropertyChangeListener
         structureManager.addTimeSpanUsage(timeSpan);
     }
 
-    public void remvoeTimeSpanUsage(int timeSpanIndex)
+    public void removeTimeSpanUsage(int timeSpanIndex)
     {
         structureManager.removeTimeSpanUsage(timeSpanIndex);
     }

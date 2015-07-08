@@ -12,9 +12,9 @@ public class LoadDefaultAction extends AbstractAction
 {
     SystemController controller;
 
-    public LoadDefaultAction(String text, Icon icon, SystemController systemController)
+    public LoadDefaultAction(SystemController systemController)
     {
-        super(text, icon);
+        super("Open Default", null);
         controller = systemController;
     }
 

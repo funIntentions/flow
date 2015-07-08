@@ -16,11 +16,11 @@ public class AddStructureAction extends AbstractAction
     private StructureTable structuresTable;
     private JTable table;
 
-    public AddStructureAction(String text, ImageIcon icon, String desc, Integer mnemonic, StructureTable structuresTable, JTable table, SystemController control)
+    public AddStructureAction(StructureTable structuresTable, JTable table, SystemController control)
     {
-        super(text, icon);
-        putValue(SHORT_DESCRIPTION, desc);
-        putValue(MNEMONIC_KEY, mnemonic);
+        super("Add Structure", null);
+        putValue(SHORT_DESCRIPTION, null);
+        putValue(MNEMONIC_KEY, null);
         controller = control;
         this.structuresTable = structuresTable;
         this.table = table;

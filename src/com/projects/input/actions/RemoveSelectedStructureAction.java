@@ -16,11 +16,11 @@ public class RemoveSelectedStructureAction extends AbstractAction
     private StructureTable structuresTable;
     private JTable table;
 
-    public RemoveSelectedStructureAction(String text, ImageIcon icon, String desc, Integer mnemonic, StructureTable structuresTable, JTable table, SystemController control)
+    public RemoveSelectedStructureAction(StructureTable structuresTable, JTable table, SystemController control)
     {
-        super(text, icon);
-        putValue(SHORT_DESCRIPTION, desc);
-        putValue(MNEMONIC_KEY, mnemonic);
+        super("Remove Structure", null);
+        putValue(SHORT_DESCRIPTION, null);
+        putValue(MNEMONIC_KEY, null);
         controller = control;
         this.structuresTable = structuresTable;
         this.table = table;

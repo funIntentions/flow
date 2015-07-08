@@ -1,9 +1,7 @@
 package com.projects.gui.table;
 
 import javax.swing.table.DefaultTableCellRenderer;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by Dan on 7/3/2015.

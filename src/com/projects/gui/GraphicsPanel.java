@@ -23,8 +23,6 @@ public class GraphicsPanel extends JPanel implements SubscribedView
 {
     Dimension worldDimensions;
     Dimension cellDimensions;
-    private int numberOfHorizonalCells;
-    private int numberOfVerticalCells;
     HashMap<ImageType, BufferedImage> images;
     HashMap<ImageType, BufferedImage> scaledImages;
     List<Structure> structures;
@@ -33,10 +31,10 @@ public class GraphicsPanel extends JPanel implements SubscribedView
     public GraphicsPanel()
     {
         setBackground(Color.DARK_GRAY);
-        numberOfHorizonalCells = 25;
-        numberOfVerticalCells = 25;
+        int numberOfHorizontalCells = 25;
+        int numberOfVerticalCells = 25;
         cellDimensions = new Dimension(32, 32);
-        worldDimensions = new Dimension((int)(numberOfHorizonalCells * cellDimensions.getWidth()), (int)(numberOfVerticalCells * cellDimensions.getHeight())); // this is the preferred dimension
+        worldDimensions = new Dimension((int)(numberOfHorizontalCells * cellDimensions.getWidth()), (int)(numberOfVerticalCells * cellDimensions.getHeight())); // this is the preferred dimension
         images = new HashMap<ImageType, BufferedImage>();
         scaledImages = new HashMap<ImageType, BufferedImage>();
         structures = new ArrayList<Structure>();
@@ -156,26 +154,6 @@ public class GraphicsPanel extends JPanel implements SubscribedView
         int bound_height = boundary.height;
         int new_width = original_width;
         int new_height = original_height;
-
-        // Scale to meet bounds
-
-        // first check if we need to scale width
-        /*if (new_width < bound_width)
-        {
-            //scale width to fit
-            new_width = bound_width;
-            //scale height to maintain aspect ratio
-            new_height = (new_width * original_height) / original_width;
-        }
-
-        // then check if we need to scale even with the new height
-        if (new_height < bound_height)
-        {
-            //scale height to fit instead
-            new_height = bound_height;
-            //scale width to maintain aspect ratio
-            new_width = (new_height * original_width) / original_height;
-        }*/
 
         // Scale to fit in bounds
 

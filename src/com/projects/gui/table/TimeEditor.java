@@ -3,10 +3,8 @@ package com.projects.gui.table;
 import javax.swing.*;
 import javax.swing.text.DateFormatter;
 import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.text.*;
-import java.util.Date;
 
 /**
  * Created by Dan on 7/3/2015.
@@ -55,10 +53,8 @@ public class TimeEditor extends DefaultCellEditor
 
         // try to parse a number
         try {
-            Date time = timeFormat.parse(value);
-
             // return an instance of column class
-            return time;
+            return timeFormat.parse(value);
 
         } catch (ParseException pex) {
             throw new RuntimeException(pex);
