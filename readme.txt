@@ -170,10 +170,10 @@ Selecting a device will also display the daily time spans which it is active dur
 - A bunch of time spans that are directly back to back seem to cause issues in the electricity usage calculation
 - There are occasionally rounding errors when calculating electricity usage
 - In the Time Limit Field letters can be enter which will throw errors
+
 - The Time Span editor wont look/work properly for Apartment Buildings, Malls, Office Building due to GUI differences
 - The buttons for adding devices in the Structure Editor are cut off a bit (there's not enough room for them in the current GUI)
 - negative average consumptions shouldn't be allowed
 - names for devices and structures need to be parsed to check if they're valid (no "  " none character structures or devices allowed)
-- Loading a file and then adding more structures will mess up the images displayed in the simulation window (however, starting from the default simulation is fine)
 - The Structure Editor Window for power plants should be have a smaller size/less blank space.
 - There's likely more I've missed here...

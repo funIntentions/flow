@@ -387,6 +387,8 @@ public class StructureEditor implements SubscribedView
 
                     devicePropertiesTable.clearTable();
                     controller.removeDevice(device.getId());
+                    removeUsageButton.setEnabled(false);
+                    newUsageButton.setEnabled(false);
                 }
             }
         };
@@ -463,8 +465,6 @@ public class StructureEditor implements SubscribedView
         inputUnitInfoPanel.add(nameField);
 
         //rightPanel.add(notificationPanel, BorderLayout.PAGE_START); // TODO: use grid bag so that I can have more components
-        //rightPanel.add(buildingPropertiesScrollPane, BorderLayout.PAGE_START);
-        //rightPanel.add(devicePropertiesScrollPane, BorderLayout.CENTER);
         rightPanel.add(propertiesPanel, BorderLayout.PAGE_START);
         rightPanel.add(deviceUsagePanel, BorderLayout.CENTER);
         rightPanel.add(creationControlButtons, BorderLayout.PAGE_END);
@@ -482,10 +482,8 @@ public class StructureEditor implements SubscribedView
         inputUnitInfoPanel.remove(nameField);
 
         rightPanel.remove(notificationPanel);
-        //rightPanel.remove(buildingPropertiesScrollPane);
-        //rightPanel.remove(devicePropertiesScrollPane);
         rightPanel.remove(propertiesPanel);
-        rightPanel.remove(deviceUsageScrollPane);
+        rightPanel.remove(deviceUsagePanel);
         rightPanel.remove(creationControlButtons);
 
         leftPanel.remove(inputUnitInfoPanel);
@@ -497,14 +495,12 @@ public class StructureEditor implements SubscribedView
     {
         inputCompositeUnitInfoPanel.add(nameLabel);
         inputCompositeUnitInfoPanel.add(nameField);
-        //inputCompositeUnitInfoPanel.add(unitNameLabel);
-        //inputCompositeUnitInfoPanel.add(unitNameField);
         inputCompositeUnitInfoPanel.add(numberOfUnitsLabel);
         inputCompositeUnitInfoPanel.add(numberOfUnitsField);
 
-        rightPanel.add(notificationPanel, BorderLayout.PAGE_START);
-        //rightPanel.add(devicePropertiesScrollPane, BorderLayout.CENTER);
-        rightPanel.add(propertiesPanel);
+        //rightPanel.add(notificationPanel, BorderLayout.PAGE_START);
+        rightPanel.add(propertiesPanel, BorderLayout.PAGE_START);
+        rightPanel.add(deviceUsagePanel, BorderLayout.CENTER);
         rightPanel.add(creationControlButtons, BorderLayout.PAGE_END);
 
         leftPanel.add(inputCompositeUnitInfoPanel, BorderLayout.PAGE_START);
@@ -518,14 +514,12 @@ public class StructureEditor implements SubscribedView
     {
         inputCompositeUnitInfoPanel.remove(nameLabel);
         inputCompositeUnitInfoPanel.remove(nameField);
-        //inputCompositeUnitInfoPanel.remove(unitNameLabel);
-        //inputCompositeUnitInfoPanel.remove(unitNameField);
         inputCompositeUnitInfoPanel.remove(numberOfUnitsLabel);
         inputCompositeUnitInfoPanel.remove(numberOfUnitsField);
 
-        rightPanel.remove(notificationPanel);
-        //rightPanel.remove(devicePropertiesScrollPane);
+        //rightPanel.remove(notificationPanel);
         rightPanel.remove(propertiesPanel);
+        rightPanel.remove(deviceUsagePanel);
         rightPanel.remove(creationControlButtons);
 
         leftPanel.remove(inputCompositeUnitInfoPanel);
