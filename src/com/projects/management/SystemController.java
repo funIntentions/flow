@@ -253,7 +253,7 @@ public class SystemController implements PropertyChangeListener
         structureManager.editObjectProperty(index, value);
     }
 
-    public void changeSimulationUpdateRate(Time.UpdateRate updateRate)
+    public void changeSimulationUpdateRate(WorldTimer.UpdateRate updateRate)
     {
         world.changeUpdateRate(updateRate);
     }

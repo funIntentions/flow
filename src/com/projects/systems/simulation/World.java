@@ -39,7 +39,7 @@ public class World extends com.projects.systems.System
     private boolean running;
     private ConsumptionManager consumptionManager;
     private ProductionManager productionManager;
-    private Time time;
+    private WorldTimer worldTimer;
     private SimulationStatus simulationStatus;
 
     public World()
@@ -51,7 +51,7 @@ public class World extends com.projects.systems.System
         running = false;
         consumptionManager = new ConsumptionManager();
         productionManager = new ProductionManager();
-        time = new Time();
+        worldTimer = new WorldTimer();
         simulationStatus = new SimulationStatus();
         resetSimulation();
     }
@@ -108,7 +108,7 @@ public class World extends com.projects.systems.System
 
     public void setTimeLimit(Double timeLimit)
     {
-        time.setTimeLimit(timeLimit);
+        worldTimer.setTimeLimit(timeLimit);
     }
 
     public void runSimulation()
@@ -130,34 +130,34 @@ public class World extends com.projects.systems.System
 
     public void resetSimulation()
     {
-        time.reset();
+        worldTimer.reset();
         consumptionManager.reset();
         simulationStatus.totalUsageInkWh = 0;
         simulationStatus.priceOfProduction = 0;
-        simulationStatus.time = time;
+        simulationStatus.worldTimer = worldTimer;
         simulationStatus.emissions = 0;
         changeSupport.firePropertyChange(PC_WORLD_UPDATE, null, simulationStatus);
     }
 
-    public void changeUpdateRate(Time.UpdateRate updateRate)
+    public void changeUpdateRate(WorldTimer.UpdateRate updateRate)
     {
-        time.setUpdateRate(updateRate);
+        worldTimer.setUpdateRate(updateRate);
     }
 
     private void tick()
     {
-        time.tick(Constants.FIXED_SIMULATION_RATE_SECONDS);
-        consumptionManager.calculateConsumption(time.getModifiedTimeElapsedInSeconds(), time.getTotalTimeInSeconds() - (time.getDay() * Time.SECONDS_IN_DAY));
+        worldTimer.tick(Constants.FIXED_SIMULATION_RATE_SECONDS);
+        consumptionManager.calculateConsumption(worldTimer.getModifiedTimeElapsedInSeconds(), worldTimer.getTotalTimeInSeconds());
         productionManager.calculateProduction(consumptionManager.getTotalUsageInkWh());
 
-        simulationStatus.time = time;
+        simulationStatus.worldTimer = worldTimer;
         simulationStatus.priceOfProduction = productionManager.getPriceOfProduction();
         simulationStatus.totalUsageInkWh = consumptionManager.getTotalUsageInkWh();
         simulationStatus.emissions = productionManager.getEmissions();
 
         changeSupport.firePropertyChange(PC_WORLD_UPDATE, null, simulationStatus);
 
-        if (time.isTimeLimitReached())
+        if (worldTimer.isTimeLimitReached())
         {
             pauseSimulation();
         }

@@ -1,7 +1,7 @@
 package com.projects.gui;
 
 import com.projects.management.SystemController;
-import com.projects.models.Time;
+import com.projects.models.WorldTimer;
 import com.projects.systems.simulation.SimulationStatus;
 import com.projects.systems.simulation.World;
 
@@ -19,7 +19,7 @@ import java.text.DecimalFormat;
 public class SimulationInfoPanel extends JPanel implements SubscribedView
 {
     private JLabel timeLabel;
-    private JComboBox<Time.UpdateRate> updateRateOptions;
+    private JComboBox<WorldTimer.UpdateRate> updateRateOptions;
     private JLabel costLabel;
     private JLabel usageLabel;
     private JLabel emissionsLabel;
@@ -43,12 +43,12 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
 
         constraints.gridx = 0;
         constraints.gridy = 0;
-        updateRateOptions = new JComboBox<Time.UpdateRate>(Time.UpdateRate.values());
+        updateRateOptions = new JComboBox<WorldTimer.UpdateRate>(WorldTimer.UpdateRate.values());
         updateRateOptions.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                systemController.changeSimulationUpdateRate(Time.UpdateRate.valueOf(updateRateOptions.getSelectedItem().toString()));
+                systemController.changeSimulationUpdateRate(WorldTimer.UpdateRate.valueOf(updateRateOptions.getSelectedItem().toString()));
             }
         });
         add(updateRateOptions, constraints);
@@ -92,13 +92,13 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
         if (event.getPropertyName().equals(World.PC_WORLD_UPDATE))
         {
             SimulationStatus simulationStatus = (SimulationStatus)event.getNewValue();
-            Time time = simulationStatus.time;
+            WorldTimer worldTimer = simulationStatus.worldTimer;
 
-            timeLabel.setText("Time: " + timeFormat.format(time.getHourOfDay()) + ":" + timeFormat.format(time.getMinutesOfHour()) + ":" + timeFormat.format(time.getSecondsOfMinute())
-                    + " Day: " + time.getDay()
-                    + " Week: " + time.getWeek()
-                    + " Month: " + time.getMonth()
-                    + " Year: " + time.getYear());
+            timeLabel.setText("Time: " + timeFormat.format(worldTimer.getHourOfDay()) + ":" + timeFormat.format(worldTimer.getMinutesOfHour()) + ":" + timeFormat.format(worldTimer.getSecondsOfMinute())
+                    + " Day: " + worldTimer.getDay()
+                    + " Week: " + worldTimer.getWeek()
+                    + " Month: " + worldTimer.getMonth()
+                    + " Year: " + worldTimer.getYear());
             usageLabel.setText("Usage: " + decimalFormat.format(simulationStatus.totalUsageInkWh) + " kWh");
             costLabel.setText("Cost: $" + decimalFormat.format(simulationStatus.priceOfProduction));
             emissionsLabel.setText("Emissions: " + decimalFormat.format(simulationStatus.emissions) + "g");
@@ -106,7 +106,7 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
         else if (event.getPropertyName().equals(World.PC_SIMULATION_STARTED))
         {
             // TODO: find way to get other listeners to work
-            controller.setTimeLimit(Double.valueOf(timeLimitField.getText()) * Time.SECONDS_IN_DAY);
+            controller.setTimeLimit(Double.valueOf(timeLimitField.getText()) * WorldTimer.SECONDS_IN_DAY);
         }
     }
 }

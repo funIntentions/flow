@@ -165,7 +165,6 @@ Selecting a device will also display the daily time spans which it is active dur
 | Some Known Issues/Bugs |
 |------------------------|
 - Editing Time Spans isn't very robust, restrictions are needed to:
-	- prevent the To value from being be less than the From
 	- prevent multiple time spans that are the same or those who overlap
 - A bunch of time spans that are directly back to back seem to cause issues in the electricity usage calculation
 - There are occasionally rounding errors when calculating electricity usage

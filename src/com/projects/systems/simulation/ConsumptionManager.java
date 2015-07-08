@@ -21,7 +21,7 @@ public class ConsumptionManager
         timeElapsedPreviously = 0; // start of day
     }
 
-    public void calculateConsumption(double timeElapsedInSeconds, double timeElapsedThisDayInSeconds)
+    public void calculateConsumption(double timeElapsedInSeconds, double totalTimeElapsedInSeconds)
     {
         usageInWattsPerHour = 0;
 
@@ -31,7 +31,7 @@ public class ConsumptionManager
 
             for (Appliance appliance : appliances)
             {
-                double applianceUsageInHours = getAppliancesUsageInHours(timeElapsedInSeconds, timeElapsedThisDayInSeconds, appliance);
+                double applianceUsageInHours = getAppliancesUsageInHours(timeElapsedInSeconds, totalTimeElapsedInSeconds, appliance);
                 usageInWattsPerHour += appliance.getAverageConsumption() * applianceUsageInHours;
             }
         }
@@ -39,13 +39,33 @@ public class ConsumptionManager
         totalUsageInkWh += usageInWattsPerHour / 1000;
     }
 
-    public double getAppliancesUsageInHours(double elapsedSecondsThisFrame, double elapsedSecondsThisDay, Appliance appliance)
+    public double getAppliancesUsageInHours(double elapsedSecondsThisFrame, double totalTimeElaspedInSeconds, Appliance appliance)
     {
         double usageInSeconds = 0;
-        double remainder = elapsedSecondsThisFrame;
+        //double remainder = elapsedSecondsThisFrame;
         ElectricityUsageSchedule usageSchedule = appliance.getElectricityUsageSchedule();
 
-        if (remainder >= Time.SECONDS_IN_DAY)
+        double elapsedSecondsThisDay = totalTimeElaspedInSeconds % WorldTimer.SECONDS_IN_DAY;
+        double secondsLeftInDay = WorldTimer.SECONDS_IN_DAY - elapsedSecondsThisDay;
+
+        if (elapsedSecondsThisFrame <= secondsLeftInDay)
+        {
+            usageInSeconds += usageSchedule.getElectricityUsageDuringSpan(new TimeSpan(elapsedSecondsThisDay, elapsedSecondsThisDay + elapsedSecondsThisFrame));
+        }
+        else
+        {
+            usageInSeconds += usageSchedule.getElectricityUsageDuringSpan(new TimeSpan(elapsedSecondsThisDay, elapsedSecondsThisDay + secondsLeftInDay));
+
+            double remainingSeconds = elapsedSecondsThisFrame - secondsLeftInDay;
+
+            int numDays = (int)Math.floor(remainingSeconds / WorldTimer.SECONDS_IN_DAY);
+            usageInSeconds += ((double)numDays) * usageSchedule.getUsagePerDay();
+            remainingSeconds = remainingSeconds % WorldTimer.SECONDS_IN_DAY;
+
+            usageInSeconds += usageSchedule.getElectricityUsageDuringSpan(new TimeSpan(0, remainingSeconds));
+        }
+
+        /*if (remainder >= Time.SECONDS_IN_DAY)
         {
             int numDays = (int)Math.floor(remainder / Time.SECONDS_IN_DAY);
             usageInSeconds += ((double)numDays) * usageSchedule.getUsagePerDay();
@@ -61,9 +81,9 @@ public class ConsumptionManager
         if (remainder != 0)
         {
             usageInSeconds += usageSchedule.getElectricityUsageDuringSpan(new TimeSpan(timeElapsedPreviously, elapsedSecondsThisDay));
-        }
+        }*/
 
-        return usageInSeconds / Time.SECONDS_IN_HOUR;
+        return usageInSeconds / WorldTimer.SECONDS_IN_HOUR;
     }
 
     public void reset()

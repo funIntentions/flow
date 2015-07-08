@@ -1,5 +1,7 @@
 package com.projects.gui.table;
 
+import com.projects.helper.Constants;
+
 import javax.swing.*;
 import javax.swing.text.DateFormatter;
 import javax.swing.text.DefaultFormatterFactory;
@@ -16,7 +18,7 @@ public class TimeEditor extends DefaultCellEditor
     public TimeEditor()
     {
         super (new JFormattedTextField());
-        timeFormat = new SimpleDateFormat("HH:mm");
+        timeFormat = new SimpleDateFormat(Constants.HOURS_AND_MINUTES_FORMAT);
     }
 
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column)
@@ -25,7 +27,7 @@ public class TimeEditor extends DefaultCellEditor
 
         if (value != null)
         {
-            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat timeFormat = new SimpleDateFormat(Constants.HOURS_AND_MINUTES_FORMAT);
             editor.setFormatterFactory(new DefaultFormatterFactory(new DateFormatter(timeFormat)));
             editor.setValue(value);
         }

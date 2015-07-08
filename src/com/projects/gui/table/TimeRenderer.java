@@ -1,5 +1,7 @@
 package com.projects.gui.table;
 
+import com.projects.helper.Constants;
+
 import javax.swing.table.DefaultTableCellRenderer;
 import java.text.SimpleDateFormat;
 
@@ -13,7 +15,7 @@ public class TimeRenderer extends DefaultTableCellRenderer
     public TimeRenderer()
     {
         super();
-        simpleDateFormat = new SimpleDateFormat("HH:mm");
+        simpleDateFormat = new SimpleDateFormat(Constants.HOURS_AND_MINUTES_FORMAT);
     }
 
     public void setValue(Object value)
