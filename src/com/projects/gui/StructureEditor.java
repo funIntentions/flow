@@ -297,7 +297,8 @@ public class StructureEditor implements SubscribedView
             }
         };
 
-        AbstractAction removeUsageAction = new AbstractAction("Remove Time Span") {
+        AbstractAction removeUsageAction = new AbstractAction("Remove Time Span")
+        {
             @Override
             public void actionPerformed(ActionEvent e)
             {
@@ -345,6 +346,7 @@ public class StructureEditor implements SubscribedView
                 close();
             }
         };
+
         creationControlButtons = new JPanel(new FlowLayout());
         creationControlButtons.add(new JButton(okAction));
         creationControlButtons.add(new JButton(cancelAction));

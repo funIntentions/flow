@@ -31,22 +31,40 @@ public class DeviceUsageTableListener implements TableModelListener
             if (row >= 0 && column >= 0)
             {
                 TableModel model = (TableModel)e.getSource();
-                Date date = (Date)model.getValueAt(row, column);
+                Date toDate = (Date)model.getValueAt(row, 1);
                 Calendar calendar = Calendar.getInstance();
-                calendar.setTime(date);
+                calendar.setTime(toDate);
 
-                int hours = calendar.get(Calendar.HOUR_OF_DAY);
-                int minutes = calendar.get(Calendar.MINUTE);
+                int toHours = calendar.get(Calendar.HOUR_OF_DAY);
+                int toMinutes = calendar.get(Calendar.MINUTE);
 
-                double secondsOfTheDay = TimeUnit.HOURS.toSeconds(hours) + TimeUnit.MINUTES.toSeconds(minutes);
+                double toSecondsOfTheDay = TimeUnit.HOURS.toSeconds(toHours) + TimeUnit.MINUTES.toSeconds(toMinutes);
+
+                Date fromDate = (Date)model.getValueAt(row, 0);
+                calendar.setTime(fromDate);
+
+                int fromHours = calendar.get(Calendar.HOUR_OF_DAY);
+                int fromMinutes = calendar.get(Calendar.MINUTE);
+
+                double fromSecondsOfTheDay = TimeUnit.HOURS.toSeconds(fromHours) + TimeUnit.MINUTES.toSeconds(fromMinutes);
 
                 if (column == 1)
                 {
-                    controller.editTimeSpanUsageTo(row, secondsOfTheDay);
+                    controller.editTimeSpanUsageTo(row, toSecondsOfTheDay);
+
+                    if (toSecondsOfTheDay < fromSecondsOfTheDay)
+                    {
+                        model.setValueAt(toDate, row, 0);
+                    }
                 }
                 else
                 {
-                    controller.editTimeSpanUsageFrom(row, secondsOfTheDay);
+                    controller.editTimeSpanUsageFrom(row, fromSecondsOfTheDay);
+
+                    if (fromSecondsOfTheDay > toSecondsOfTheDay)
+                    {
+                        model.setValueAt(fromDate, row, 1);
+                    }
                 }
             }
         }
