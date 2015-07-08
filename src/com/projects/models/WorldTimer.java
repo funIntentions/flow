@@ -18,7 +18,6 @@ public class WorldTimer
 
     private double timeLimit;
     private boolean timeLimitReached;
-
     private double totalTimeInSeconds;
     private double modifiedTimeElapsedInSeconds;
     private double hour;
@@ -36,7 +35,7 @@ public class WorldTimer
     public static final double SECONDS_IN_DAY = 86400;
     public static final int HOURS_IN_DAY = 24;
     public static final double DAYS_IN_WEEK = 7;
-    public static final double AVERAGE_NUMBER_OF_DAYS_IN_MONTH = 30.42;
+    public static final double AVERAGE_NUMBER_OF_DAYS_IN_MONTH = 28;
     public static final double MONTHS_IN_YEAR = 12;
 
     public WorldTimer()
@@ -134,15 +133,18 @@ public class WorldTimer
         this.updateRate = updateRate;
     }
 
-    public int getHourOfDay() {
+    public int getHourOfDay()
+    {
         return hourOfDay;
     }
 
-    public int getMinutesOfHour() {
+    public int getMinutesOfHour()
+    {
         return minutesOfHour;
     }
 
-    public int getSecondsOfMinute() {
+    public int getSecondsOfMinute()
+    {
         return secondsOfMinute;
     }
 

@@ -13,12 +13,10 @@ public class ConsumptionManager
     private List<Structure> structures;
     private double usageInWattsPerHour;
     private double totalUsageInkWh;
-    private double timeElapsedPreviously;
 
     public ConsumptionManager()
     {
         structures = new ArrayList<Structure>();
-        timeElapsedPreviously = 0; // start of day
     }
 
     public void calculateConsumption(double timeElapsedInSeconds, double totalTimeElapsedInSeconds)
@@ -42,10 +40,9 @@ public class ConsumptionManager
     public double getAppliancesUsageInHours(double elapsedSecondsThisFrame, double totalTimeElaspedInSeconds, Appliance appliance)
     {
         double usageInSeconds = 0;
-        //double remainder = elapsedSecondsThisFrame;
         ElectricityUsageSchedule usageSchedule = appliance.getElectricityUsageSchedule();
 
-        double elapsedSecondsThisDay = totalTimeElaspedInSeconds % WorldTimer.SECONDS_IN_DAY;
+        double elapsedSecondsThisDay = (totalTimeElaspedInSeconds - elapsedSecondsThisFrame) % WorldTimer.SECONDS_IN_DAY;
         double secondsLeftInDay = WorldTimer.SECONDS_IN_DAY - elapsedSecondsThisDay;
 
         if (elapsedSecondsThisFrame <= secondsLeftInDay)
@@ -65,24 +62,6 @@ public class ConsumptionManager
             usageInSeconds += usageSchedule.getElectricityUsageDuringSpan(new TimeSpan(0, remainingSeconds));
         }
 
-        /*if (remainder >= Time.SECONDS_IN_DAY)
-        {
-            int numDays = (int)Math.floor(remainder / Time.SECONDS_IN_DAY);
-            usageInSeconds += ((double)numDays) * usageSchedule.getUsagePerDay();
-            remainder = remainder % Time.SECONDS_IN_DAY;
-
-            timeElapsedPreviously = 0;
-        }
-        else
-        {
-            timeElapsedPreviously = elapsedSecondsThisDay - remainder;
-        }
-
-        if (remainder != 0)
-        {
-            usageInSeconds += usageSchedule.getElectricityUsageDuringSpan(new TimeSpan(timeElapsedPreviously, elapsedSecondsThisDay));
-        }*/
-
         return usageInSeconds / WorldTimer.SECONDS_IN_HOUR;
     }
 
@@ -90,7 +69,6 @@ public class ConsumptionManager
     {
         usageInWattsPerHour = 0;
         totalUsageInkWh = 0;
-        timeElapsedPreviously = 0;
     }
 
     public void removeStructure(Structure structureToRemove)
