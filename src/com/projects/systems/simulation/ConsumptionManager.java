@@ -77,7 +77,7 @@ public class ConsumptionManager
     {
         for (Structure structure : structures)
         {
-            if (structure.getId().intValue() == structureToRemove.getId().intValue())
+            if (structure.getId() == structureToRemove.getId())
             {
                 structures.remove(structure);
                 return;
@@ -96,7 +96,7 @@ public class ConsumptionManager
 
         for (int i = 0; i < structures.size(); ++i)
         {
-            if (changedStructure.getId().intValue() == structures.get(i).getId().intValue())
+            if (changedStructure.getId() == structures.get(i).getId())
             {
                 structureIndex = i;
             }

@@ -88,5 +88,4 @@ public class Appliance extends Device
         this.averageConsumption = averageConsumption;
     }
 
-
 }

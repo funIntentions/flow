@@ -46,7 +46,7 @@ public class ProductionManager
     {
         for (Structure structure : structures)
         {
-            if (structure.getId().intValue() == structureToRemove.getId().intValue())
+            if (structure.getId() == structureToRemove.getId())
             {
                 structures.remove(structure);
                 return;
@@ -55,9 +55,10 @@ public class ProductionManager
 
         for (PowerPlant powerPlant : powerPlants)
         {
-            if (powerPlant.getId().intValue() == structureToRemove.getId().intValue())
+            if (powerPlant.getId() == structureToRemove.getId())
             {
                 powerPlants.remove(powerPlant);
+                return;
             }
         }
     }
@@ -76,7 +77,7 @@ public class ProductionManager
         {
             for (int i = 0; i < powerPlants.size(); ++i)
             {
-                if (changedStructure.getId().intValue() == powerPlants.get(i).getId().intValue())
+                if (changedStructure.getId() == powerPlants.get(i).getId())
                 {
                     structureIndex = i;
                 }
@@ -98,7 +99,7 @@ public class ProductionManager
         {
             for (int i = 0; i < structures.size(); ++i)
             {
-                if (changedStructure.getId().intValue() == structures.get(i).getId().intValue())
+                if (changedStructure.getId() == structures.get(i).getId())
                 {
                     structureIndex = i;
                 }

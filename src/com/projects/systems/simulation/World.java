@@ -83,7 +83,7 @@ public class World extends com.projects.systems.System
 
     public void removeStructure(Integer id)
     {
-        if (id == lastSelected.getId().intValue())
+        if (id == lastSelected.getId())
         {
             lastSelected = null;
         }

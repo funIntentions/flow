@@ -138,7 +138,7 @@ public class GraphicsPanel extends JPanel implements SubscribedView
     {
         for (Structure structure : structures)
         {
-            if (structure.getId() == removed);
+            if (structure.getId() == removed)
             {
                 structures.remove(structure);
                 return;

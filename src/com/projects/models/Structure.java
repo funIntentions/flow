@@ -12,7 +12,7 @@ import java.util.List;
 public class Structure
 {
     protected String name;
-    protected Integer id;
+    protected int id;
     protected StructureType type;
     protected ImageType image;
     protected Integer numberOfUnits;
@@ -199,12 +199,12 @@ public class Structure
         this.name = name;
     }
 
-    public Integer getId()
+    public int getId()
     {
         return id;
     }
 
-    public void setId(Integer id)
+    public void setId(int id)
     {
         this.id = id;
     }

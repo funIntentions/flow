@@ -40,7 +40,7 @@ public class TemplateStructuresPanel extends StructurePanel implements Subscribe
 
             for (int i = 0; i < numberOfRows; ++i)
             {
-                if ((structureTable.getRow(i)).getId().intValue() == structure.getId().intValue())
+                if ((structureTable.getRow(i)).getId() == structure.getId())
                 {
                     structureTable.setRow(i, structure);
                 }
