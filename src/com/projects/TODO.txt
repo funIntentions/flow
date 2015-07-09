@@ -1,6 +1,7 @@
 Future Thoughts
 
 On Going
+- Pressing okay during structure editing will automatically revert to the last valid value
 - Cleanup the task manager, remove the testTask from SystemController and have it created in TaskManager if possible
 - Structure Creation should preform a robust check on the entered name (e.i. Are there characters? Are they valid characters.. no : or }, etc)
 QUESTIONS:

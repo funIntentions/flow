@@ -15,7 +15,6 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
@@ -36,7 +35,7 @@ public class StructureEditor implements SubscribedView
     private JLabel nameLabel;
     private JLabel numberOfUnitsLabel;
     private JLabel infoLabel;
-    private JTextField nameField;
+    private ImprovedFormattedTextField nameField;
     private JFormattedTextField numberOfUnitsField;
     private JPanel leftPanel;
     private JPanel rightPanel;
@@ -66,12 +65,13 @@ public class StructureEditor implements SubscribedView
     {
         controller = systemController;
 
-        nameField = new JTextField(14);
         numberOfUnitsField = new ImprovedFormattedTextField(NumberFormat.getIntegerInstance(), 1);
         numberOfUnitsField.setColumns(4);
         numberOfUnitsLabel = new JLabel("Number of Units: ");
         infoLabel = new JLabel("");
         nameLabel = new JLabel("Structure's Name: ");
+        nameField = new ImprovedFormattedTextField(new StringFormat());
+        nameField.setColumns(14);
         JPanel creationPanel = new JPanel(new GridLayout(1, 2));
         leftPanel = new JPanel(new BorderLayout(10,10));
         rightPanel = new JPanel(new BorderLayout(10,10));
@@ -99,7 +99,7 @@ public class StructureEditor implements SubscribedView
 
     public void display(Structure structure)
     {
-        nameField.setText(structure.getName());
+        nameField.setValue(structure.getName());
         numberOfUnitsField.setValue(structure.getNumberOfUnits());
         structureType = structure.getType();
 
@@ -563,9 +563,7 @@ public class StructureEditor implements SubscribedView
 
     Boolean conflictsExist()
     {
-        String newName = nameField.getText();
-
-        if (newName.equals(""))
+        if (!nameField.isContentValid())
         {
             infoLabel.setText("Name cannot be blank");
             return true;
