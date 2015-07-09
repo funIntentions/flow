@@ -15,6 +15,7 @@ import com.projects.systems.simulation.World;
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
+import java.util.Locale;
 
 /**
  * The entry point for the application that structures the GUI and initializes underlying systems.
@@ -121,6 +122,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         }
 
         JFrame mainFrame = new JFrame("Project SmartGrid");
+        Locale.setDefault(Locale.CANADA);
         mainFrame.setPreferredSize(new Dimension(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT));
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         ProjectSmartGrid project = new ProjectSmartGrid(mainFrame);
