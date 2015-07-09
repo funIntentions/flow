@@ -42,7 +42,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     JTabbedPane worldPane;
 
     private JToolBar toolBar;
-    private JButton removeStructureButton, createPrefabButton, editStructureButton, runSimulationButton, pauseSimulationButton, resetSimulationButton; // ToolBar Buttons
+    private JButton removeStructureButton, addStructureButton, editStructureButton, runSimulationButton, pauseSimulationButton, resetSimulationButton; // ToolBar Buttons
     private JMenuItem removeStructureItem, createStructureItem, editStructureItem; // MenuItems
 
     StructureEditor structureEditor;
@@ -134,14 +134,23 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     {
         toolBar = new JToolBar("Available Options");
         removeStructureButton = new JButton(removeSelectedStructureAction);
-        createPrefabButton = new JButton(createPrefabAction);
+        addStructureButton = new JButton(createPrefabAction);
         editStructureButton = new JButton(editStructureAction);
         runSimulationButton = new JButton(runSimulationAction);
         pauseSimulationButton = new JButton(pauseSimulationAction);
         resetSimulationButton = new JButton(resetSimulationAction);
+        toolBar.add(editStructureButton);
+        toolBar.add(addStructureButton);
+        toolBar.add(removeStructureButton);
+        toolBar.addSeparator();
         toolBar.add(runSimulationButton);
         toolBar.add(pauseSimulationButton);
         toolBar.add(resetSimulationButton);
+
+        editStructureButton.setVisible(false);
+        addStructureButton.setVisible(false);
+        removeStructureButton.setVisible(false);
+
         return toolBar;
     }
 
@@ -216,19 +225,13 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
     private void removeToolBarAndMenuOptions()
     {
-        toolBar.removeAll();
+        removeStructureButton.setVisible(false);
+        addStructureButton.setVisible(false);
+        editStructureButton.setVisible(false);
         removeStructureItem.setEnabled(false);
         createStructureItem.setEnabled(false);
         editStructureItem.setEnabled(false);
         toolBar.updateUI();
-    }
-
-    private void addToolBarSimulationControls()
-    {
-        toolBar.addSeparator();
-        toolBar.add(runSimulationButton);
-        toolBar.add(pauseSimulationButton);
-        toolBar.add(resetSimulationButton);
     }
 
     public void modelPropertyChange(PropertyChangeEvent event)
@@ -238,9 +241,8 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
             removeToolBarAndMenuOptions();
             editStructureItem.setEnabled(true);
             createStructureItem.setEnabled(true);
-            toolBar.add(editStructureButton);
-            toolBar.add(createPrefabButton);
-            addToolBarSimulationControls();
+            editStructureButton.setVisible(true);
+            addStructureButton.setVisible(true);
         }
         else if (event.getPropertyName().equals(StructureManager.PC_CREATE_STRUCTURE))
         {
@@ -252,9 +254,8 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
             removeToolBarAndMenuOptions();
             editStructureItem.setEnabled(true);
             removeStructureItem.setEnabled(true);
-            toolBar.add(editStructureButton);
-            toolBar.add(removeStructureButton);
-            addToolBarSimulationControls();
+            editStructureButton.setVisible(true);
+            removeStructureButton.setVisible(true);
         }
         else if (event.getPropertyName().equals(StructureManager.PC_EDITING_STRUCTURE))
         {

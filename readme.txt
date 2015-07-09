@@ -168,6 +168,5 @@ Selecting a device will also display the daily time spans which it is active dur
 	- prevent multiple time spans that are the same or those who overlap
 - In the Time Limit Field letters can be enter which will throw errors
 
-- The buttons for adding devices in the Structure Editor are cut off a bit (there's not enough room for them in the current GUI)
 - negative average consumptions shouldn't be allowed
 - The Structure Editor Window for power plants should be have a smaller size/less blank space.
