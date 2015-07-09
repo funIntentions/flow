@@ -32,34 +32,28 @@ import java.util.concurrent.TimeUnit;
  */
 public class StructureEditor implements SubscribedView
 {
-    private JLabel nameLabel;
-    private JLabel numberOfUnitsLabel;
-    private JLabel infoLabel;
-    private ImprovedFormattedTextField nameField;
-    private JFormattedTextField numberOfUnitsField;
-    private JPanel leftPanel;
-    private JPanel rightPanel;
-    private JPanel propertiesPanel;
+    private JLabel nameLabel, numberOfUnitsLabel, infoLabel;
+    private ImprovedFormattedTextField nameField, numberOfUnitsField;
+    private JPanel leftPanel,
+            rightPanel,
+            propertiesPanel,
+            deviceButtonPanel,
+            inputUnitInfoPanel,
+            inputCompositeUnitInfoPanel,
+            deviceUsagePanel,
+            creationControlButtons,
+            notificationPanel;
+
     private DeviceTabbedPane deviceTabbedPane;
     private JDialog creationDialog;
-    private PropertiesTable devicePropertiesTable;
-    private PropertiesTable buildingPropertiesTable;
+    private PropertiesTable devicePropertiesTable, buildingPropertiesTable;
     private JTable deviceUsageTable;
     private UsageTable usageTable;
     private SystemController controller;
-
-    private JPanel deviceButtonPanel;
-    private JPanel inputUnitInfoPanel, inputCompositeUnitInfoPanel;
-    private JPanel notificationPanel;
     private JScrollPane devicePropertiesScrollPane;
     private JScrollPane deviceUsageScrollPane;
-    private JPanel deviceUsagePanel;
-    private JPanel creationControlButtons;
-
     private StructureType structureType;
-
-    private JButton newUsageButton;
-    private JButton removeUsageButton;
+    private JButton newUsageButton, removeUsageButton;
 
     public StructureEditor(JFrame frame, SystemController systemController)
     {
@@ -83,7 +77,7 @@ public class StructureEditor implements SubscribedView
         creationPanel.add(rightPanel);
         creationDialog = new JDialog(frame, "Structure Editor", true);
         creationDialog.setContentPane(creationPanel);
-        creationDialog.setPreferredSize(new Dimension(800, 600));
+        creationDialog.setPreferredSize(new Dimension(860, 600));
         creationDialog.setResizable(false);
         creationDialog.setVisible(false);
         structureType = StructureType.NO_STRUCTURE;
@@ -359,24 +353,6 @@ public class StructureEditor implements SubscribedView
         inputUnitInfoPanel = new JPanel(new GridLayout(1,2));
         inputUnitInfoPanel.setBorder(BorderFactory.createTitledBorder("Information"));
 
-        DeviceSelectedListener deviceSelectedListener = new DeviceSelectedListener(controller);
-        DeviceTableListener deviceTableListener = new DeviceTableListener(controller);
-        deviceTabbedPane = new DeviceTabbedPane(deviceTableListener, deviceSelectedListener);
-        deviceTabbedPane.setBorder(BorderFactory.createTitledBorder("Building's Devices"));
-        deviceTabbedPane.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                devicePropertiesTable.clearTable();
-            }
-        });
-
-        DeviceTabbedPane unitDeviceTabbedPane = new DeviceTabbedPane(deviceTableListener, deviceSelectedListener);
-        unitDeviceTabbedPane.setBorder(BorderFactory.createTitledBorder("Unit's Devices"));
-
-        JPanel compositeUnitDevicePanes = new JPanel(new GridLayout(2, 1));
-        compositeUnitDevicePanes.add(unitDeviceTabbedPane);
-        compositeUnitDevicePanes.add(deviceTabbedPane);
-
         AbstractAction removeSelection = new AbstractAction("Remove Device")
         {
             @Override
@@ -398,16 +374,7 @@ public class StructureEditor implements SubscribedView
             }
         };
 
-        AbstractAction addApplianceAction = new AbstractAction("Add Appliance")
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                controller.addDeviceToStructure(DeviceType.APPLIANCE);
-            }
-        };
-
-        AbstractAction addSourceAction = new AbstractAction("Add Energy Source")
+        final AbstractAction addSourceAction = new AbstractAction("Add Energy Source")
         {
             @Override
             public void actionPerformed(ActionEvent e)
@@ -425,11 +392,67 @@ public class StructureEditor implements SubscribedView
             }
         };
 
-        deviceButtonPanel = new JPanel(new GridLayout(1, 4));
-        deviceButtonPanel.add(new JButton(addApplianceAction));
-        deviceButtonPanel.add(new JButton(addSourceAction));
-        deviceButtonPanel.add(new JButton(addStorageAction));
-        deviceButtonPanel.add(new JButton(removeSelection));
+        AbstractAction addApplianceAction = new AbstractAction("Add Appliance")
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                controller.addDeviceToStructure(DeviceType.APPLIANCE);
+            }
+        };
+
+        final JButton addApplianceButton = new JButton(addApplianceAction);
+        final JButton addSourceButton = new JButton(addSourceAction);
+        addSourceButton.setVisible(false);
+        final JButton addStorageButton = new JButton(addStorageAction);
+        addStorageButton.setVisible(false);
+        final JButton removeDeviceButton = new JButton(removeSelection);
+
+        DeviceSelectedListener deviceSelectedListener = new DeviceSelectedListener(controller);
+        DeviceTableListener deviceTableListener = new DeviceTableListener(controller);
+        deviceTabbedPane = new DeviceTabbedPane(deviceTableListener, deviceSelectedListener);
+        deviceTabbedPane.setBorder(BorderFactory.createTitledBorder("Building's Devices"));
+        deviceTabbedPane.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                devicePropertiesTable.clearTable();
+
+                switch (deviceTabbedPane.getSelectedIndex())
+                {
+                    case 0:
+                    {
+                        addSourceButton.setVisible(false);
+                        addStorageButton.setVisible(false);
+                        addApplianceButton.setVisible(true);
+                    } break;
+                    case 1:
+                    {
+                        addSourceButton.setVisible(true);
+                        addStorageButton.setVisible(false);
+                        addApplianceButton.setVisible(false);
+                    } break;
+                    case 2:
+                    {
+                        addSourceButton.setVisible(false);
+                        addStorageButton.setVisible(true);
+                        addApplianceButton.setVisible(false);
+                    } break;
+                }
+            }
+        });
+
+        DeviceTabbedPane unitDeviceTabbedPane = new DeviceTabbedPane(deviceTableListener, deviceSelectedListener);
+        unitDeviceTabbedPane.setBorder(BorderFactory.createTitledBorder("Unit's Devices"));
+
+        JPanel compositeUnitDevicePanes = new JPanel(new GridLayout(2, 1));
+        compositeUnitDevicePanes.add(unitDeviceTabbedPane);
+        compositeUnitDevicePanes.add(deviceTabbedPane);
+
+        deviceButtonPanel = new JPanel(new FlowLayout());
+        deviceButtonPanel.add(addApplianceButton);
+        deviceButtonPanel.add(addSourceButton);
+        deviceButtonPanel.add(addStorageButton);
+        deviceButtonPanel.add(removeDeviceButton);
     }
 
     private void populateStructureDevicesAndProperties(Structure structure)

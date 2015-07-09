@@ -170,5 +170,4 @@ Selecting a device will also display the daily time spans which it is active dur
 
 - The buttons for adding devices in the Structure Editor are cut off a bit (there's not enough room for them in the current GUI)
 - negative average consumptions shouldn't be allowed
-- names for devices and structures need to be parsed to check if they're valid (no "  " none character structures or devices allowed)
 - The Structure Editor Window for power plants should be have a smaller size/less blank space.
