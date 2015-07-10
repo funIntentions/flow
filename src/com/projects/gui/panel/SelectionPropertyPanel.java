@@ -1,213 +1,49 @@
 package com.projects.gui.panel;
 
-
 import com.projects.gui.SubscribedView;
-import com.projects.gui.table.PropertiesTable;
-import com.projects.helper.SelectionType;
-import com.projects.models.Property;
-import com.projects.models.Structure;
-import com.projects.systems.StructureManager;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
 
 import javax.swing.*;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
-import java.util.List;
 
 /**
  * Created by Dan on 5/27/2015.
  */
 public class SelectionPropertyPanel extends JPanel implements SubscribedView
 {
-    private JLabel selectionsName;
-    private JLabel selectionsClass;
-    private JTable propertyTable;
-    private JTextArea selectionDescription;
-    private PropertiesTable propertiesTable;
-    private JScrollPane propertyScrollPane;
-    private JScrollPane descriptionScrollPane;
-    private SelectionType currentlyDisplaying;
+    private JFreeChart objChart;
 
     public SelectionPropertyPanel(TableModelListener propertiesTableListener)
     {
         setLayout(new BorderLayout());
-        setBorder(BorderFactory.createTitledBorder("Selection"));
-        propertiesTable = new PropertiesTable();
-        propertiesTable.addTableModelListener(propertiesTableListener);
-        propertyTable = new JTable(propertiesTable)
-        {
-            private static final long serialVersionUID = 1L;
-            private Class editingClass;
+        setBorder(BorderFactory.createTitledBorder("Load Profile"));
 
-            @Override
-            public TableCellRenderer getCellRenderer(int row, int column) {
-                editingClass = null;
-                int modelColumn = convertColumnIndexToModel(column);
-                if (modelColumn == 1)
-                {
-                    Object value = getModel().getValueAt(row, modelColumn);
-                    if (value == null)
-                    {
-                        value = 0.0;
-                        getModel().setValueAt(value, row, column);
-                    }
-                    Class rowClass = value.getClass();
-                    return getDefaultRenderer(rowClass);
-                } else {
-                    return super.getCellRenderer(row, column);
-                }
-            }
+        DefaultPieDataset objDataset = new DefaultPieDataset();
+        objDataset.setValue("Apple",29);
+        objDataset.setValue("HTC",15);
+        objDataset.setValue("Samsung",24);
+        objDataset.setValue("LG",7);
+        objDataset.setValue("Motorola",10);
 
-            @Override
-            public TableCellEditor getCellEditor(int row, int column) {
-                editingClass = null;
-                int modelColumn = convertColumnIndexToModel(column);
-                if (modelColumn == 1) {
-                    editingClass = getModel().getValueAt(row, modelColumn).getClass();
-                    return getDefaultEditor(editingClass);
-                } else {
-                    return super.getCellEditor(row, column);
-                }
-            }
-            //  This method is also invoked by the editor when the value in the editor
-            //  component is saved in the TableModel. The class was saved when the
-            //  editor was invoked so the proper class can be created.
+        objChart = ChartFactory.createPieChart(
+                "Demo Pie Chart",   //Chart title
+                objDataset,          //Chart Data
+                true,               // include legend?
+                true,               // include tooltips?
+                false               // include URLs?
+        );
 
-            @Override
-            public Class getColumnClass(int column) {
-                return editingClass != null ? editingClass : super.getColumnClass(column);
-            }
-        };
-        selectionDescription = new JTextArea();
-        selectionDescription.setLineWrap(true);
-        selectionDescription.setEditable(false);
-        selectionDescription.setWrapStyleWord(true);
-        selectionDescription.setMinimumSize(new Dimension(50, 25));
-        descriptionScrollPane = new JScrollPane(selectionDescription);
-        descriptionScrollPane.setBorder(BorderFactory.createTitledBorder("Description"));
-        propertyScrollPane = new JScrollPane(propertyTable);
-        propertyScrollPane.setBorder(BorderFactory.createTitledBorder("Properties"));
-        selectionsName = new JLabel("Name: ");
-        selectionsClass = new JLabel("Class: ");
-        JPanel intro = new JPanel(new GridLayout(0,1));
-        intro.add(selectionsName);
-        intro.add(selectionsClass);
-        add(intro, BorderLayout.PAGE_START);
-        JPanel details = new JPanel(new GridLayout(0,1));
-        details.add(descriptionScrollPane);
-        details.add(propertyScrollPane);
-        add(details, BorderLayout.CENTER);
-        currentlyDisplaying = SelectionType.NO_SELECTION;
+        ChartPanel chartPanel = new ChartPanel(objChart);
+        add(chartPanel, BorderLayout.CENTER);
     }
-
-    private void setSelectionsName(String name)
-    {
-        selectionsName.setText("Name: " + name);
-    }
-
-    private void setSelectionsClass()
-    {
-        if (!selectionsClass.isVisible())
-        {
-            selectionsClass.setVisible(true);
-        }
-
-        selectionsClass.setText("Class: " + "Classes are gone?");
-    }
-
-    private void clearSelectionsName()
-    {
-        selectionsName.setText("Name: ");
-    }
-
-    private void clearSelectionsClass()
-    {
-        selectionsClass.setText("Class: ");
-    }
-
-    private void clearAll()
-    {
-        propertiesTable.clearTable();
-        clearSelectionsName();
-        clearSelectionsClass();
-}
 
     public void modelPropertyChange(PropertyChangeEvent event)
     {
-        if (event.getPropertyName().equals(StructureManager.PC_TEMPLATE_SELECTED))
-        {
-            propertiesTable.clearTable();
-            Structure structure = (Structure)event.getNewValue();
-            setSelectionsName(structure.getName());
-            setSelectionsClass();
-            List<Property> properties = structure.getProperties();
 
-            selectionDescription.setText("need to added desc still");
-
-            for (Property property : properties)
-            {
-                Object[] row = {property.getName(), property.getValue()};
-                propertiesTable.addRow(row);
-            }
-        }
-
-        /*if (event.getPropertyName().equals(OntologyModel.PC_NEW_ONTOLOGY_PREFAB_SELECTED)
-                || event.getPropertyName().equals(World.PC_NEW_WORLD_PREFAB_SELECTED))
-        {
-            clearAll();
-        }
-        else if (event.getPropertyName().equals(OntologyModel.PC_NEW_INDIVIDUAL_SELECTED)
-                || event.getPropertyName().equals(World.PC_NEW_INSTANCE_SELECTED))
-        {
-            if (event.getPropertyName().equals(OntologyModel.PC_NEW_INDIVIDUAL_SELECTED)) // TODO: make nicer
-            {
-                currentlyDisplaying = SelectionType.ONTOLOGY_INDIVIDUAL;
-            }
-            else
-            {
-                currentlyDisplaying = SelectionType.WORLD_INDIVIDUAL;
-            }
-
-            propertiesTable.clearTable();
-            IndividualModel model = (IndividualModel)event.getNewValue();
-            setSelectionsName(model.getName());
-            setSelectionsClass(model.getClassName());
-            Iterator<Property> i = model.listProperties();
-
-            selectionDescription.setText(model.getDescription());
-
-            while (i.hasNext())
-            {
-                Property property = i.next();
-                Object[] row = {property.getName(), property.getValue()};
-                propertiesTable.addRow(row);
-            }
-        }
-        else if (event.getPropertyName().equals(OntologyModel.PC_NEW_CLASS_SELECTED))
-        {
-            propertiesTable.clearTable();
-            ClassModel model = (ClassModel)event.getNewValue();
-            setSelectionsName(model.getName());
-            clearSelectionsClass();
-            selectionsClass.setVisible(false);
-            selectionDescription.setText(model.getDescription());
-
-            currentlyDisplaying = SelectionType.CLASS;
-        }
-        else if (event.getPropertyName().equals(OntologyModel.PC_ONTOLOGY_CLEARED) || event.getPropertyName().equals(World.PC_WORLD_CLEARED))
-        {
-            clearSelectionsName();
-            clearSelectionsClass();
-            propertiesTable.clearTable();
-        }
-        else if (event.getPropertyName().equals(World.PC_INSTANCE_DELETED))
-        {
-            if (currentlyDisplaying == SelectionType.WORLD_INDIVIDUAL)
-            {
-               clearAll();
-            }
-        }*/
     }
 }

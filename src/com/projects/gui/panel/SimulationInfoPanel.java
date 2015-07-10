@@ -36,7 +36,6 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
     private JLabel emissionsLabel;
     private DecimalFormat decimalFormat;
     private DecimalFormat timeFormat;
-    private JFormattedTextField timeLimitField;
     private DatePicker datePickerForEndDate;
     private DatePicker datePickerForStartDate;
     private LocalDate currentDate;
@@ -52,8 +51,8 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
         GridBagConstraints constraints = new GridBagConstraints();
 
         currentDate = LocalDate.now();
-        final JFXPanel fxToDatePanel = new JFXPanel();
-        final JFXPanel fxCurrentDatePanel = new JFXPanel();
+        final JFXPanel fxEndDatePanel = new JFXPanel();
+        final JFXPanel fxStartDatePanel = new JFXPanel();
 
         Platform.runLater(new Runnable()
         {
@@ -62,7 +61,7 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
             {
                 VBox vBoxEndDate = new VBox(20);
                 Scene sceneEndDate = new Scene(vBoxEndDate);
-                fxToDatePanel.setScene(sceneEndDate);
+                fxEndDatePanel.setScene(sceneEndDate);
 
                 javafx.scene.control.Label labelEndDate = new Label("End Date: ");
                 GridPane gridPaneEndDate = new GridPane();
@@ -74,7 +73,7 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
 
                 VBox vBoxStartDate = new VBox(20);
                 Scene sceneStartDate = new Scene(vBoxStartDate);
-                fxCurrentDatePanel.setScene(sceneStartDate);
+                fxStartDatePanel.setScene(sceneStartDate);
 
                 Label labelStartDate = new Label("Start Date: ");
                 GridPane gridPaneStartDate = new GridPane();
@@ -109,8 +108,8 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
 
         constraints.gridx = 1;
         constraints.gridy = 1;
-        fxCurrentDatePanel.setPreferredSize(new Dimension(112, 64));
-        add(fxCurrentDatePanel, constraints);
+        fxStartDatePanel.setPreferredSize(new Dimension(112, 50));
+        add(fxStartDatePanel, constraints);
 
         constraints.gridx = 1;
         constraints.gridy = 2;
@@ -118,13 +117,8 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
         JLabel timeLimitLabel = new JLabel("Time Limit(Days): ");
         timeLimitPanel.add(timeLimitLabel);
 
-        timeLimitField = new JFormattedTextField();
-        timeLimitField.setEditable(true);
-        timeLimitField.setPreferredSize(new Dimension(124, 34));
-        timeLimitField.setText("1");
-
-        fxToDatePanel.setPreferredSize(new Dimension(112, 64));
-        add(fxToDatePanel, constraints);
+        fxEndDatePanel.setPreferredSize(new Dimension(112, 50));
+        add(fxEndDatePanel, constraints);
 
         constraints.gridx = 0;
         constraints.gridy = 1;

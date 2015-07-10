@@ -36,6 +36,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     private WorldStructuresPanel worldStructuresPanel;
     private SimulationInfoPanel simulationInfoPanel;
     private TemplateStructuresPanel templateStructuresPanel;
+    private SelectionPropertyPanel selectionInfoPanel;
     private StatusPanel statusBar;
     private GraphicsPanel graphics;
 
@@ -64,7 +65,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         WorldStructureSelectedListener worldStructureSelectedListener = new WorldStructureSelectedListener(controller);
         PropertiesTableListener propertiesTableListener = new PropertiesTableListener(controller);
 
-        SelectionPropertyPanel selectionInfoPanel = new SelectionPropertyPanel(propertiesTableListener);
+        selectionInfoPanel = new SelectionPropertyPanel(propertiesTableListener);
         worldStructuresPanel = new WorldStructuresPanel(worldStructureSelectedListener);
         templateStructuresPanel = new TemplateStructuresPanel(templateStructureSelectedListener);
         simulationInfoPanel = new SimulationInfoPanel(controller);
@@ -95,7 +96,11 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
         setBackground(Color.RED);
 
-        JSplitPane rightSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, graphics, simulationInfoPanel);
+        JPanel bottomRightPanel = new JPanel(new GridLayout(1, 2));
+        bottomRightPanel.add(selectionInfoPanel);
+        bottomRightPanel.add(simulationInfoPanel);
+
+        JSplitPane rightSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, graphics, bottomRightPanel);
         rightSplitPane.setResizeWeight(0.5);
         rightSplitPane.setOneTouchExpandable(true);
         rightSplitPane.setContinuousLayout(true);
