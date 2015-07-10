@@ -2,6 +2,7 @@ package com.projects.gui;
 
 import com.projects.gui.panel.DevicePanel;
 import com.projects.gui.table.*;
+import com.projects.helper.Constants;
 import com.projects.input.listeners.*;
 import com.projects.helper.DeviceType;
 import com.projects.helper.StructureType;
@@ -66,18 +67,29 @@ public class StructureEditor implements SubscribedView
         nameLabel = new JLabel("Structure's Name: ");
         nameField = new ImprovedFormattedTextField(new StringFormat());
         nameField.setColumns(14);
-        JPanel creationPanel = new JPanel(new GridLayout(1, 2));
-        leftPanel = new JPanel(new BorderLayout(10,10));
-        rightPanel = new JPanel(new BorderLayout(10,10));
-        propertiesPanel = new JPanel(new GridLayout(2, 1));
+        JPanel creationPanel = new JPanel(new GridBagLayout());
+        leftPanel = new JPanel(new BorderLayout());
+        rightPanel = new JPanel(new BorderLayout());
+        propertiesPanel = new JPanel(new GridBagLayout());
 
         createComponents();
 
-        creationPanel.add(leftPanel);
-        creationPanel.add(rightPanel);
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.weightx = 0.5f;
+        constraints.weighty = 0.5f;
+        constraints.fill = GridBagConstraints.BOTH;
+        creationPanel.add(leftPanel, constraints);
+
+        constraints.gridx = 1;
+        constraints.gridy = 0;
+        creationPanel.add(rightPanel, constraints);
+
+
         creationDialog = new JDialog(frame, "Structure Editor", true);
         creationDialog.setContentPane(creationPanel);
-        creationDialog.setPreferredSize(new Dimension(860, 600));
+        creationDialog.setPreferredSize(new Dimension(Constants.STRUCTURE_EDITOR_REGULAR_WIDTH, Constants.STRUCTURE_EDITOR_REGULAR_HEIGHT));
         creationDialog.setResizable(false);
         creationDialog.setVisible(false);
         structureType = StructureType.NO_STRUCTURE;
@@ -258,8 +270,18 @@ public class StructureEditor implements SubscribedView
         JScrollPane buildingPropertiesScrollPane = new JScrollPane(buildingPropertyTable);
         buildingPropertiesScrollPane.setBorder(BorderFactory.createTitledBorder("Building Properties"));
 
-        propertiesPanel.add(buildingPropertiesScrollPane);
-        propertiesPanel.add(devicePropertiesScrollPane);
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
+        constraints.fill = GridBagConstraints.BOTH;
+
+        propertiesPanel.add(buildingPropertiesScrollPane, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        propertiesPanel.add(devicePropertiesScrollPane, constraints);
 
         propertiesPanel.setPreferredSize(new Dimension(400, 300));
 
@@ -557,31 +579,32 @@ public class StructureEditor implements SubscribedView
 
     private void setupPowerPlantEditorComponents(Structure structure)
     {
+        creationDialog.setPreferredSize(new Dimension(Constants.STRUCTURE_EDITOR_SMALL_WIDTH, Constants.STRUCTURE_EDITOR_SMALL_HEIGHT));
+
         inputUnitInfoPanel.add(nameLabel);
         inputUnitInfoPanel.add(nameField);
 
-        rightPanel.add(notificationPanel, BorderLayout.PAGE_START);
+        leftPanel.setVisible(false);
         rightPanel.add(creationControlButtons, BorderLayout.PAGE_END);
-
-        leftPanel.add(inputUnitInfoPanel, BorderLayout.PAGE_START);
-
-        propertiesPanel.remove(devicePropertiesScrollPane);
-        leftPanel.add(propertiesPanel, BorderLayout.CENTER);
+        rightPanel.add(inputUnitInfoPanel, BorderLayout.PAGE_START);
+        rightPanel.add(propertiesPanel, BorderLayout.CENTER);
+        devicePropertiesScrollPane.setVisible(false);
 
         populateStructureDevicesAndProperties(structure);
     }
 
     private void removePowerPlantEditorComponents()
     {
+        creationDialog.setPreferredSize(new Dimension(Constants.STRUCTURE_EDITOR_REGULAR_WIDTH, Constants.STRUCTURE_EDITOR_REGULAR_HEIGHT));
+
+        leftPanel.setVisible(true);
         inputUnitInfoPanel.remove(nameLabel);
         inputUnitInfoPanel.remove(nameField);
 
-        rightPanel.remove(notificationPanel);
         rightPanel.remove(creationControlButtons);
-
-        leftPanel.remove(inputUnitInfoPanel);
-        leftPanel.remove(propertiesPanel);
-        propertiesPanel.add(devicePropertiesScrollPane);
+        rightPanel.remove(inputUnitInfoPanel);
+        rightPanel.remove(propertiesPanel);
+        devicePropertiesScrollPane.setVisible(true);
     }
 
     Boolean conflictsExist()
