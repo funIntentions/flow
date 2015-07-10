@@ -167,3 +167,4 @@ Selecting a device will also display the daily time spans which it is active dur
 - Editing Time Spans isn't very robust, restrictions are needed to:
 	- prevent multiple time spans that are the same or those who overlap
 - negative average consumptions shouldn't be allowed
+- while structure names are checked for validity, device names are not

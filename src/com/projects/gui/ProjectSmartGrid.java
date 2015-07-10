@@ -36,7 +36,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     private WorldStructuresPanel worldStructuresPanel;
     private SimulationInfoPanel simulationInfoPanel;
     private TemplateStructuresPanel templateStructuresPanel;
-    private SelectionPropertyPanel selectionInfoPanel;
+    private SelectionInfoPanel selectionInfoPanel;
     private StatusPanel statusBar;
     private GraphicsPanel graphics;
 
@@ -65,7 +65,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         WorldStructureSelectedListener worldStructureSelectedListener = new WorldStructureSelectedListener(controller);
         PropertiesTableListener propertiesTableListener = new PropertiesTableListener(controller);
 
-        selectionInfoPanel = new SelectionPropertyPanel(propertiesTableListener);
+        selectionInfoPanel = new SelectionInfoPanel(propertiesTableListener);
         worldStructuresPanel = new WorldStructuresPanel(worldStructureSelectedListener);
         templateStructuresPanel = new TemplateStructuresPanel(templateStructureSelectedListener);
         simulationInfoPanel = new SimulationInfoPanel(controller);
