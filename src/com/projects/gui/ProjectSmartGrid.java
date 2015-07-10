@@ -63,9 +63,8 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
         TemplateStructureSelectedListener templateStructureSelectedListener = new TemplateStructureSelectedListener(controller);
         WorldStructureSelectedListener worldStructureSelectedListener = new WorldStructureSelectedListener(controller);
-        PropertiesTableListener propertiesTableListener = new PropertiesTableListener(controller);
 
-        selectionInfoPanel = new SelectionInfoPanel(propertiesTableListener);
+        selectionInfoPanel = new SelectionInfoPanel();
         worldStructuresPanel = new WorldStructuresPanel(worldStructureSelectedListener);
         templateStructuresPanel = new TemplateStructuresPanel(templateStructureSelectedListener);
         simulationInfoPanel = new SimulationInfoPanel(controller);
@@ -93,7 +92,6 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     private void setupPane()
     {
         setLayout(new BorderLayout());
-
         setBackground(Color.RED);
 
         JPanel bottomRightPanel = new JPanel(new GridLayout(1, 2));
@@ -101,12 +99,12 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         bottomRightPanel.add(simulationInfoPanel);
 
         JSplitPane rightSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, graphics, bottomRightPanel);
-        rightSplitPane.setResizeWeight(0.5);
+        rightSplitPane.setResizeWeight(0.6);
         rightSplitPane.setOneTouchExpandable(true);
         rightSplitPane.setContinuousLayout(true);
 
         JSplitPane centerSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, createLeftPanel(), rightSplitPane);
-        centerSplitPane.setResizeWeight(0.5);
+        centerSplitPane.setResizeWeight(0.06);
         centerSplitPane.setOneTouchExpandable(true);
         centerSplitPane.setContinuousLayout(true);
 
@@ -167,7 +165,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         ontologyPane = new JTabbedPane();
         worldPane = new JTabbedPane();
 
-        JSplitPane leftPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, ontologyPane, worldPane);
+        JSplitPane leftPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT, ontologyPane, worldPane);
         leftPanel.setResizeWeight(0.5);
         leftPanel.setOneTouchExpandable(true);
         leftPanel.setContinuousLayout(true);

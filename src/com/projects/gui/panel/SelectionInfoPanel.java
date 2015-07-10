@@ -27,29 +27,16 @@ import java.util.concurrent.TimeUnit;
  */
 public class SelectionInfoPanel extends JPanel implements SubscribedView
 {
-    private JFreeChart objChart;
     private ChartPanel chartPanel;
+    private XYSeriesCollection data;
 
-    public SelectionInfoPanel(TableModelListener propertiesTableListener)
+    public SelectionInfoPanel()
     {
         setLayout(new BorderLayout());
 
-        DefaultPieDataset objDataset = new DefaultPieDataset();
-        objDataset.setValue("Apple",29);
-        objDataset.setValue("HTC",15);
-        objDataset.setValue("Samsung",24);
-        objDataset.setValue("LG",7);
-        objDataset.setValue("Motorola",10);
-
-        objChart = ChartFactory.createPieChart(
-                "Demo Pie Chart",   //Chart title
-                objDataset,          //Chart Data
-                true,               // include legend?
-                true,               // include tooltips?
-                false               // include URLs?
-        );
-
         chartPanel = new ChartPanel(createChart());
+        chartPanel.setVisible(false);
+
         add(chartPanel, BorderLayout.CENTER);
     }
 
@@ -57,22 +44,13 @@ public class SelectionInfoPanel extends JPanel implements SubscribedView
     {
         if (event.getPropertyName().equals(World.PC_STRUCTURE_SELECTED))
         {
-            remove(chartPanel);
-            XYDataset dataset = calculateStructuresLoadProfileDataset((Structure)event.getNewValue());
-
-            JFreeChart chart = ChartFactory.createXYLineChart(
-                "Load Profile",  // chart title
-                "Time of Day",
-                "Usage (kW)",
-                dataset
-            );
-
-            chartPanel = new ChartPanel(chart);
-            add(chartPanel);
+            chartPanel.setVisible(true);
+            data.removeAllSeries();
+            data.addSeries(calculateStructuresLoadProfileDataSeries((Structure)event.getNewValue()));
         }
     }
 
-    private XYDataset calculateStructuresLoadProfileDataset(Structure structure)
+    private XYSeries calculateStructuresLoadProfileDataSeries(Structure structure)
     {
         XYSeries series = new XYSeries(structure.getName());
 
@@ -95,7 +73,7 @@ public class SelectionInfoPanel extends JPanel implements SubscribedView
             series.add(time + 1, usageDuringTimeSpan);
         }
 
-        return new XYSeriesCollection(series);
+        return series;
     }
 
     /**
@@ -103,18 +81,14 @@ public class SelectionInfoPanel extends JPanel implements SubscribedView
      *
      * @return The chart.
      */
-    private static JFreeChart createChart() {
+    private JFreeChart createChart() {
         XYSeries series1 = new XYSeries("Structure");
-        series1.add(1, 1.0);
-        series1.add(2.5, 2.0);
-        series1.add(3, 1);
-        XYDataset dataset = new XYSeriesCollection(series1);
+        data = new XYSeriesCollection(series1);
         return ChartFactory.createXYLineChart(
                 "Load Profile",  // chart title
                 "Time of Day",
                 "Usage (Watts)",
-                dataset
+                data
         );
-
     }
 }
