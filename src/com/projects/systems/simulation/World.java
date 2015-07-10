@@ -73,6 +73,11 @@ public class World extends com.projects.systems.System
         changeSupport.firePropertyChange(PC_NEW_WORLD, null, structureList);
     }
 
+    public void postSetupSync()
+    {
+        //changeSupport.firePropertyChange(PC_WORLD_UPDATE, null, simulationStatus); // TODO: wont work due to the date pickers being initialized in another thread, also this is a little messy with resetSimulation and all...
+    }
+
     public void updateStructure(Structure structure)
     {
         structures.put(structure.getId(), structure);

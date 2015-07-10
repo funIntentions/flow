@@ -37,8 +37,9 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
     private DecimalFormat decimalFormat;
     private DecimalFormat timeFormat;
     private JFormattedTextField timeLimitField;
-    private DatePicker datePickerToDate;
-    private DatePicker datePickerCurrentDate;
+    private DatePicker datePickerForEndDate;
+    private DatePicker datePickerForStartDate;
+    private LocalDate currentDate;
     private SystemController controller;
 
     public SimulationInfoPanel(final SystemController systemController)
@@ -50,6 +51,7 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
         timeFormat = new DecimalFormat("00");
         GridBagConstraints constraints = new GridBagConstraints();
 
+        currentDate = LocalDate.now();
         final JFXPanel fxToDatePanel = new JFXPanel();
         final JFXPanel fxCurrentDatePanel = new JFXPanel();
 
@@ -58,27 +60,29 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
             @Override
             public void run()
             {
-                VBox vBoxToDate = new VBox(20);
-                Scene sceneToDate = new Scene(vBoxToDate);
-                fxToDatePanel.setScene(sceneToDate);
+                VBox vBoxEndDate = new VBox(20);
+                Scene sceneEndDate = new Scene(vBoxEndDate);
+                fxToDatePanel.setScene(sceneEndDate);
 
-                javafx.scene.control.Label labelToDate = new Label("To Date: ");
-                GridPane gridPaneToDate = new GridPane();
-                datePickerToDate = new DatePicker();
-                gridPaneToDate.add(labelToDate, 0,0);
-                gridPaneToDate.add(datePickerToDate, 0, 1);
-                vBoxToDate.getChildren().add(gridPaneToDate);
+                javafx.scene.control.Label labelEndDate = new Label("End Date: ");
+                GridPane gridPaneEndDate = new GridPane();
+                datePickerForEndDate = new DatePicker();
+                datePickerForEndDate.setValue(LocalDate.now());
+                gridPaneEndDate.add(labelEndDate, 0,0);
+                gridPaneEndDate.add(datePickerForEndDate, 0, 1);
+                vBoxEndDate.getChildren().add(gridPaneEndDate);
 
-                VBox vBoxCurrentDate = new VBox(20);
-                Scene sceneCurrentDate = new Scene(vBoxCurrentDate);
-                fxCurrentDatePanel.setScene(sceneCurrentDate);
+                VBox vBoxStartDate = new VBox(20);
+                Scene sceneStartDate = new Scene(vBoxStartDate);
+                fxCurrentDatePanel.setScene(sceneStartDate);
 
-                Label labelCurrentDate = new Label("Current Date: ");
-                GridPane gridPaneCurrentDate = new GridPane();
-                datePickerCurrentDate = new DatePicker();
-                gridPaneCurrentDate.add(labelCurrentDate, 0, 0);
-                gridPaneCurrentDate.add(datePickerCurrentDate, 0, 1);
-                vBoxCurrentDate.getChildren().add(gridPaneCurrentDate);
+                Label labelStartDate = new Label("Start Date: ");
+                GridPane gridPaneStartDate = new GridPane();
+                datePickerForStartDate = new DatePicker();
+                datePickerForStartDate.setValue(LocalDate.now());
+                gridPaneStartDate.add(labelStartDate, 0, 0);
+                gridPaneStartDate.add(datePickerForStartDate, 0, 1);
+                vBoxStartDate.getChildren().add(gridPaneStartDate);
             }
         });
 
@@ -145,20 +149,23 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
             SimulationStatus simulationStatus = (SimulationStatus)event.getNewValue();
             WorldTimer worldTimer = simulationStatus.worldTimer;
 
+            currentDate = datePickerForStartDate.getValue().plusDays(worldTimer.getDay());
+
             timeLabel.setText("Time: " + timeFormat.format(worldTimer.getHourOfDay()) + ":" + timeFormat.format(worldTimer.getMinutesOfHour()) + ":" + timeFormat.format(worldTimer.getSecondsOfMinute())
-                    + " Day: " + worldTimer.getDay()
+                    + " Date: " + currentDate.toString());
+                    /*+ " Day: " + worldTimer.getDay()
                     + " Week: " + worldTimer.getWeek()
                     + " Month: " + worldTimer.getMonth()
-                    + " Year: " + worldTimer.getYear());
+                    + " Year: " + worldTimer.getYear());*/
             usageLabel.setText("Usage: " + decimalFormat.format(simulationStatus.totalUsageInkWh) + " kWh");
             costLabel.setText("Cost: $" + decimalFormat.format(simulationStatus.priceOfProduction));
             emissionsLabel.setText("Emissions: " + decimalFormat.format(simulationStatus.emissions) + "g");
         }
         else if (event.getPropertyName().equals(World.PC_SIMULATION_STARTED))
         {
-            LocalDate currentDate = datePickerCurrentDate.getValue();
-            LocalDate futureDate = datePickerToDate.getValue();
-            long numberOfDays = ChronoUnit.DAYS.between(currentDate, futureDate);
+            LocalDate startDate = datePickerForStartDate.getValue();
+            LocalDate endDate = datePickerForEndDate.getValue();
+            long numberOfDays = ChronoUnit.DAYS.between(startDate, endDate);
             controller.setTimeLimit(numberOfDays * WorldTimer.SECONDS_IN_DAY);
         }
     }
