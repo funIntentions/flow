@@ -13,6 +13,7 @@ public class ConsumptionManager
     private List<Structure> structures;
     private double usageInWattsPerHour;
     private double totalUsageInkWh;
+    private double electricityDemand;
 
     public ConsumptionManager()
     {
@@ -22,6 +23,7 @@ public class ConsumptionManager
     public void calculateConsumption(double timeElapsedInSeconds, double totalTimeElapsedInSeconds)
     {
         usageInWattsPerHour = 0;
+        electricityDemand = 0;
 
         for (Structure structure : structures)
         {
@@ -30,7 +32,11 @@ public class ConsumptionManager
             for (Appliance appliance : appliances)
             {
                 double applianceUsageInHours = getAppliancesUsageInHours(timeElapsedInSeconds, totalTimeElapsedInSeconds, appliance);
-                usageInWattsPerHour += appliance.getAverageConsumption() * applianceUsageInHours;
+                double applianceConsumptionDuringHours = appliance.getAverageConsumption() * applianceUsageInHours;
+                usageInWattsPerHour += applianceConsumptionDuringHours;
+
+                if (applianceConsumptionDuringHours > 0) // device is on
+                    electricityDemand += appliance.getAverageConsumption();
             }
         }
 
@@ -127,4 +133,9 @@ public class ConsumptionManager
     {
         return usageInWattsPerHour;
     }
+
+    public double getElectricityDemand() {
+        return electricityDemand;
+    }
 }
+

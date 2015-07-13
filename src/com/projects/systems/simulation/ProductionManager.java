@@ -25,14 +25,10 @@ public class ProductionManager
 
     public void calculateProduction(double kWh)
     {
-
-        // TODO: calculate how much MWh the plant produces based on it's current operating capacity and how many hours have passed. Then use that amount to see if it will satisfy the total energy consumed.
-
         for (PowerPlant powerPlant : powerPlants)
         {
             priceOfProduction = kWh * powerPlant.getProductionCost();
             emissions = kWh * powerPlant.getEmissionRate();
-            break; // TODO : have it factor in all available plants instead of just the first, at the moment the plant just instantly meets the energy demands.
         }
     }
 

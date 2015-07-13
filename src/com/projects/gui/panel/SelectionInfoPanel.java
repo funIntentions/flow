@@ -76,11 +76,6 @@ public class SelectionInfoPanel extends JPanel implements SubscribedView
         return series;
     }
 
-    /**
-     * Create a horizontal bar chart with sample data in the range -3 to +3.
-     *
-     * @return The chart.
-     */
     private JFreeChart createChart() {
         XYSeries series1 = new XYSeries("Structure");
         data = new XYSeriesCollection(series1);

@@ -158,6 +158,7 @@ public class World extends com.projects.systems.System
         simulationStatus.worldTimer = worldTimer;
         simulationStatus.priceOfProduction = productionManager.getPriceOfProduction();
         simulationStatus.totalUsageInkWh = consumptionManager.getTotalUsageInkWh();
+        simulationStatus.electricityDemand = consumptionManager.getElectricityDemand();
         simulationStatus.emissions = productionManager.getEmissions();
 
         changeSupport.firePropertyChange(PC_WORLD_UPDATE, null, simulationStatus);

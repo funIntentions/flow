@@ -3,7 +3,6 @@ package com.projects.gui;
 import com.projects.gui.panel.*;
 import com.projects.helper.Constants;
 import com.projects.input.actions.*;
-import com.projects.input.listeners.PropertiesTableListener;
 import com.projects.input.listeners.TabTogglingListener;
 import com.projects.input.listeners.TemplateStructureSelectedListener;
 import com.projects.input.listeners.WorldStructureSelectedListener;
@@ -35,6 +34,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
             resetSimulationAction;
     private WorldStructuresPanel worldStructuresPanel;
     private SimulationInfoPanel simulationInfoPanel;
+    private SupplyAndDemandPanel supplyAndDemandPanel;
     private TemplateStructuresPanel templateStructuresPanel;
     private SelectionInfoPanel selectionInfoPanel;
     private StatusPanel statusBar;
@@ -65,6 +65,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         WorldStructureSelectedListener worldStructureSelectedListener = new WorldStructureSelectedListener(controller);
 
         selectionInfoPanel = new SelectionInfoPanel();
+        supplyAndDemandPanel = new SupplyAndDemandPanel();
         worldStructuresPanel = new WorldStructuresPanel(worldStructureSelectedListener);
         templateStructuresPanel = new TemplateStructuresPanel(templateStructureSelectedListener);
         simulationInfoPanel = new SimulationInfoPanel(controller);
@@ -77,6 +78,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         createPrefabAction = new AddStructureAction(templateStructuresPanel.getStructureTable(), templateStructuresPanel.getTemplateTable(), controller); // TODO: refactor so I don't have to get the table
         editStructureAction = new EditStructureAction(controller);
 
+        controller.subscribeView(supplyAndDemandPanel);
         controller.subscribeView(simulationInfoPanel);
         controller.subscribeView(structureEditor);
         controller.subscribeView(templateStructuresPanel);
@@ -94,9 +96,10 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         setLayout(new BorderLayout());
         setBackground(Color.RED);
 
-        JPanel bottomRightPanel = new JPanel(new GridLayout(1, 2));
-        bottomRightPanel.add(selectionInfoPanel);
-        bottomRightPanel.add(simulationInfoPanel);
+        JTabbedPane bottomRightPanel = new JTabbedPane();
+        bottomRightPanel.add(selectionInfoPanel, "Selection");
+        bottomRightPanel.add(simulationInfoPanel, "Overview");
+        bottomRightPanel.add(supplyAndDemandPanel, "Production");
 
         JSplitPane rightSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, graphics, bottomRightPanel);
         rightSplitPane.setResizeWeight(0.6);

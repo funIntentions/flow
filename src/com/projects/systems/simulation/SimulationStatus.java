@@ -10,5 +10,6 @@ public class SimulationStatus
     public WorldTimer worldTimer;
     public double priceOfProduction;
     public double totalUsageInkWh;
+    public double electricityDemand;
     public double emissions;
 }
