@@ -1,18 +1,13 @@
 package com.projects.gui.panel;
 
 import com.projects.gui.SubscribedView;
-import com.projects.models.TimeSpan;
 import com.projects.systems.simulation.SimulationStatus;
 import com.projects.systems.simulation.World;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.general.DatasetUtilities;
 import org.jfree.data.time.DynamicTimeSeriesCollection;
 import org.jfree.data.time.Hour;
-import org.jfree.data.time.Second;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 

@@ -9,33 +9,60 @@ import java.util.List;
 /**
  * Created by Dan on 6/29/2015.
  */
-public class ProductionManager
+public class SupplyManager
 {
     private List<PowerPlant> powerPlants;
     private List<Structure> structures;
-    private double priceOfProduction;
     private double emissions;
+    private double price;
 
-    public ProductionManager()
+    public SupplyManager()
     {
         structures = new ArrayList<Structure>();
         powerPlants = new ArrayList<PowerPlant>();
         reset();
     }
 
-    public void calculateProduction(double kWh)
+    public void calculateSupply(double demand)
     {
-        for (PowerPlant powerPlant : powerPlants)
+        double watts = demand;
+        price = 0;
+        emissions = 0;
+
+        for (PowerPlant powerPlant : powerPlants) // TODO: sort base on price?
         {
-            priceOfProduction = kWh * powerPlant.getProductionCost();
-            emissions = kWh * powerPlant.getEmissionRate();
+            double capacity = powerPlant.getCapacity();
+
+            if (demand <= capacity)
+            {
+                price += demand * powerPlant.getProductionCost();
+                emissions += demand * powerPlant.getEmissionRate();
+                demand -= demand;
+            }
+            else
+            {
+                price +=  capacity * powerPlant.getProductionCost();
+                emissions += capacity * powerPlant.getEmissionRate();
+                demand -= capacity;
+            }
+        }
+
+        if (watts > 0)
+        {
+            price /= watts; // $ per kWh
+            emissions /= watts; // g per kWh
+        }
+
+        if (demand > 0)
+        {
+            System.out.println("Not enough to supply to meet demand.");
         }
     }
 
     public void reset()
     {
         emissions = 0;
-        priceOfProduction = 0;
+        price = 0;
     }
 
     public void removeStructure(Structure structureToRemove)
@@ -121,8 +148,9 @@ public class ProductionManager
         }
     }
 
-    public double getPriceOfProduction() {
-        return priceOfProduction;
+    public double getPrice()
+    {
+        return price;
     }
 
     public double getEmissions()

@@ -8,7 +8,7 @@ import com.projects.models.WorldTimer;
 public class SimulationStatus
 {
     public WorldTimer worldTimer;
-    public double priceOfProduction;
+    public double price;
     public double totalUsageInkWh;
     public double electricityDemand;
     public double emissions;

@@ -8,19 +8,19 @@ import java.util.List;
 /**
  * Created by Dan on 6/24/2015.
  */
-public class ConsumptionManager
+public class DemandManager
 {
     private List<Structure> structures;
     private double usageInWattsPerHour;
     private double totalUsageInkWh;
     private double electricityDemand;
 
-    public ConsumptionManager()
+    public DemandManager()
     {
         structures = new ArrayList<Structure>();
     }
 
-    public void calculateConsumption(double timeElapsedInSeconds, double totalTimeElapsedInSeconds)
+    public void calculateDemand(double timeElapsedInSeconds, double totalTimeElapsedInSeconds)
     {
         usageInWattsPerHour = 0;
         electricityDemand = 0;

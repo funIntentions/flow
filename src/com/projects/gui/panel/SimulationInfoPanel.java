@@ -152,7 +152,7 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
                     + " Month: " + worldTimer.getMonth()
                     + " Year: " + worldTimer.getYear());*/
             usageLabel.setText("Usage: " + decimalFormat.format(simulationStatus.totalUsageInkWh) + " kWh");
-            costLabel.setText("Cost: $" + decimalFormat.format(simulationStatus.priceOfProduction));
+            costLabel.setText("Cost: $" + decimalFormat.format(simulationStatus.price));
             emissionsLabel.setText("Emissions: " + decimalFormat.format(simulationStatus.emissions) + "g");
         }
         else if (event.getPropertyName().equals(World.PC_SIMULATION_STARTED))

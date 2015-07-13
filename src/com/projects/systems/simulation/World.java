@@ -37,8 +37,8 @@ public class World extends com.projects.systems.System
     private ScheduledFuture<?> simulationHandle;
 
     private boolean running;
-    private ConsumptionManager consumptionManager;
-    private ProductionManager productionManager;
+    private DemandManager demandManager;
+    private SupplyManager supplyManager;
     private WorldTimer worldTimer;
     private SimulationStatus simulationStatus;
 
@@ -49,8 +49,8 @@ public class World extends com.projects.systems.System
         lastSelected = null;
 
         running = false;
-        consumptionManager = new ConsumptionManager();
-        productionManager = new ProductionManager();
+        demandManager = new DemandManager();
+        supplyManager = new SupplyManager();
         worldTimer = new WorldTimer();
         simulationStatus = new SimulationStatus();
         resetSimulation();
@@ -60,8 +60,8 @@ public class World extends com.projects.systems.System
     {
         pauseSimulation();
         resetSimulation();
-        consumptionManager.removeAllStructures();
-        productionManager.removeAllStructures();
+        demandManager.removeAllStructures();
+        supplyManager.removeAllStructures();
 
         structures.clear();
         lastSelected = null;
@@ -81,8 +81,8 @@ public class World extends com.projects.systems.System
     public void updateStructure(Structure structure)
     {
         structures.put(structure.getId(), structure);
-        consumptionManager.syncStructures(structure);
-        productionManager.syncStructures(structure);
+        demandManager.syncStructures(structure);
+        supplyManager.syncStructures(structure);
         changeSupport.firePropertyChange(PC_STRUCTURE_UPDATE, null, structure);
     }
 
@@ -93,8 +93,8 @@ public class World extends com.projects.systems.System
             lastSelected = null;
         }
 
-        consumptionManager.removeStructure(structures.get(id));
-        productionManager.removeStructure(structures.get(id));
+        demandManager.removeStructure(structures.get(id));
+        supplyManager.removeStructure(structures.get(id));
         structures.remove(id);
         changeSupport.firePropertyChange(PC_REMOVE_STRUCTURE, null, id);
     }
@@ -136,9 +136,9 @@ public class World extends com.projects.systems.System
     public void resetSimulation()
     {
         worldTimer.reset();
-        consumptionManager.reset();
+        demandManager.reset();
         simulationStatus.totalUsageInkWh = 0;
-        simulationStatus.priceOfProduction = 0;
+        simulationStatus.price = 0;
         simulationStatus.worldTimer = worldTimer;
         simulationStatus.emissions = 0;
         changeSupport.firePropertyChange(PC_WORLD_UPDATE, null, simulationStatus);
@@ -152,14 +152,14 @@ public class World extends com.projects.systems.System
     private void tick()
     {
         worldTimer.tick(Constants.FIXED_SIMULATION_RATE_SECONDS);
-        consumptionManager.calculateConsumption(worldTimer.getModifiedTimeElapsedInSeconds(), worldTimer.getTotalTimeInSeconds());
-        productionManager.calculateProduction(consumptionManager.getTotalUsageInkWh());
+        demandManager.calculateDemand(worldTimer.getModifiedTimeElapsedInSeconds(), worldTimer.getTotalTimeInSeconds());
+        supplyManager.calculateSupply(demandManager.getElectricityDemand());
 
         simulationStatus.worldTimer = worldTimer;
-        simulationStatus.priceOfProduction = productionManager.getPriceOfProduction();
-        simulationStatus.totalUsageInkWh = consumptionManager.getTotalUsageInkWh();
-        simulationStatus.electricityDemand = consumptionManager.getElectricityDemand();
-        simulationStatus.emissions = productionManager.getEmissions();
+        simulationStatus.price = supplyManager.getPrice();
+        simulationStatus.totalUsageInkWh = demandManager.getTotalUsageInkWh();
+        simulationStatus.electricityDemand = demandManager.getElectricityDemand();
+        simulationStatus.emissions = supplyManager.getEmissions();
 
         changeSupport.firePropertyChange(PC_WORLD_UPDATE, null, simulationStatus);
 
