@@ -133,6 +133,11 @@ public class WorldTimer
         this.updateRate = updateRate;
     }
 
+    public UpdateRate getUpdateRate()
+    {
+        return updateRate;
+    }
+
     public int getHourOfDay()
     {
         return hourOfDay;

@@ -4,6 +4,7 @@ import com.projects.helper.Constants;
 import com.projects.models.*;
 
 import java.beans.PropertyChangeSupport;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -25,6 +26,7 @@ public class World extends com.projects.systems.System
     public static final String PC_STRUCTURE_UPDATE = "PC_STRUCTURE_UPDATE";
     public static final String PC_WORLD_UPDATE = "PC_WORLD_UPDATE";
     public static final String PC_SIMULATION_STARTED = "PC_SIMULATION_STARTED";
+    public static final String PC_UPDATE_RATE_CHANGE = "PC_UPDATE_RATE_CHANGE";
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final Runnable simulationTick = new Runnable()
@@ -41,6 +43,8 @@ public class World extends com.projects.systems.System
     private SupplyManager supplyManager;
     private WorldTimer worldTimer;
     private SimulationStatus simulationStatus;
+    private Date startDate;
+    private Date endDate;
 
     public World()
     {
@@ -147,6 +151,7 @@ public class World extends com.projects.systems.System
     public void changeUpdateRate(WorldTimer.UpdateRate updateRate)
     {
         worldTimer.setUpdateRate(updateRate);
+        changeSupport.firePropertyChange(PC_UPDATE_RATE_CHANGE, null, updateRate);
     }
 
     private void tick()
@@ -176,5 +181,15 @@ public class World extends com.projects.systems.System
     public HashMap<Integer, Structure> getStructures()
     {
         return structures;
+    }
+
+    public void setStartDate(Date startDate)
+    {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(Date endDate)
+    {
+        this.endDate = endDate;
     }
 }

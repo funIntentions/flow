@@ -14,6 +14,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -286,6 +287,12 @@ public class SystemController implements PropertyChangeListener
     public void setTimeLimit(Double timeLimit)
     {
         world.setTimeLimit(timeLimit);
+    }
+
+    public void setStartAndEndDate(Date start, Date end)
+    {
+        world.setStartDate(start);
+        world.setEndDate(end);
     }
 
     public void addTimeSpanUsage(TimeSpan timeSpan)

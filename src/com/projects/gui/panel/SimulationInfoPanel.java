@@ -160,6 +160,7 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
             LocalDate startDate = datePickerForStartDate.getValue();
             LocalDate endDate = datePickerForEndDate.getValue();
             long numberOfDays = ChronoUnit.DAYS.between(startDate, endDate);
+            //controller.setStartAndEndDate(startDate, endDate);
             controller.setTimeLimit(numberOfDays * WorldTimer.SECONDS_IN_DAY);
         }
     }

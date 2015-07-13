@@ -38,6 +38,9 @@ public class DemandManager
                 if (applianceConsumptionDuringHours > 0) // device is on
                     electricityDemand += appliance.getAverageConsumption();
             }
+
+            usageInWattsPerHour *= structure.getNumberOfUnits();
+            electricityDemand *= structure.getNumberOfUnits();
         }
 
         totalUsageInkWh += usageInWattsPerHour / 1000;
