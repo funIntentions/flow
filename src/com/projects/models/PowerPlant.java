@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Dan on 6/29/2015.
  */
-public class PowerPlant extends Structure
+public class PowerPlant extends Structure implements Comparable<PowerPlant>
 {
     private double capitalCost;
     private double monthlyExpense;
@@ -84,6 +84,11 @@ public class PowerPlant extends Structure
         {
             capacity = Double.valueOf(value.toString());
         }
+    }
+
+    public int compareTo(PowerPlant powerPlant)
+    {
+        return powerPlant.getProductionCost() < productionCost? 1 : powerPlant.getProductionCost() > productionCost? -1 : 0;
     }
 
     public double getProductionCost() {

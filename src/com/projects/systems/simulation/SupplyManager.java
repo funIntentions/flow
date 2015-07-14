@@ -4,6 +4,8 @@ import com.projects.models.PowerPlant;
 import com.projects.models.Structure;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -148,6 +150,8 @@ public class SupplyManager
                 }
             }
         }
+
+        Collections.sort(powerPlants);
     }
 
     public double getPrice()
