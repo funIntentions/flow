@@ -88,20 +88,42 @@ Note: presently this panel is pretty bare-bones and only two images (House and P
 Simulation Info Panel
 =====================
 
-+ Update Rate (Note this is the drop-down combo-box/there is currently no label for this)
-	Specifies how quickly the simulation should update, for example: setting the update rate to WEEKS
-	will mean the simulation will update one week per second.
+< Overview Tab >
+
 + Usage
 	The kWh of energy used by applications within structures in the World Structures Panel
 + Cost
-	The total cost of energy production needed to meet energy usage
+	The cost of generating electricity to meet the demand at this moment
 + Emissions
-	The grams per kWh of energy produced to meet energy usage
+	The grams per kWh produced at this moment to meet demand
 + Time
 	The total amount of time that has elapsed in the simulation since it's start.
-	It's displayed in this format -> Hours:Seconds:Days:Weeks:Months:Years
-+ Time Limit (Days)
-	Specifies in days how long the simulation should run for
+	Time: Hours:Minutes:Seconds Date: Year/Month/Day
++ Start Date
+    The date which the simulation should start from
++ End Date
+    The date which the simulation should end at
++ Update Rate
+	Specifies how quickly the simulation should update, for example: setting the update rate to WEEKS
+	will mean the simulation will update one week per second.
+
+< Selection Tab >
+
++ Displays the load profile of the world structure you have selected
+
+< Supply and Demand Tab >
+
++ Supply (Currently not updated)
+    Will display which power plants are producing how much power
++ Demand
+    Displays the current demand in the simulation in real time as the simulation updates
+
+< Price and Emissions Tab > // TODO: explain in more depth
+
++ Price
+    Displays how the price of electricity changes as demand increases
++ Emissions
+    Displays how the emissions produced to meet demand change as demand increases
 
 |------------------------------------------|
 | Editing Structures (In Structure Editor) |
@@ -165,6 +187,7 @@ Selecting a device will also display the daily time spans which it is active dur
 | Some Known Issues/Bugs |
 |------------------------|
 - Editing Time Spans isn't very robust, restrictions are needed to:
-	- prevent multiple time spans that are the same or those who overlap
+	- prevent multiple time spans that are the same or those who overlap (currently this will count that time twice)
 - negative average consumptions shouldn't be allowed
 - while structure names are checked for validity, device names are not
+- updates
