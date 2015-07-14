@@ -35,6 +35,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     private WorldStructuresPanel worldStructuresPanel;
     private SimulationInfoPanel simulationInfoPanel;
     private SupplyAndDemandPanel supplyAndDemandPanel;
+    private PriceAndEmissionsPanel priceAndEmissionsPanel;
     private TemplateStructuresPanel templateStructuresPanel;
     private SelectionInfoPanel selectionInfoPanel;
     private StatusPanel statusBar;
@@ -66,6 +67,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
         selectionInfoPanel = new SelectionInfoPanel();
         supplyAndDemandPanel = new SupplyAndDemandPanel();
+        priceAndEmissionsPanel = new PriceAndEmissionsPanel();
         worldStructuresPanel = new WorldStructuresPanel(worldStructureSelectedListener);
         templateStructuresPanel = new TemplateStructuresPanel(templateStructureSelectedListener);
         simulationInfoPanel = new SimulationInfoPanel(controller);
@@ -78,6 +80,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         createPrefabAction = new AddStructureAction(templateStructuresPanel.getStructureTable(), templateStructuresPanel.getTemplateTable(), controller); // TODO: refactor so I don't have to get the table
         editStructureAction = new EditStructureAction(controller);
 
+        controller.subscribeView(priceAndEmissionsPanel);
         controller.subscribeView(supplyAndDemandPanel);
         controller.subscribeView(simulationInfoPanel);
         controller.subscribeView(structureEditor);
@@ -99,7 +102,8 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         JTabbedPane bottomRightPanel = new JTabbedPane();
         bottomRightPanel.add(simulationInfoPanel, "Overview");
         bottomRightPanel.add(selectionInfoPanel, "Selection");
-        bottomRightPanel.add(supplyAndDemandPanel, "Production");
+        bottomRightPanel.add(supplyAndDemandPanel, "Supply and Demand");
+        bottomRightPanel.add(priceAndEmissionsPanel, "Price and Emissions");
 
         JSplitPane rightSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, graphics, bottomRightPanel);
         rightSplitPane.setResizeWeight(0.6);
@@ -169,7 +173,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         worldPane = new JTabbedPane();
 
         JSplitPane leftPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT, ontologyPane, worldPane);
-        leftPanel.setResizeWeight(0.5);
+        leftPanel.setResizeWeight(0.3);
         leftPanel.setOneTouchExpandable(true);
         leftPanel.setContinuousLayout(true);
         return leftPanel;

@@ -133,7 +133,7 @@ public class SupplyAndDemandPanel extends JPanel implements SubscribedView
 
         JFreeChart result = ChartFactory.createTimeSeriesChart(
                 "Demand",  // chart title
-                "hh:mm:ss",
+                "Time",
                 "Demand(W)",
                 demandData,
                 true,

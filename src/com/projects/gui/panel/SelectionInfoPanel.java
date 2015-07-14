@@ -2,24 +2,18 @@ package com.projects.gui.panel;
 
 import com.projects.gui.SubscribedView;
 import com.projects.models.Appliance;
-import com.projects.models.ElectricityUsageSchedule;
 import com.projects.models.Structure;
 import com.projects.models.TimeSpan;
 import com.projects.systems.simulation.World;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
-import javax.swing.event.TableModelListener;
 import java.awt.*;
-import java.awt.List;
 import java.beans.PropertyChangeEvent;
-import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**

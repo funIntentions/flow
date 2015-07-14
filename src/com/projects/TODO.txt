@@ -1,7 +1,9 @@
 Future Thoughts
 
 On Going
-- Demand chart brakes if advancing the time by days, should switch between seconds, minutes, hours, ect?
+- Demand chart doesn't update properly with an update rate of years, weeks or months
+- The simulation needs to be reset and rerun once the update rate has changed
 - Cleanup the task manager, remove the testTask from SystemController and have it created in TaskManager if possible
+
 QUESTIONS:
 
