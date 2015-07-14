@@ -55,6 +55,8 @@ public class SupplyManager
 
         if (demand > 0)
         {
+            price = 0;
+            emissions = 0;
             System.out.println("Not enough to supply to meet demand.");
         }
     }

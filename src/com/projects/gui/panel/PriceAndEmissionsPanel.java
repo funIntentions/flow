@@ -1,26 +1,17 @@
 package com.projects.gui.panel;
 
 import com.projects.gui.SubscribedView;
-import com.projects.models.Appliance;
-import com.projects.models.Structure;
-import com.projects.models.TimeSpan;
-import com.projects.models.WorldTimer;
-import com.projects.systems.simulation.SimulationStatus;
 import com.projects.systems.simulation.SupplyManager;
 import com.projects.systems.simulation.World;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.data.time.*;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Dan on 7/14/2015.
@@ -48,34 +39,39 @@ public class PriceAndEmissionsPanel extends JPanel implements SubscribedView
         if (event.getPropertyName().equals(World.PC_SUPPLY_MANAGER_UPDATED))
         {
             SupplyManager supplyManager = (SupplyManager)event.getNewValue();
-            priceData.removeAllSeries();
+            updatePriceAndEmissionsDataSeries(supplyManager);
         }
     }
 
-    private XYSeries calculatePriceVsDemandSeries(Structure structure)
+    private void updatePriceAndEmissionsDataSeries(SupplyManager supplyManager)
     {
-        XYSeries series = new XYSeries(structure.getName());
+        priceData.removeAllSeries();
+        emissionsData.removeAllSeries();
 
-        long timeSpanLength = TimeUnit.MINUTES.toSeconds(30);
-        int numTimeSpans = 48;
-        long previous = 0;
+        XYSeries priceSeries = new XYSeries("Price");
+        XYSeries emissionsSeries = new XYSeries("Emissions");
 
-        for (int time = 0; time < numTimeSpans; ++time)
+        double demand = 0;
+        double demandIncrease = 100;
+        int numOfIncreases = 50;
+
+        double price = 0;
+        double emissions = 0;
+
+        for (int i = 0; i < numOfIncreases; ++i)
         {
-            java.util.List<Appliance> appliances = (java.util.List)structure.getAppliances();
-            double usageDuringTimeSpan = 0;
+            supplyManager.calculateSupply(demand);
+            price = supplyManager.getPrice() * demand;
+            emissions = supplyManager.getEmissions() * demand;
 
-            for (Appliance appliance : appliances)
-            {
-                usageDuringTimeSpan += appliance.getElectricityUsageSchedule().getElectricityUsageDuringSpan(new TimeSpan(previous, time * timeSpanLength)) > 0 ? appliance.getAverageConsumption() : 0;
-            }
+            priceSeries.add(demand, price);
+            emissionsSeries.add(demand, emissions);
 
-            previous = time * timeSpanLength;
-
-            series.add(time + 1, usageDuringTimeSpan);
+            demand += demandIncrease;
         }
 
-        return series;
+        priceData.addSeries(priceSeries);
+        emissionsData.addSeries(emissionsSeries);
     }
 
     private JFreeChart createPriceChart()
@@ -84,8 +80,8 @@ public class PriceAndEmissionsPanel extends JPanel implements SubscribedView
         priceData = new XYSeriesCollection(series1);
         return ChartFactory.createXYLineChart(
                 "Price",  // chart title
-                "Demand",
-                "Price",
+                "Demand(Watts)",
+                "Price $/kWh",
                 priceData
         );
     }
@@ -97,7 +93,7 @@ public class PriceAndEmissionsPanel extends JPanel implements SubscribedView
         emissionsData = new XYSeriesCollection(series1);
         return ChartFactory.createXYLineChart(
                 "Emissions",  // chart title
-                "Demand",
+                "Demand (Watts)",
                 "Emissions (g/kWh)",
                 emissionsData
         );    }
