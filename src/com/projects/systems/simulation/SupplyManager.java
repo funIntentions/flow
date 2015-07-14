@@ -25,13 +25,13 @@ public class SupplyManager
         reset();
     }
 
-    public void calculateSupply(double demand)
+    public boolean calculateSupply(double demand)
     {
         double watts = demand;
         price = 0;
         emissions = 0;
 
-        for (PowerPlant powerPlant : powerPlants) // TODO: sort base on price?
+        for (PowerPlant powerPlant : powerPlants)
         {
             double capacity = powerPlant.getCapacity();
 
@@ -40,6 +40,7 @@ public class SupplyManager
                 price += demand * powerPlant.getProductionCost();
                 emissions += demand * powerPlant.getEmissionRate();
                 demand -= demand;
+                break;
             }
             else
             {
@@ -59,8 +60,10 @@ public class SupplyManager
         {
             price = 0;
             emissions = 0;
-            System.out.println("Not enough to supply to meet demand.");
+            return false;
         }
+
+        return true;
     }
 
     public void reset()
