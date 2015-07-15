@@ -97,8 +97,8 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         setBackground(Color.RED);
 
         JTabbedPane bottomRightPanel = new JTabbedPane();
-        bottomRightPanel.add(selectionInfoPanel, "Selection");
         bottomRightPanel.add(simulationInfoPanel, "Overview");
+        bottomRightPanel.add(selectionInfoPanel, "Selection");
         bottomRightPanel.add(supplyAndDemandPanel, "Production");
 
         JSplitPane rightSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, graphics, bottomRightPanel);

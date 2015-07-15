@@ -15,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,6 +31,7 @@ import java.time.temporal.ChronoUnit;
 public class SimulationInfoPanel extends JPanel implements SubscribedView
 {
     private JLabel timeLabel;
+    private JLabel updateLabel;
     private JComboBox<WorldTimer.UpdateRate> updateRateOptions;
     private JLabel costLabel;
     private JLabel usageLabel;
@@ -53,6 +55,8 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
         currentDate = LocalDate.now();
         final JFXPanel fxEndDatePanel = new JFXPanel();
         final JFXPanel fxStartDatePanel = new JFXPanel();
+        final JPanel simulationTimePanel = new JPanel(new BorderLayout(10, 10));
+        simulationTimePanel.setBorder(BorderFactory.createTitledBorder("Simulation Time"));
 
         Platform.runLater(new Runnable()
         {
@@ -99,26 +103,32 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
                 systemController.changeSimulationUpdateRate(WorldTimer.UpdateRate.valueOf(updateRateOptions.getSelectedItem().toString()));
             }
         });
-        add(updateRateOptions, constraints);
+        JPanel updateRatePanel = new JPanel(new GridLayout(1, 2));
+        updateLabel = new JLabel("Update Rate: ");
+        updateRatePanel.add(updateLabel);
+        updateRatePanel.add(updateRateOptions);
 
         constraints.gridx = 1;
         constraints.gridy = 0;
         timeLabel = new JLabel("Time: ");
-        add(timeLabel, constraints);
 
         constraints.gridx = 1;
         constraints.gridy = 1;
         fxStartDatePanel.setPreferredSize(new Dimension(112, 50));
-        add(fxStartDatePanel, constraints);
-
-        constraints.gridx = 1;
-        constraints.gridy = 2;
-        JPanel timeLimitPanel = new JPanel(new GridLayout(1,2));
-        JLabel timeLimitLabel = new JLabel("Time Limit(Days): ");
-        timeLimitPanel.add(timeLimitLabel);
 
         fxEndDatePanel.setPreferredSize(new Dimension(112, 50));
-        add(fxEndDatePanel, constraints);
+
+        simulationTimePanel.add(timeLabel, BorderLayout.PAGE_START);
+        JPanel simulationSpanPanel = new JPanel(new GridLayout(1, 2, 10, 10));
+        simulationSpanPanel.add(fxStartDatePanel);
+        simulationSpanPanel.add(fxEndDatePanel);
+        simulationTimePanel.add(simulationSpanPanel, BorderLayout.CENTER);
+        simulationTimePanel.add(updateRatePanel, BorderLayout.PAGE_END);
+
+        constraints.gridheight = 3;
+        add(simulationTimePanel, constraints);
+
+        constraints.gridheight = 1;
 
         constraints.gridx = 0;
         constraints.gridy = 1;

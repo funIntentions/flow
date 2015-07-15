@@ -31,11 +31,14 @@ public class SupplyAndDemandPanel extends JPanel implements SubscribedView
     private final int MAX = 5000;
     private final int TWO_MINUTES = 120;
     private int displayInterval = TWO_MINUTES;
+    private int timeInterval = 1; // 1 second
+    private RegularTimePeriod timeBase;
     private double previousTime;
 
     public SupplyAndDemandPanel()
     {
         setLayout(new GridLayout(1,2));
+        timeBase = new Second(0, 58, 23, 1, 1, 2015);
 
         supplyChartPanel = new ChartPanel(createSupplyChart());
         demandChartPanel = new ChartPanel(createDemandChart());
@@ -55,18 +58,17 @@ public class SupplyAndDemandPanel extends JPanel implements SubscribedView
 
             int difference = (int)(Math.floor(status.worldTimer.getTotalTimeInSeconds() - previousTime));
 
-            if (difference > 0)
+            if (difference/timeInterval > 0)
             {
+                difference /= timeInterval;
+
                 for (int i = 0; i < difference; ++i)
                 {
                     demandData.advanceTime();
+                    previousTime += timeInterval;
+                    demandData.appendData(newData);
                 }
-
-                demandData.appendData(newData);
-
-                previousTime = status.worldTimer.getTotalTimeInSeconds();
             }
-
         }
         else if (event.getPropertyName().equals(World.PC_UPDATE_RATE_CHANGE))
         {
@@ -76,18 +78,26 @@ public class SupplyAndDemandPanel extends JPanel implements SubscribedView
                 case SECONDS:
                 {
                     displayInterval = TWO_MINUTES;
+                    timeInterval = 1;
+                    timeBase = new Second(0, 58, 23, 1, 1, 2015);
                 } break;
                 case MINUTES:
                 {
-                    displayInterval = TWO_MINUTES;
+                    displayInterval = 60;
+                    timeInterval = (int)WorldTimer.SECONDS_IN_MINUTE;
+                    timeBase = new Minute(59, 23, 1, 1, 2015);
                 } break;
                 case HOURS:
                 {
-                    displayInterval = (int)WorldTimer.SECONDS_IN_HOUR;
+                    displayInterval = WorldTimer.HOURS_IN_DAY / 4;
+                    timeInterval = (int)WorldTimer.SECONDS_IN_HOUR;
+                    timeBase = new Hour(19, 1, 1, 2015);
                 } break;
                 case DAYS:
                 {
-                    displayInterval = (int) WorldTimer.SECONDS_IN_DAY;
+                    displayInterval = (int)(WorldTimer.DAYS_IN_WEEK * WorldTimer.HOURS_IN_DAY);
+                    timeInterval = (int)WorldTimer.SECONDS_IN_HOUR;
+                    timeBase = new Hour(0, 1, 1, 2015);
                 } break;
                 // TODO: handle others
             }
@@ -101,7 +111,8 @@ public class SupplyAndDemandPanel extends JPanel implements SubscribedView
         }
     }
 
-    private JFreeChart createSupplyChart() {
+    private JFreeChart createSupplyChart()
+    {
         XYSeries series1 = new XYSeries("Coal");
         supplyData = new XYSeriesCollection(series1);
         return ChartFactory.createXYLineChart(
@@ -114,9 +125,10 @@ public class SupplyAndDemandPanel extends JPanel implements SubscribedView
 
     private JFreeChart createDemandChart()
     {
-        demandData = new DynamicTimeSeriesCollection(1, displayInterval, new Second());
-        demandData.setTimeBase(new Second(0, 0, 0, 1, 1, 2011));
-        float[] series = {0};
+        demandData = new DynamicTimeSeriesCollection(1, displayInterval, timeBase);
+        demandData.setTimeBase(timeBase); // Offset so that it will begin at 00:00:00
+
+        float[] series = {};
         demandData.addSeries(series, 0, "Usage");
 
         JFreeChart result = ChartFactory.createTimeSeriesChart(
