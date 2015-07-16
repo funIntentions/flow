@@ -36,7 +36,7 @@ public class PriceAndEmissionsPanel extends JPanel implements SubscribedView
 
     public void modelPropertyChange(PropertyChangeEvent event)
     {
-        if (event.getPropertyName().equals(World.PC_SUPPLY_MANAGER_UPDATED))
+        if (event.getPropertyName().equals(World.PC_ENERGY_PRODUCERS_UPDATED))
         {
             SupplyManager supplyManager = (SupplyManager)event.getNewValue();
             updatePriceAndEmissionsDataSeries(supplyManager);
@@ -91,5 +91,6 @@ public class PriceAndEmissionsPanel extends JPanel implements SubscribedView
                 "Demand (Watts)",
                 "Emissions (g/kWh)",
                 emissionsData
-        );    }
+        );
+    }
 }

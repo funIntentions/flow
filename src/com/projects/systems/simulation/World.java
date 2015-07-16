@@ -27,7 +27,8 @@ public class World extends com.projects.systems.System
     public static final String PC_WORLD_UPDATE = "PC_WORLD_UPDATE";
     public static final String PC_SIMULATION_STARTED = "PC_SIMULATION_STARTED";
     public static final String PC_UPDATE_RATE_CHANGE = "PC_UPDATE_RATE_CHANGE";
-    public static final String PC_SUPPLY_MANAGER_UPDATED = "PC_SUPPLY_MANAGER_UPDATED";
+    public static final String PC_ENERGY_PRODUCERS_UPDATED = "PC_ENERGY_PRODUCERS_UPDATED";
+    public static final String PC_ENERGY_CONSUMERS_UPDATED = "PC_ENERGY_CONSUMERS_UPDATED";
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final Runnable simulationTick = new Runnable()
@@ -44,8 +45,6 @@ public class World extends com.projects.systems.System
     private SupplyManager supplyManager;
     private WorldTimer worldTimer;
     private SimulationStatus simulationStatus;
-    private Date startDate;
-    private Date endDate;
 
     public World()
     {
@@ -86,10 +85,18 @@ public class World extends com.projects.systems.System
     public void updateStructure(Structure structure)
     {
         structures.put(structure.getId(), structure);
-        demandManager.syncStructures(structure);
-        supplyManager.syncStructures(structure);
+
+        if (demandManager.syncStructures(structure))
+        {
+            changeSupport.firePropertyChange(PC_ENERGY_CONSUMERS_UPDATED, null, demandManager);
+        }
+
+        if (supplyManager.syncStructures(structure))
+        {
+            changeSupport.firePropertyChange(PC_ENERGY_PRODUCERS_UPDATED, null, supplyManager);
+        }
+
         changeSupport.firePropertyChange(PC_STRUCTURE_UPDATE, null, structure);
-        changeSupport.firePropertyChange(PC_SUPPLY_MANAGER_UPDATED, null, supplyManager); // TODO: only fire this one when the structure is definitely relevant to the supply manager
     }
 
     public void removeStructure(Integer id)
@@ -183,15 +190,5 @@ public class World extends com.projects.systems.System
     public HashMap<Integer, Structure> getStructures()
     {
         return structures;
-    }
-
-    public void setStartDate(Date startDate)
-    {
-        this.startDate = startDate;
-    }
-
-    public void setEndDate(Date endDate)
-    {
-        this.endDate = endDate;
     }
 }

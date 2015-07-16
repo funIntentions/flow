@@ -29,16 +29,15 @@ public class SelectionInfoPanel extends JPanel implements SubscribedView
         setLayout(new BorderLayout());
 
         chartPanel = new ChartPanel(createChart());
-        chartPanel.setVisible(false);
 
         add(chartPanel, BorderLayout.CENTER);
     }
 
     public void modelPropertyChange(PropertyChangeEvent event)
     {
-        if (event.getPropertyName().equals(World.PC_STRUCTURE_SELECTED))
+        if (event.getPropertyName().equals(World.PC_STRUCTURE_SELECTED)
+                || event.getPropertyName().equals(World.PC_STRUCTURE_UPDATE))
         {
-            chartPanel.setVisible(true);
             data.removeAllSeries();
             data.addSeries(calculateStructuresLoadProfileDataSeries((Structure)event.getNewValue()));
         }

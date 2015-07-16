@@ -72,14 +72,14 @@ public class SupplyManager
         price = 0;
     }
 
-    public void removeStructure(Structure structureToRemove)
+    public boolean removeStructure(Structure structureToRemove)
     {
         for (Structure structure : structures)
         {
             if (structure.getId() == structureToRemove.getId())
             {
                 structures.remove(structure);
-                return;
+                return true;
             }
         }
 
@@ -88,9 +88,11 @@ public class SupplyManager
             if (powerPlant.getId() == structureToRemove.getId())
             {
                 powerPlants.remove(powerPlant);
-                return;
+                return true;
             }
         }
+
+        return false;
     }
 
     public void removeAllStructures()
@@ -99,7 +101,7 @@ public class SupplyManager
         structures.clear();
     }
 
-    public void syncStructures(Structure changedStructure)
+    public boolean syncStructures(Structure changedStructure)
     {
         int structureIndex = -1;
 
@@ -124,6 +126,7 @@ public class SupplyManager
                 powerPlants.set(structureIndex, powerPlant);
             }
 
+            Collections.sort(powerPlants);
         }
         else
         {
@@ -135,15 +138,15 @@ public class SupplyManager
                 }
             }
 
-            int applianceCount = changedStructure.getEnergySources().size();
+            int energySourceCount = changedStructure.getEnergySources().size();
 
-            if (structureIndex < 0 && (applianceCount > 0))
+            if (structureIndex < 0 && (energySourceCount > 0))
             {
                 structures.add(changedStructure);
             }
             else if (structureIndex >=0)
             {
-                if (applianceCount > 0)
+                if (energySourceCount > 0)
                 {
                     structures.set(structureIndex, changedStructure);
                 }
@@ -152,9 +155,13 @@ public class SupplyManager
                     structures.remove(structureIndex);
                 }
             }
+            else
+            {
+                return false;
+            }
         }
 
-        Collections.sort(powerPlants);
+        return true;
     }
 
     public double getPrice()

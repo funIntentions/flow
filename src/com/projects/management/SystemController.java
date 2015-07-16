@@ -289,12 +289,6 @@ public class SystemController implements PropertyChangeListener
         world.setTimeLimit(timeLimit);
     }
 
-    public void setStartAndEndDate(Date start, Date end)
-    {
-        world.setStartDate(start);
-        world.setEndDate(end);
-    }
-
     public void addTimeSpanUsage(TimeSpan timeSpan)
     {
         structureManager.addTimeSpanUsage(timeSpan);

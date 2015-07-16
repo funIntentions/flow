@@ -80,16 +80,18 @@ public class DemandManager
         totalUsageInkWh = 0;
     }
 
-    public void removeStructure(Structure structureToRemove)
+    public boolean removeStructure(Structure structureToRemove)
     {
         for (Structure structure : structures)
         {
             if (structure.getId() == structureToRemove.getId())
             {
                 structures.remove(structure);
-                return;
+                return true;
             }
         }
+
+        return false;
     }
 
     public void removeAllStructures()
@@ -97,7 +99,7 @@ public class DemandManager
         structures.clear();
     }
 
-    public void syncStructures(Structure changedStructure)
+    public boolean syncStructures(Structure changedStructure)
     {
         int structureIndex = -1;
 
@@ -126,6 +128,12 @@ public class DemandManager
                 structures.remove(structureIndex);
             }
         }
+        else
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public double getTotalUsageInkWh() {
