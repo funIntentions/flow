@@ -1,7 +1,9 @@
 package com.projects.gui.panel;
 
 import com.projects.gui.SubscribedView;
+import com.projects.systems.simulation.StatsManager;
 import com.projects.systems.simulation.World;
+import com.sun.org.glassfish.external.statistics.Stats;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -39,31 +41,44 @@ public class DailyStatsPanel extends JPanel implements SubscribedView
 
     public void modelPropertyChange(PropertyChangeEvent event)
     {
-        if (event.getPropertyName().equals(World.PC_PRICE_STATS_UPDATED))
+        if (event.getPropertyName().equals(World.PC_DAILY_STATS_UPDATED))
         {
-            updatePriceDataSeries((float[])event.getNewValue());
-        }
-        else if (event.getPropertyName().equals(World.PC_EMISSIONS_STATS_UPDATED))
-        {
-            updateEmissionsDataSeries((float[]) event.getNewValue());
+            StatsManager statsManager = (StatsManager)event.getNewValue();
+            updateDataCollection(dailyPriceData, "Prices", statsManager.getDailyPriceTrends());
+            updateDataCollection(dailyEmissionsData, "Emissions", statsManager.getDailyEmissionTrends());
+            updateDataCollection(dailyDemandData, "Demand", statsManager.getDailyDemandTrends());
         }
     }
 
-    private void updatePriceDataSeries(float[] prices)
+    private void updateDataCollection(XYSeriesCollection data, String name,  float[] values)
+    {
+        data.removeAllSeries();
+        XYSeries priceSeries = new XYSeries(name);
+
+        int intervalCount = values.length;
+        for (int interval = 0; interval < intervalCount; ++interval)
+        {
+            priceSeries.add(interval, values[interval]);
+        }
+
+        data.addSeries(priceSeries);
+    }
+
+    private void updateDailyPriceDataSeries(float[] prices)
     {
         dailyPriceData.removeAllSeries();
         XYSeries priceSeries = new XYSeries("Price");
 
-        int maxDemand = prices.length;
-        for (int demand = 1; demand < maxDemand; ++demand)
+        int intervalCount = prices.length;
+        for (int interval = 0; interval < intervalCount; ++interval)
         {
-            priceSeries.add(demand, prices[demand]);
+            priceSeries.add(interval, prices[interval]);
         }
 
         dailyPriceData.addSeries(priceSeries);
     }
 
-    private void updateEmissionsDataSeries(float[] emissions)
+    private void updateDailyEmissionsDataSeries(float[] emissions)
     {
         dailyEmissionsData.removeAllSeries();
         XYSeries emissionsSeries = new XYSeries("Emissions");
@@ -82,7 +97,7 @@ public class DailyStatsPanel extends JPanel implements SubscribedView
         XYSeries series1 = new XYSeries("Structures");
         dailyDemandData = new XYSeriesCollection(series1);
         return ChartFactory.createXYLineChart(
-                "Load Profile",  // chart title
+                "Demand",  // chart title
                 "Time of Day",
                 "Usage (Watts)",
                 dailyDemandData

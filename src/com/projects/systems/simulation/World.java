@@ -29,6 +29,7 @@ public class World extends com.projects.systems.System
     public static final String PC_UPDATE_RATE_CHANGE = "PC_UPDATE_RATE_CHANGE";
     public static final String PC_PRICE_STATS_UPDATED = "PC_PRICE_STATS_UPDATED";
     public static final String PC_EMISSIONS_STATS_UPDATED = "PC_EMISSIONS_STATS_UPDATED";
+    public static final String PC_DAILY_STATS_UPDATED = "PC_DAILY_STATS_UPDATED";
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final Runnable simulationTick = new Runnable()
@@ -152,10 +153,8 @@ public class World extends com.projects.systems.System
     {
         worldTimer.reset();
         demandManager.reset();
-        simulationStatus.totalUsageInkWh = 0;
-        simulationStatus.price = 0;
-        simulationStatus.worldTimer = worldTimer;
-        simulationStatus.emissions = 0;
+        statsManager.resetDailyTrends(worldTimer.getTotalTimeInSeconds());
+        updateStatus();
         changeSupport.firePropertyChange(PC_WORLD_UPDATE, null, simulationStatus);
     }
 
@@ -170,11 +169,16 @@ public class World extends com.projects.systems.System
         worldTimer.tick(Constants.FIXED_SIMULATION_RATE_SECONDS);
         demandManager.calculateDemand(worldTimer.getModifiedTimeElapsedInSeconds(), worldTimer.getTotalTimeInSeconds());
         supplyManager.calculateSupply(demandManager.getElectricityDemand());
-
-
+        statsManager.logDailyTrends(demandManager, worldTimer);
         updateStatus();
 
         changeSupport.firePropertyChange(PC_WORLD_UPDATE, null, simulationStatus);
+
+        if (statsManager.isDailyTrendDataReady())
+        {
+            changeSupport.firePropertyChange(PC_DAILY_STATS_UPDATED, null, statsManager);
+            statsManager.resetDailyTrends(worldTimer.getTotalTimeInSeconds());
+        }
 
         if (worldTimer.isTimeLimitReached())
         {

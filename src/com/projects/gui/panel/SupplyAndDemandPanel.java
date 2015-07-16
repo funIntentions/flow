@@ -104,11 +104,8 @@ public class SupplyAndDemandPanel extends JPanel implements SubscribedView
         }
     }
 
-
     private void updateCharts(SimulationStatus status)
     {
-        float[] newData = new float[1];
-
         int difference = (int)(Math.floor(status.worldTimer.getTotalTimeInSeconds() - previousTime));
 
         if (difference/timeInterval > 0)
