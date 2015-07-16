@@ -133,7 +133,8 @@ public class World extends com.projects.systems.System
     {
         if (!running)
         {
-            changeSupport.firePropertyChange(PC_SIMULATION_STARTED, null, null);
+            updateStatus();
+            changeSupport.firePropertyChange(PC_SIMULATION_STARTED, null, simulationStatus);
             simulationHandle = scheduler.scheduleAtFixedRate(simulationTick, 0, Constants.FIXED_SIMULATION_RATE_MILLISECONDS, TimeUnit.MILLISECONDS);
             running = true;
         }
@@ -169,11 +170,7 @@ public class World extends com.projects.systems.System
         demandManager.calculateDemand(worldTimer.getModifiedTimeElapsedInSeconds(), worldTimer.getTotalTimeInSeconds());
         supplyManager.calculateSupply(demandManager.getElectricityDemand());
 
-        simulationStatus.worldTimer = worldTimer;
-        simulationStatus.price = supplyManager.getPrice();
-        simulationStatus.totalUsageInkWh = demandManager.getTotalUsageInkWh();
-        simulationStatus.electricityDemand = demandManager.getElectricityDemand();
-        simulationStatus.emissions = supplyManager.getEmissions();
+        updateStatus();
 
         changeSupport.firePropertyChange(PC_WORLD_UPDATE, null, simulationStatus);
 
@@ -181,6 +178,16 @@ public class World extends com.projects.systems.System
         {
             pauseSimulation();
         }
+    }
+
+    private void updateStatus()
+    {
+        simulationStatus.worldTimer = worldTimer;
+        simulationStatus.powerPlants = supplyManager.getPowerPlants();
+        simulationStatus.price = supplyManager.getPrice();
+        simulationStatus.totalUsageInkWh = demandManager.getTotalUsageInkWh();
+        simulationStatus.electricityDemand = demandManager.getElectricityDemand();
+        simulationStatus.emissions = supplyManager.getEmissions();
     }
 
     public Structure getLastSelected() {

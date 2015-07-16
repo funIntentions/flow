@@ -52,7 +52,7 @@ public class PriceAndEmissionsPanel extends JPanel implements SubscribedView
         XYSeries emissionsSeries = new XYSeries("Emissions");
 
         double demand = 1;
-        double demandIncrease = 10;
+        double demandIncrease = 1;
 
         while (supplyManager.calculateSupply(demand))
         {

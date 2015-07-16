@@ -34,19 +34,24 @@ public class SupplyManager
         for (PowerPlant powerPlant : powerPlants)
         {
             double capacity = powerPlant.getCapacity();
+            powerPlant.setCurrentOutput(0);
 
-            if (demand <= capacity)
+            if (demand > 0)
             {
-                price += demand * powerPlant.getProductionCost();
-                emissions += demand * powerPlant.getEmissionRate();
-                demand -= demand;
-                break;
-            }
-            else
-            {
-                price +=  capacity * powerPlant.getProductionCost();
-                emissions += capacity * powerPlant.getEmissionRate();
-                demand -= capacity;
+                if (demand <= capacity)
+                {
+                    price += demand * powerPlant.getProductionCost();
+                    emissions += demand * powerPlant.getEmissionRate();
+                    powerPlant.setCurrentOutput(demand);
+                    demand -= demand;
+                }
+                else
+                {
+                    price +=  capacity * powerPlant.getProductionCost();
+                    emissions += capacity * powerPlant.getEmissionRate();
+                    powerPlant.setCurrentOutput(capacity);
+                    demand -= capacity;
+                }
             }
         }
 
@@ -162,6 +167,11 @@ public class SupplyManager
         }
 
         return true;
+    }
+
+    public List<PowerPlant> getPowerPlants()
+    {
+        return powerPlants;
     }
 
     public double getPrice()

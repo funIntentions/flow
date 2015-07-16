@@ -1,6 +1,7 @@
 package com.projects.gui.panel;
 
 import com.projects.gui.SubscribedView;
+import com.projects.models.PowerPlant;
 import com.projects.models.WorldTimer;
 import com.projects.systems.simulation.SimulationStatus;
 import com.projects.systems.simulation.World;
@@ -10,13 +11,12 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.time.*;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
 
+import java.util.HashMap;
+import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
-import java.util.Date;
 
 /**
  * Created by Dan on 7/13/2015.
@@ -25,10 +25,9 @@ public class SupplyAndDemandPanel extends JPanel implements SubscribedView
 {
     private ChartPanel supplyChartPanel;
     private ChartPanel demandChartPanel;
-    private XYSeriesCollection supplyData;
+    private DynamicTimeSeriesCollection supplyData;
     private DynamicTimeSeriesCollection demandData;
-    private final int MIN = 0;
-    private final int MAX = 5000;
+    private HashMap<Integer, Integer> powerPlantIdToSeriesNumberMap;
     private final int TWO_MINUTES = 120;
     private int displayInterval = TWO_MINUTES;
     private int timeInterval = 1; // 1 second
@@ -39,6 +38,7 @@ public class SupplyAndDemandPanel extends JPanel implements SubscribedView
     {
         setLayout(new GridLayout(1,2));
         timeBase = new Second(0, 58, 23, 1, 1, 2015);
+        powerPlantIdToSeriesNumberMap = new HashMap<Integer, Integer>();
 
         supplyChartPanel = new ChartPanel(createSupplyChart());
         demandChartPanel = new ChartPanel(createDemandChart());
@@ -52,23 +52,9 @@ public class SupplyAndDemandPanel extends JPanel implements SubscribedView
     {
         if (event.getPropertyName().equals(World.PC_WORLD_UPDATE))
         {
-            float[] newData = new float[1];
             SimulationStatus status = (SimulationStatus)event.getNewValue();
-            newData[0] = (float)status.electricityDemand;
 
-            int difference = (int)(Math.floor(status.worldTimer.getTotalTimeInSeconds() - previousTime));
-
-            if (difference/timeInterval > 0)
-            {
-                difference /= timeInterval;
-
-                for (int i = 0; i < difference; ++i)
-                {
-                    demandData.advanceTime();
-                    previousTime += timeInterval;
-                    demandData.appendData(newData);
-                }
-            }
+            updateCharts(status);
         }
         else if (event.getPropertyName().equals(World.PC_UPDATE_RATE_CHANGE))
         {
@@ -105,22 +91,117 @@ public class SupplyAndDemandPanel extends JPanel implements SubscribedView
         else if (event.getPropertyName().equals(World.PC_SIMULATION_STARTED))
         {
             previousTime = 0;
+            SimulationStatus status = (SimulationStatus)event.getNewValue();
+
+            remove(supplyChartPanel);
+            supplyChartPanel = new ChartPanel(createSupplyChart(status.powerPlants));
+            add(supplyChartPanel);
+
             remove(demandChartPanel);
             demandChartPanel = new ChartPanel(createDemandChart());
             add(demandChartPanel);
         }
     }
 
+
+    private void updateCharts(SimulationStatus status)
+    {
+        float[] newData = new float[1];
+
+        int difference = (int)(Math.floor(status.worldTimer.getTotalTimeInSeconds() - previousTime));
+
+        if (difference/timeInterval > 0)
+        {
+            difference /= timeInterval;
+
+            for (int i = 0; i < difference; ++i)
+            {
+                updateDemand(status);
+                updateSupply(status);
+
+                previousTime += timeInterval;
+            }
+        }
+    }
+
+    private void updateSupply(SimulationStatus status)
+    {
+        float[] newData = new float[status.powerPlants.size()];
+
+        supplyData.advanceTime();
+
+        for (PowerPlant powerPlant : status.powerPlants)
+        {
+            newData[powerPlantIdToSeriesNumberMap.get(powerPlant.getId())] = (float)powerPlant.getCurrentOutput();
+        }
+
+        supplyData.appendData(newData);
+    }
+
+    private void updateDemand(SimulationStatus status)
+    {
+        float[] newData = new float[1];
+        newData[0] = (float)status.electricityDemand;
+
+        demandData.advanceTime();
+        demandData.appendData(newData);
+    }
+
     private JFreeChart createSupplyChart()
     {
-        XYSeries series1 = new XYSeries("Coal");
-        supplyData = new XYSeriesCollection(series1);
-        return ChartFactory.createXYLineChart(
+        supplyData = new DynamicTimeSeriesCollection(1, displayInterval, timeBase);
+        supplyData.setTimeBase(timeBase); // Offset so that it will begin at 00:00:00
+
+        JFreeChart result = ChartFactory.createTimeSeriesChart(
                 "Supply",  // chart title
                 "Time of Day",
                 "Supply(kWh)",
-                supplyData
+                supplyData,
+                true,
+                true,
+                false
         );
+
+        final XYPlot plot = result.getXYPlot();
+        ValueAxis domain = plot.getDomainAxis();
+        domain.setAutoRange(true);
+        ValueAxis range = plot.getRangeAxis();
+
+        return result;
+    }
+
+    private JFreeChart createSupplyChart(List<PowerPlant> powerPlants)
+    {
+        supplyData = new DynamicTimeSeriesCollection(powerPlants.size(), displayInterval, timeBase);
+        supplyData.setTimeBase(timeBase); // Offset so that it will begin at 00:00:00
+
+        int seriesNumber = 0;
+        powerPlantIdToSeriesNumberMap.clear();
+
+        for (PowerPlant powerPlant : powerPlants)
+        {
+            float[] series = {};
+            supplyData.addSeries(series, seriesNumber, powerPlant.getName());
+            powerPlantIdToSeriesNumberMap.put(powerPlant.getId(), seriesNumber);
+            ++seriesNumber;
+        }
+
+        JFreeChart result = ChartFactory.createTimeSeriesChart(
+            "Supply",  // chart title
+            "Time of Day",
+            "Supply(kWh)",
+            supplyData,
+            true,
+            true,
+            false
+        );
+
+        final XYPlot plot = result.getXYPlot();
+        ValueAxis domain = plot.getDomainAxis();
+        domain.setAutoRange(true);
+        ValueAxis range = plot.getRangeAxis();
+
+        return result;
     }
 
     private JFreeChart createDemandChart()
@@ -145,7 +226,6 @@ public class SupplyAndDemandPanel extends JPanel implements SubscribedView
         ValueAxis domain = plot.getDomainAxis();
         domain.setAutoRange(true);
         ValueAxis range = plot.getRangeAxis();
-        range.setRange(MIN, MAX);
 
         return result;
     }

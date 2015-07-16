@@ -69,7 +69,8 @@ public class SelectionInfoPanel extends JPanel implements SubscribedView
         return series;
     }
 
-    private JFreeChart createChart() {
+    private JFreeChart createChart()
+    {
         XYSeries series1 = new XYSeries("Structure");
         data = new XYSeriesCollection(series1);
         return ChartFactory.createXYLineChart(

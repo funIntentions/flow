@@ -17,6 +17,7 @@ public class PowerPlant extends Structure implements Comparable<PowerPlant>
     private double emissionRate;
     private double productionCost;
     private double capacity;
+    private double currentOutput;
 
     public PowerPlant(String structure)
     {
@@ -48,6 +49,7 @@ public class PowerPlant extends Structure implements Comparable<PowerPlant>
                      List<Device> energyStorageList)
     {
         super(structure, id, StructureType.POWER_PLANT, ImageType.POWER_PLANT_IMAGE, numberOfUnits, propertyList, applianceList, energySourceList, energyStorageList);
+        currentOutput = 0; // TODO: should this be elsewhere?
     }
 
 
@@ -137,5 +139,15 @@ public class PowerPlant extends Structure implements Comparable<PowerPlant>
 
     public void setCapitalCost(double capitalCost) {
         this.capitalCost = capitalCost;
+    }
+
+    public double getCurrentOutput()
+    {
+        return currentOutput;
+    }
+
+    public void setCurrentOutput(double currentOutput)
+    {
+        this.currentOutput = currentOutput;
     }
 }
