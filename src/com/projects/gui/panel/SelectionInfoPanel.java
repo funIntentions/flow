@@ -4,6 +4,7 @@ import com.projects.gui.SubscribedView;
 import com.projects.models.Appliance;
 import com.projects.models.Structure;
 import com.projects.models.TimeSpan;
+import com.projects.systems.StructureManager;
 import com.projects.systems.simulation.World;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -36,7 +37,9 @@ public class SelectionInfoPanel extends JPanel implements SubscribedView
     public void modelPropertyChange(PropertyChangeEvent event)
     {
         if (event.getPropertyName().equals(World.PC_STRUCTURE_SELECTED)
-                || event.getPropertyName().equals(World.PC_STRUCTURE_UPDATE))
+                || event.getPropertyName().equals(World.PC_STRUCTURE_UPDATE)
+                || event.getPropertyName().equals(StructureManager.PC_TEMPLATE_SELECTED)
+                || event.getPropertyName().equals(StructureManager.PC_STRUCTURE_EDITED))
         {
             data.removeAllSeries();
             data.addSeries(calculateStructuresLoadProfileDataSeries((Structure)event.getNewValue()));

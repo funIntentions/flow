@@ -27,8 +27,8 @@ public class World extends com.projects.systems.System
     public static final String PC_WORLD_UPDATE = "PC_WORLD_UPDATE";
     public static final String PC_SIMULATION_STARTED = "PC_SIMULATION_STARTED";
     public static final String PC_UPDATE_RATE_CHANGE = "PC_UPDATE_RATE_CHANGE";
-    public static final String PC_ENERGY_PRODUCERS_UPDATED = "PC_ENERGY_PRODUCERS_UPDATED";
-    public static final String PC_ENERGY_CONSUMERS_UPDATED = "PC_ENERGY_CONSUMERS_UPDATED";
+    public static final String PC_PRICE_STATS_UPDATED = "PC_PRICE_STATS_UPDATED";
+    public static final String PC_EMISSIONS_STATS_UPDATED = "PC_EMISSIONS_STATS_UPDATED";
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final Runnable simulationTick = new Runnable()
@@ -43,6 +43,7 @@ public class World extends com.projects.systems.System
     private boolean running;
     private DemandManager demandManager;
     private SupplyManager supplyManager;
+    private StatsManager statsManager;
     private WorldTimer worldTimer;
     private SimulationStatus simulationStatus;
 
@@ -55,6 +56,7 @@ public class World extends com.projects.systems.System
         running = false;
         demandManager = new DemandManager();
         supplyManager = new SupplyManager();
+        statsManager = new StatsManager();
         worldTimer = new WorldTimer();
         simulationStatus = new SimulationStatus();
         resetSimulation();
@@ -86,14 +88,13 @@ public class World extends com.projects.systems.System
     {
         structures.put(structure.getId(), structure);
 
-        if (demandManager.syncStructures(structure))
-        {
-            changeSupport.firePropertyChange(PC_ENERGY_CONSUMERS_UPDATED, null, demandManager);
-        }
+        demandManager.syncStructures(structure);
 
         if (supplyManager.syncStructures(structure))
         {
-            changeSupport.firePropertyChange(PC_ENERGY_PRODUCERS_UPDATED, null, supplyManager);
+            statsManager.updatePriceAndEmissionsStats(supplyManager);
+            changeSupport.firePropertyChange(PC_PRICE_STATS_UPDATED, null, statsManager.getPriceForDemand());
+            changeSupport.firePropertyChange(PC_EMISSIONS_STATS_UPDATED, null, statsManager.getEmissionsForDemand());
         }
 
         changeSupport.firePropertyChange(PC_STRUCTURE_UPDATE, null, structure);
@@ -169,6 +170,7 @@ public class World extends com.projects.systems.System
         worldTimer.tick(Constants.FIXED_SIMULATION_RATE_SECONDS);
         demandManager.calculateDemand(worldTimer.getModifiedTimeElapsedInSeconds(), worldTimer.getTotalTimeInSeconds());
         supplyManager.calculateSupply(demandManager.getElectricityDemand());
+
 
         updateStatus();
 

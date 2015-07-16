@@ -36,36 +36,41 @@ public class PriceAndEmissionsPanel extends JPanel implements SubscribedView
 
     public void modelPropertyChange(PropertyChangeEvent event)
     {
-        if (event.getPropertyName().equals(World.PC_ENERGY_PRODUCERS_UPDATED))
+        if (event.getPropertyName().equals(World.PC_PRICE_STATS_UPDATED))
         {
-            SupplyManager supplyManager = (SupplyManager)event.getNewValue();
-            updatePriceAndEmissionsDataSeries(supplyManager);
+            updatePriceDataSeries((float[])event.getNewValue());
+        }
+        else if (event.getPropertyName().equals(World.PC_EMISSIONS_STATS_UPDATED))
+        {
+            updateEmissionsDataSeries((float[]) event.getNewValue());
         }
     }
 
-    private void updatePriceAndEmissionsDataSeries(SupplyManager supplyManager)
+    private void updatePriceDataSeries(float[] prices)
     {
         priceData.removeAllSeries();
-        emissionsData.removeAllSeries();
-
         XYSeries priceSeries = new XYSeries("Price");
-        XYSeries emissionsSeries = new XYSeries("Emissions");
 
-        double demand = 1;
-        double demandIncrease = 1;
-
-        while (supplyManager.calculateSupply(demand))
+        int maxDemand = prices.length;
+        for (int demand = 1; demand < maxDemand; ++demand)
         {
-            double price = supplyManager.getPrice();
-            double emissions = supplyManager.getEmissions();
-
-            priceSeries.add(demand, price);
-            emissionsSeries.add(demand, emissions);
-
-            demand += demandIncrease;
+            priceSeries.add(demand, prices[demand]);
         }
 
         priceData.addSeries(priceSeries);
+    }
+
+    private void updateEmissionsDataSeries(float[] emissions)
+    {
+        emissionsData.removeAllSeries();
+        XYSeries emissionsSeries = new XYSeries("Emissions");
+
+        int maxDemand = emissions.length;
+        for (int demand = 1; demand < maxDemand; ++demand)
+        {
+            emissionsSeries.add(demand, emissions[demand]);
+        }
+
         emissionsData.addSeries(emissionsSeries);
     }
 
