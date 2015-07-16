@@ -7,4 +7,5 @@ On Going
 
 QUESTIONS:
 - Should every button but the run, pause, reset be disabled while the simulation is running? Also should you have to pause before resetting the simulation?
+- Is the Graphics Panel even needed?
 

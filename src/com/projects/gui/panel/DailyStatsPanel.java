@@ -1,7 +1,6 @@
 package com.projects.gui.panel;
 
 import com.projects.gui.SubscribedView;
-import com.projects.systems.simulation.SupplyManager;
 import com.projects.systems.simulation.World;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -14,24 +13,28 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 
 /**
- * Created by Dan on 7/14/2015.
+ * Created by Dan on 7/16/2015.
  */
-public class PriceAndEmissionsPanel extends JPanel implements SubscribedView
+public class DailyStatsPanel extends JPanel implements SubscribedView
 {
-    private ChartPanel priceChartPanel;
-    private XYSeriesCollection priceData;
-    private ChartPanel emissionsChartPanel;
-    private XYSeriesCollection emissionsData;
+    private ChartPanel dailyPriceChartPanel;
+    private XYSeriesCollection dailyPriceData;
+    private ChartPanel dailyEmissionsChartPanel;
+    private XYSeriesCollection dailyEmissionsData;
+    private ChartPanel dailyDemandChartPanel;
+    private XYSeriesCollection dailyDemandData;
 
-    public PriceAndEmissionsPanel()
+    public DailyStatsPanel()
     {
-        setLayout(new GridLayout(1,2));
+        setLayout(new GridLayout(1,3));
 
-        priceChartPanel = new ChartPanel(createPriceChart());
-        emissionsChartPanel = new ChartPanel(createEmissionsChart());
+        dailyPriceChartPanel = new ChartPanel(createPriceChart());
+        dailyEmissionsChartPanel = new ChartPanel(createEmissionsChart());
+        dailyDemandChartPanel = new ChartPanel(createDemandChart());
 
-        add(priceChartPanel);
-        add(emissionsChartPanel);
+        add(dailyPriceChartPanel);
+        add(dailyEmissionsChartPanel);
+        add(dailyDemandChartPanel);
     }
 
     public void modelPropertyChange(PropertyChangeEvent event)
@@ -48,7 +51,7 @@ public class PriceAndEmissionsPanel extends JPanel implements SubscribedView
 
     private void updatePriceDataSeries(float[] prices)
     {
-        priceData.removeAllSeries();
+        dailyPriceData.removeAllSeries();
         XYSeries priceSeries = new XYSeries("Price");
 
         int maxDemand = prices.length;
@@ -57,12 +60,12 @@ public class PriceAndEmissionsPanel extends JPanel implements SubscribedView
             priceSeries.add(demand, prices[demand]);
         }
 
-        priceData.addSeries(priceSeries);
+        dailyPriceData.addSeries(priceSeries);
     }
 
     private void updateEmissionsDataSeries(float[] emissions)
     {
-        emissionsData.removeAllSeries();
+        dailyEmissionsData.removeAllSeries();
         XYSeries emissionsSeries = new XYSeries("Emissions");
 
         int maxDemand = emissions.length;
@@ -71,18 +74,30 @@ public class PriceAndEmissionsPanel extends JPanel implements SubscribedView
             emissionsSeries.add(demand, emissions[demand]);
         }
 
-        emissionsData.addSeries(emissionsSeries);
+        dailyEmissionsData.addSeries(emissionsSeries);
+    }
+
+    private JFreeChart createDemandChart()
+    {
+        XYSeries series1 = new XYSeries("Structures");
+        dailyDemandData = new XYSeriesCollection(series1);
+        return ChartFactory.createXYLineChart(
+                "Load Profile",  // chart title
+                "Time of Day",
+                "Usage (Watts)",
+                dailyDemandData
+        );
     }
 
     private JFreeChart createPriceChart()
     {
         XYSeries series1 = new XYSeries("Price");
-        priceData = new XYSeriesCollection(series1);
+        dailyPriceData = new XYSeriesCollection(series1);
         return ChartFactory.createXYLineChart(
                 "Price",  // chart title
-                "Demand(Watts)",
+                "Time of Day",
                 "Price $/kWh",
-                priceData
+                dailyPriceData
         );
     }
 
@@ -90,12 +105,12 @@ public class PriceAndEmissionsPanel extends JPanel implements SubscribedView
     {
 
         XYSeries series1 = new XYSeries("Emissions");
-        emissionsData = new XYSeriesCollection(series1);
+        dailyEmissionsData = new XYSeriesCollection(series1);
         return ChartFactory.createXYLineChart(
                 "Emissions",  // chart title
-                "Demand (Watts)",
+                "Time of Day",
                 "Emissions (g/kWh)",
-                emissionsData
+                dailyEmissionsData
         );
     }
 }
