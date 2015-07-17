@@ -1,4 +1,4 @@
-package com.projects.gui.table;
+package com.projects.gui;
 
 import com.projects.gui.ImprovedFormattedTextField;
 
@@ -18,6 +18,12 @@ public class ImprovedTableCellEditor extends DefaultCellEditor
     {
         super(textField);
         this.textField = textField;
+    }
+
+    @Override
+    public boolean stopCellEditing()
+    {
+        return (textField.isContentValid() && super.stopCellEditing());
     }
 
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected,

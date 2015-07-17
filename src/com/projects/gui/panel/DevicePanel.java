@@ -1,7 +1,8 @@
 package com.projects.gui.panel;
 
+import com.projects.gui.ImprovedFormattedTextField;
 import com.projects.gui.table.DeviceTable;
-import com.projects.gui.table.ImprovedTableCellEditor;
+import com.projects.gui.ImprovedTableCellEditor;
 import com.projects.gui.table.StringFormat;
 import com.projects.models.Device;
 
@@ -26,13 +27,13 @@ public class DevicePanel extends JScrollPane
         deviceTable.addTableModelListener(tableModelListener);
         templateTable = new JTable(deviceTable)
         {
-            /*ImprovedTableCellEditor improvedTableCellEditor = new ImprovedTableCellEditor(new StringFormat()); // TODO: fix error in removing devices while editing them
+            ImprovedTableCellEditor improvedTableCellEditor = new ImprovedTableCellEditor(new ImprovedFormattedTextField(new StringFormat())); // TODO: fix error in removing devices while editing them
 
             @Override
             public TableCellEditor getCellEditor(int row, int column)
             {
                return improvedTableCellEditor;
-            }*/
+            }
         };
         templateTable.addMouseListener(mouseListener);
         templateTable.setTableHeader(null);
