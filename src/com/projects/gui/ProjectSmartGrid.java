@@ -2,6 +2,7 @@ package com.projects.gui;
 
 import com.projects.gui.panel.*;
 import com.projects.helper.Constants;
+import com.projects.helper.SelectionType;
 import com.projects.input.actions.*;
 import com.projects.input.listeners.TabTogglingListener;
 import com.projects.input.listeners.TemplateStructureSelectedListener;
@@ -43,14 +44,16 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     private StatusPanel statusBar;
     private GraphicsPanel graphics;
 
-    JTabbedPane ontologyPane;
-    JTabbedPane worldPane;
+    private JTabbedPane ontologyPane;
+    private JTabbedPane worldPane;
 
     private JToolBar toolBar;
     private JButton removeStructureButton, addStructureButton, editStructureButton, runSimulationButton, pauseSimulationButton, resetSimulationButton; // ToolBar Buttons
-    private JMenuItem removeStructureItem, createStructureItem, editStructureItem; // MenuItems
+    private JMenuItem removeStructureItem, addStructureItem, editStructureItem; // MenuItems
+    private StructureEditor structureEditor;
 
-    StructureEditor structureEditor;
+    private boolean simulationRunning;
+    private SelectionType selectedStructure;
 
     private ProjectSmartGrid(JFrame frame)
     {
@@ -96,6 +99,9 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         controller.subscribeView(this);
         controller.setupComplete();
         setupPane();
+
+        simulationRunning = false;
+        selectedStructure = SelectionType.NO_SELECTION;
     }
 
     private void setupPane()
@@ -216,8 +222,8 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         removeStructureItem = new JMenuItem(removeSelectedStructureAction);
         menu.add(removeStructureItem);
 
-        createStructureItem = new JMenuItem(createPrefabAction);
-        menu.add(createStructureItem);
+        addStructureItem = new JMenuItem(createPrefabAction);
+        menu.add(addStructureItem);
 
         editStructureItem = new JMenuItem(editStructureAction);
         menu.add(editStructureItem);
@@ -246,7 +252,7 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         addStructureButton.setVisible(false);
         editStructureButton.setVisible(false);
         removeStructureItem.setEnabled(false);
-        createStructureItem.setEnabled(false);
+        addStructureItem.setEnabled(false);
         editStructureItem.setEnabled(false);
         toolBar.updateUI();
     }
@@ -255,9 +261,15 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
     {
         if (event.getPropertyName().equals(StructureManager.PC_TEMPLATE_SELECTED))
         {
+            selectedStructure = SelectionType.TEMPLATE;
             removeToolBarAndMenuOptions();
-            editStructureItem.setEnabled(true);
-            createStructureItem.setEnabled(true);
+
+            if (!simulationRunning)
+            {
+                editStructureItem.setEnabled(true);
+                addStructureItem.setEnabled(true);
+            }
+
             editStructureButton.setVisible(true);
             addStructureButton.setVisible(true);
         }
@@ -268,9 +280,15 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         }
         else if (event.getPropertyName().equals(World.PC_STRUCTURE_SELECTED))
         {
+            selectedStructure = SelectionType.WORLD;
             removeToolBarAndMenuOptions();
-            editStructureItem.setEnabled(true);
-            removeStructureItem.setEnabled(true);
+
+            if (!simulationRunning)
+            {
+                editStructureItem.setEnabled(true);
+                removeStructureItem.setEnabled(true);
+            }
+
             editStructureButton.setVisible(true);
             removeStructureButton.setVisible(true);
         }
@@ -278,6 +296,36 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         {
             Structure structure = (Structure)event.getNewValue();
             structureEditor.display(structure);
+        }
+        else if (event.getPropertyName().equals(World.PC_SIMULATION_STARTED))
+        {
+            simulationRunning = true;
+
+            removeStructureButton.setEnabled(false);
+            addStructureButton.setEnabled(false);
+            editStructureButton.setEnabled(false);
+
+            removeStructureItem.setEnabled(false);
+            addStructureItem.setEnabled(false);
+            editStructureItem.setEnabled(false);
+        }
+        else if (event.getPropertyName().equals(World.PC_WORLD_RESET))
+        {
+            simulationRunning = false;
+            removeStructureButton.setEnabled(true);
+            addStructureButton.setEnabled(true);
+            editStructureButton.setEnabled(true);
+
+            if (selectedStructure == SelectionType.TEMPLATE)
+            {
+                editStructureItem.setEnabled(true);
+                addStructureItem.setEnabled(true);
+            }
+            else if (selectedStructure == SelectionType.WORLD)
+            {
+                editStructureItem.setEnabled(true);
+                removeStructureItem.setEnabled(true);
+            }
         }
     }
 
