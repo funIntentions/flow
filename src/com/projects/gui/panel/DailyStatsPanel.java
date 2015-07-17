@@ -48,6 +48,12 @@ public class DailyStatsPanel extends JPanel implements SubscribedView
             updateDataCollection(dailyEmissionsData, "Emissions", statsManager.getDailyEmissionTrends());
             updateDataCollection(dailyDemandData, "Demand", statsManager.getDailyDemandTrends());
         }
+        else if (event.getPropertyName().equals(World.PC_WORLD_RESET))
+        {
+            dailyPriceData.removeAllSeries();
+            dailyEmissionsData.removeAllSeries();
+            dailyDemandData.removeAllSeries();
+        }
     }
 
     private void updateDataCollection(XYSeriesCollection data, String name,  float[] values)

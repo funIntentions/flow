@@ -29,6 +29,8 @@ public class StatsManager
     public StatsManager()
     {
         dailyDemandBuffer = new ArrayList<Integer>();
+        priceForDemand = new float[1];
+        emissionsForDemand = new float[1];
         resetDailyTrends(0);
     }
 
@@ -73,10 +75,10 @@ public class StatsManager
             maxDemand += powerPlant.getCapacity();
         }
 
-        priceForDemand = new float[maxDemand];
-        emissionsForDemand = new float[maxDemand];
+        priceForDemand = new float[maxDemand + 1];
+        emissionsForDemand = new float[maxDemand + 1];
 
-        for (int demand = 0; demand < maxDemand; ++demand)
+        for (int demand = 0; demand <= maxDemand; ++demand)
         {
             supplyManager.calculateSupply(demand);
 

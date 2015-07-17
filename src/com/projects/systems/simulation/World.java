@@ -25,6 +25,7 @@ public class World extends com.projects.systems.System
     public static final String PC_REMOVE_STRUCTURE = "PC_REMOVE_STRUCTURE";
     public static final String PC_STRUCTURE_UPDATE = "PC_STRUCTURE_UPDATE";
     public static final String PC_WORLD_UPDATE = "PC_WORLD_UPDATE";
+    public static final String PC_WORLD_RESET = "PC_WORLD_RESET";
     public static final String PC_SIMULATION_STARTED = "PC_SIMULATION_STARTED";
     public static final String PC_UPDATE_RATE_CHANGE = "PC_UPDATE_RATE_CHANGE";
     public static final String PC_PRICE_STATS_UPDATED = "PC_PRICE_STATS_UPDATED";
@@ -66,7 +67,6 @@ public class World extends com.projects.systems.System
     public void newWorld(List<Structure> structureList)
     {
         pauseSimulation();
-        resetSimulation();
         demandManager.removeAllStructures();
         supplyManager.removeAllStructures();
 
@@ -77,6 +77,7 @@ public class World extends com.projects.systems.System
         {
             updateStructure(structure);
         }
+        resetSimulation();
         changeSupport.firePropertyChange(PC_NEW_WORLD, null, structureList);
     }
 
@@ -145,8 +146,10 @@ public class World extends com.projects.systems.System
     public void pauseSimulation()
     {
         if (running)
+        {
             simulationHandle.cancel(true);
-        running = false;
+            running = false;
+        }
     }
 
     public void resetSimulation()
@@ -155,7 +158,7 @@ public class World extends com.projects.systems.System
         demandManager.reset();
         statsManager.resetDailyTrends(worldTimer.getTotalTimeInSeconds());
         updateStatus();
-        changeSupport.firePropertyChange(PC_WORLD_UPDATE, null, simulationStatus);
+        changeSupport.firePropertyChange(PC_WORLD_RESET, null, simulationStatus);
     }
 
     public void changeUpdateRate(WorldTimer.UpdateRate updateRate)

@@ -89,7 +89,7 @@ public class SupplyAndDemandPanel extends JPanel implements SubscribedView
                 // TODO: handle others
             }
         }
-        else if (event.getPropertyName().equals(World.PC_SIMULATION_STARTED))
+        else if (event.getPropertyName().equals(World.PC_WORLD_RESET))
         {
             previousTime = 0;
             SimulationStatus status = (SimulationStatus)event.getNewValue();

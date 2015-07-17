@@ -148,7 +148,7 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
 
     public void modelPropertyChange(PropertyChangeEvent event)
     {
-        if (event.getPropertyName().equals(World.PC_WORLD_UPDATE))
+        if (event.getPropertyName().equals(World.PC_WORLD_UPDATE) || event.getPropertyName().equals(World.PC_WORLD_RESET))
         {
             SimulationStatus simulationStatus = (SimulationStatus)event.getNewValue();
             WorldTimer worldTimer = simulationStatus.worldTimer;
@@ -173,5 +173,6 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
             //controller.setStartAndEndDate(startDate, endDate);
             controller.setTimeLimit(numberOfDays * WorldTimer.SECONDS_IN_DAY);
         }
+
     }
 }
