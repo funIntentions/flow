@@ -215,6 +215,8 @@ public class StructureEditor implements SubscribedView
                 return editingClass != null ? editingClass : super.getColumnClass(column);
             }
         };
+        propertyTable.setDefaultEditor(Double.class, new PositiveDoubleCellEditor(new JFormattedTextField()));
+
 
         devicePropertiesScrollPane = new JScrollPane(propertyTable);
         devicePropertiesScrollPane.setBorder(BorderFactory.createTitledBorder("Device Properties"));
@@ -250,10 +252,14 @@ public class StructureEditor implements SubscribedView
             public TableCellEditor getCellEditor(int row, int column) {
                 editingClass = null;
                 int modelColumn = convertColumnIndexToModel(column);
-                if (modelColumn == 1) {
+                if (modelColumn == 1)
+                {
                     editingClass = getModel().getValueAt(row, modelColumn).getClass();
+
                     return getDefaultEditor(editingClass);
-                } else {
+                }
+                else
+                {
                     return super.getCellEditor(row, column);
                 }
             }
@@ -266,6 +272,7 @@ public class StructureEditor implements SubscribedView
                 return editingClass != null ? editingClass : super.getColumnClass(column);
             }
         };
+        buildingPropertyTable.setDefaultEditor(Double.class, new PositiveDoubleCellEditor(new JFormattedTextField()));
 
         JScrollPane buildingPropertiesScrollPane = new JScrollPane(buildingPropertyTable);
         buildingPropertiesScrollPane.setBorder(BorderFactory.createTitledBorder("Building Properties"));
@@ -465,10 +472,6 @@ public class StructureEditor implements SubscribedView
 
         DeviceTabbedPane unitDeviceTabbedPane = new DeviceTabbedPane(deviceTableListener, deviceSelectedListener);
         unitDeviceTabbedPane.setBorder(BorderFactory.createTitledBorder("Unit's Devices"));
-
-        JPanel compositeUnitDevicePanes = new JPanel(new GridLayout(2, 1));
-        compositeUnitDevicePanes.add(unitDeviceTabbedPane);
-        compositeUnitDevicePanes.add(deviceTabbedPane);
 
         deviceButtonPanel = new JPanel(new FlowLayout());
         deviceButtonPanel.add(addApplianceButton);

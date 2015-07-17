@@ -1,10 +1,13 @@
 package com.projects.gui.panel;
 
 import com.projects.gui.table.DeviceTable;
+import com.projects.gui.table.ImprovedTableCellEditor;
+import com.projects.gui.table.StringFormat;
 import com.projects.models.Device;
 
 import javax.swing.*;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.TableCellEditor;
 import java.awt.event.MouseListener;
 
 /**
@@ -21,7 +24,16 @@ public class DevicePanel extends JScrollPane
         title = panelTitle;
         deviceTable = new DeviceTable();
         deviceTable.addTableModelListener(tableModelListener);
-        templateTable = new JTable(deviceTable);
+        templateTable = new JTable(deviceTable)
+        {
+            /*ImprovedTableCellEditor improvedTableCellEditor = new ImprovedTableCellEditor(new StringFormat()); // TODO: fix error in removing devices while editing them
+
+            @Override
+            public TableCellEditor getCellEditor(int row, int column)
+            {
+               return improvedTableCellEditor;
+            }*/
+        };
         templateTable.addMouseListener(mouseListener);
         templateTable.setTableHeader(null);
         getViewport().add(templateTable);

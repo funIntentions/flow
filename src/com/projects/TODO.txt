@@ -1,7 +1,9 @@
 Future Thoughts
 
 On Going
+- Template structures should have their load profile displayed as well
 - Demand chart doesn't update properly with an update rate of years, weeks or months
+- Deleting Devices while editing their names causes an error
 - The simulation needs to be reset and rerun once the update rate has changed
 - Cleanup the task manager, remove the testTask from SystemController and have it created in TaskManager if possible
 

@@ -12,6 +12,7 @@ import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.time.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.*;
@@ -40,7 +41,7 @@ public class SupplyAndDemandPanel extends JPanel implements SubscribedView
         timeBase = new Second(0, 58, 23, 1, 1, 2015);
         powerPlantIdToSeriesNumberMap = new HashMap<Integer, Integer>();
 
-        supplyChartPanel = new ChartPanel(createSupplyChart());
+        supplyChartPanel = new ChartPanel(createSupplyChart(new ArrayList<PowerPlant>()));
         demandChartPanel = new ChartPanel(createDemandChart());
 
         add(supplyChartPanel);
@@ -147,29 +148,6 @@ public class SupplyAndDemandPanel extends JPanel implements SubscribedView
         demandData.appendData(newData);
     }
 
-    private JFreeChart createSupplyChart()
-    {
-        supplyData = new DynamicTimeSeriesCollection(1, displayInterval, timeBase);
-        supplyData.setTimeBase(timeBase); // Offset so that it will begin at 00:00:00
-
-        JFreeChart result = ChartFactory.createTimeSeriesChart(
-                "Supply",  // chart title
-                "Time of Day",
-                "Supply(kWh)",
-                supplyData,
-                true,
-                true,
-                false
-        );
-
-        final XYPlot plot = result.getXYPlot();
-        ValueAxis domain = plot.getDomainAxis();
-        domain.setAutoRange(true);
-        ValueAxis range = plot.getRangeAxis();
-
-        return result;
-    }
-
     private JFreeChart createSupplyChart(List<PowerPlant> powerPlants)
     {
         supplyData = new DynamicTimeSeriesCollection(powerPlants.size(), displayInterval, timeBase);
@@ -198,8 +176,10 @@ public class SupplyAndDemandPanel extends JPanel implements SubscribedView
 
         final XYPlot plot = result.getXYPlot();
         ValueAxis domain = plot.getDomainAxis();
-        domain.setAutoRange(true);
+        domain.setAutoRange(true); // TODO: try and find a way to change the lower and upper bound...
         ValueAxis range = plot.getRangeAxis();
+        range.setLowerBound(0);
+        range.setUpperBound(1000);
 
         return result;
     }
@@ -226,6 +206,8 @@ public class SupplyAndDemandPanel extends JPanel implements SubscribedView
         ValueAxis domain = plot.getDomainAxis();
         domain.setAutoRange(true);
         ValueAxis range = plot.getRangeAxis();
+        range.setLowerBound(0);
+        range.setUpperBound(2000);
 
         return result;
     }
