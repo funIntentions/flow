@@ -134,7 +134,7 @@ public class World extends com.projects.systems.System
 
     public void runSimulation()
     {
-        if (!running)
+        if (!running && !worldTimer.isTimeLimitReached())
         {
             updateStatus();
             changeSupport.firePropertyChange(PC_SIMULATION_STARTED, null, simulationStatus);
@@ -154,6 +154,7 @@ public class World extends com.projects.systems.System
 
     public void resetSimulation()
     {
+        pauseSimulation();
         worldTimer.reset();
         demandManager.reset();
         statsManager.resetDailyTrends(worldTimer.getTotalTimeInSeconds());
