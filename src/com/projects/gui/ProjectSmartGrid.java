@@ -14,6 +14,7 @@ import com.projects.systems.simulation.World;
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
+import java.net.URL;
 import java.util.Locale;
 
 /**
@@ -278,6 +279,36 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
             Structure structure = (Structure)event.getNewValue();
             structureEditor.display(structure);
         }
+    }
+
+    protected JButton makeToolBarButton(String imageName,
+                                           String actionCommand,
+                                           String toolTipText,
+                                           String altText,
+                                           AbstractAction abstractAction)
+    {
+        //Look for the image.
+        String imgLocation = "images/"
+                + imageName
+                + ".gif";
+        URL imageURL = ProjectSmartGrid.class.getResource(imgLocation);
+
+        //Create and initialize the button.
+        JButton button = new JButton(abstractAction);
+        button.setActionCommand(actionCommand);
+        button.setToolTipText(toolTipText);
+
+        if (imageURL != null)
+        {                      //image found
+            button.setIcon(new ImageIcon(imageURL, altText));
+        }
+        else
+        {                                     //no image found
+            button.setText(altText);
+            System.err.println("Resource not found: " + imgLocation);
+        }
+
+        return button;
     }
 
     public static void main(String[] args)
