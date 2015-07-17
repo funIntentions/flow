@@ -102,6 +102,14 @@ public class SupplyAndDemandPanel extends JPanel implements SubscribedView
             demandChartPanel = new ChartPanel(createDemandChart());
             add(demandChartPanel);
         }
+        else if (event.getPropertyName().equals(World.PC_SIMULATION_STARTED)) // TODO: find a way to keep the power pant map up to date without having to create two charts (reset and start) potencially right after the other.
+        {
+            SimulationStatus status = (SimulationStatus)event.getNewValue();
+
+            remove(supplyChartPanel);
+            supplyChartPanel = new ChartPanel(createSupplyChart(status.powerPlants));
+            add(supplyChartPanel);
+        }
     }
 
     private void updateCharts(SimulationStatus status)
