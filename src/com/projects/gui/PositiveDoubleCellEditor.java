@@ -1,4 +1,4 @@
-package com.projects.gui.table;
+package com.projects.gui;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -62,6 +62,7 @@ public class PositiveDoubleCellEditor extends DefaultCellEditor
                                                  Object value, boolean isSelected, int row, int column)
     {
         textField.setBorder(black);
+        textField.setValue(value);
         return super.getTableCellEditorComponent(
                 table, value, isSelected, row, column);
     }

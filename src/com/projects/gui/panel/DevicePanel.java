@@ -17,7 +17,7 @@ import java.awt.event.MouseListener;
 public class DevicePanel extends JScrollPane
 {
     private String title;
-    private JTable templateTable;
+    private JTable table;
     private DeviceTable deviceTable;
 
     public DevicePanel(String panelTitle, TableModelListener tableModelListener, MouseListener mouseListener)
@@ -25,7 +25,7 @@ public class DevicePanel extends JScrollPane
         title = panelTitle;
         deviceTable = new DeviceTable();
         deviceTable.addTableModelListener(tableModelListener);
-        templateTable = new JTable(deviceTable)
+        table = new JTable(deviceTable)
         {
             ImprovedTableCellEditor improvedTableCellEditor = new ImprovedTableCellEditor(new ImprovedFormattedTextField(new StringFormat())); // TODO: fix error in removing devices while editing them
 
@@ -35,9 +35,10 @@ public class DevicePanel extends JScrollPane
                return improvedTableCellEditor;
             }
         };
-        templateTable.addMouseListener(mouseListener);
-        templateTable.setTableHeader(null);
-        getViewport().add(templateTable);
+        table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
+        table.addMouseListener(mouseListener);
+        table.setTableHeader(null);
+        getViewport().add(table);
     }
 
     public String getTitle()
@@ -57,6 +58,6 @@ public class DevicePanel extends JScrollPane
 
     public JTable getTable()
     {
-        return templateTable;
+        return table;
     }
 }

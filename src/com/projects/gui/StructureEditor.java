@@ -216,6 +216,7 @@ public class StructureEditor implements SubscribedView
             }
         };
         propertyTable.setDefaultEditor(Double.class, new PositiveDoubleCellEditor(new JFormattedTextField()));
+        propertyTable.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 
 
         devicePropertiesScrollPane = new JScrollPane(propertyTable);
@@ -273,6 +274,7 @@ public class StructureEditor implements SubscribedView
             }
         };
         buildingPropertyTable.setDefaultEditor(Double.class, new PositiveDoubleCellEditor(new JFormattedTextField()));
+        buildingPropertyTable.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 
         JScrollPane buildingPropertiesScrollPane = new JScrollPane(buildingPropertyTable);
         buildingPropertiesScrollPane.setBorder(BorderFactory.createTitledBorder("Building Properties"));
@@ -296,6 +298,7 @@ public class StructureEditor implements SubscribedView
         usageTable.addTableModelListener(new DeviceUsageTableListener(controller));
         deviceUsageTable = new JTable(usageTable);
         deviceUsageTable.setDefaultEditor(Date.class, new TimeEditor());
+        deviceUsageTable.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
         TimeRenderer renderer = new TimeRenderer();
         deviceUsageTable.setDefaultRenderer(Date.class, renderer);
         deviceUsageScrollPane = new JScrollPane(deviceUsageTable);
@@ -396,6 +399,7 @@ public class StructureEditor implements SubscribedView
                     deviceTable.removeRow(selectedRow);
 
                     devicePropertiesTable.clearTable();
+                    usageTable.clearTable();
                     controller.removeDevice(device.getId());
                     removeUsageButton.setEnabled(false);
                     newUsageButton.setEnabled(false);
