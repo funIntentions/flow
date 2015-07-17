@@ -225,23 +225,15 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <type>ENERGY_STORAGE</type>
             <properties>
                 <property>
-                    <name>IsCharging</name>
-                    <value type="BOOLEAN">false</value>
-                </property>
-                <property>
-                    <name>IsReleasingEnergy</name>
-                    <value type="BOOLEAN">false</value>
-                </property>
-                <property>
                     <name>ChargingRate</name>
                     <value type="DOUBLE">0</value>
                 </property>
                 <property>
-                    <name>StoredEnergy</name>
+                    <name>StorageCapacity</name>
                     <value type="DOUBLE">0</value>
                 </property>
                 <property>
-                    <name>ConnectionPower</name>
+                    <name>StoredEnergy</name>
                     <value type="DOUBLE">0</value>
                 </property>
             </properties>

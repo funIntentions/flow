@@ -46,12 +46,12 @@ public class DemandManager
         totalUsageInkWh += usageInWattsPerHour / 1000;
     }
 
-    public double getAppliancesUsageInHours(double elapsedSecondsThisFrame, double totalTimeElaspedInSeconds, Appliance appliance)
+    public double getAppliancesUsageInHours(double elapsedSecondsThisFrame, double totalTimeElapsedInSeconds, Appliance appliance)
     {
         double usageInSeconds = 0;
         ElectricityUsageSchedule usageSchedule = appliance.getElectricityUsageSchedule();
 
-        double elapsedSecondsThisDay = (totalTimeElaspedInSeconds - elapsedSecondsThisFrame) % WorldTimer.SECONDS_IN_DAY;
+        double elapsedSecondsThisDay = (totalTimeElapsedInSeconds - elapsedSecondsThisFrame) % WorldTimer.SECONDS_IN_DAY;
         double secondsLeftInDay = WorldTimer.SECONDS_IN_DAY - elapsedSecondsThisDay;
 
         if (elapsedSecondsThisFrame <= secondsLeftInDay)

@@ -9,11 +9,9 @@ import java.util.List;
  */
 public class EnergyStorage extends Device
 {
-    private boolean isCharging;
-    private boolean isReleasing;
     private double chargingRate;
+    private double storageCapacity;
     private double storedEnergy;
-    private double connectionPower;
 
     public EnergyStorage(List<Property> energyStorageProperties, ElectricityUsageSchedule deviceUsageSchedule)
     {
@@ -47,13 +45,9 @@ public class EnergyStorage extends Device
     {
         Object value = property.getValue();
 
-        if (property.getName().equals("IsCharging"))
+        if (property.getName().equals("StorageCapacity"))
         {
-            isCharging = Boolean.valueOf(value.toString());
-        }
-        else if (property.getName().equals("IsReleasingEnergy"))
-        {
-            isReleasing = Boolean.valueOf(value.toString());
+            storageCapacity = Double.valueOf(value.toString());
         }
         else if (property.getName().equals("ChargingRate"))
         {
@@ -63,34 +57,10 @@ public class EnergyStorage extends Device
         {
             storedEnergy = Double.valueOf(value.toString());
         }
-        else if (property.getName().equals("ConnectionPower"))
-        {
-            connectionPower = Double.valueOf(value.toString());
-        }
         else
         {
             System.out.println(property.getName() + " is an unknown property.");
         }
-    }
-
-    public boolean isCharging()
-    {
-        return isCharging;
-    }
-
-    public void setCharging(boolean isCharging)
-    {
-        this.isCharging = isCharging;
-    }
-
-    public double getConnectionPower()
-    {
-        return connectionPower;
-    }
-
-    public void setConnectionPower(double connectionPower)
-    {
-        this.connectionPower = connectionPower;
     }
 
     public double getStoredEnergy()
@@ -113,13 +83,13 @@ public class EnergyStorage extends Device
         this.chargingRate = chargingRate;
     }
 
-    public boolean isReleasing()
+    public double getStorageCapacity()
     {
-        return isReleasing;
+        return storageCapacity;
     }
 
-    public void setReleasing(boolean isReleasing)
+    public void setStorageCapacity(double storageCapacity)
     {
-        this.isReleasing = isReleasing;
+        this.storageCapacity = storageCapacity;
     }
 }

@@ -46,6 +46,7 @@ public class World extends com.projects.systems.System
     private DemandManager demandManager;
     private SupplyManager supplyManager;
     private StatsManager statsManager;
+    private StorageManager storageManager;
     private WorldTimer worldTimer;
     private SimulationStatus simulationStatus;
 
@@ -59,6 +60,7 @@ public class World extends com.projects.systems.System
         demandManager = new DemandManager();
         supplyManager = new SupplyManager();
         statsManager = new StatsManager();
+        storageManager = new StorageManager();
         worldTimer = new WorldTimer();
         simulationStatus = new SimulationStatus();
         resetSimulation();
@@ -69,6 +71,7 @@ public class World extends com.projects.systems.System
         pauseSimulation();
         demandManager.removeAllStructures();
         supplyManager.removeAllStructures();
+        storageManager.removeAllStructures();
 
         structures.clear();
         lastSelected = null;
@@ -91,6 +94,7 @@ public class World extends com.projects.systems.System
         structures.put(structure.getId(), structure);
 
         demandManager.syncStructures(structure);
+        storageManager.syncStructures(structure);
 
         if (supplyManager.syncStructures(structure))
         {
@@ -111,6 +115,7 @@ public class World extends com.projects.systems.System
 
         demandManager.removeStructure(structures.get(id));
         supplyManager.removeStructure(structures.get(id));
+        storageManager.removeStructure(structures.get(id));
         structures.remove(id);
         changeSupport.firePropertyChange(PC_REMOVE_STRUCTURE, null, id);
     }

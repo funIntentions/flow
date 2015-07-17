@@ -4,6 +4,8 @@ On Going
 - Demand chart doesn't update properly with an update rate of years, weeks or months
 - The simulation needs to be reset and rerun once the update rate has changed
 - Cleanup the task manager, remove the testTask from SystemController and have it created in TaskManager if possible
+- If the simulation is running/unsaved the Loading Default and Loading file should halt the simulation, but first prompt the user if they're sure.
+- Editing the simulation start & end date and the update rate should be disabled while the simulation is running.
 
 QUESTIONS:
 - Should every button but the run, pause, reset be disabled while the simulation is running? Also should you have to pause before resetting the simulation?
