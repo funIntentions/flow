@@ -3,6 +3,7 @@ package com.projects.systems.simulation;
 import com.projects.models.PowerPlant;
 import com.projects.models.WorldTimer;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -23,9 +24,11 @@ public class StatsManager
     private long timeInterval;
     private double previousTime;
     private boolean dailyTrendDataReady;
+    private List<Integer> dailyDemandBuffer;
 
     public StatsManager()
     {
+        dailyDemandBuffer = new ArrayList<Integer>();
         resetDailyTrends(0);
     }
 
@@ -41,6 +44,23 @@ public class StatsManager
         dailyDemandTrends = new float[intervalCount];
 
         dailyTrendDataReady = false;
+
+        copyDailyDemandBuffer();
+    }
+
+    private void copyDailyDemandBuffer()
+    {
+        for (Integer demand : dailyDemandBuffer)
+        {
+            dailyDemandTrends[trendIndex] = demand;
+            dailyEmissionTrends[trendIndex] = emissionsForDemand[demand];
+            dailyPriceTrends[trendIndex] = priceForDemand[demand];
+
+            previousTime += timeInterval;
+            ++trendIndex;
+        }
+
+        dailyDemandBuffer.clear();
     }
 
     public void updatePriceAndEmissionsStats(SupplyManager supplyManager)
@@ -70,27 +90,35 @@ public class StatsManager
 
     public void logDailyTrends(DemandManager demandManager, WorldTimer worldTimer)
     {
-        int difference = (int)(Math.floor(worldTimer.getTotalTimeInSeconds() - previousTime));
+        double difference = worldTimer.getTotalTimeInSeconds() - previousTime;
 
         if (difference/timeInterval > 0 && !dailyTrendDataReady)
         {
             difference /= timeInterval;
-            int currentDemand = (int)Math.floor(demandManager.getElectricityDemand());
 
             for (int i = 0; i < difference; ++i) // TODO: change this so that no matter the update rate, all the data will be accurate, currently data can be skipped and bad assumptions are being made.
             {
-                dailyDemandTrends[trendIndex] = currentDemand;
-                dailyEmissionTrends[trendIndex] = emissionsForDemand[currentDemand];
-                dailyPriceTrends[trendIndex] = priceForDemand[currentDemand];
+                //demandManager.calculateDemand(worldTimer.getTotalTimeInSeconds() - previousTime, difference);
+                int currentDemand = (int) Math.floor(demandManager.getElectricityDemand());
+
+                if (trendIndex != intervalCount)
+                {
+                    dailyDemandTrends[trendIndex] = currentDemand;
+                    dailyEmissionTrends[trendIndex] = emissionsForDemand[currentDemand];
+                    dailyPriceTrends[trendIndex] = priceForDemand[currentDemand];
+                }
+                else
+                {
+                    dailyDemandBuffer.add(currentDemand);
+                }
 
                 previousTime += timeInterval;
                 ++trendIndex;
+            }
 
-                if (trendIndex == intervalCount)
-                {
-                    dailyTrendDataReady = true;
-                    break;
-                }
+            if (trendIndex == intervalCount)
+            {
+                dailyTrendDataReady = true;
             }
         }
     }

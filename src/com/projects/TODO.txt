@@ -7,5 +7,6 @@ On Going
 
 QUESTIONS:
 - Should every button but the run, pause, reset be disabled while the simulation is running? Also should you have to pause before resetting the simulation?
-- Is the Graphics Panel even needed?
+- Plans for the graphics panel? Changing visuals (lights on in houses with power, polluted air when emissions are high)
+- Instead of years, weeks, months for update rates, have an calculate now which just processes everything at the same time? Not sure how that will handle storage strategies
 
