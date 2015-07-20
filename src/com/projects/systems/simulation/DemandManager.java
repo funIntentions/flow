@@ -2,6 +2,7 @@ package com.projects.systems.simulation;
 
 import com.projects.models.*;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,14 +15,18 @@ public class DemandManager
 {
     private List<Structure> structures;
     private HashMap<Integer, List<Float>> structureLoadProfiles;
-    private double usageInWattsPerHour;
-    private double totalUsageInkWh;
-    private double electricityDemand;
+    private List<Integer> todaysDemandProfile;
+    private List<Integer> demandBuffer;
+    private double usageInWattsPerHour = 0;
+    private double totalUsageInkWh = 0;
+    private double electricityDemand = 0;
 
     public DemandManager()
     {
         structures = new ArrayList<Structure>();
         structureLoadProfiles = new HashMap<Integer, List<Float>>();
+        todaysDemandProfile = new ArrayList<Integer>();
+        demandBuffer = new ArrayList<Integer>();
     }
 
     public List<Float> getLoadProfile(Structure structure)
@@ -58,9 +63,51 @@ public class DemandManager
         }
     }
 
+    public void resetDay()
+    {
+        todaysDemandProfile.clear();
+        todaysDemandProfile.addAll(demandBuffer);
+        demandBuffer.clear();
+    }
+
     public void calculateDemand(double timeElapsedInSeconds, double totalTimeElapsedInSeconds)
     {
-        usageInWattsPerHour = 0;
+        int previousElapsedSecondsThisDay = (int)(Math.floor(totalTimeElapsedInSeconds - timeElapsedInSeconds) % TimeUnit.DAYS.toSeconds(1));
+        int previousElapsedMinutesThisDay = (int)TimeUnit.SECONDS.toMinutes(previousElapsedSecondsThisDay);
+        int totalElapsedMinutesThisDay = (int)TimeUnit.SECONDS.toMinutes((long)totalTimeElapsedInSeconds % TimeUnit.DAYS.toSeconds(1));
+
+
+        if (previousElapsedMinutesThisDay > totalElapsedMinutesThisDay)
+        {
+            for (int time = 0; time < totalElapsedMinutesThisDay; ++time)
+            {
+                electricityDemand = 0;
+
+                for (List<Float> loadProfile : structureLoadProfiles.values())
+                {
+                    electricityDemand += loadProfile.get(time);
+                }
+
+                demandBuffer.add((int) electricityDemand);
+            }
+        }
+        else
+        {
+            for (int time = previousElapsedMinutesThisDay; time < totalElapsedMinutesThisDay; ++time)
+            {
+                electricityDemand = 0;
+
+                for (List<Float> loadProfile : structureLoadProfiles.values())
+                {
+                    electricityDemand += loadProfile.get(time);
+                }
+
+                todaysDemandProfile.add((int) electricityDemand);
+            }
+        }
+
+
+        /*usageInWattsPerHour = 0;
         electricityDemand = 0;
 
         for (Structure structure : structures)
@@ -81,7 +128,7 @@ public class DemandManager
             electricityDemand *= structure.getNumberOfUnits();
         }
 
-        totalUsageInkWh += usageInWattsPerHour / 1000;
+        totalUsageInkWh += usageInWattsPerHour / 1000;*/
     }
 
     public double getAppliancesUsageInHours(double elapsedSecondsThisFrame, double totalTimeElapsedInSeconds, Appliance appliance)
@@ -179,7 +226,8 @@ public class DemandManager
         return true;
     }
 
-    public double getTotalUsageInkWh() {
+    public double getTotalUsageInkWh()
+    {
         return totalUsageInkWh;
     }
 
@@ -188,8 +236,14 @@ public class DemandManager
         return usageInWattsPerHour;
     }
 
-    public double getElectricityDemand() {
+    public double getElectricityDemand()
+    {
         return electricityDemand;
+    }
+
+    public List<Integer> getTodaysDemandProfile()
+    {
+        return todaysDemandProfile;
     }
 }
 

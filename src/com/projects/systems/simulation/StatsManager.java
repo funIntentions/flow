@@ -41,7 +41,7 @@ public class StatsManager
     {
         previousTime = currentTime;
         trendIndex = 0;
-        timeInterval = TimeUnit.MINUTES.toSeconds(30);
+        timeInterval = TimeUnit.MINUTES.toSeconds(1);
         intervalCount = (int)(TimeUnit.DAYS.toSeconds(1)/timeInterval);
 
         dailyPriceTrends.clear();
@@ -119,15 +119,24 @@ public class StatsManager
             return priceForDemand.get(demand);
     }
 
-    public void logDailyTrends(DemandManager demandManager, WorldTimer worldTimer)
+    public void logDailyTrends(List<Integer> demandProfile)
     {
-        double difference = worldTimer.getTotalTimeInSeconds() - previousTime;
+        for (int time = 0; time < demandProfile.size(); ++time)
+        {
+            int currentDemand = demandProfile.get(time);
+
+            dailyDemandTrends.add((float)currentDemand);
+            dailyEmissionTrends.add(getEmissionsForDemand(currentDemand));
+            dailyPriceTrends.add(getPriceForDemand(currentDemand));
+        }
+
+        /*double difference = worldTimer.getTotalTimeInSeconds() - previousTime;
 
         if (difference/timeInterval > 0 && !dailyTrendDataReady)
         {
             difference /= timeInterval;
 
-            for (int i = 0; i < difference; ++i) // TODO: change this so that no matter the update rate, all the data will be accurate, currently data can be skipped and bad assumptions are being made.
+            for (int i = 0; i < difference; ++i) // TODO: change this so that no matter the update rate, all the data will be accurate,
             {
                 //demandManager.calculateDemand(worldTimer.getTotalTimeInSeconds() - previousTime, difference);
                 int currentDemand = (int) Math.floor(demandManager.getElectricityDemand());
@@ -155,7 +164,7 @@ public class StatsManager
             {
                 dailyTrendDataReady = true;
             }
-        }
+        }*/
     }
 
     public List<Float> getDailyEmissionTrends()

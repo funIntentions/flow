@@ -29,6 +29,7 @@ public class WorldTimer
     private int month;
     private int year;
     private UpdateRate updateRate;
+    private boolean newDay;
 
     public static final double SECONDS_IN_MINUTE = 60;
     public static final double SECONDS_IN_HOUR = 3600;
@@ -40,6 +41,7 @@ public class WorldTimer
 
     public WorldTimer()
     {
+        newDay = false;
         timeLimitReached = false;
         updateRate = UpdateRate.SECONDS;
         timeLimit = Double.MAX_VALUE;
@@ -57,6 +59,7 @@ public class WorldTimer
         }
 
         totalTimeInSeconds += modifiedTimeElapsedInSeconds;
+        int previous = day;
 
         hour = (totalTimeInSeconds / SECONDS_IN_HOUR);
         day = (int)(totalTimeInSeconds / SECONDS_IN_DAY);
@@ -66,6 +69,8 @@ public class WorldTimer
         hourOfDay =  (int)Math.floor(hour % HOURS_IN_DAY);
         minutesOfHour = (int)Math.floor((totalTimeInSeconds % SECONDS_IN_HOUR) / 60);
         secondsOfMinute = (int)Math.floor((totalTimeInSeconds % SECONDS_IN_MINUTE));
+
+        newDay = (day > previous);
     }
 
     private double modifyWithRate(double deltaTime)
@@ -185,6 +190,11 @@ public class WorldTimer
     public int getYear()
     {
         return year;
+    }
+
+    public boolean isNewDay()
+    {
+        return newDay;
     }
 
     public Boolean isTimeLimitReached()

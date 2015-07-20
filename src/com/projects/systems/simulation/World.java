@@ -186,18 +186,20 @@ public class World extends com.projects.systems.System
     private void tick()
     {
         worldTimer.tick(Constants.FIXED_SIMULATION_RATE_SECONDS);
+
+        if (worldTimer.isNewDay())
+        {
+            statsManager.resetDailyTrends(worldTimer.getTotalTimeInSeconds());
+            statsManager.logDailyTrends(demandManager.getTodaysDemandProfile());
+            changeSupport.firePropertyChange(PC_DAILY_STATS_UPDATED, null, statsManager);
+            demandManager.resetDay();
+        }
+
         demandManager.calculateDemand(worldTimer.getModifiedTimeElapsedInSeconds(), worldTimer.getTotalTimeInSeconds());
         supplyManager.calculateSupply(demandManager.getElectricityDemand());
-        statsManager.logDailyTrends(demandManager, worldTimer);
         updateStatus();
 
         changeSupport.firePropertyChange(PC_WORLD_UPDATE, null, simulationStatus);
-
-        if (statsManager.isDailyTrendDataReady())
-        {
-            changeSupport.firePropertyChange(PC_DAILY_STATS_UPDATED, null, statsManager);
-            statsManager.resetDailyTrends(worldTimer.getTotalTimeInSeconds());
-        }
 
         if (worldTimer.isTimeLimitReached())
         {
