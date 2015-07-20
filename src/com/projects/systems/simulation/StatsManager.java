@@ -136,7 +136,7 @@ public class StatsManager
         {
             difference /= timeInterval;
 
-            for (int i = 0; i < difference; ++i) // TODO: change this so that no matter the update rate, all the data will be accurate,
+            for (int i = 0; i < difference; ++i)
             {
                 //demandManager.calculateDemand(worldTimer.getTotalTimeInSeconds() - previousTime, difference);
                 int currentDemand = (int) Math.floor(demandManager.getElectricityDemand());
