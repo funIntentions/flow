@@ -1,7 +1,9 @@
 package com.projects.systems.simulation;
 
 import com.projects.models.*;
+import com.projects.systems.*;
 
+import java.lang.System;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -137,6 +139,8 @@ public class DemandManager
 
             todaysDemandProfile.add((int) electricityDemand);
         }
+
+        System.out.println(todaysDemandProfile.size());
 
         if (todaysDemandProfile.size() == TimeUnit.DAYS.toMinutes(1))
             dailyDemandProfileReady = true;

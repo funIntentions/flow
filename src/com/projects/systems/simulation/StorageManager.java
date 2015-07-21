@@ -23,6 +23,14 @@ public class StorageManager
         deviceStorageProfiles = new HashMap<Integer, List<Float>>();
     }
 
+    public void resetStorageProfiles()
+    {
+        for (List<Float> profile : deviceStorageProfiles.values())
+        {
+            profile.clear();
+        }
+    }
+
     public float getStructuresStorageDemandAtTime(Structure structure, int time)
     {
         List<EnergyStorage> storageDevices = (List)structure.getEnergyStorageDevices();
@@ -87,19 +95,6 @@ public class StorageManager
             for (EnergyStorage storage : energyStorageDevices)
             {
                 updateStorageStrategy(demandManager, statsManager, storage);
-            }
-        }
-    }
-
-    public void updateStorage()
-    {
-        for (Structure structure : structures)
-        {
-            List<EnergyStorage> energyStorageDevices = (List)structure.getEnergyStorageDevices();
-
-            for (EnergyStorage storage : energyStorageDevices)
-            {
-
             }
         }
     }

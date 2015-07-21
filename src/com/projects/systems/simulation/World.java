@@ -173,6 +173,7 @@ public class World extends com.projects.systems.System
         pauseSimulation();
         worldTimer.reset();
         demandManager.reset();
+        storageManager.resetStorageProfiles();
         statsManager.resetDailyTrends(worldTimer.getTotalTimeInSeconds());
         updateStatus();
         changeSupport.firePropertyChange(PC_WORLD_RESET, null, simulationStatus);
@@ -199,6 +200,7 @@ public class World extends com.projects.systems.System
         {
             statsManager.resetDailyTrends(worldTimer.getTotalTimeInSeconds());
             statsManager.logDailyTrends(demandManager.getTodaysDemandProfile());
+            storageManager.resetStorageProfiles();
             storageManager.updateStorageStrategies(demandManager, statsManager);
             demandManager.calculateDemandProfiles(storageManager);
             changeSupport.firePropertyChange(PC_DAILY_STATS_UPDATED, null, statsManager);
