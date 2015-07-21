@@ -186,6 +186,7 @@ public class World extends com.projects.systems.System
 
     private void tick()
     {
+
         worldTimer.tick(Constants.FIXED_SIMULATION_RATE_SECONDS);
 
         demandManager.calculateDemand(worldTimer.getModifiedTimeElapsedInSeconds(), worldTimer.getTotalTimeInSeconds());
