@@ -70,8 +70,6 @@ public class DemandManager
 
     public void calculateDemandProfiles(StorageManager storageManager)
     {
-        HashMap<Integer, List<Float>> storageProfiles = storageManager.getDeviceStorageProfiles();
-
         for (Structure structure : structures)
         {
             List<Float> loadProfile = structureLoadProfiles.get(structure.getId());

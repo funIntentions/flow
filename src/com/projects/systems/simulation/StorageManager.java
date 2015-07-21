@@ -80,6 +80,8 @@ public class StorageManager
                 {
                     chargeAmount = -(float)(storage.getStoredEnergy());
                 }
+                
+                storage.setStoredEnergy(storage.getStoredEnergy() + chargeAmount);
             }
 
             storageProfile.add(chargeAmount);
