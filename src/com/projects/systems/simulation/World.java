@@ -151,6 +151,7 @@ public class World extends com.projects.systems.System
     {
         if (!running && !worldTimer.isTimeLimitReached())
         {
+            demandManager.calculateDemandProfiles(storageManager);
             updateStatus();
             changeSupport.firePropertyChange(PC_SIMULATION_STARTED, null, simulationStatus);
             simulationHandle = scheduler.scheduleAtFixedRate(simulationTick, 0, Constants.FIXED_SIMULATION_RATE_MILLISECONDS, TimeUnit.MILLISECONDS);
@@ -185,7 +186,15 @@ public class World extends com.projects.systems.System
 
     private void tick()
     {
-        if (worldTimer.isNewDay())
+        worldTimer.tick(Constants.FIXED_SIMULATION_RATE_SECONDS);
+
+        demandManager.calculateDemand(worldTimer.getModifiedTimeElapsedInSeconds(), worldTimer.getTotalTimeInSeconds());
+        supplyManager.calculateSupply(demandManager.getElectricityDemand());
+        updateStatus();
+
+        changeSupport.firePropertyChange(PC_WORLD_UPDATE, null, simulationStatus);
+
+        if (demandManager.isDailyDemandProfileReady())
         {
             statsManager.resetDailyTrends(worldTimer.getTotalTimeInSeconds());
             statsManager.logDailyTrends(demandManager.getTodaysDemandProfile());
@@ -194,14 +203,6 @@ public class World extends com.projects.systems.System
             changeSupport.firePropertyChange(PC_DAILY_STATS_UPDATED, null, statsManager);
             demandManager.resetDay();
         }
-
-        demandManager.calculateDemand(worldTimer.getModifiedTimeElapsedInSeconds(), worldTimer.getTotalTimeInSeconds());
-        supplyManager.calculateSupply(demandManager.getElectricityDemand());
-        updateStatus();
-
-        changeSupport.firePropertyChange(PC_WORLD_UPDATE, null, simulationStatus);
-
-        worldTimer.tick(Constants.FIXED_SIMULATION_RATE_SECONDS);
 
         if (worldTimer.isTimeLimitReached())
         {

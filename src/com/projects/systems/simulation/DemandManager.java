@@ -21,6 +21,7 @@ public class DemandManager
     private double usageInWattsPerHour = 0;
     private double totalUsageInkWh = 0;
     private double electricityDemand = 0;
+    private boolean dailyDemandProfileReady = false;
 
     public DemandManager()
     {
@@ -114,6 +115,10 @@ public class DemandManager
 
                 demandBuffer.add((int) electricityDemand);
             }
+
+
+            if (demandBuffer.size() == TimeUnit.DAYS.toMinutes(1))
+                dailyDemandProfileReady = true;
         }
         else
         {
@@ -268,6 +273,11 @@ public class DemandManager
     public List<Integer> getTodaysDemandProfile()
     {
         return todaysDemandProfile;
+    }
+
+    public boolean isDailyDemandProfileReady()
+    {
+        return dailyDemandProfileReady;
     }
 }
 

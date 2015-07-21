@@ -3,6 +3,7 @@ package com.projects.systems.simulation;
 import com.projects.models.EnergyStorage;
 import com.projects.models.Structure;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class StorageManager
 {
     List<Structure> structures;
-    private HashMap<Integer, List<Float>> deviceStorageProfiles; // TODO: need to be accessed by storage device id's and not structure id's since a structure can have multiple storage devices.
+    private HashMap<Integer, List<Float>> deviceStorageProfiles;
 
     public StorageManager()
     {
@@ -29,7 +30,10 @@ public class StorageManager
 
         for (EnergyStorage storage : storageDevices)
         {
-            demand += deviceStorageProfiles.get(storage.getId()).get(time);
+            List<Float> storageProfile = deviceStorageProfiles.get(storage.getId());
+
+            if (storageProfile.size() > 0)
+                demand += storageProfile.get(time);
         }
 
         return demand;
