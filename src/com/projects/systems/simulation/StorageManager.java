@@ -53,7 +53,8 @@ public class StorageManager
             float priceForDemand = statsManager.getPriceForDemand(demand);
             float chargeAmount = 0;
 
-            if (priceForDemand <= lowDemandPrice)
+            if (priceForDemand <= lowDemandPrice
+                    && storage.getStoredEnergy() < storage.getStorageCapacity())
             {
                 chargeAmount = (float)(storage.getChargingRate()/ TimeUnit.HOURS.toMinutes(1));
                 if (storage.getStorageCapacity() < storage.getStoredEnergy() + chargeAmount)
@@ -61,10 +62,12 @@ public class StorageManager
                     chargeAmount = (float)(storage.getStorageCapacity() - storage.getStoredEnergy());
                 }
 
+                storage.setStoredEnergy(storage.getStoredEnergy() + chargeAmount);
             }
-            else if (priceForDemand >= highDemandPrice)
+            else if (priceForDemand >= highDemandPrice
+                    && storage.getStoredEnergy() > 0)
             {
-                chargeAmount = (float)(storage.getChargingRate()/ TimeUnit.HOURS.toMinutes(1)); // TODO: add property discharge rate to storage devices, then change charging rate here to that
+                chargeAmount = -(float)(storage.getChargingRate()/ TimeUnit.HOURS.toMinutes(1)); // TODO: add property discharge rate to storage devices, then change charging rate here to that
                 if (0 > storage.getStoredEnergy() - chargeAmount)
                 {
                     chargeAmount = -(float)(storage.getStoredEnergy());
