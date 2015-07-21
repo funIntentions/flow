@@ -3,7 +3,9 @@ package com.projects.systems.simulation;
 import com.projects.models.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Dan on 6/24/2015.
@@ -11,6 +13,7 @@ import java.util.List;
 public class DemandManager
 {
     private List<Structure> structures;
+    private HashMap<Integer, List<Float>> structureLoadProfiles;
     private double usageInWattsPerHour;
     private double totalUsageInkWh;
     private double electricityDemand;
@@ -18,6 +21,41 @@ public class DemandManager
     public DemandManager()
     {
         structures = new ArrayList<Structure>();
+        structureLoadProfiles = new HashMap<Integer, List<Float>>();
+    }
+
+    public List<Float> getLoadProfile(Structure structure)
+    {
+        return structureLoadProfiles.get(structure.getId());
+    }
+
+    public void calculateLoadProfiles()
+    {
+        int secondsInDay = (int)TimeUnit.DAYS.toSeconds(1);
+        int interval = 60;
+        int length = secondsInDay/interval;
+
+        for (Structure structure : structures)
+        {
+            List<Float> loadProfile = new ArrayList<Float>();
+            List<Appliance> appliances = (List)structure.getAppliances();
+
+            for (int time = 0; time < length; ++time)
+            {
+                loadProfile.add(0f);
+
+                for (Appliance appliance : appliances)
+                {
+                    if (appliance.getElectricityUsageSchedule().isOnAtTime(time * interval))
+                    {
+                        float sum = loadProfile.get(time) + (float) appliance.getAverageConsumption();
+                        loadProfile.set(time, sum);
+                    }
+                }
+            }
+
+            structureLoadProfiles.put(structure.getId(), loadProfile);
+        }
     }
 
     public void calculateDemand(double timeElapsedInSeconds, double totalTimeElapsedInSeconds)
@@ -78,6 +116,11 @@ public class DemandManager
     {
         usageInWattsPerHour = 0;
         totalUsageInkWh = 0;
+    }
+
+    public boolean isConsumer(Structure structure)
+    {
+        return (structureLoadProfiles.get(structure.getId()) != null);
     }
 
     public boolean removeStructure(Structure structureToRemove)

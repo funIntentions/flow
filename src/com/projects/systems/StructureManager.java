@@ -3,6 +3,7 @@ package com.projects.systems;
 import com.projects.helper.DeviceType;
 import com.projects.helper.ImageType;
 import com.projects.models.*;
+import com.projects.systems.simulation.DemandManager;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -26,11 +27,13 @@ public class StructureManager extends System
     public static final String PC_ADD_DEVICE = "PC_ADD_DEVICE";
     public static final String PC_DEVICE_SELECTED = "PC_DEVICE_SELECTED";
     public static final String PC_IMAGES_READY = "PC_IMAGES_READ";
+    public static final String SELECTED_LOAD_PROFILE_CHANGED = "SELECTED_LOAD_PROFILE_CHANGED";
     private static Integer nextAvailableStructureId = 0;
     private static Integer nextAvailableDeviceId = 0;
     private HashMap<ImageType, BufferedImage> images;
     private HashMap<Integer, Device> devices;
     private HashMap<Integer, Structure> structures;
+    private DemandManager demandManager;
 
     private static Integer getNextAvailableStructureId()
     {
@@ -50,6 +53,8 @@ public class StructureManager extends System
         structureBeingEdited = null;
         lastSelected = null;
         deviceBeingEdited = -1;
+
+        demandManager = new DemandManager();
     }
 
     public void newImages(HashMap<ImageType, BufferedImage> structureImages)
@@ -71,7 +76,7 @@ public class StructureManager extends System
         for (Structure structure : templateStructures)
         {
             structure.setId(getNextAvailableStructureId());
-            structures.put(structure.getId(), structure);
+            updateStructure(structure);
 
             for (Device device : structure.getAppliances())
             {
@@ -146,15 +151,23 @@ public class StructureManager extends System
         changeSupport.firePropertyChange(PC_EDITING_STRUCTURE, null, structureBeingEdited);
     }
 
-    public void setStructure(Structure structure)
+    public void updateStructure(Structure structure)
     {
         structures.put(structure.getId(), structure);
+        if (demandManager.syncStructures(structure))
+        {
+            demandManager.calculateLoadProfiles();
+            changeSupport.firePropertyChange(SELECTED_LOAD_PROFILE_CHANGED, null, demandManager.getLoadProfile(structure));
+        }
     }
 
     public void selectTemplateStructure(Structure structure)
     {
         lastSelected = structures.get(structure.getId());
         changeSupport.firePropertyChange(PC_TEMPLATE_SELECTED, null, structure);
+
+        if (demandManager.isConsumer(structure))
+            changeSupport.firePropertyChange(SELECTED_LOAD_PROFILE_CHANGED, null, demandManager.getLoadProfile(structure));
     }
 
     public void deviceSelected(int id)

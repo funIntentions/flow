@@ -15,6 +15,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -36,13 +37,15 @@ public class SelectionInfoPanel extends JPanel implements SubscribedView
 
     public void modelPropertyChange(PropertyChangeEvent event)
     {
-        if (event.getPropertyName().equals(World.PC_STRUCTURE_SELECTED)
+        /*if (event.getPropertyName().equals(World.PC_STRUCTURE_SELECTED)
                 || event.getPropertyName().equals(World.PC_STRUCTURE_UPDATE)
                 || event.getPropertyName().equals(StructureManager.PC_TEMPLATE_SELECTED)
-                || event.getPropertyName().equals(StructureManager.PC_STRUCTURE_EDITED))
+                || event.getPropertyName().equals(StructureManager.PC_STRUCTURE_EDITED))*/
+        if (event.getPropertyName().equals(World.PC_SELECTED_LOAD_PROFILE_CHANGED)
+                || event.getPropertyName().equals(StructureManager.SELECTED_LOAD_PROFILE_CHANGED))
         {
             data.removeAllSeries();
-            data.addSeries(calculateStructuresLoadProfileDataSeries((Structure)event.getNewValue()));
+            data.addSeries(makeLoadProfileDataSeries((List<Float>) event.getNewValue()));
         }
     }
 
@@ -67,6 +70,19 @@ public class SelectionInfoPanel extends JPanel implements SubscribedView
             previous = time * timeSpanLength;
 
             series.add(time + 1, usageDuringTimeSpan);
+        }
+
+        return series;
+    }
+
+    private XYSeries makeLoadProfileDataSeries(List<Float> loadProfile)
+    {
+        XYSeries series = new XYSeries("Structure");
+
+        int length = loadProfile.size();
+        for (int i = 0; i < length; ++i)
+        {
+            series.add(i, loadProfile.get(i));
         }
 
         return series;

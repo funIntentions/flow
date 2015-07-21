@@ -10,6 +10,7 @@ public class ElectricityUsageSchedule
 {
     private double usagePerDay;
     private List<TimeSpan> activeTimeSpans;
+    // TODO: add array of precomputed times that this device is active for
 
     public ElectricityUsageSchedule()
     {
@@ -103,6 +104,19 @@ public class ElectricityUsageSchedule
         }
 
         return usageSum;
+    }
+
+    public boolean isOnAtTime(long time)
+    {
+        for (TimeSpan deviceUsage : activeTimeSpans)
+        {
+            if (deviceUsage.from <= time && deviceUsage.to >= time)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public double getUsagePerDay()

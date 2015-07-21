@@ -31,6 +31,7 @@ public class World extends com.projects.systems.System
     public static final String PC_PRICE_STATS_UPDATED = "PC_PRICE_STATS_UPDATED";
     public static final String PC_EMISSIONS_STATS_UPDATED = "PC_EMISSIONS_STATS_UPDATED";
     public static final String PC_DAILY_STATS_UPDATED = "PC_DAILY_STATS_UPDATED";
+    public static final String PC_SELECTED_LOAD_PROFILE_CHANGED = "PC_SELECTED_LOAD_PROFILE_CHANGED";
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final Runnable simulationTick = new Runnable()
@@ -93,7 +94,12 @@ public class World extends com.projects.systems.System
     {
         structures.put(structure.getId(), structure);
 
-        demandManager.syncStructures(structure);
+        if (demandManager.syncStructures(structure))
+        {
+            demandManager.calculateLoadProfiles();
+            changeSupport.firePropertyChange(PC_SELECTED_LOAD_PROFILE_CHANGED, null, demandManager.getLoadProfile(structure));
+        }
+
         storageManager.syncStructures(structure);
 
         if (supplyManager.syncStructures(structure))
@@ -129,7 +135,11 @@ public class World extends com.projects.systems.System
     public void selectStructure(Structure structure)
     {
         lastSelected = structure;
+
         changeSupport.firePropertyChange(PC_STRUCTURE_SELECTED, null, structure);
+
+        if (demandManager.isConsumer(structure))
+            changeSupport.firePropertyChange(PC_SELECTED_LOAD_PROFILE_CHANGED, null, demandManager.getLoadProfile(structure));
     }
 
     public void setTimeLimit(Double timeLimit)

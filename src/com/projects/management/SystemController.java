@@ -176,7 +176,7 @@ public class SystemController implements PropertyChangeListener
         }
         else if (activeSelection == SelectionType.TEMPLATE)
         {
-            structureManager.setStructure(structure);
+            structureManager.updateStructure(structure);
         }
     }
 

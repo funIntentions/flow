@@ -1,6 +1,7 @@
 package com.projects.models;
 
 import com.projects.helper.DeviceType;
+import com.projects.systems.simulation.DemandManager;
 
 import java.util.List;
 

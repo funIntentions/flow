@@ -4,6 +4,7 @@ import com.projects.models.EnergyStorage;
 import com.projects.models.Structure;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -12,6 +13,7 @@ import java.util.List;
 public class StorageManager
 {
     List<Structure> structures;
+    private HashMap<Integer, List<Float>> structureStorageProfiles; // TODO: it'll be something like that maybe?
 
     public StorageManager()
     {
