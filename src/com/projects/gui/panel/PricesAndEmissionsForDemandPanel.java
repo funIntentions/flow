@@ -12,6 +12,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
+import java.util.List;
 
 /**
  * Created by Dan on 7/14/2015.
@@ -38,37 +39,37 @@ public class PricesAndEmissionsForDemandPanel extends JPanel implements Subscrib
     {
         if (event.getPropertyName().equals(World.PC_PRICE_STATS_UPDATED))
         {
-            updatePriceDataSeries((float[])event.getNewValue());
+            updatePriceDataSeries((List<Float>)event.getNewValue());
         }
         else if (event.getPropertyName().equals(World.PC_EMISSIONS_STATS_UPDATED))
         {
-            updateEmissionsDataSeries((float[]) event.getNewValue());
+            updateEmissionsDataSeries((List<Float>) event.getNewValue());
         }
     }
 
-    private void updatePriceDataSeries(float[] prices)
+    private void updatePriceDataSeries(List<Float> prices)
     {
         priceData.removeAllSeries();
         XYSeries priceSeries = new XYSeries("Price");
 
-        int maxDemand = prices.length;
-        for (int demand = 1; demand < maxDemand; ++demand)
+        int maxDemand = prices.size();
+        for (int demand = 0; demand < maxDemand; ++demand)
         {
-            priceSeries.add(demand, prices[demand]);
+            priceSeries.add(demand, prices.get(demand));
         }
 
         priceData.addSeries(priceSeries);
     }
 
-    private void updateEmissionsDataSeries(float[] emissions)
+    private void updateEmissionsDataSeries(List<Float> emissions)
     {
         emissionsData.removeAllSeries();
         XYSeries emissionsSeries = new XYSeries("Emissions");
 
-        int maxDemand = emissions.length;
+        int maxDemand = emissions.size();
         for (int demand = 1; demand < maxDemand; ++demand)
         {
-            emissionsSeries.add(demand, emissions[demand]);
+            emissionsSeries.add(demand, emissions.get(demand));
         }
 
         emissionsData.addSeries(emissionsSeries);

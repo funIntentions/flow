@@ -1,7 +1,6 @@
 Future Thoughts
 
 On Going
-- replace float[] which don't throw errors to List<Float> which do.
 - Demand chart doesn't update properly with an update rate of years, weeks or months
 - The simulation needs to be reset and rerun once the update rate has changed
 - Cleanup the task manager, remove the testTask from SystemController and have it created in TaskManager if possible

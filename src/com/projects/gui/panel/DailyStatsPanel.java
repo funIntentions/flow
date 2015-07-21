@@ -13,6 +13,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
+import java.util.List;
 
 /**
  * Created by Dan on 7/16/2015.
@@ -56,43 +57,43 @@ public class DailyStatsPanel extends JPanel implements SubscribedView
         }
     }
 
-    private void updateDataCollection(XYSeriesCollection data, String name,  float[] values)
+    private void updateDataCollection(XYSeriesCollection data, String name,  List<Float> values)
     {
         data.removeAllSeries();
         XYSeries priceSeries = new XYSeries(name);
 
-        int intervalCount = values.length;
+        int intervalCount = values.size();
         for (int interval = 0; interval < intervalCount; ++interval)
         {
-            priceSeries.add(interval, values[interval]);
+            priceSeries.add(interval, values.get(interval));
         }
 
         data.addSeries(priceSeries);
     }
 
-    private void updateDailyPriceDataSeries(float[] prices)
+    private void updateDailyPriceDataSeries(List<Float> prices)
     {
         dailyPriceData.removeAllSeries();
         XYSeries priceSeries = new XYSeries("Price");
 
-        int intervalCount = prices.length;
+        int intervalCount = prices.size();
         for (int interval = 0; interval < intervalCount; ++interval)
         {
-            priceSeries.add(interval, prices[interval]);
+            priceSeries.add(interval, prices.get(interval));
         }
 
         dailyPriceData.addSeries(priceSeries);
     }
 
-    private void updateDailyEmissionsDataSeries(float[] emissions)
+    private void updateDailyEmissionsDataSeries(List<Float> emissions)
     {
         dailyEmissionsData.removeAllSeries();
         XYSeries emissionsSeries = new XYSeries("Emissions");
 
-        int maxDemand = emissions.length;
+        int maxDemand = emissions.size();
         for (int demand = 1; demand < maxDemand; ++demand)
         {
-            emissionsSeries.add(demand, emissions[demand]);
+            emissionsSeries.add(demand, emissions.get(demand));
         }
 
         dailyEmissionsData.addSeries(emissionsSeries);

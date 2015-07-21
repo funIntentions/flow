@@ -12,12 +12,12 @@ import java.util.concurrent.TimeUnit;
  */
 public class StatsManager
 {
-    float[] priceForDemand;
-    float[] emissionsForDemand;
+    List<Float> priceForDemand;
+    List<Float> emissionsForDemand;
 
-    float[] dailyDemandTrends;
-    float[] dailyPriceTrends;
-    float[] dailyEmissionTrends;
+    List<Float> dailyDemandTrends;
+    List<Float> dailyPriceTrends;
+    List<Float> dailyEmissionTrends;
 
     private int trendIndex;
     private int intervalCount;
@@ -29,8 +29,11 @@ public class StatsManager
     public StatsManager()
     {
         dailyDemandBuffer = new ArrayList<Integer>();
-        priceForDemand = new float[1];
-        emissionsForDemand = new float[1];
+        priceForDemand = new ArrayList<Float>();
+        emissionsForDemand = new ArrayList<Float>();
+        dailyPriceTrends = new ArrayList<Float>();
+        dailyEmissionTrends = new ArrayList<Float>();
+        dailyDemandTrends = new ArrayList<Float>();
         resetDailyTrends(0);
     }
 
@@ -41,9 +44,9 @@ public class StatsManager
         timeInterval = TimeUnit.MINUTES.toSeconds(30);
         intervalCount = (int)(TimeUnit.DAYS.toSeconds(1)/timeInterval);
 
-        dailyPriceTrends = new float[intervalCount];
-        dailyEmissionTrends = new float[intervalCount];
-        dailyDemandTrends = new float[intervalCount];
+        dailyPriceTrends.clear();
+        dailyEmissionTrends.clear();
+        dailyDemandTrends.clear();
 
         dailyTrendDataReady = false;
 
@@ -54,9 +57,13 @@ public class StatsManager
     {
         for (Integer demand : dailyDemandBuffer)
         {
-            dailyDemandTrends[trendIndex] = demand;
-            dailyEmissionTrends[trendIndex] = emissionsForDemand[demand];
-            dailyPriceTrends[trendIndex] = priceForDemand[demand];
+            dailyDemandTrends.add(0f);
+            dailyEmissionTrends.add(0f);
+            dailyPriceTrends.add(0f);
+
+            dailyDemandTrends.set(trendIndex, (float)demand);
+            dailyEmissionTrends.set(trendIndex, (emissionsForDemand.get(demand)));
+            dailyPriceTrends.set(trendIndex, (priceForDemand.get(demand)));
 
             previousTime += timeInterval;
             ++trendIndex;
@@ -75,19 +82,41 @@ public class StatsManager
             maxDemand += powerPlant.getCapacity();
         }
 
-        priceForDemand = new float[maxDemand + 1];
-        emissionsForDemand = new float[maxDemand + 1];
+        priceForDemand.clear();
+        emissionsForDemand.clear();
 
         for (int demand = 0; demand <= maxDemand; ++demand)
         {
             supplyManager.calculateSupply(demand);
+            priceForDemand.add(0f);
+            emissionsForDemand.add(0f);
 
             double price = supplyManager.getPrice();
             double emissions = supplyManager.getEmissions();
 
-            priceForDemand[demand] = (float)price;
-            emissionsForDemand[demand] = (float)emissions;
+            priceForDemand.set(demand, (float)price);
+            emissionsForDemand.set(demand, (float)emissions);
         }
+    }
+
+    public float getEmissionsForDemand(int demand)
+    {
+        if (emissionsForDemand.size() == 0)
+            return 0;
+        else if (demand > emissionsForDemand.size())
+            return emissionsForDemand.get(emissionsForDemand.size()-1);
+        else
+            return emissionsForDemand.get(demand);
+    }
+
+    public float getPriceForDemand(int demand)
+    {
+        if (priceForDemand.size() == 0)
+            return 0;
+        else if (demand > priceForDemand.size())
+            return priceForDemand.get(priceForDemand.size()-1);
+        else
+            return priceForDemand.get(demand);
     }
 
     public void logDailyTrends(DemandManager demandManager, WorldTimer worldTimer)
@@ -105,9 +134,13 @@ public class StatsManager
 
                 if (trendIndex != intervalCount)
                 {
-                    dailyDemandTrends[trendIndex] = currentDemand;
-                    dailyEmissionTrends[trendIndex] = emissionsForDemand[currentDemand];
-                    dailyPriceTrends[trendIndex] = priceForDemand[currentDemand];
+                    dailyDemandTrends.add((float)currentDemand);
+                    dailyEmissionTrends.add(getEmissionsForDemand(currentDemand));
+                    dailyPriceTrends.add(getPriceForDemand(currentDemand));
+
+                    //dailyDemandTrends.set(trendIndex, (float)currentDemand);
+                    //dailyEmissionTrends.set(trendIndex, emissionsForDemand.get(currentDemand));
+                    //dailyPriceTrends.set(trendIndex, priceForDemand.get(currentDemand));
                 }
                 else
                 {
@@ -125,27 +158,27 @@ public class StatsManager
         }
     }
 
-    public float[] getDailyEmissionTrends()
+    public List<Float> getDailyEmissionTrends()
     {
         return dailyEmissionTrends;
     }
 
-    public float[] getDailyPriceTrends()
+    public List<Float> getDailyPriceTrends()
     {
         return dailyPriceTrends;
     }
 
-    public float[] getDailyDemandTrends()
+    public List<Float> getDailyDemandTrends()
     {
         return dailyDemandTrends;
     }
 
-    public float[] getPriceForDemand()
+    public List<Float> getPriceForDemand()
     {
         return priceForDemand;
     }
 
-    public float[] getEmissionsForDemand()
+    public List<Float> getEmissionsForDemand()
     {
         return emissionsForDemand;
     }
