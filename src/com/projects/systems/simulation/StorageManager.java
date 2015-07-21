@@ -3,7 +3,6 @@ package com.projects.systems.simulation;
 import com.projects.models.EnergyStorage;
 import com.projects.models.Structure;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,7 +50,7 @@ public class StorageManager
     {
         // Strategy example, store when electricity has a low cost and then use that power when it's a highDemandPrice
         List<Integer> previousDaysDemandProfiles = demandManager.getTodaysDemandProfile();
-        List<Float> storageProfile = deviceStorageProfiles.get(storage.getId());
+        List<Float> storageProfile = new ArrayList<Float>();
         float lowDemandPrice = 0.6f;
         float highDemandPrice = 0.8f;
 
@@ -80,16 +79,20 @@ public class StorageManager
                 {
                     chargeAmount = -(float)(storage.getStoredEnergy());
                 }
-                
+
                 storage.setStoredEnergy(storage.getStoredEnergy() + chargeAmount);
             }
 
             storageProfile.add(chargeAmount);
         }
+
+        deviceStorageProfiles.put(storage.getId(), storageProfile);
     }
 
     public void updateStorageStrategies(DemandManager demandManager, StatsManager statsManager)
     {
+        deviceStorageProfiles.clear();
+
         for (Structure structure : structures)
         {
             List<EnergyStorage> energyStorageDevices = (List)structure.getEnergyStorageDevices();
@@ -162,20 +165,21 @@ public class StorageManager
 
         if (structureIndex < 0 && storageDeviceCount > 0)
         {
-            structures.add(changedStructure);
             addStructureStorageDevices(changedStructure);
+            structures.add(changedStructure);
         }
         else if (structureIndex >=0)
         {
             if (storageDeviceCount > 0)
             {
+                removeStructureStorageDevices(changedStructure);
+                addStructureStorageDevices(changedStructure);
                 structures.set(structureIndex, changedStructure);
-                addStructureStorageDevices(changedStructure); // TODO: check if structure has had storage devices removed, currently they're not removed.
             }
             else
             {
-                structures.remove(structureIndex);
                 removeStructureStorageDevices(changedStructure);
+                structures.remove(structureIndex);
             }
         }
         else

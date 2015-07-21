@@ -41,6 +41,8 @@ public class DemandManager
 
     public void calculateLoadProfiles()
     {
+        structureLoadProfiles.clear();
+
         int secondsInDay = (int)TimeUnit.DAYS.toSeconds(1);
         int interval = 60;
         int length = secondsInDay/interval;
@@ -70,6 +72,8 @@ public class DemandManager
 
     public void calculateDemandProfiles(StorageManager storageManager)
     {
+        structureDemandProfiles.clear();
+
         for (Structure structure : structures)
         {
             List<Float> loadProfile = structureLoadProfiles.get(structure.getId());
@@ -252,6 +256,7 @@ public class DemandManager
             }
             else
             {
+
                 structures.remove(structureIndex);
             }
         }
