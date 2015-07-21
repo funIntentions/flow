@@ -185,12 +185,12 @@ public class World extends com.projects.systems.System
 
     private void tick()
     {
-        worldTimer.tick(Constants.FIXED_SIMULATION_RATE_SECONDS);
-
         if (worldTimer.isNewDay())
         {
             statsManager.resetDailyTrends(worldTimer.getTotalTimeInSeconds());
             statsManager.logDailyTrends(demandManager.getTodaysDemandProfile());
+            storageManager.updateStorageStrategies(demandManager, statsManager);
+            demandManager.calculateDemandProfiles(storageManager);
             changeSupport.firePropertyChange(PC_DAILY_STATS_UPDATED, null, statsManager);
             demandManager.resetDay();
         }
@@ -200,6 +200,8 @@ public class World extends com.projects.systems.System
         updateStatus();
 
         changeSupport.firePropertyChange(PC_WORLD_UPDATE, null, simulationStatus);
+
+        worldTimer.tick(Constants.FIXED_SIMULATION_RATE_SECONDS);
 
         if (worldTimer.isTimeLimitReached())
         {

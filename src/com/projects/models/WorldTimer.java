@@ -41,7 +41,7 @@ public class WorldTimer
 
     public WorldTimer()
     {
-        newDay = false;
+        newDay = true;
         timeLimitReached = false;
         updateRate = UpdateRate.SECONDS;
         timeLimit = Double.MAX_VALUE;
@@ -120,6 +120,7 @@ public class WorldTimer
 
     public void reset()
     {
+        newDay = true;
         timeLimitReached = false;
         hourOfDay = 0;
         minutesOfHour = 0;

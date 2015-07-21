@@ -15,6 +15,7 @@ public class DemandManager
 {
     private List<Structure> structures;
     private HashMap<Integer, List<Float>> structureLoadProfiles;
+    private HashMap<Integer, List<Float>> structureDemandProfiles;
     private List<Integer> todaysDemandProfile;
     private List<Integer> demandBuffer;
     private double usageInWattsPerHour = 0;
@@ -25,6 +26,7 @@ public class DemandManager
     {
         structures = new ArrayList<Structure>();
         structureLoadProfiles = new HashMap<Integer, List<Float>>();
+        structureDemandProfiles = new HashMap<Integer, List<Float>>();
         todaysDemandProfile = new ArrayList<Integer>();
         demandBuffer = new ArrayList<Integer>();
     }
@@ -63,6 +65,28 @@ public class DemandManager
         }
     }
 
+    public void calculateDemandProfiles(StorageManager storageManager)
+    {
+        HashMap<Integer, List<Float>> storageProfiles = storageManager.getDeviceStorageProfiles();
+
+        for (Structure structure : structures)
+        {
+            List<Float> loadProfile = structureLoadProfiles.get(structure.getId());
+            List<Float> demandProfile = new ArrayList<Float>();
+
+            int length = loadProfile.size();
+            for (int time = 0; time < length; ++time)
+            {
+                float storageDemand = storageManager.getStructuresStorageDemandAtTime(structure, time);
+                float loadDemand = loadProfile.get(time);
+
+                demandProfile.add(loadDemand + storageDemand);
+            }
+
+            structureDemandProfiles.put(structure.getId(), demandProfile);
+        }
+    }
+
     public void resetDay()
     {
         todaysDemandProfile.clear();
@@ -83,9 +107,9 @@ public class DemandManager
             {
                 electricityDemand = 0;
 
-                for (List<Float> loadProfile : structureLoadProfiles.values())
+                for (List<Float> demandProfile : structureDemandProfiles.values())
                 {
-                    electricityDemand += loadProfile.get(time);
+                    electricityDemand += demandProfile.get(time);
                 }
 
                 demandBuffer.add((int) electricityDemand);
@@ -97,9 +121,9 @@ public class DemandManager
             {
                 electricityDemand = 0;
 
-                for (List<Float> loadProfile : structureLoadProfiles.values())
+                for (List<Float> demandProfile : structureDemandProfiles.values())
                 {
-                    electricityDemand += loadProfile.get(time);
+                    electricityDemand += demandProfile.get(time);
                 }
 
                 todaysDemandProfile.add((int) electricityDemand);

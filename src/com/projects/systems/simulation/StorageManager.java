@@ -14,11 +14,25 @@ import java.util.concurrent.TimeUnit;
 public class StorageManager
 {
     List<Structure> structures;
-    private HashMap<Integer, List<Float>> deviceStorageProfiles; // TODO: it'll be something like that maybe?
+    private HashMap<Integer, List<Float>> deviceStorageProfiles; // TODO: need to be accessed by storage device id's and not structure id's since a structure can have multiple storage devices.
 
     public StorageManager()
     {
         structures = new ArrayList<Structure>();
+        deviceStorageProfiles = new HashMap<Integer, List<Float>>();
+    }
+
+    public float getStructuresStorageDemandAtTime(Structure structure, int time)
+    {
+        List<EnergyStorage> storageDevices = (List)structure.getEnergyStorageDevices();
+        float demand = 0;
+
+        for (EnergyStorage storage : storageDevices)
+        {
+            demand += deviceStorageProfiles.get(storage.getId()).get(time);
+        }
+
+        return demand;
     }
 
     public void updateStorageStrategy(DemandManager demandManager, StatsManager statsManager, EnergyStorage storage)
@@ -57,9 +71,17 @@ public class StorageManager
         }
     }
 
-    public void updateStorageStrategies(List<Integer> previousDaysDemandProfile)
+    public void updateStorageStrategies(DemandManager demandManager, StatsManager statsManager)
     {
+        for (Structure structure : structures)
+        {
+            List<EnergyStorage> energyStorageDevices = (List)structure.getEnergyStorageDevices();
 
+            for (EnergyStorage storage : energyStorageDevices)
+            {
+                updateStorageStrategy(demandManager, statsManager, storage);
+            }
+        }
     }
 
     public void updateStorage()
@@ -92,6 +114,32 @@ public class StorageManager
     public void removeAllStructures()
     {
         structures.clear();
+        deviceStorageProfiles.clear();
+    }
+
+    public void addStructureStorageDevices(Structure structure)
+    {
+        List<EnergyStorage> storageDevices = (List)structure.getEnergyStorageDevices();
+
+        for (EnergyStorage storage : storageDevices)
+        {
+            deviceStorageProfiles.put(storage.getId(), new ArrayList<Float>());
+        }
+    }
+
+    public void removeStructureStorageDevices(Structure structure)
+    {
+        List<EnergyStorage> storageDevices = (List)structure.getEnergyStorageDevices();
+
+        for (EnergyStorage storage : storageDevices)
+        {
+            deviceStorageProfiles.remove(storage.getId());
+        }
+    }
+
+    public HashMap<Integer, List<Float>> getDeviceStorageProfiles()
+    {
+        return deviceStorageProfiles;
     }
 
     public boolean syncStructures(Structure changedStructure)
@@ -111,16 +159,19 @@ public class StorageManager
         if (structureIndex < 0 && storageDeviceCount > 0)
         {
             structures.add(changedStructure);
+            addStructureStorageDevices(changedStructure);
         }
         else if (structureIndex >=0)
         {
             if (storageDeviceCount > 0)
             {
                 structures.set(structureIndex, changedStructure);
+                addStructureStorageDevices(changedStructure); // TODO: check if structure has had storage devices removed, currently they're not removed.
             }
             else
             {
                 structures.remove(structureIndex);
+                removeStructureStorageDevices(changedStructure);
             }
         }
         else
