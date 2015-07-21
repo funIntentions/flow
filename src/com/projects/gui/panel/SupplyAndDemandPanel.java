@@ -109,6 +109,10 @@ public class SupplyAndDemandPanel extends JPanel implements SubscribedView
             remove(supplyChartPanel);
             supplyChartPanel = new ChartPanel(createSupplyChart(status.powerPlants));
             add(supplyChartPanel);
+
+            remove(demandChartPanel);
+            demandChartPanel = new ChartPanel(createDemandChart());
+            add(demandChartPanel);
         }
     }
 
