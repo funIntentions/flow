@@ -13,6 +13,13 @@ import java.util.concurrent.TimeUnit;
  */
 public class StorageManager
 {
+    enum StorageState
+    {
+        CHARGING,
+        RELEASING
+    }
+    StorageState storageState = StorageState.CHARGING; // TODO: state should be stored in device
+
     List<Structure> structures;
     private HashMap<Integer, List<Float>> deviceStorageProfiles;
 
@@ -24,6 +31,8 @@ public class StorageManager
 
     public void reset()
     {
+        storageState = StorageState.CHARGING;
+
         for (List<Float> profile : deviceStorageProfiles.values())
         {
             profile.clear();
@@ -56,7 +65,7 @@ public class StorageManager
         return demand;
     }
 
-    public void updateStorageStrategy(DemandManager demandManager, StatsManager statsManager, EnergyStorage storage)
+    public void runStorageStrategyTestOne(DemandManager demandManager, StatsManager statsManager, EnergyStorage storage)
     {
         // Strategy example, store when electricity has a low cost and then use that power when it's a highDemandPrice
         List<Integer> previousDaysDemandProfiles = demandManager.getTodaysDemandProfile();
@@ -99,6 +108,52 @@ public class StorageManager
         deviceStorageProfiles.put(storage.getId(), storageProfile);
     }
 
+    public void runStorageStrategyTestTwo(DemandManager demandManager, StatsManager statsManager, EnergyStorage storage)
+    {
+        // Strategy example, charge when empty and discharge when full
+        List<Integer> previousDaysDemandProfiles = demandManager.getTodaysDemandProfile();
+        List<Float> storageProfile = new ArrayList<Float>();
+
+        for (int time = 0; time < previousDaysDemandProfiles.size(); ++time)
+        {
+            float chargeAmount = 0;
+
+            if (storage.getStoredEnergy() == 0)
+            {
+                storageState = StorageState.CHARGING;
+            }
+            else if (storage.getStoredEnergy() == storage.getStorageCapacity())
+            {
+                storageState = StorageState.RELEASING;
+            }
+
+            if (storageState == StorageState.CHARGING)
+            {
+                chargeAmount = (float)(storage.getChargingRate()/ TimeUnit.HOURS.toMinutes(1));
+                if (storage.getStorageCapacity() < storage.getStoredEnergy() + chargeAmount)
+                {
+                    chargeAmount = (float)(storage.getStorageCapacity() - storage.getStoredEnergy());
+                }
+
+                storage.setStoredEnergy(storage.getStoredEnergy() + chargeAmount);
+            }
+            else if (storageState == StorageState.RELEASING)
+            {
+                chargeAmount = -(float)(storage.getChargingRate()/ TimeUnit.HOURS.toMinutes(1)); // TODO: add property discharge rate to storage devices, then change charging rate here to that
+                if (0 > storage.getStoredEnergy() - chargeAmount)
+                {
+                    chargeAmount = -(float)(storage.getStoredEnergy());
+                }
+
+                storage.setStoredEnergy(storage.getStoredEnergy() + chargeAmount);
+            }
+
+            storageProfile.add(chargeAmount);
+        }
+
+        deviceStorageProfiles.put(storage.getId(), storageProfile);
+    }
+
     public void updateStorageStrategies(DemandManager demandManager, StatsManager statsManager)
     {
         deviceStorageProfiles.clear();
@@ -109,7 +164,17 @@ public class StorageManager
 
             for (EnergyStorage storage : energyStorageDevices)
             {
-                updateStorageStrategy(demandManager, statsManager, storage);
+                switch (storage.getStorageStrategy())
+                {
+                    case TEST_ONE:
+                    {
+                        runStorageStrategyTestOne(demandManager, statsManager, storage);
+                    } break;
+                    case TEST_TWO:
+                    {
+                        runStorageStrategyTestTwo(demandManager, statsManager, storage);
+                    } break;
+                }
             }
         }
     }

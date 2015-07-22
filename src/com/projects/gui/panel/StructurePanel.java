@@ -28,7 +28,7 @@ public class StructurePanel extends JScrollPane
         templateTable.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
-                templateTable.clearSelection();
+                //templateTable.clearSelection();
             }
         });
         getViewport().add(templateTable);

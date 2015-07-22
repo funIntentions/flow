@@ -71,6 +71,11 @@ public class EnergyStorage extends Device
         }
     }
 
+    public StorageStrategy getStorageStrategy()
+    {
+        return storageStrategy;
+    }
+
     public double getStoredEnergy()
     {
         return storedEnergy;
