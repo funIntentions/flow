@@ -1,6 +1,7 @@
 package com.projects.gui.panel;
 
 import com.projects.gui.SubscribedView;
+import com.projects.management.SystemController;
 import com.projects.systems.simulation.StatsManager;
 import com.projects.systems.simulation.World;
 import com.sun.org.glassfish.external.statistics.Stats;
@@ -22,6 +23,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 /**
@@ -36,9 +38,10 @@ public class DailyStatsPanel extends JPanel implements SubscribedView
     private ChartPanel dailyDemandChartPanel;
     private XYSeriesCollection dailyDemandData;
     private DatePicker datePickerDisplayDate;
+    private StatsManager statsManager = null;
     private JPanel chartsPanel;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDate startDate = LocalDate.now();
+    private LocalDate endDate = LocalDate.now();
 
     public DailyStatsPanel()
     {
@@ -67,7 +70,13 @@ public class DailyStatsPanel extends JPanel implements SubscribedView
                 datePickerDisplayDate.setValue(LocalDate.now());
                 datePickerDisplayDate.setOnAction(event -> {
                     LocalDate date = datePickerDisplayDate.getValue();
-                    System.out.println("Selected date: " + date);
+                    long day = ChronoUnit.DAYS.between(startDate, date);
+                    if (statsManager != null)
+                    {
+                        updateDataCollection(dailyPriceData, "Prices", statsManager.getDailyPriceTrends((int)day));
+                        updateDataCollection(dailyEmissionsData, "Emissions", statsManager.getDailyEmissionTrends((int) day));
+                        updateDataCollection(dailyDemandData, "Demand", statsManager.getDailyDemandTrends((int)day));
+                    }
                 });
                 gridPaneEndDate.add(labelEndDate, 0, 0);
                 gridPaneEndDate.add(datePickerDisplayDate, 0, 1);
@@ -86,7 +95,7 @@ public class DailyStatsPanel extends JPanel implements SubscribedView
     {
         if (event.getPropertyName().equals(World.PC_DAILY_STATS_UPDATED))
         {
-            StatsManager statsManager = (StatsManager)event.getNewValue();
+            statsManager = (StatsManager)event.getNewValue();
             updateDataCollection(dailyPriceData, "Prices", statsManager.getDailyPriceTrends());
             updateDataCollection(dailyEmissionsData, "Emissions", statsManager.getDailyEmissionTrends());
             updateDataCollection(dailyDemandData, "Demand", statsManager.getDailyDemandTrends());
@@ -96,6 +105,14 @@ public class DailyStatsPanel extends JPanel implements SubscribedView
             dailyPriceData.removeAllSeries();
             dailyEmissionsData.removeAllSeries();
             dailyDemandData.removeAllSeries();
+        }
+        else if (event.getPropertyName().equals(World.PC_START_DATE_CHANGED))
+        {
+            startDate = (LocalDate)event.getNewValue();
+        }
+        else if (event.getPropertyName().equals(World.PC_END_DATE_CHANGED))
+        {
+            endDate = (LocalDate)event.getNewValue();
         }
     }
 

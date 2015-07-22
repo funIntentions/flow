@@ -15,7 +15,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +22,6 @@ import java.beans.PropertyChangeEvent;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 
 /**
  * Created by Dan on 6/25/2015.
@@ -71,6 +69,9 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
                 GridPane gridPaneEndDate = new GridPane();
                 datePickerForEndDate = new DatePicker();
                 datePickerForEndDate.setValue(LocalDate.now());
+                datePickerForEndDate.setOnAction(event -> {
+                    controller.setEndDate(datePickerForEndDate.getValue());
+                });
                 gridPaneEndDate.add(labelEndDate, 0,0);
                 gridPaneEndDate.add(datePickerForEndDate, 0, 1);
                 vBoxEndDate.getChildren().add(gridPaneEndDate);
@@ -83,6 +84,9 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
                 GridPane gridPaneStartDate = new GridPane();
                 datePickerForStartDate = new DatePicker();
                 datePickerForStartDate.setValue(LocalDate.now());
+                datePickerForStartDate.setOnAction(event -> {
+                    controller.setStartDate(datePickerForStartDate.getValue());
+                });
                 gridPaneStartDate.add(labelStartDate, 0, 0);
                 gridPaneStartDate.add(datePickerForStartDate, 0, 1);
                 vBoxStartDate.getChildren().add(gridPaneStartDate);
@@ -165,14 +169,5 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
             costLabel.setText("Cost: $" + decimalFormat.format(simulationStatus.price));
             emissionsLabel.setText("Emissions: " + decimalFormat.format(simulationStatus.emissions) + "g");
         }
-        else if (event.getPropertyName().equals(World.PC_SIMULATION_STARTED))
-        {
-            LocalDate startDate = datePickerForStartDate.getValue();
-            LocalDate endDate = datePickerForEndDate.getValue();
-            long numberOfDays = ChronoUnit.DAYS.between(startDate, endDate);
-            //controller.setStartAndEndDate(startDate, endDate);
-            controller.setTimeLimit(numberOfDays * WorldTimer.SECONDS_IN_DAY);
-        }
-
     }
 }

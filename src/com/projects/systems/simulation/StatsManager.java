@@ -147,6 +147,21 @@ public class StatsManager
         return dailyDemandTrends.get(currentDay);
     }
 
+    public List<Float> getDailyEmissionTrends(int day)
+    {
+        return dailyEmissionTrends.get(day);
+    }
+
+    public List<Float> getDailyPriceTrends(int day)
+    {
+        return dailyPriceTrends.get(day);
+    }
+
+    public List<Float> getDailyDemandTrends(int day)
+    {
+        return dailyDemandTrends.get(day);
+    }
+
     public List<Float> getPriceForDemand()
     {
         return priceForDemand;

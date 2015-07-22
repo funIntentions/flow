@@ -1,5 +1,8 @@
 package com.projects.models;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 /**
  * Created by Dan on 6/26/2015.
  */
@@ -29,6 +32,8 @@ public class WorldTimer
     private int month;
     private int year;
     private UpdateRate updateRate;
+    private LocalDate startDate = LocalDate.now();
+    private LocalDate endDate = LocalDate.now();
 
     public static final double SECONDS_IN_MINUTE = 60;
     public static final double SECONDS_IN_HOUR = 3600;
@@ -37,6 +42,7 @@ public class WorldTimer
     public static final double DAYS_IN_WEEK = 7;
     public static final double AVERAGE_NUMBER_OF_DAYS_IN_MONTH = 28;
     public static final double MONTHS_IN_YEAR = 12;
+
 
     public WorldTimer()
     {
@@ -106,11 +112,6 @@ public class WorldTimer
         }
 
         return time;
-    }
-
-    public void setTimeLimit(Double timeLimit)
-    {
-        this.timeLimit = timeLimit;
     }
 
     public void reset()
@@ -185,6 +186,27 @@ public class WorldTimer
     public int getYear()
     {
         return year;
+    }
+
+    public LocalDate getStartDate()
+    {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate)
+    {
+        this.startDate = startDate;
+        timeLimit = ChronoUnit.DAYS.between(startDate, endDate) * SECONDS_IN_DAY; // / TODO: set this in its own method
+    }
+
+    public LocalDate getEndDate()
+    {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+        timeLimit = ChronoUnit.DAYS.between(startDate, endDate) * SECONDS_IN_DAY; // TODO: set this in its own method
     }
 
     public Boolean isTimeLimitReached()

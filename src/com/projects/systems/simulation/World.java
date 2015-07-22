@@ -4,6 +4,7 @@ import com.projects.helper.Constants;
 import com.projects.models.*;
 
 import java.beans.PropertyChangeSupport;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +33,8 @@ public class World extends com.projects.systems.System
     public static final String PC_EMISSIONS_STATS_UPDATED = "PC_EMISSIONS_STATS_UPDATED";
     public static final String PC_DAILY_STATS_UPDATED = "PC_DAILY_STATS_UPDATED";
     public static final String PC_SELECTED_LOAD_PROFILE_CHANGED = "PC_SELECTED_LOAD_PROFILE_CHANGED";
+    public static final String PC_START_DATE_CHANGED = "PC_START_DATE_CHANGED";
+    public static final String PC_END_DATE_CHANGED = "PC_END_DATE_CHANGED";
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final Runnable simulationTick = new Runnable()
@@ -142,9 +145,16 @@ public class World extends com.projects.systems.System
             changeSupport.firePropertyChange(PC_SELECTED_LOAD_PROFILE_CHANGED, null, demandManager.getLoadProfile(structure));
     }
 
-    public void setTimeLimit(Double timeLimit)
+    public void setStartDate(LocalDate startDate)
     {
-        worldTimer.setTimeLimit(timeLimit);
+        worldTimer.setStartDate(startDate);
+        changeSupport.firePropertyChange(PC_START_DATE_CHANGED, null, startDate);
+    }
+
+    public void setEndDate(LocalDate endDate)
+    {
+        worldTimer.setEndDate(endDate);
+        changeSupport.firePropertyChange(PC_END_DATE_CHANGED, null, endDate);
     }
 
     public void runSimulation()

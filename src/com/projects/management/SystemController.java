@@ -13,6 +13,7 @@ import com.projects.systems.simulation.World;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -284,9 +285,14 @@ public class SystemController implements PropertyChangeListener
         structureManager.editTimeSpanUsageTo(timeSpanIndex, toSeconds);
     }
 
-    public void setTimeLimit(Double timeLimit)
+    public void setStartDate(LocalDate startDate)
     {
-        world.setTimeLimit(timeLimit);
+        world.setStartDate(startDate);
+    }
+
+    public void setEndDate(LocalDate endDate)
+    {
+        world.setEndDate(endDate);
     }
 
     public void addTimeSpanUsage(TimeSpan timeSpan)
