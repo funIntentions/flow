@@ -48,20 +48,6 @@ public class TemplateStructuresPanel extends StructurePanel implements Subscribe
                 }
             }
         }
-
-        /*if (event.getPropertyName().equals(OntologyModel.PC_NEW_ONTOLOGY_INDIVIDUALS_LOADED))
-        {
-            ArrayList<IndividualModel> instances = (ArrayList<IndividualModel>)event.getNewValue();
-
-            for (IndividualModel model : instances)
-            {
-                instancesTable.addRow(model);
-            }
-        }
-        else if (event.getPropertyName().equals(OntologyModel.PC_ONTOLOGY_CLEARED))
-        {
-            instancesTable.clearTable();
-        }*/
     }
 
 }

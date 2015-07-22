@@ -3,6 +3,8 @@ package com.projects.gui.panel;
 import com.projects.gui.table.StructureTable;
 
 import javax.swing.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.MouseListener;
 
 /**
@@ -23,6 +25,12 @@ public class StructurePanel extends JScrollPane
         templateTable = new JTable(structureTable);
         templateTable.addMouseListener(selectionListener);
         templateTable.setTableHeader(null);
+        templateTable.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                templateTable.clearSelection();
+            }
+        });
         getViewport().add(templateTable);
     }
 

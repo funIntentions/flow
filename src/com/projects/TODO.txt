@@ -16,3 +16,5 @@ QUESTIONS:
 - Instead of years, weeks, months for update rates, have an calculate now which just processes everything at the same time? Not sure how that will handle storage strategies
 - Weather simulation, I'd recommend allowing the user to specify the weather patterns similar to how the user can specify device usage times, Cloud Coverage 60% 6:00 to 7:00, etc.
     - It's time consuming to construct an accurate simulation for weather?
+- Plant improvement? Currently the price of electricity from a power plant is fixed and price shifts occur only when more plants are deployed to help meet demand.
+    Should an individual plants price vary based on how much of it's capacity is being used?
