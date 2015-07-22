@@ -22,11 +22,21 @@ public class StorageManager
         deviceStorageProfiles = new HashMap<Integer, List<Float>>();
     }
 
-    public void resetStorageProfiles()
+    public void reset()
     {
         for (List<Float> profile : deviceStorageProfiles.values())
         {
             profile.clear();
+        }
+
+        for (Structure structure : structures)
+        {
+            List<EnergyStorage> storageDevices = (List)structure.getEnergyStorageDevices();
+
+            for (EnergyStorage storage : storageDevices)
+            {
+                storage.setStoredEnergy(0);
+            }
         }
     }
 
