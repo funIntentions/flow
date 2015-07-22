@@ -223,6 +223,7 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
         <device>
             <name>EnergyStorage</name>
             <type>ENERGY_STORAGE</type>
+
             <properties>
                 <property>
                     <name>ChargingRate</name>
@@ -235,6 +236,10 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                 <property>
                     <name>StoredEnergy</name>
                     <value type="DOUBLE">0</value>
+                </property>
+                <property>
+                    <name>StorageStrategy</name>
+                    <value type="STRING">TEST_ONE</value>
                 </property>
             </properties>
             <timeSpans/>

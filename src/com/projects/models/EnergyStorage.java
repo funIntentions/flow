@@ -1,7 +1,10 @@
 package com.projects.models;
 
 import com.projects.helper.DeviceType;
+import com.projects.helper.StorageStrategy;
+import com.projects.helper.Utils;
 
+import javax.rmi.CORBA.Util;
 import java.util.List;
 
 /**
@@ -12,6 +15,7 @@ public class EnergyStorage extends Device
     private double chargingRate;
     private double storageCapacity;
     private double storedEnergy;
+    private StorageStrategy storageStrategy;
 
     public EnergyStorage(List<Property> energyStorageProperties, ElectricityUsageSchedule deviceUsageSchedule)
     {
@@ -56,6 +60,10 @@ public class EnergyStorage extends Device
         else if (property.getName().equals("StoredEnergy"))
         {
             storedEnergy = Double.valueOf(value.toString());
+        }
+        else if (property.getName().equals("StorageStrategy") && Utils.isInEnum(value.toString(), StorageStrategy.class))
+        {
+            storageStrategy = StorageStrategy.valueOf(value.toString());
         }
         else
         {

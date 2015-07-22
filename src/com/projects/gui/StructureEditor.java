@@ -3,12 +3,15 @@ package com.projects.gui;
 import com.projects.gui.panel.DevicePanel;
 import com.projects.gui.table.*;
 import com.projects.helper.Constants;
+import com.projects.helper.StorageStrategy;
 import com.projects.input.listeners.*;
 import com.projects.helper.DeviceType;
 import com.projects.helper.StructureType;
 import com.projects.management.SystemController;
 import com.projects.models.*;
 import com.projects.systems.StructureManager;
+import com.projects.systems.simulation.StorageManager;
+import javafx.scene.control.ComboBox;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -172,6 +175,7 @@ public class StructureEditor implements SubscribedView
         notificationPanel.add(infoLabel);
 
         TableModelListener devicePropertiesTableListener = new DevicePropertiesTableListener(controller);
+        JComboBox<StorageStrategy> storageStrategyCombobox = new JComboBox<StorageStrategy>(StorageStrategy.values());
         devicePropertiesTable = new PropertiesTable();
         devicePropertiesTable.addTableModelListener(devicePropertiesTableListener);
         JTable propertyTable = new JTable(devicePropertiesTable) {
@@ -216,6 +220,7 @@ public class StructureEditor implements SubscribedView
             }
         };
         propertyTable.setDefaultEditor(Double.class, new PositiveDoubleCellEditor(new JFormattedTextField()));
+        propertyTable.setDefaultEditor(StorageStrategy.class, new DefaultCellEditor(storageStrategyCombobox));
         propertyTable.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 
 

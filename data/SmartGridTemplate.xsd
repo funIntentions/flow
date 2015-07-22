@@ -18,6 +18,7 @@
             <xs:enumeration value="BOOLEAN"/>
             <xs:enumeration value="DOUBLE"/>
             <xs:enumeration value="INTEGER"/>
+            <xs:enumeration value="STRING"/>
         </xs:restriction>
     </xs:simpleType>
 
@@ -26,6 +27,13 @@
             <xs:enumeration value="APPLIANCE"/>
             <xs:enumeration value="ENERGY_STORAGE"/>
             <xs:enumeration value="ENERGY_SOURCE"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="storageStrategyType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="TEST_ONE"/>
+            <xs:enumeration value="TEST_TWO"/>
         </xs:restriction>
     </xs:simpleType>
 

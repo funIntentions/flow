@@ -2,6 +2,7 @@ package com.projects.management;
 
 import com.projects.helper.*;
 import com.projects.models.*;
+import javafx.scene.control.ComboBox;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -226,6 +227,10 @@ class FileManager
                     {
                         property = new Property<Integer>(name, Integer.valueOf(value));
                     }
+                    else if (type.equals("STRING"))
+                    {
+                        property = new Property<StorageStrategy>(name, StorageStrategy.valueOf(value));
+                    }
                     else
                     {
                         // TODO: should be error...
@@ -448,6 +453,8 @@ class FileManager
             value.setAttribute("type", "BOOLEAN");
         else if (property.getValue() instanceof  Integer)
             value.setAttribute("type", "INTEGER");
+        else if (property.getValue() instanceof StorageStrategy)
+            value.setAttribute("type", "STRING");
 
         propertyNode.appendChild(value);
 
