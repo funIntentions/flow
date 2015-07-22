@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 
 import javax.swing.*;
 import java.awt.*;
@@ -61,21 +62,6 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
             @Override
             public void run()
             {
-                VBox vBoxEndDate = new VBox(20);
-                Scene sceneEndDate = new Scene(vBoxEndDate);
-                fxEndDatePanel.setScene(sceneEndDate);
-
-                javafx.scene.control.Label labelEndDate = new Label("End Date: ");
-                GridPane gridPaneEndDate = new GridPane();
-                datePickerForEndDate = new DatePicker();
-                datePickerForEndDate.setValue(LocalDate.now());
-                datePickerForEndDate.setOnAction(event -> {
-                    controller.setEndDate(datePickerForEndDate.getValue());
-                });
-                gridPaneEndDate.add(labelEndDate, 0,0);
-                gridPaneEndDate.add(datePickerForEndDate, 0, 1);
-                vBoxEndDate.getChildren().add(gridPaneEndDate);
-
                 VBox vBoxStartDate = new VBox(20);
                 Scene sceneStartDate = new Scene(vBoxStartDate);
                 fxStartDatePanel.setScene(sceneStartDate);
@@ -90,6 +76,71 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
                 gridPaneStartDate.add(labelStartDate, 0, 0);
                 gridPaneStartDate.add(datePickerForStartDate, 0, 1);
                 vBoxStartDate.getChildren().add(gridPaneStartDate);
+
+                VBox vBoxEndDate = new VBox(20);
+                Scene sceneEndDate = new Scene(vBoxEndDate);
+                fxEndDatePanel.setScene(sceneEndDate);
+
+                javafx.scene.control.Label labelEndDate = new Label("End Date: ");
+                GridPane gridPaneEndDate = new GridPane();
+                datePickerForEndDate = new DatePicker();
+                datePickerForEndDate.setValue(datePickerForStartDate.getValue().plusDays(1));
+                datePickerForEndDate.setOnAction(event -> {
+                    controller.setEndDate(datePickerForEndDate.getValue());
+                });
+                gridPaneEndDate.add(labelEndDate, 0,0);
+                gridPaneEndDate.add(datePickerForEndDate, 0, 1);
+                vBoxEndDate.getChildren().add(gridPaneEndDate);
+
+                final Callback<DatePicker, DateCell> startDayCellFactory =
+                    new Callback<DatePicker, DateCell>()
+                    {
+                        @Override
+                        public DateCell call(final DatePicker datePicker)
+                        {
+                            return new DateCell()
+                            {
+                                @Override
+                                public void updateItem(LocalDate item, boolean empty)
+                                {
+                                    super.updateItem(item, empty);
+
+                                    if (item.isBefore(datePickerForStartDate.getValue().plusDays(1)))
+                                    {
+                                        setDisable(true);
+                                        setStyle("-fx-background-color: #ffc0cb;");
+                                    }
+                                }
+                            };
+                        }
+                    };
+                
+                datePickerForEndDate.setDayCellFactory(startDayCellFactory);
+
+                final Callback<DatePicker, DateCell> endDayCellFactory =
+                        new Callback<DatePicker, DateCell>()
+                        {
+                            @Override
+                            public DateCell call(final DatePicker datePicker)
+                            {
+                                return new DateCell()
+                                {
+                                    @Override
+                                    public void updateItem(LocalDate item, boolean empty)
+                                    {
+                                        super.updateItem(item, empty);
+
+                                        if (item.isAfter(datePickerForEndDate.getValue().minusDays(1)))
+                                        {
+                                            setDisable(true);
+                                            setStyle("-fx-background-color: #ffc0cb;");
+                                        }
+                                    }
+                                };
+                            }
+                        };
+
+                datePickerForStartDate.setDayCellFactory(endDayCellFactory);
             }
         });
 

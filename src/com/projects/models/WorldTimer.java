@@ -33,7 +33,7 @@ public class WorldTimer
     private int year;
     private UpdateRate updateRate;
     private LocalDate startDate = LocalDate.now();
-    private LocalDate endDate = LocalDate.now();
+    private LocalDate endDate = startDate.plusDays(1);
 
     public static final double SECONDS_IN_MINUTE = 60;
     public static final double SECONDS_IN_HOUR = 3600;
