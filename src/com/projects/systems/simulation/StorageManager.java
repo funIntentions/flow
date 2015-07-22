@@ -18,6 +18,7 @@ public class StorageManager
         CHARGING,
         RELEASING
     }
+    
     StorageState storageState = StorageState.CHARGING; // TODO: state should be stored in device
 
     List<Structure> structures;

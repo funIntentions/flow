@@ -4,6 +4,14 @@ import com.projects.gui.SubscribedView;
 import com.projects.systems.simulation.StatsManager;
 import com.projects.systems.simulation.World;
 import com.sun.org.glassfish.external.statistics.Stats;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -13,6 +21,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -26,18 +35,51 @@ public class DailyStatsPanel extends JPanel implements SubscribedView
     private XYSeriesCollection dailyEmissionsData;
     private ChartPanel dailyDemandChartPanel;
     private XYSeriesCollection dailyDemandData;
+    private DatePicker datePickerDisplayDate;
+    private JPanel chartsPanel;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     public DailyStatsPanel()
     {
-        setLayout(new GridLayout(1,3));
+        setLayout(new BorderLayout());
+        chartsPanel = new JPanel(new GridLayout(1,3));
 
         dailyPriceChartPanel = new ChartPanel(createPriceChart());
         dailyEmissionsChartPanel = new ChartPanel(createEmissionsChart());
         dailyDemandChartPanel = new ChartPanel(createDemandChart());
 
-        add(dailyPriceChartPanel);
-        add(dailyEmissionsChartPanel);
-        add(dailyDemandChartPanel);
+        chartsPanel.add(dailyPriceChartPanel);
+        chartsPanel.add(dailyEmissionsChartPanel);
+        chartsPanel.add(dailyDemandChartPanel);
+
+        final JFXPanel fxDisplayDatePanel = new JFXPanel();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                VBox vBoxEndDate = new VBox(20);
+                Scene sceneEndDate = new Scene(vBoxEndDate);
+                fxDisplayDatePanel.setScene(sceneEndDate);
+
+                javafx.scene.control.Label labelEndDate = new Label("Date: ");
+                GridPane gridPaneEndDate = new GridPane();
+                datePickerDisplayDate = new DatePicker();
+                datePickerDisplayDate.setValue(LocalDate.now());
+                datePickerDisplayDate.setOnAction(event -> {
+                    LocalDate date = datePickerDisplayDate.getValue();
+                    System.out.println("Selected date: " + date);
+                });
+                gridPaneEndDate.add(labelEndDate, 0, 0);
+                gridPaneEndDate.add(datePickerDisplayDate, 0, 1);
+                vBoxEndDate.getChildren().add(gridPaneEndDate);
+            }
+        });
+        fxDisplayDatePanel.setPreferredSize(new Dimension(112, 50));
+
+        JPanel displayDatePanel = new JPanel(new FlowLayout());
+        displayDatePanel.add(fxDisplayDatePanel);
+        add(displayDatePanel, BorderLayout.PAGE_START);
+        add(chartsPanel, BorderLayout.CENTER);
     }
 
     public void modelPropertyChange(PropertyChangeEvent event)
