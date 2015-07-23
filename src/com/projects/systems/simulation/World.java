@@ -223,7 +223,7 @@ public class World extends com.projects.systems.System
         if (worldTimer.isTimeLimitReached())
         {
             pauseSimulation();
-            changeSupport.firePropertyChange(PC_SIMULATION_FINISHED, null, statsManager);
+            changeSupport.firePropertyChange(PC_SIMULATION_FINISHED, null, demandManager);
         }
     }
 

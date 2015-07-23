@@ -116,7 +116,6 @@ public class DemandManager
                 totalExpenses += newExpense;
             }
 
-            System.out.println("Total Expenses For Structure: " + structure.getId() + " Are: " + totalExpenses);
             structureExpenses.put(structure.getId(), totalExpenses);
         }
     }
@@ -142,7 +141,6 @@ public class DemandManager
                 totalEmissions += newExpense;
             }
 
-            System.out.println("Total Emissions For Structure: " + structure.getId() + " Are: " + totalEmissions);
             structureEnvironmentalImpact.put(structure.getId(), totalEmissions);
         }
     }
@@ -341,6 +339,21 @@ public class DemandManager
     public List<Integer> getTodaysDemandProfile()
     {
         return todaysDemandProfile;
+    }
+
+    public List<Structure> getStructures()
+    {
+        return structures;
+    }
+
+    public HashMap<Integer, Float> getStructureExpenses()
+    {
+        return structureExpenses;
+    }
+
+    public HashMap<Integer, Float> getStructureEnvironmentalImpact()
+    {
+        return structureEnvironmentalImpact;
     }
 
     public boolean isDailyDemandProfileReady()

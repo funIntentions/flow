@@ -1,8 +1,11 @@
 package com.projects.gui.panel;
 
 import com.projects.gui.SubscribedView;
+import com.projects.gui.table.RankingTable;
 import com.projects.management.SystemController;
+import com.projects.models.Structure;
 import com.projects.models.WorldTimer;
+import com.projects.systems.simulation.DemandManager;
 import com.projects.systems.simulation.SimulationStatus;
 import com.projects.systems.simulation.World;
 
@@ -16,6 +19,8 @@ import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
 import javax.swing.*;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +28,8 @@ import java.beans.PropertyChangeEvent;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by Dan on 6/25/2015.
@@ -41,6 +48,10 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
     private DatePicker datePickerForStartDate;
     private LocalDate currentDate;
     private SystemController controller;
+    private RankingTable expensesTable;
+    private RankingTable impactTable;
+    private JTable structureExpenseRankingTable;
+    private JTable environmentalImpactRankingTable;
 
     public SimulationInfoPanel(final SystemController systemController)
     {
@@ -148,8 +159,6 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
         constraints.weighty = 0.5;
         constraints.insets = new Insets(5,5,5,5);
 
-        constraints.gridx = 0;
-        constraints.gridy = 0;
         updateRateOptions = new JComboBox<WorldTimer.UpdateRate>(WorldTimer.UpdateRate.values());
         updateRateOptions.addActionListener(new ActionListener() {
             @Override
@@ -163,16 +172,11 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
         updateRatePanel.add(updateLabel);
         updateRatePanel.add(updateRateOptions);
 
-        constraints.gridx = 1;
-        constraints.gridy = 0;
-        timeLabel = new JLabel("Time: ");
-
-        constraints.gridx = 1;
-        constraints.gridy = 1;
         fxStartDatePanel.setPreferredSize(new Dimension(112, 50));
 
         fxEndDatePanel.setPreferredSize(new Dimension(112, 50));
 
+        timeLabel = new JLabel("Time: ");
         simulationTimePanel.add(timeLabel, BorderLayout.PAGE_START);
         JPanel simulationSpanPanel = new JPanel(new GridLayout(1, 2, 10, 10));
         simulationSpanPanel.add(fxStartDatePanel);
@@ -180,30 +184,31 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
         simulationTimePanel.add(simulationSpanPanel, BorderLayout.CENTER);
         simulationTimePanel.add(updateRatePanel, BorderLayout.PAGE_END);
 
-        constraints.gridheight = 3;
+        constraints.gridx = 2;
+        constraints.gridy = 0;
+        constraints.gridheight = 2;
+        constraints.fill = GridBagConstraints.BOTH;
         add(simulationTimePanel, constraints);
 
-        constraints.gridheight = 1;
+        expensesTable = new RankingTable(new String[]{"Structure", "Expense"});
+        structureExpenseRankingTable = new JTable(expensesTable);
+        JScrollPane expenseRankingScrollPane = new JScrollPane(structureExpenseRankingTable);
 
-        constraints.gridx = 0;
-        constraints.gridy = 1;
-        usageLabel = new JLabel("Usage: ");
-        add(usageLabel, constraints);
+        impactTable = new RankingTable(new String[]{"Structure", "Emissions"});
+        environmentalImpactRankingTable = new JTable(impactTable);
+        JScrollPane environmentalImpactRankingScrollPane = new JScrollPane(environmentalImpactRankingTable);
 
+        constraints.gridheight = 6;
         constraints.gridx = 0;
-        constraints.gridy = 2;
-        costLabel = new JLabel("Cost: ");
-        add(costLabel, constraints);
+        add(expenseRankingScrollPane, constraints);
 
-        constraints.gridx = 0;
-        constraints.gridy = 3;
-        emissionsLabel = new JLabel("Emissions: ");
-        add(emissionsLabel, constraints);
+        constraints.gridx = 1;
+        add(environmentalImpactRankingScrollPane, constraints);
     }
 
     public void modelPropertyChange(PropertyChangeEvent event)
     {
-        if (event.getPropertyName().equals(World.PC_WORLD_UPDATE) || event.getPropertyName().equals(World.PC_WORLD_RESET))
+        if (event.getPropertyName().equals(World.PC_WORLD_UPDATE))
         {
             SimulationStatus simulationStatus = (SimulationStatus)event.getNewValue();
             WorldTimer worldTimer = simulationStatus.worldTimer;
@@ -212,11 +217,9 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
 
             timeLabel.setText("Time: " + timeFormat.format(worldTimer.getHourOfDay()) + ":" + timeFormat.format(worldTimer.getMinutesOfHour()) + ":" + timeFormat.format(worldTimer.getSecondsOfMinute())
                     + " Date: " + currentDate.toString());
-            usageLabel.setText("Usage: " + decimalFormat.format(simulationStatus.totalUsageInkWh) + " kWh");
-            costLabel.setText("Cost: $" + decimalFormat.format(simulationStatus.price));
-            emissionsLabel.setText("Emissions: " + decimalFormat.format(simulationStatus.emissions) + "g");
         }
-        else if (event.getPropertyName().equals(World.PC_SIMULATION_STARTED)) {
+        else if (event.getPropertyName().equals(World.PC_SIMULATION_STARTED))
+        {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
@@ -226,9 +229,45 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
             });
             updateRateOptions.setEnabled(false);
         }
+        else if (event.getPropertyName().equals(World.PC_SIMULATION_FINISHED))
+        {
+            DemandManager demandManager = (DemandManager)event.getNewValue();
+
+            List<Structure> structures = demandManager.getStructures();
+            HashMap<Integer, Float> expenses = demandManager.getStructureExpenses();
+            HashMap<Integer, Float> environmentalImpact = demandManager.getStructureEnvironmentalImpact();
+
+            for (Structure structure : structures)
+            {
+                expensesTable.addRow(new Object[]{structure.getName(), expenses.get(structure.getId())});
+                impactTable.addRow(new Object[]{structure.getName(), environmentalImpact.get(structure.getId())});
+            }
+
+            TableRowSorter<TableModel> sorter = new TableRowSorter<>(expensesTable);
+            structureExpenseRankingTable.setRowSorter(sorter);
+            List<RowSorter.SortKey> sortKeys = new ArrayList<>();
+
+            int columnIndexToSort = 1;
+            sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.ASCENDING));
+
+            sorter.setSortKeys(sortKeys);
+            sorter.sort();
+
+            sorter = new TableRowSorter<>(impactTable);
+            environmentalImpactRankingTable.setRowSorter(sorter);
+            sortKeys = new ArrayList<>();
+
+            sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.ASCENDING));
+
+            sorter.setSortKeys(sortKeys);
+            sorter.sort();
+        }
 
         if (event.getPropertyName().equals(World.PC_WORLD_RESET))
         {
+            expensesTable.clearTable();
+            impactTable.clearTable();
+
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
