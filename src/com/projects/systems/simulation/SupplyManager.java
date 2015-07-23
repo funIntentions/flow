@@ -27,38 +27,27 @@ public class SupplyManager
 
     public boolean calculateSupply(double demand)
     {
-        double watts = demand;
         price = 0;
         emissions = 0;
 
         for (PowerPlant powerPlant : powerPlants)
         {
-            double capacity = powerPlant.getCapacity();
             powerPlant.setCurrentOutput(0);
 
             if (demand > 0)
             {
-                if (demand <= capacity)
-                {
-                    price += demand * powerPlant.getProductionCost();
-                    emissions += demand * powerPlant.getEmissionRate();
-                    powerPlant.setCurrentOutput(demand);
-                    demand -= demand;
-                }
-                else
-                {
-                    price +=  capacity * powerPlant.getProductionCost();
-                    emissions += capacity * powerPlant.getEmissionRate();
-                    powerPlant.setCurrentOutput(capacity);
-                    demand -= capacity;
-                }
-            }
-        }
+                double capacity = powerPlant.getCapacity();
+                double productionNeeded = demand/capacity;
 
-        if (watts > 0)
-        {
-            price /= watts; // $ per kWh
-            emissions /= watts; // g per kWh
+                if (productionNeeded > 1)
+                    productionNeeded = 1.0;
+
+                double production = productionNeeded * capacity;
+                powerPlant.setCurrentOutput(production);
+                price += productionNeeded * powerPlant.getProductionCost();
+                emissions += productionNeeded * powerPlant.getEmissionRate();
+                demand -= production;
+            }
         }
 
         if (demand > 0)
