@@ -1,8 +1,10 @@
 package com.projects.models;
 
 import com.projects.helper.DeviceType;
+import com.projects.helper.StorageState;
 import com.projects.helper.StorageStrategy;
 import com.projects.helper.Utils;
+import com.projects.systems.simulation.StorageManager;
 
 import javax.rmi.CORBA.Util;
 import java.util.List;
@@ -16,6 +18,7 @@ public class EnergyStorage extends Device
     private double storageCapacity;
     private double storedEnergy;
     private StorageStrategy storageStrategy;
+    private StorageState storageState = StorageState.CHARGING;
 
     public EnergyStorage(List<Property> energyStorageProperties, ElectricityUsageSchedule deviceUsageSchedule)
     {
@@ -99,6 +102,16 @@ public class EnergyStorage extends Device
     public double getStorageCapacity()
     {
         return storageCapacity;
+    }
+
+    public StorageState getStorageState()
+    {
+        return storageState;
+    }
+
+    public void setStorageState(StorageState storageState)
+    {
+        this.storageState = storageState;
     }
 
     public void setStorageCapacity(double storageCapacity)

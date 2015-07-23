@@ -1,5 +1,6 @@
 package com.projects.systems.simulation;
 
+import com.projects.helper.StorageState;
 import com.projects.models.EnergyStorage;
 import com.projects.models.Structure;
 
@@ -13,14 +14,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class StorageManager
 {
-    enum StorageState
-    {
-        CHARGING,
-        RELEASING
-    }
-    
-    StorageState storageState = StorageState.CHARGING; // TODO: state should be stored in device
-
     List<Structure> structures;
     private HashMap<Integer, List<Float>> deviceStorageProfiles;
 
@@ -32,8 +25,6 @@ public class StorageManager
 
     public void reset()
     {
-        storageState = StorageState.CHARGING;
-
         for (List<Float> profile : deviceStorageProfiles.values())
         {
             profile.clear();
@@ -45,6 +36,7 @@ public class StorageManager
 
             for (EnergyStorage storage : storageDevices)
             {
+                storage.setStorageState(StorageState.CHARGING);
                 storage.setStoredEnergy(0);
             }
         }
@@ -121,14 +113,14 @@ public class StorageManager
 
             if (storage.getStoredEnergy() == 0)
             {
-                storageState = StorageState.CHARGING;
+                storage.setStorageState(StorageState.CHARGING);
             }
             else if (storage.getStoredEnergy() == storage.getStorageCapacity())
             {
-                storageState = StorageState.RELEASING;
+                storage.setStorageState(StorageState.DISCHARGING);
             }
 
-            if (storageState == StorageState.CHARGING)
+            if (storage.getStorageState() == StorageState.CHARGING)
             {
                 chargeAmount = (float)(storage.getChargingRate()/ TimeUnit.HOURS.toMinutes(1));
                 if (storage.getStorageCapacity() < storage.getStoredEnergy() + chargeAmount)
@@ -138,7 +130,7 @@ public class StorageManager
 
                 storage.setStoredEnergy(storage.getStoredEnergy() + chargeAmount);
             }
-            else if (storageState == StorageState.RELEASING)
+            else if (storage.getStorageState() == StorageState.DISCHARGING)
             {
                 chargeAmount = -(float)(storage.getChargingRate()/ TimeUnit.HOURS.toMinutes(1)); // TODO: add property discharge rate to storage devices, then change charging rate here to that
                 if (0 > storage.getStoredEnergy() - chargeAmount)
