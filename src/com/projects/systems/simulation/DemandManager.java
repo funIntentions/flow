@@ -120,7 +120,33 @@ public class DemandManager
             structureExpenses.put(structure.getId(), totalExpenses);
         }
     }
-    
+
+    public void calculateDaysEnvironmentalImpact(List<Float> todaysEmissions)
+    {
+
+        for (Structure structure : structures)
+        {
+            List<Float> structuresDemandProfile = structureDemandProfiles.get(structure.getId());
+
+            Float totalEmissions = structureEnvironmentalImpact.get(structure.getId());
+
+            if (totalEmissions == null)
+                totalEmissions = 0f;
+
+            for (int time = 0; time < structuresDemandProfile.size(); ++time)
+            {
+                Float demandAtThisTime = structuresDemandProfile.get(time);
+                Float emissionsAtThieTime = todaysEmissions.get(time);
+
+                Float newExpense = (demandAtThisTime/(1000 * TimeUnit.HOURS.toMinutes(1))) * emissionsAtThieTime; // Convert Watts this minute to kWh TODO: change from watts per minute to kWatts per minute
+                totalEmissions += newExpense;
+            }
+
+            System.out.println("Total Emissions For Structure: " + structure.getId() + " Are: " + totalEmissions);
+            structureEnvironmentalImpact.put(structure.getId(), totalEmissions);
+        }
+    }
+
     public void resetDay()
     {
         todaysDemandProfile.clear();
@@ -232,6 +258,7 @@ public class DemandManager
         usageInWattsPerHour = 0;
         totalUsageInkWh = 0;
         structureExpenses.clear();
+        structureEnvironmentalImpact.clear();
     }
 
     public boolean isConsumer(Structure structure)
