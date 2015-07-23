@@ -1,13 +1,10 @@
 package com.projects.gui.panel;
 
 import com.projects.gui.SubscribedView;
-import com.projects.management.SystemController;
 import com.projects.systems.simulation.StatsManager;
 import com.projects.systems.simulation.World;
-import com.sun.org.glassfish.external.statistics.Stats;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
@@ -112,7 +109,7 @@ public class DailyStatsPanel extends JPanel implements SubscribedView
                                     setDisable(true);
                                     setStyle("-fx-background-color: #ffc0cb;");
                                 }
-                                else if (item.isAfter(endDate))
+                                else if (item.isAfter(endDate.minusDays(1)))
                                 {
                                     setDisable(true);
                                     setStyle("-fx-background-color: #ffc0cb;");
@@ -133,6 +130,24 @@ public class DailyStatsPanel extends JPanel implements SubscribedView
             updateDataCollection(dailyPriceData, "Prices", statsManager.getDailyPriceTrends());
             updateDataCollection(dailyEmissionsData, "Emissions", statsManager.getDailyEmissionTrends());
             updateDataCollection(dailyDemandData, "Demand", statsManager.getDailyDemandTrends());
+        }
+        else if (event.getPropertyName().equals(World.PC_SIMULATION_STARTED))
+        {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                  datePickerDisplayDate.setDisable(true);
+                }
+            });
+        }
+        else if (event.getPropertyName().equals(World.PC_SIMULATION_FINISHED))
+        {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    datePickerDisplayDate.setDisable(false);
+                }
+            });
         }
         else if (event.getPropertyName().equals(World.PC_WORLD_RESET))
         {

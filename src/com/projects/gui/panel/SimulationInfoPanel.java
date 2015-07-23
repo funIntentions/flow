@@ -212,13 +212,30 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
 
             timeLabel.setText("Time: " + timeFormat.format(worldTimer.getHourOfDay()) + ":" + timeFormat.format(worldTimer.getMinutesOfHour()) + ":" + timeFormat.format(worldTimer.getSecondsOfMinute())
                     + " Date: " + currentDate.toString());
-                    /*+ " Day: " + worldTimer.getDay()
-                    + " Week: " + worldTimer.getWeek()
-                    + " Month: " + worldTimer.getMonth()
-                    + " Year: " + worldTimer.getYear());*/
             usageLabel.setText("Usage: " + decimalFormat.format(simulationStatus.totalUsageInkWh) + " kWh");
             costLabel.setText("Cost: $" + decimalFormat.format(simulationStatus.price));
             emissionsLabel.setText("Emissions: " + decimalFormat.format(simulationStatus.emissions) + "g");
+        }
+        else if (event.getPropertyName().equals(World.PC_SIMULATION_STARTED)) {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    datePickerForStartDate.setDisable(true);
+                    datePickerForEndDate.setDisable(true);
+                }
+            });
+            updateRateOptions.setEnabled(false);
+        }
+        else if (event.getPropertyName().equals(World.PC_WORLD_RESET))
+        {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    datePickerForStartDate.setDisable(false);
+                    datePickerForEndDate.setDisable(false);
+                }
+            });
+            updateRateOptions.setEnabled(true);
         }
     }
 }

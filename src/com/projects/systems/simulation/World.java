@@ -35,6 +35,7 @@ public class World extends com.projects.systems.System
     public static final String PC_SELECTED_LOAD_PROFILE_CHANGED = "PC_SELECTED_LOAD_PROFILE_CHANGED";
     public static final String PC_START_DATE_CHANGED = "PC_START_DATE_CHANGED";
     public static final String PC_END_DATE_CHANGED = "PC_END_DATE_CHANGED";
+    public static final String PC_SIMULATION_FINISHED = "PC_SIMULATION_FINISHED";
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final Runnable simulationTick = new Runnable()
@@ -220,6 +221,7 @@ public class World extends com.projects.systems.System
         if (worldTimer.isTimeLimitReached())
         {
             pauseSimulation();
+            changeSupport.firePropertyChange(PC_SIMULATION_FINISHED, null, statsManager);
         }
     }
 

@@ -2,10 +2,12 @@ Future Thoughts
 
 On Going
 - Demand chart doesn't update properly with an update rate of years, weeks or months
-- The simulation needs to be reset and rerun once the update rate has changed
 - Cleanup the task manager, remove the testTask from SystemController and have it created in TaskManager if possible
 - If the simulation is running/unsaved the Loading Default and Loading file should halt the simulation, but first prompt the user if they're sure.
 - Editing the simulation start & end date and the update rate should be disabled while the simulation is running.
+- Editing the current strategies (New panel for each strategy)
+- Display information specific to particular structures, rank structures based on cost savings **
+- Weather affecting simulation
 
 Future
 - Device Usages/Patterns (and Weather Patterns if that's how it's done too) will need to be able to be altered depending on the season and weekends.
