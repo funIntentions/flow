@@ -13,7 +13,6 @@ Future
 - Device Usages/Patterns (and Weather Patterns if that's how it's done too) will need to be able to be altered depending on the season and weekends.
 
 QUESTIONS:
-- Should every button but the run, pause, reset be disabled while the simulation is running? Also should you have to pause before resetting the simulation?
 - Plans for the graphics panel? Changing visuals (lights on in houses with power, polluted air when emissions are high)
 - Instead of years, weeks, months for update rates, have an calculate now which just processes everything at the same time? Not sure how that will handle storage strategies
 - Weather simulation, I'd recommend allowing the user to specify the weather patterns similar to how the user can specify device usage times, Cloud Coverage 60% 6:00 to 7:00, etc.

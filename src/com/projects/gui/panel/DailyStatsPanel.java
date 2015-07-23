@@ -140,20 +140,12 @@ public class DailyStatsPanel extends JPanel implements SubscribedView
                 }
             });
         }
-        else if (event.getPropertyName().equals(World.PC_SIMULATION_FINISHED))
-        {
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    datePickerDisplayDate.setDisable(false);
-                }
-            });
-        }
         else if (event.getPropertyName().equals(World.PC_WORLD_RESET))
         {
             dailyPriceData.removeAllSeries();
             dailyEmissionsData.removeAllSeries();
             dailyDemandData.removeAllSeries();
+
         }
         else if (event.getPropertyName().equals(World.PC_START_DATE_CHANGED))
         {
@@ -162,6 +154,17 @@ public class DailyStatsPanel extends JPanel implements SubscribedView
         else if (event.getPropertyName().equals(World.PC_END_DATE_CHANGED))
         {
             endDate = (LocalDate)event.getNewValue();
+        }
+
+
+        if (event.getPropertyName().equals(World.PC_SIMULATION_FINISHED) || event.getPropertyName().equals(World.PC_WORLD_RESET))
+        {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    datePickerDisplayDate.setDisable(false);
+                }
+            });
         }
     }
 

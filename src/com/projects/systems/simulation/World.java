@@ -211,6 +211,7 @@ public class World extends com.projects.systems.System
         {
             statsManager.resetDailyTrends();
             statsManager.logDailyTrends(demandManager.getTodaysDemandProfile());
+            demandManager.calculateDaysExpenses(statsManager.getDailyPriceTrends());
             storageManager.reset();
             storageManager.updateStorageStrategies(demandManager, statsManager);
             demandManager.calculateDemandProfiles(storageManager);

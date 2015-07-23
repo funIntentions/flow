@@ -49,6 +49,7 @@ public class WorldTimer
         timeLimitReached = false;
         updateRate = UpdateRate.SECONDS;
         timeLimit = Double.MAX_VALUE;
+        updateTimeLimit();
         reset();
     }
 
@@ -196,7 +197,7 @@ public class WorldTimer
     public void setStartDate(LocalDate startDate)
     {
         this.startDate = startDate;
-        timeLimit = ChronoUnit.DAYS.between(startDate, endDate) * SECONDS_IN_DAY; // / TODO: set this in its own method
+        updateTimeLimit();
     }
 
     public LocalDate getEndDate()
@@ -206,6 +207,11 @@ public class WorldTimer
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+        updateTimeLimit();
+    }
+
+    private void updateTimeLimit()
+    {
         timeLimit = ChronoUnit.DAYS.between(startDate, endDate) * SECONDS_IN_DAY; // TODO: set this in its own method
     }
 

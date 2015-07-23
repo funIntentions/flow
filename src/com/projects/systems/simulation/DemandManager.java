@@ -16,6 +16,8 @@ import java.util.concurrent.TimeUnit;
 public class DemandManager
 {
     private List<Structure> structures;
+    private HashMap<Integer, Float> structureExpenses;
+    private HashMap<Integer, Float> structureEnvironmentalImpact;
     private HashMap<Integer, List<Float>> structureLoadProfiles;
     private HashMap<Integer, List<Float>> structureDemandProfiles;
     private List<Integer> todaysDemandProfile;
@@ -27,6 +29,8 @@ public class DemandManager
 
     public DemandManager()
     {
+        structureExpenses = new HashMap<>();
+        structureEnvironmentalImpact = new HashMap<>();
         structures = new ArrayList<Structure>();
         structureLoadProfiles = new HashMap<Integer, List<Float>>();
         structureDemandProfiles = new HashMap<Integer, List<Float>>();
@@ -92,6 +96,31 @@ public class DemandManager
         }
     }
 
+    public void calculateDaysExpenses(List<Float> pricesForDay)
+    {
+        for (Structure structure : structures)
+        {
+            List<Float> structuresDemandProfile = structureDemandProfiles.get(structure.getId());
+
+            Float totalExpenses = structureExpenses.get(structure.getId());
+
+            if (totalExpenses == null)
+                totalExpenses = 0f;
+
+            for (int time = 0; time < structuresDemandProfile.size(); ++time)
+            {
+                Float demandAtThisTime = structuresDemandProfile.get(time);
+                Float priceAtThisTime = pricesForDay.get(time);
+
+                Float newExpense = (demandAtThisTime/(1000 * TimeUnit.HOURS.toMinutes(1))) * priceAtThisTime; // Convert Watts this minute to kWh TODO: change from watts per minute to kWatts per minute
+                totalExpenses += newExpense;
+            }
+
+            System.out.println("Total Expenses For Structure: " + structure.getId() + " Are: " + totalExpenses);
+            structureExpenses.put(structure.getId(), totalExpenses);
+        }
+    }
+    
     public void resetDay()
     {
         todaysDemandProfile.clear();
@@ -202,6 +231,7 @@ public class DemandManager
     {
         usageInWattsPerHour = 0;
         totalUsageInkWh = 0;
+        structureExpenses.clear();
     }
 
     public boolean isConsumer(Structure structure)

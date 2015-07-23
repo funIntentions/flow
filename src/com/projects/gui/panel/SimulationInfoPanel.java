@@ -226,7 +226,8 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
             });
             updateRateOptions.setEnabled(false);
         }
-        else if (event.getPropertyName().equals(World.PC_WORLD_RESET))
+
+        if (event.getPropertyName().equals(World.PC_WORLD_RESET))
         {
             Platform.runLater(new Runnable() {
                 @Override
