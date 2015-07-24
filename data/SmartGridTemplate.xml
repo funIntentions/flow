@@ -14,10 +14,12 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                 <property>
                     <name>X Coordinate</name>
                     <value type="INTEGER">0</value>
+                    <units> </units>
                 </property>
                 <property>
                     <name>Y Coordinate</name>
                     <value type="INTEGER">0</value>
+                    <units> </units>
                 </property>
             </properties>
             <appliances/>
@@ -34,10 +36,12 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                 <property>
                     <name>X Coordinate</name>
                     <value type="INTEGER">0</value>
+                    <units> </units>
                 </property>
                 <property>
                     <name>Y Coordinate</name>
                     <value type="INTEGER">0</value>
+                    <units> </units>
                 </property>
             </properties>
             <appliances/>
@@ -54,10 +58,12 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                 <property>
                     <name>X Coordinate</name>
                     <value type="INTEGER">0</value>
+                    <units> </units>
                 </property>
                 <property>
                     <name>Y Coordinate</name>
                     <value type="INTEGER">0</value>
+                    <units> </units>
                 </property>
             </properties>
             <appliances/>
@@ -74,10 +80,12 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                 <property>
                     <name>X Coordinate</name>
                     <value type="INTEGER">0</value>
+                    <units> </units>
                 </property>
                 <property>
                     <name>Y Coordinate</name>
                     <value type="INTEGER">0</value>
+                    <units> </units>
                 </property>
             </properties>
             <appliances/>
@@ -94,10 +102,12 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                 <property>
                     <name>X Coordinate</name>
                     <value type="INTEGER">0</value>
+                    <units> </units>
                 </property>
                 <property>
                     <name>Y Coordinate</name>
                     <value type="INTEGER">0</value>
+                    <units> </units>
                 </property>
             </properties>
             <appliances/>
@@ -114,10 +124,12 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                 <property>
                     <name>X Coordinate</name>
                     <value type="INTEGER">0</value>
+                    <units> </units>
                 </property>
                 <property>
                     <name>Y Coordinate</name>
                     <value type="INTEGER">0</value>
+                    <units> </units>
                 </property>
             </properties>
             <appliances/>
@@ -134,22 +146,27 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                 <property>
                     <name>X Coordinate</name>
                     <value type="INTEGER">0</value>
+                    <units> </units>
                 </property>
                 <property>
                     <name>Y Coordinate</name>
                     <value type="INTEGER">0</value>
+                    <units> </units>
                 </property>
                 <property>
                     <name>Emission Rate</name>
                     <value type="DOUBLE">0</value>
+                    <units>g/kWh</units>
                 </property>
                 <property>
                     <name>Production Cost</name>
                     <value type="DOUBLE">0</value>
+                    <units>$/kWh</units>
                 </property>
                 <property>
                     <name>Capacity</name>
                     <value type="DOUBLE">0</value>
+                    <units>kW</units>
                 </property>
             </properties>
             <appliances/>
@@ -169,10 +186,12 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                 <property>
                     <name>Standby Consumption</name>
                     <value type="DOUBLE">0</value>
+                    <units>kW</units>
                 </property>
                 <property>
                     <name>Usage Consumption</name>
                     <value type="DOUBLE">0</value>
+                    <units>kW</units>
                 </property>
             </properties>
             <timeSpans/>
@@ -182,16 +201,19 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <type>ENERGY_SOURCE</type>
             <properties>
                 <property>
-                    <name>Rated DC Voltage</name>
+                    <name>Rated DC</name>
                     <value type="DOUBLE">0</value>
+                    <units>V</units>
                 </property>
                 <property>
                     <name>Current</name>
                     <value type="DOUBLE">0</value>
+                    <units>A</units>
                 </property>
                 <property>
-                    <name>Rated AC Voltage</name>
+                    <name>Rated AC</name>
                     <value type="DOUBLE">0</value>
+                    <units>V</units>
                 </property>
             </properties>
             <timeSpans/>
@@ -204,18 +226,22 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                 <property>
                     <name>Charging/Discharging Rate</name>
                     <value type="DOUBLE">0</value>
+                    <units>Hour</units>
                 </property>
                 <property>
                     <name>Storage Capacity</name>
                     <value type="DOUBLE">0</value>
+                    <units>kW</units>
                 </property>
                 <property>
                     <name>Stored Energy</name>
                     <value type="DOUBLE">0</value>
+                    <units>kW</units>
                 </property>
                 <property>
                     <name>Storage Strategy</name>
                     <value type="STRING">TEST_ONE</value>
+                    <units> </units>
                 </property>
             </properties>
             <timeSpans/>

@@ -516,7 +516,7 @@ public class StructureEditor implements SubscribedView
 
         for (Property property : properties)
         {
-            Object[] row = {property.getName(), property.getValue()};
+            Object[] row = {property.getName(), property.getValue(), property.getUnits()};
             buildingPropertiesTable.addRow(row);
         }
     }
@@ -669,7 +669,7 @@ public class StructureEditor implements SubscribedView
 
             for (Property property : properties)
             {
-                Object[] row = {property.getName(), property.getValue()};
+                Object[] row = {property.getName(), property.getValue(), property.getUnits()};
                 devicePropertiesTable.addRow(row);
             }
 

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class PropertiesTable extends AbstractTableModel
 {
     private String[] columnNames = {"Property",
-                                        "Value"};
+                                        "Value", "Units"};
     private ArrayList<Object[]> data;
 
     public PropertiesTable()
@@ -44,7 +44,7 @@ public class PropertiesTable extends AbstractTableModel
     public boolean isCellEditable(int row, int col) {
         //Note that the data/cell address is constant,
         //no matter where the cell appears onscreen.
-       return (col != 0);
+       return (col == 1);
     }
 
     /*

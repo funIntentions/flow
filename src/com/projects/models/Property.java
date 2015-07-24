@@ -7,11 +7,13 @@ public class Property<T>
 {
     private String name;
     private T value;
+    private String units;
 
-    public Property(String n, T val)
+    public Property(String name, T value, String units)
     {
-        name = n;
-        value = val;
+        this.name = name;
+        this.value = value;
+        this.units = units;
     }
 
     public String getName()
@@ -29,11 +31,17 @@ public class Property<T>
         return value;
     }
 
+    public String getUnits()
+    {
+        return units;
+    }
+
     public Property(Property model)
     {
-        name = model.getName();
+        this.name = model.getName();
         //TODO: check this cast;
-        value = (T)model.getValue();
+        this.value = (T)model.getValue();
+        this.units = model.getUnits();
     }
 
 }

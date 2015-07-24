@@ -40,11 +40,11 @@ public class EnergySource extends Device
     {
         Object value = property.getValue();
 
-        if (property.getName().equals("Rated DC Voltage"))
+        if (property.getName().equals("Rated DC"))
         {
             ratedDCVoltage = Double.valueOf(value.toString());
         }
-        else if (property.getName().equals("Rated AC Voltage"))
+        else if (property.getName().equals("Rated AC"))
         {
             ratedACVoltage = Double.valueOf(value.toString());
         }

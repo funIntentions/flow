@@ -71,6 +71,7 @@
         <xs:sequence>
             <xs:element name="name" type="stringType"/>
             <xs:element name="value" type="genericType"/>
+            <xs:element name="units" type="stringType"/>
         </xs:sequence>
     </xs:complexType>
 

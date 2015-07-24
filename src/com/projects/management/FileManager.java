@@ -208,6 +208,10 @@ class FileManager
 
                     String name = getElementStringFromTag(propertyElement, "name");
 
+                    String units = getElementStringFromTag(propertyElement, "units");
+                    if (units == null)
+                        units = " ";
+
                     NodeList nodeList = propertyElement.getElementsByTagName("value");
                     Element element = (Element)nodeList.item(0);
                     String value = element.getChildNodes().item(0).getNodeValue().trim();
@@ -217,19 +221,19 @@ class FileManager
 
                     if (type.equals("BOOLEAN"))
                     {
-                        property = new Property<Boolean>(name, Boolean.valueOf(value));
+                        property = new Property<Boolean>(name, Boolean.valueOf(value), units);
                     }
                     else if (type.equals("DOUBLE"))
                     {
-                        property = new Property<Double>(name, Double.valueOf(value));
+                        property = new Property<Double>(name, Double.valueOf(value), units);
                     }
                     else if (type.equals("INTEGER"))
                     {
-                        property = new Property<Integer>(name, Integer.valueOf(value));
+                        property = new Property<Integer>(name, Integer.valueOf(value), units);
                     }
                     else if (type.equals("STRING"))
                     {
-                        property = new Property<StorageStrategy>(name, StorageStrategy.valueOf(value));
+                        property = new Property<StorageStrategy>(name, StorageStrategy.valueOf(value), units);
                     }
                     else
                     {
@@ -457,6 +461,7 @@ class FileManager
             value.setAttribute("type", "STRING");
 
         propertyNode.appendChild(value);
+        propertyNode.appendChild(getElement(doc, "units", property.getUnits()));
 
         return propertyNode;
     }

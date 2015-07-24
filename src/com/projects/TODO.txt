@@ -1,7 +1,7 @@
 Tidying Up
 - If the simulation is running/unsaved the Loading Default and Loading file should halt the simulation, but first prompt the user if they're sure.
 - Add border/labels to the overview display for Emission and Expense ranking
-- Use or remove standby consumption in device properties
+- Use or  standby consumption in device properties
 * Remove the power property from device properties
 * Add Discharge property to storage devices
 - Don't display the Daily Device Usage Scheduler then energy sources or storage are selected
