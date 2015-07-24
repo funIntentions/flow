@@ -163,6 +163,7 @@ public class DailyStatsPanel extends JPanel implements SubscribedView
                 @Override
                 public void run() {
                     datePickerDisplayDate.setDisable(false);
+                    datePickerDisplayDate.setValue(endDate.minusDays(1));
                 }
             });
         }
