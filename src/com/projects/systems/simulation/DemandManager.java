@@ -64,6 +64,11 @@ public class DemandManager
                         float sum = loadProfile.get(time) + (float) appliance.getUsageConsumption();
                         loadProfile.set(time, sum);
                     }
+                    else
+                    {
+                        float sum = loadProfile.get(time) + (float) appliance.getStandbyConsumption();
+                        loadProfile.set(time, sum);
+                    }
                 }
             }
 

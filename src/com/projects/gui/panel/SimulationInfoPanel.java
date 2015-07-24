@@ -193,10 +193,12 @@ public class SimulationInfoPanel extends JPanel implements SubscribedView
         expensesTable = new RankingTable(new String[]{"Structure", "Expense"});
         structureExpenseRankingTable = new JTable(expensesTable);
         JScrollPane expenseRankingScrollPane = new JScrollPane(structureExpenseRankingTable);
+        expenseRankingScrollPane.setBorder(BorderFactory.createTitledBorder("Structure Expense Sum"));
 
         impactTable = new RankingTable(new String[]{"Structure", "Emissions"});
         environmentalImpactRankingTable = new JTable(impactTable);
         JScrollPane environmentalImpactRankingScrollPane = new JScrollPane(environmentalImpactRankingTable);
+        environmentalImpactRankingScrollPane.setBorder(BorderFactory.createTitledBorder("Structure Environmental Impact"));
 
         constraints.gridheight = 6;
         constraints.gridx = 0;
