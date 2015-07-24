@@ -1,10 +1,7 @@
 package com.projects.systems.simulation;
 
 import com.projects.models.*;
-import com.projects.systems.*;
 
-import java.lang.System;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,7 +61,7 @@ public class DemandManager
                 {
                     if (appliance.getElectricityUsageSchedule().isOnAtTime(time * interval))
                     {
-                        float sum = loadProfile.get(time) + (float) appliance.getAverageConsumption();
+                        float sum = loadProfile.get(time) + (float) appliance.getUsageConsumption();
                         loadProfile.set(time, sum);
                     }
                 }

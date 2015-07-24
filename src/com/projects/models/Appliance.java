@@ -10,8 +10,7 @@ import java.util.List;
 public class Appliance extends Device
 {
     private double standbyConsumption;
-    private double averageConsumption;
-    private double power;
+    private double usageConsumption;
 
     public Appliance(List<Property> applianceProperties, ElectricityUsageSchedule deviceUsageSchedule)
     {
@@ -40,17 +39,13 @@ public class Appliance extends Device
     {
         Object value = property.getValue();
 
-        if (property.getName().equals("StandbyConsumption"))
+        if (property.getName().equals("Standby Consumption"))
         {
             standbyConsumption = Double.valueOf(value.toString());
         }
-        else if (property.getName().equals("AverageConsumption"))
+        else if (property.getName().equals("Usage Consumption"))
         {
-            averageConsumption = Double.valueOf(value.toString());
-        }
-        else if (property.getName().equals("Power"))
-        {
-            power = Double.valueOf(value.toString());
+            usageConsumption = Double.valueOf(value.toString());
         }
         else
         {
@@ -68,24 +63,14 @@ public class Appliance extends Device
         this.standbyConsumption = standbyConsumption;
     }
 
-    public double getPower()
+    public double getUsageConsumption()
     {
-        return power;
+        return usageConsumption;
     }
 
-    public void setPower(double power)
+    public void setUsageConsumption(double usageConsumption)
     {
-        this.power = power;
-    }
-
-    public double getAverageConsumption()
-    {
-        return averageConsumption;
-    }
-
-    public void setAverageConsumption(double averageConsumption)
-    {
-        this.averageConsumption = averageConsumption;
+        this.usageConsumption = usageConsumption;
     }
 
 }

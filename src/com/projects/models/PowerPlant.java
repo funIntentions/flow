@@ -11,9 +11,6 @@ import java.util.List;
  */
 public class PowerPlant extends Structure implements Comparable<PowerPlant>
 {
-    private double capitalCost;
-    private double monthlyExpense;
-    private double efficiency;
     private double emissionRate;
     private double productionCost;
     private double capacity;
@@ -52,7 +49,6 @@ public class PowerPlant extends Structure implements Comparable<PowerPlant>
         currentOutput = 0; // TODO: should this be elsewhere?
     }
 
-
     public void changePropertyValue(int index, Object value)
     {
         super.changePropertyValue(index, value);
@@ -66,19 +62,11 @@ public class PowerPlant extends Structure implements Comparable<PowerPlant>
     {
         Object value = property.getValue();
 
-        if (property.getName().equals("CapitalCost"))
-        {
-            capitalCost = Double.valueOf(value.toString());
-        }
-        else if (property.getName().equals("MonthlyExpense"))
-        {
-            monthlyExpense = Double.valueOf(value.toString());
-        }
-        else if (property.getName().equals("EmissionRate"))
+        if (property.getName().equals("Emission Rate"))
         {
             emissionRate = Double.valueOf(value.toString());
         }
-        else if (property.getName().equals("ProductionCost"))
+        else if (property.getName().equals("Production Cost"))
         {
             productionCost = Double.valueOf(value.toString());
         }
@@ -115,30 +103,6 @@ public class PowerPlant extends Structure implements Comparable<PowerPlant>
 
     public void setEmissionRate(double emissionRate) {
         this.emissionRate = emissionRate;
-    }
-
-    public double getEfficiency() {
-        return efficiency;
-    }
-
-    public void setEfficiency(double efficiency) {
-        this.efficiency = efficiency;
-    }
-
-    public double getMonthlyExpense() {
-        return monthlyExpense;
-    }
-
-    public void setMonthlyExpense(double monthlyExpense) {
-        this.monthlyExpense = monthlyExpense;
-    }
-
-    public double getCapitalCost() {
-        return capitalCost;
-    }
-
-    public void setCapitalCost(double capitalCost) {
-        this.capitalCost = capitalCost;
     }
 
     public double getCurrentOutput()

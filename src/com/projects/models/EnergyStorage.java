@@ -52,19 +52,19 @@ public class EnergyStorage extends Device
     {
         Object value = property.getValue();
 
-        if (property.getName().equals("StorageCapacity"))
+        if (property.getName().equals("Storage Capacity"))
         {
             storageCapacity = Double.valueOf(value.toString());
         }
-        else if (property.getName().equals("ChargingRate"))
+        else if (property.getName().equals("Charging/Discharging Rate"))
         {
             chargingRate = Double.valueOf(value.toString());
         }
-        else if (property.getName().equals("StoredEnergy"))
+        else if (property.getName().equals("Stored Energy"))
         {
             storedEnergy = Double.valueOf(value.toString());
         }
-        else if (property.getName().equals("StorageStrategy") && Utils.isInEnum(value.toString(), StorageStrategy.class))
+        else if (property.getName().equals("Storage Strategy") && Utils.isInEnum(value.toString(), StorageStrategy.class))
         {
             storageStrategy = StorageStrategy.valueOf(value.toString());
         }

@@ -9,11 +9,9 @@ import java.util.List;
  */
 public class EnergySource extends Device
 {
-    private boolean isGenerating;
     private double ratedDCVoltage;
     private double ratedACVoltage;
     private double current;
-    private double powerFactor;
 
     public EnergySource(List<Property> energySourceProperties, ElectricityUsageSchedule deviceUsageSchedule)
     {
@@ -42,15 +40,11 @@ public class EnergySource extends Device
     {
         Object value = property.getValue();
 
-        if (property.getName().equals("IsGenerating"))
-        {
-            isGenerating = Boolean.valueOf(value.toString());
-        }
-        else if (property.getName().equals("RatedDCVoltage"))
+        if (property.getName().equals("Rated DC Voltage"))
         {
             ratedDCVoltage = Double.valueOf(value.toString());
         }
-        else if (property.getName().equals("RatedACVoltage"))
+        else if (property.getName().equals("Rated AC Voltage"))
         {
             ratedACVoltage = Double.valueOf(value.toString());
         }
@@ -58,34 +52,10 @@ public class EnergySource extends Device
         {
             current = Double.valueOf(value.toString());
         }
-        else if (property.getName().equals("PowerFactor"))
-        {
-            powerFactor = Double.valueOf(value.toString());
-        }
         else
         {
             System.out.println(property.getName() + " is an unknown property.");
         }
-    }
-
-    public boolean isGenerating()
-    {
-        return isGenerating;
-    }
-
-    public void setGenerating(boolean isGenerating)
-    {
-        this.isGenerating = isGenerating;
-    }
-
-    public double getPowerFactor()
-    {
-        return powerFactor;
-    }
-
-    public void setPowerFactor(double powerFactor)
-    {
-        this.powerFactor = powerFactor;
     }
 
     public double getCurrent()

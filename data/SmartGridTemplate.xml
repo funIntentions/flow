@@ -12,11 +12,11 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <numberOfUnits>1</numberOfUnits>
             <properties>
                 <property>
-                    <name>xCoordinate</name>
+                    <name>X Coordinate</name>
                     <value type="INTEGER">0</value>
                 </property>
                 <property>
-                    <name>yCoordinate</name>
+                    <name>Y Coordinate</name>
                     <value type="INTEGER">0</value>
                 </property>
             </properties>
@@ -32,11 +32,11 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <numberOfUnits>1</numberOfUnits>
             <properties>
                 <property>
-                    <name>xCoordinate</name>
+                    <name>X Coordinate</name>
                     <value type="INTEGER">0</value>
                 </property>
                 <property>
-                    <name>yCoordinate</name>
+                    <name>Y Coordinate</name>
                     <value type="INTEGER">0</value>
                 </property>
             </properties>
@@ -52,11 +52,11 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <numberOfUnits>1</numberOfUnits>
             <properties>
                 <property>
-                    <name>xCoordinate</name>
+                    <name>X Coordinate</name>
                     <value type="INTEGER">0</value>
                 </property>
                 <property>
-                    <name>yCoordinate</name>
+                    <name>Y Coordinate</name>
                     <value type="INTEGER">0</value>
                 </property>
             </properties>
@@ -72,11 +72,11 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <numberOfUnits>1</numberOfUnits>
             <properties>
                 <property>
-                    <name>xCoordinate</name>
+                    <name>X Coordinate</name>
                     <value type="INTEGER">0</value>
                 </property>
                 <property>
-                    <name>yCoordinate</name>
+                    <name>Y Coordinate</name>
                     <value type="INTEGER">0</value>
                 </property>
             </properties>
@@ -92,11 +92,11 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <numberOfUnits>1</numberOfUnits>
             <properties>
                 <property>
-                    <name>xCoordinate</name>
+                    <name>X Coordinate</name>
                     <value type="INTEGER">0</value>
                 </property>
                 <property>
-                    <name>yCoordinate</name>
+                    <name>Y Coordinate</name>
                     <value type="INTEGER">0</value>
                 </property>
             </properties>
@@ -112,11 +112,11 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <numberOfUnits>1</numberOfUnits>
             <properties>
                 <property>
-                    <name>xCoordinate</name>
+                    <name>X Coordinate</name>
                     <value type="INTEGER">0</value>
                 </property>
                 <property>
-                    <name>yCoordinate</name>
+                    <name>Y Coordinate</name>
                     <value type="INTEGER">0</value>
                 </property>
             </properties>
@@ -132,31 +132,19 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <numberOfUnits>1</numberOfUnits>
             <properties>
                 <property>
-                    <name>xCoordinate</name>
+                    <name>X Coordinate</name>
                     <value type="INTEGER">0</value>
                 </property>
                 <property>
-                    <name>yCoordinate</name>
+                    <name>Y Coordinate</name>
                     <value type="INTEGER">0</value>
                 </property>
                 <property>
-                    <name>CapitalCost</name>
+                    <name>Emission Rate</name>
                     <value type="DOUBLE">0</value>
                 </property>
                 <property>
-                    <name>MonthlyExpense</name>
-                    <value type="DOUBLE">0</value>
-                </property>
-                <property>
-                    <name>Efficiency</name>
-                    <value type="DOUBLE">0</value>
-                </property>
-                <property>
-                    <name>EmissionRate</name>
-                    <value type="DOUBLE">0</value>
-                </property>
-                <property>
-                    <name>ProductionCost</name>
+                    <name>Production Cost</name>
                     <value type="DOUBLE">0</value>
                 </property>
                 <property>
@@ -179,15 +167,11 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <type>APPLIANCE</type>
             <properties>
                 <property>
-                    <name>StandbyConsumption</name>
+                    <name>Standby Consumption</name>
                     <value type="DOUBLE">0</value>
                 </property>
                 <property>
-                    <name>AverageConsumption</name>
-                    <value type="DOUBLE">0</value>
-                </property>
-                <property>
-                    <name>Power</name>
+                    <name>Usage Consumption</name>
                     <value type="DOUBLE">0</value>
                 </property>
             </properties>
@@ -198,11 +182,7 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
             <type>ENERGY_SOURCE</type>
             <properties>
                 <property>
-                    <name>IsGenerating</name>
-                    <value type="BOOLEAN">false</value>
-                </property>
-                <property>
-                    <name>RatedDCVoltage</name>
+                    <name>Rated DC Voltage</name>
                     <value type="DOUBLE">0</value>
                 </property>
                 <property>
@@ -210,11 +190,7 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                     <value type="DOUBLE">0</value>
                 </property>
                 <property>
-                    <name>RatedACVoltage</name>
-                    <value type="DOUBLE">0</value>
-                </property>
-                <property>
-                    <name>PowerFactor</name>
+                    <name>Rated AC Voltage</name>
                     <value type="DOUBLE">0</value>
                 </property>
             </properties>
@@ -226,19 +202,19 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
 
             <properties>
                 <property>
-                    <name>ChargingRate</name>
+                    <name>Charging/Discharging Rate</name>
                     <value type="DOUBLE">0</value>
                 </property>
                 <property>
-                    <name>StorageCapacity</name>
+                    <name>Storage Capacity</name>
                     <value type="DOUBLE">0</value>
                 </property>
                 <property>
-                    <name>StoredEnergy</name>
+                    <name>Stored Energy</name>
                     <value type="DOUBLE">0</value>
                 </property>
                 <property>
-                    <name>StorageStrategy</name>
+                    <name>Storage Strategy</name>
                     <value type="STRING">TEST_ONE</value>
                 </property>
             </properties>

@@ -64,7 +64,7 @@ public class SelectionInfoPanel extends JPanel implements SubscribedView
 
             for (Appliance appliance : appliances)
             {
-                usageDuringTimeSpan += appliance.getElectricityUsageSchedule().getElectricityUsageDuringSpan(new TimeSpan(previous, time * timeSpanLength)) > 0 ? appliance.getAverageConsumption() : 0;
+                usageDuringTimeSpan += appliance.getElectricityUsageSchedule().getElectricityUsageDuringSpan(new TimeSpan(previous, time * timeSpanLength)) > 0 ? appliance.getUsageConsumption() : 0;
             }
 
             previous = time * timeSpanLength;

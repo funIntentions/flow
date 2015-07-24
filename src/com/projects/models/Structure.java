@@ -118,11 +118,11 @@ public class Structure
         Property property = properties.get(index);
         property.setValue(value);
 
-        if (property.getName().equals("xCoordinate"))
+        if (property.getName().equals("X Coordinate"))
         {
             x = Integer.valueOf(property.getValue().toString());
         }
-        else if (property.getName().equals("yCoordinate"))
+        else if (property.getName().equals("Y Coordinate"))
         {
             y = Integer.valueOf(property.getValue().toString());
         }

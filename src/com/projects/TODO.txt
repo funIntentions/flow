@@ -1,9 +1,26 @@
-Future Thoughts
+Tidying Up
+- If the simulation is running/unsaved the Loading Default and Loading file should halt the simulation, but first prompt the user if they're sure.
+- Add border/labels to the overview display for Emission and Expense ranking
+- Use or remove standby consumption in device properties
+* Remove the power property from device properties
+* Add Discharge property to storage devices
+- Don't display the Daily Device Usage Scheduler then energy sources or storage are selected
+- Supply and Demand real time charts don't start on the proper date
+- Come up with a better name than Project SmartGrid
+- Polish the properties -> remove the camel case and add units
+- Remove the now unsupported update rates -> weeks, months and years
+- Daily Stats should indicate that time of day is in minutes
+- Selection panel should display the structures properties next to the load profile
+- Cancelling editing should actually cancel all edits
+- Find more to tidy up
+
+- Auto-increment the position property of structures
+- Implement Energy Sources
+    - Remove unused properties
 
 On Going
 - Demand chart doesn't update properly with an update rate of years, weeks or months
 - Cleanup the task manager, remove the testTask from SystemController and have it created in TaskManager if possible
-- If the simulation is running/unsaved the Loading Default and Loading file should halt the simulation, but first prompt the user if they're sure.
 - Editing the current strategies (New panel for each strategy)
 - Weather affecting simulation
 - Time Spans expanded to allow weekends and seasons
