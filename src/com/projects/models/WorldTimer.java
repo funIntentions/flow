@@ -14,9 +14,6 @@ public class WorldTimer
         MINUTES,
         HOURS,
         DAYS,
-        WEEKS,
-        MONTHS,
-        YEARS,
     }
 
     private double timeLimit;
@@ -28,9 +25,6 @@ public class WorldTimer
     private int minutesOfHour;
     private int secondsOfMinute;
     private int day;
-    private int week;
-    private int month;
-    private int year;
     private UpdateRate updateRate;
     private LocalDate startDate = LocalDate.now();
     private LocalDate endDate = startDate.plusDays(1);
@@ -40,9 +34,6 @@ public class WorldTimer
     public static final double SECONDS_IN_DAY = 86400;
     public static final int HOURS_IN_DAY = 24;
     public static final double DAYS_IN_WEEK = 7;
-    public static final double AVERAGE_NUMBER_OF_DAYS_IN_MONTH = 28;
-    public static final double MONTHS_IN_YEAR = 12;
-
 
     public WorldTimer()
     {
@@ -67,9 +58,6 @@ public class WorldTimer
 
         hour = (totalTimeInSeconds / SECONDS_IN_HOUR);
         day = (int)(totalTimeInSeconds / SECONDS_IN_DAY);
-        week = (int)(day / DAYS_IN_WEEK);
-        month = (int)(day / AVERAGE_NUMBER_OF_DAYS_IN_MONTH);
-        year = (int)(month / MONTHS_IN_YEAR);
         hourOfDay =  (int)Math.floor(hour % HOURS_IN_DAY);
         minutesOfHour = (int)Math.floor((totalTimeInSeconds % SECONDS_IN_HOUR) / 60);
         secondsOfMinute = (int)Math.floor((totalTimeInSeconds % SECONDS_IN_MINUTE));
@@ -97,18 +85,6 @@ public class WorldTimer
             {
                 time *= SECONDS_IN_DAY;
             } break;
-            case WEEKS:
-            {
-                time *= (DAYS_IN_WEEK * SECONDS_IN_DAY);
-            } break;
-            case MONTHS:
-            {
-                time *= (AVERAGE_NUMBER_OF_DAYS_IN_MONTH * SECONDS_IN_DAY);
-            } break;
-            case YEARS:
-            {
-                time *= (MONTHS_IN_YEAR * AVERAGE_NUMBER_OF_DAYS_IN_MONTH * SECONDS_IN_DAY);
-            }
 
         }
 
@@ -125,9 +101,6 @@ public class WorldTimer
         modifiedTimeElapsedInSeconds = 0;
         hour = 0;
         day = 0;
-        week = 0;
-        month = 0;
-        year = 0;
     }
 
     public void setUpdateRate(UpdateRate updateRate)
@@ -160,7 +133,8 @@ public class WorldTimer
         return totalTimeInSeconds;
     }
 
-    public double getModifiedTimeElapsedInSeconds() {
+    public double getModifiedTimeElapsedInSeconds()
+    {
         return modifiedTimeElapsedInSeconds;
     }
 
@@ -172,21 +146,6 @@ public class WorldTimer
     public int getDay()
     {
         return day;
-    }
-
-    public int getWeek()
-    {
-        return week;
-    }
-
-    public int getMonth()
-    {
-        return month;
-    }
-
-    public int getYear()
-    {
-        return year;
     }
 
     public LocalDate getStartDate()

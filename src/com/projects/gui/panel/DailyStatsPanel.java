@@ -78,6 +78,7 @@ public class DailyStatsPanel extends JPanel implements SubscribedView
                         updateDataCollection(dailyDemandData, "Demand", statsManager.getDailyDemandTrends((int)day));
                     }
                 });
+                datePickerDisplayDate.setDisable(true);
                 gridPaneEndDate.add(labelEndDate, 0, 0);
                 gridPaneEndDate.add(datePickerDisplayDate, 0, 1);
                 vBoxEndDate.getChildren().add(gridPaneEndDate);
@@ -140,11 +141,28 @@ public class DailyStatsPanel extends JPanel implements SubscribedView
                 }
             });
         }
+        else if (event.getPropertyName().equals(World.PC_SIMULATION_FINISHED))
+        {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    datePickerDisplayDate.setDisable(false);
+                    datePickerDisplayDate.setValue(endDate.minusDays(1));
+                }
+            });
+        }
         else if (event.getPropertyName().equals(World.PC_WORLD_RESET))
         {
             dailyPriceData.removeAllSeries();
             dailyEmissionsData.removeAllSeries();
             dailyDemandData.removeAllSeries();
+
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    datePickerDisplayDate.setDisable(true);
+                }
+            });
 
         }
         else if (event.getPropertyName().equals(World.PC_START_DATE_CHANGED))
@@ -154,17 +172,6 @@ public class DailyStatsPanel extends JPanel implements SubscribedView
         else if (event.getPropertyName().equals(World.PC_END_DATE_CHANGED))
         {
             endDate = (LocalDate)event.getNewValue();
-        }
-
-        if (event.getPropertyName().equals(World.PC_SIMULATION_FINISHED) || event.getPropertyName().equals(World.PC_WORLD_RESET))
-        {
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    datePickerDisplayDate.setDisable(false);
-                    datePickerDisplayDate.setValue(endDate.minusDays(1));
-                }
-            });
         }
     }
 
@@ -182,41 +189,13 @@ public class DailyStatsPanel extends JPanel implements SubscribedView
         data.addSeries(priceSeries);
     }
 
-    private void updateDailyPriceDataSeries(List<Float> prices)
-    {
-        dailyPriceData.removeAllSeries();
-        XYSeries priceSeries = new XYSeries("Price");
-
-        int intervalCount = prices.size();
-        for (int interval = 0; interval < intervalCount; ++interval)
-        {
-            priceSeries.add(interval, prices.get(interval));
-        }
-
-        dailyPriceData.addSeries(priceSeries);
-    }
-
-    private void updateDailyEmissionsDataSeries(List<Float> emissions)
-    {
-        dailyEmissionsData.removeAllSeries();
-        XYSeries emissionsSeries = new XYSeries("Emissions");
-
-        int maxDemand = emissions.size();
-        for (int demand = 1; demand < maxDemand; ++demand)
-        {
-            emissionsSeries.add(demand, emissions.get(demand));
-        }
-
-        dailyEmissionsData.addSeries(emissionsSeries);
-    }
-
     private JFreeChart createDemandChart()
     {
         XYSeries series1 = new XYSeries("Structures");
         dailyDemandData = new XYSeriesCollection(series1);
         return ChartFactory.createXYLineChart(
                 "Demand",  // chart title
-                "Time of Day",
+                "Time (Minutes)",
                 "Usage (Watts)",
                 dailyDemandData
         );
@@ -228,7 +207,7 @@ public class DailyStatsPanel extends JPanel implements SubscribedView
         dailyPriceData = new XYSeriesCollection(series1);
         return ChartFactory.createXYLineChart(
                 "Price",  // chart title
-                "Time of Day",
+                "Time (Minutes)",
                 "Price $/kWh",
                 dailyPriceData
         );
@@ -241,7 +220,7 @@ public class DailyStatsPanel extends JPanel implements SubscribedView
         dailyEmissionsData = new XYSeriesCollection(series1);
         return ChartFactory.createXYLineChart(
                 "Emissions",  // chart title
-                "Time of Day",
+                "Time (Minutes)",
                 "Emissions (g/kWh)",
                 dailyEmissionsData
         );

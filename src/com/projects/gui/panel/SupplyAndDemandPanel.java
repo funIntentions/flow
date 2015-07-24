@@ -12,6 +12,7 @@ import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.time.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +34,7 @@ public class SupplyAndDemandPanel extends JPanel implements SubscribedView
     private int displayInterval = TWO_MINUTES;
     private int timeInterval = 1; // 1 second
     private RegularTimePeriod timeBase;
+    private LocalDate startDate = LocalDate.now();
     private double previousTime;
 
     public SupplyAndDemandPanel()
@@ -84,9 +86,8 @@ public class SupplyAndDemandPanel extends JPanel implements SubscribedView
                 {
                     displayInterval = (int)(WorldTimer.DAYS_IN_WEEK * WorldTimer.HOURS_IN_DAY);
                     timeInterval = (int)WorldTimer.SECONDS_IN_HOUR;
-                    timeBase = new Hour(0, 1, 1, 2015);
+                    timeBase = new Hour(0, 1, 1, 2015); // TODO: use the start date and update timeInterval when start date changes
                 } break;
-                // TODO: handle others
             }
         }
         else if (event.getPropertyName().equals(World.PC_WORLD_RESET))
@@ -113,6 +114,10 @@ public class SupplyAndDemandPanel extends JPanel implements SubscribedView
             remove(demandChartPanel);
             demandChartPanel = new ChartPanel(createDemandChart());
             add(demandChartPanel);
+        }
+        else if (event.getPropertyName().equals(World.PC_START_DATE_CHANGED))
+        {
+            startDate = (LocalDate)event.getNewValue();
         }
     }
 
@@ -175,7 +180,7 @@ public class SupplyAndDemandPanel extends JPanel implements SubscribedView
 
         JFreeChart result = ChartFactory.createTimeSeriesChart(
             "Supply",  // chart title
-            "Time of Day",
+            "Time",
             "Supply(kWh)",
             supplyData,
             true,
