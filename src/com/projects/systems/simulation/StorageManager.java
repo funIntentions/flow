@@ -63,8 +63,17 @@ public class StorageManager
         // Strategy example, store when electricity has a low cost and then use that power when it's a highDemandPrice
         List<Integer> previousDaysDemandProfiles = demandManager.getTodaysDemandProfile();
         List<Float> storageProfile = new ArrayList<Float>();
-        float lowDemandPrice = 0.6f;
-        float highDemandPrice = 0.8f;
+
+        float averageDemand = 0;
+
+        for (Integer demand : previousDaysDemandProfiles)
+        {
+            averageDemand += demand;
+        }
+
+        averageDemand /= previousDaysDemandProfiles.size();
+
+        float priceForAverageDemand = statsManager.getPriceForDemand((int)Math.floor(averageDemand));
 
         for (int time = 0; time < previousDaysDemandProfiles.size(); ++time)
         {
@@ -72,7 +81,7 @@ public class StorageManager
             float priceForDemand = statsManager.getPriceForDemand(demand);
             float chargeAmount = 0;
 
-            if (priceForDemand <= lowDemandPrice
+            if (priceForDemand < priceForAverageDemand
                     && storage.getStoredEnergy() < storage.getStorageCapacity())
             {
                 chargeAmount = (float)(storage.getChargingRate()/ TimeUnit.HOURS.toMinutes(1));
@@ -83,7 +92,7 @@ public class StorageManager
 
                 storage.setStoredEnergy(storage.getStoredEnergy() + chargeAmount);
             }
-            else if (priceForDemand >= highDemandPrice
+            else if (priceForDemand > priceForAverageDemand
                     && storage.getStoredEnergy() > 0)
             {
                 chargeAmount = -(float)(storage.getChargingRate()/ TimeUnit.HOURS.toMinutes(1)); // TODO: add property discharge rate to storage devices, then change charging rate here to that

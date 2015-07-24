@@ -4,10 +4,12 @@ On Going
 - Demand chart doesn't update properly with an update rate of years, weeks or months
 - Cleanup the task manager, remove the testTask from SystemController and have it created in TaskManager if possible
 - If the simulation is running/unsaved the Loading Default and Loading file should halt the simulation, but first prompt the user if they're sure.
-- Editing the simulation start & end date and the update rate should be disabled while the simulation is running.
 - Editing the current strategies (New panel for each strategy)
-- Display information specific to particular structures, rank structures based on cost savings **
 - Weather affecting simulation
+- Time Spans expanded to allow weekends and seasons
+
+- Messages
+- Geographic
 
 Future
 - Device Usages/Patterns (and Weather Patterns if that's how it's done too) will need to be able to be altered depending on the season and weekends.
@@ -17,5 +19,4 @@ QUESTIONS:
 - Instead of years, weeks, months for update rates, have an calculate now which just processes everything at the same time? Not sure how that will handle storage strategies
 - Weather simulation, I'd recommend allowing the user to specify the weather patterns similar to how the user can specify device usage times, Cloud Coverage 60% 6:00 to 7:00, etc.
     - It's time consuming to construct an accurate simulation for weather?
-- Plant improvement? Currently the price of electricity from a power plant is fixed and price shifts occur only when more plants are deployed to help meet demand.
-    Should an individual plants price vary based on how much of it's capacity is being used?
+

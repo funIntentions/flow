@@ -156,7 +156,6 @@ public class DailyStatsPanel extends JPanel implements SubscribedView
             endDate = (LocalDate)event.getNewValue();
         }
 
-
         if (event.getPropertyName().equals(World.PC_SIMULATION_FINISHED) || event.getPropertyName().equals(World.PC_WORLD_RESET))
         {
             Platform.runLater(new Runnable() {
