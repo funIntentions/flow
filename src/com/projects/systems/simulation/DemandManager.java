@@ -197,30 +197,6 @@ public class DemandManager
 
         if (todaysDemandProfile.size() == TimeUnit.DAYS.toMinutes(1))
             dailyDemandProfileReady = true;
-
-
-        /*usageInWattsPerHour = 0;
-        electricityDemand = 0;
-
-        for (Structure structure : structures)
-        {
-            List<Appliance> appliances = (List)structure.getAppliances();
-
-            for (Appliance appliance : appliances)
-            {
-                double applianceUsageInHours = getAppliancesUsageInHours(timeElapsedInSeconds, totalTimeElapsedInSeconds, appliance);
-                double applianceConsumptionDuringHours = appliance.getAverageConsumption() * applianceUsageInHours;
-                usageInWattsPerHour += applianceConsumptionDuringHours;
-
-                if (applianceConsumptionDuringHours > 0) // device is on
-                    electricityDemand += appliance.getAverageConsumption();
-            }
-
-            usageInWattsPerHour *= structure.getNumberOfUnits();
-            electricityDemand *= structure.getNumberOfUnits();
-        }
-
-        totalUsageInkWh += usageInWattsPerHour / 1000;*/
     }
 
     public double getAppliancesUsageInHours(double elapsedSecondsThisFrame, double totalTimeElapsedInSeconds, Appliance appliance)
@@ -257,6 +233,7 @@ public class DemandManager
         totalUsageInkWh = 0;
         structureExpenses.clear();
         structureEnvironmentalImpact.clear();
+        resetDay();
     }
 
     public boolean isConsumer(Structure structure)
