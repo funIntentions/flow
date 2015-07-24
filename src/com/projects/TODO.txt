@@ -1,10 +1,12 @@
 Tidying Up
 - If the simulation is running/unsaved the Loading Default and Loading file should halt the simulation, but first prompt the user if they're sure.
+- Change units from Wh to kWh
 * Add border/labels to the overview display for Emission and Expense ranking
-- Use or remove standby consumption in device properties
+* Use or remove standby consumption in device properties
 * Remove the power property from device properties
 * Add Discharge property to storage devices
-- Don't display the Daily Device Usage Scheduler then energy sources or storage are selected
+* Don't display the Daily Device Usage Scheduler then energy sources or storage are selected
+- reduce size of device usage buttons (add/remove)
 - Supply and Demand real time charts don't start on the proper date
 - Come up with a better name than Project SmartGrid
 * Polish the properties -> remove the camel case and add units

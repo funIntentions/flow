@@ -345,19 +345,19 @@ public class StructureEditor implements SubscribedView
             }
         };
 
-        deviceUsagePanel = new JPanel(new GridLayout(2,1));
+        deviceUsagePanel = new JPanel(new BorderLayout());
         deviceUsagePanel.setPreferredSize(new Dimension(400, 200));
         deviceUsagePanel.setBorder(BorderFactory.createTitledBorder("Daily Device Usage"));
-        deviceUsagePanel.add(deviceUsageScrollPane);
+        deviceUsagePanel.add(deviceUsageScrollPane, BorderLayout.CENTER);
 
-        JPanel usageControls = new JPanel(new GridLayout(1, 2));
+        JPanel usageControls = new JPanel(new FlowLayout());
         newUsageButton = new JButton(newUsageAction);
         newUsageButton.setEnabled(false);
         removeUsageButton = new JButton(removeUsageAction);
         removeUsageButton.setEnabled(false);
         usageControls.add(newUsageButton);
         usageControls.add(removeUsageButton);
-        deviceUsagePanel.add(usageControls);
+        deviceUsagePanel.add(usageControls, BorderLayout.PAGE_END);
 
         AbstractAction okAction = new AbstractAction("OK")
         {
@@ -457,23 +457,27 @@ public class StructureEditor implements SubscribedView
 
                 switch (deviceTabbedPane.getSelectedIndex())
                 {
-                    case 0:
+                    case 0: // Appliance Tab
                     {
                         addSourceButton.setVisible(false);
                         addStorageButton.setVisible(false);
                         addApplianceButton.setVisible(true);
+                        deviceUsagePanel.setVisible(true);
+
                     } break;
-                    case 1:
+                    case 1: // Source Tab
                     {
                         addSourceButton.setVisible(true);
                         addStorageButton.setVisible(false);
                         addApplianceButton.setVisible(false);
+                        deviceUsagePanel.setVisible(false);
                     } break;
-                    case 2:
+                    case 2: // Storage Tab
                     {
                         addSourceButton.setVisible(false);
                         addStorageButton.setVisible(true);
                         addApplianceButton.setVisible(false);
+                        deviceUsagePanel.setVisible(false);
                     } break;
                 }
             }
