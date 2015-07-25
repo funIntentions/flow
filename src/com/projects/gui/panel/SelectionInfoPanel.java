@@ -1,6 +1,7 @@
 package com.projects.gui.panel;
 
 import com.projects.gui.SubscribedView;
+import com.projects.gui.table.PropertiesTable;
 import com.projects.models.Appliance;
 import com.projects.models.Structure;
 import com.projects.models.TimeSpan;
@@ -25,27 +26,36 @@ public class SelectionInfoPanel extends JPanel implements SubscribedView
 {
     private ChartPanel chartPanel;
     private XYSeriesCollection data;
+    private PropertiesTable propertiesTableModel;
 
     public SelectionInfoPanel()
     {
-        setLayout(new BorderLayout());
+        setLayout(new GridLayout(1,2));
 
         chartPanel = new ChartPanel(createChart());
 
-        add(chartPanel, BorderLayout.CENTER);
+        propertiesTableModel = new PropertiesTable();
+        JTable propertiesTable = new JTable(propertiesTableModel);
+        JScrollPane propertiesScrollPane = new JScrollPane(propertiesTable);
+
+        add(chartPanel);
+        add(propertiesScrollPane);
     }
 
     public void modelPropertyChange(PropertyChangeEvent event)
     {
-        /*if (event.getPropertyName().equals(World.PC_STRUCTURE_SELECTED)
-                || event.getPropertyName().equals(World.PC_STRUCTURE_UPDATE)
-                || event.getPropertyName().equals(StructureManager.PC_TEMPLATE_SELECTED)
-                || event.getPropertyName().equals(StructureManager.PC_STRUCTURE_EDITED))*/
         if (event.getPropertyName().equals(World.PC_SELECTED_LOAD_PROFILE_CHANGED)
                 || event.getPropertyName().equals(StructureManager.SELECTED_LOAD_PROFILE_CHANGED))
         {
             data.removeAllSeries();
             data.addSeries(makeLoadProfileDataSeries((List<Float>) event.getNewValue()));
+        }
+        else if (event.getPropertyName().equals(StructureManager.PC_TEMPLATE_SELECTED)
+                || event.getPropertyName().equals(World.PC_STRUCTURE_SELECTED))
+        {
+            propertiesTableModel.clearTable();
+
+
         }
     }
 

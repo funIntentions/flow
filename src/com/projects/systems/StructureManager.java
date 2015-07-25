@@ -403,7 +403,7 @@ public class StructureManager extends System
 
     public Structure getLastSelected()
     {
-        return lastSelected;
+        return new Structure(lastSelected);
     }
 
     public HashMap<Integer, Structure> getStructures()

@@ -6,16 +6,16 @@ Tidying Up
 * Remove the power property from device properties
 * Add Discharge property to storage devices
 * Don't display the Daily Device Usage Scheduler then energy sources or storage are selected
-- reduce size of device usage buttons (add/remove)
+* reduce size of device usage buttons (add/remove)
 - Supply and Demand real time charts don't start on the proper date
 - Come up with a better name than Project SmartGrid
 * Polish the properties -> remove the camel case and add units
 * Remove the now unsupported update rates -> weeks, months and years
 * Daily Stats should indicate that time of day is in minutes
-- Selection panel should display the structures properties next to the load profile
-- Cancelling editing should actually cancel all edits
-- Find more to tidy up
+- Selection panel should display the structures properties next to the load profile (this means displaying a lot of information...Worth it?)
+- Cancelling editing should actually cancel all edits (currently cancels none...)
 - Table spacing ratio should be adjusted, at the moment it looks awkward
+- Find more to tidy up
 
 - Auto-increment the position property of structures
 - Implement Energy Sources

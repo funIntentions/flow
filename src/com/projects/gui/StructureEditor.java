@@ -668,8 +668,16 @@ public class StructureEditor implements SubscribedView
             Device device = (Device)event.getNewValue();
             List<Property> properties = device.getProperties();
 
-            newUsageButton.setEnabled(true);
-            removeUsageButton.setEnabled(true);
+            if (deviceTabbedPane.getSelectedIndex() == 0) // Appliance selected
+            {
+                newUsageButton.setEnabled(true);
+                removeUsageButton.setEnabled(true);
+            }
+            else
+            {
+                newUsageButton.setEnabled(false);
+                removeUsageButton.setEnabled(false);
+            }
 
             for (Property property : properties)
             {
