@@ -155,7 +155,7 @@ class FileManager
         NodeList nodeList = parent.getElementsByTagName(tag);
         Element element = (Element)nodeList.item(0);
         NodeList childNodes = element.getChildNodes();
-        return childNodes.item(0).getNodeValue().trim();
+        return childNodes.item(0).getNodeValue();
     }
 
     public List<TimeSpan> readTimeSpans(NodeList timeSpansList)
@@ -209,8 +209,6 @@ class FileManager
                     String name = getElementStringFromTag(propertyElement, "name");
 
                     String units = getElementStringFromTag(propertyElement, "units");
-                    if (units == null)
-                        units = " ";
 
                     NodeList nodeList = propertyElement.getElementsByTagName("value");
                     Element element = (Element)nodeList.item(0);
@@ -461,7 +459,7 @@ class FileManager
             value.setAttribute("type", "STRING");
 
         propertyNode.appendChild(value);
-        propertyNode.appendChild(getElement(doc, "units", property.getUnits()));
+        propertyNode.appendChild(getElement(doc, "units", String.valueOf(property.getUnits())));
 
         return propertyNode;
     }
