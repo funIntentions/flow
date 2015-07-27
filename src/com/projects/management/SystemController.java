@@ -10,6 +10,7 @@ import com.projects.systems.System;
 import com.projects.systems.StructureManager;
 import com.projects.systems.simulation.World;
 
+import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -25,6 +26,7 @@ import java.util.List;
 public class SystemController implements PropertyChangeListener
 {
 
+    private JFrame frame;
     private ArrayList<SubscribedView> views;
     private List<System> systems;
     private TaskManager taskManager;
@@ -32,12 +34,15 @@ public class SystemController implements PropertyChangeListener
     private FileManager fileManager;
     private StructureManager structureManager;
     private SelectionType activeSelection;
+    private boolean simulationChangedSinceLastSave = false;
 
     /**
      * the constructor
      */
-    public SystemController()
+    public SystemController(JFrame frame)
     {
+        this.frame = frame;
+
         systems = new ArrayList<System>();
         views = new ArrayList<SubscribedView>();
         fileManager = new FileManager();
@@ -88,11 +93,27 @@ public class SystemController implements PropertyChangeListener
 
     public void loadFile(File file)
     {
-        Template template = fileManager.readTemplate(file);
+        int load = JOptionPane.OK_OPTION;
 
-        structureManager.newTemplate(template);
-        List<Structure> worldStructures = structureManager.syncWorldStructures(template.getWorldStructures());
-        world.newWorld(worldStructures);
+        if (simulationChangedSinceLastSave)
+        {
+            load = JOptionPane.showConfirmDialog(
+                    frame,
+                    "The changes you have made to the simulation will be lost.",
+                    "Are you sure you wish to load a new file?",
+                    JOptionPane.YES_NO_OPTION);
+        }
+
+        if (load == JOptionPane.OK_OPTION)
+        {
+            Template template = fileManager.readTemplate(file);
+
+            structureManager.newTemplate(template);
+            List<Structure> worldStructures = structureManager.syncWorldStructures(template.getWorldStructures());
+            world.newWorld(worldStructures);
+
+            simulationChangedSinceLastSave = false;
+        }
     }
 
     public void saveSimulation(File file)
@@ -104,6 +125,7 @@ public class SystemController implements PropertyChangeListener
         }
 
         fileManager.saveSimulation(file, structureManager.getStructures(), ids, world.getStructures().keySet(), structureManager.getTemplate());
+        simulationChangedSinceLastSave = false;
     }
 
     /**
@@ -111,8 +133,22 @@ public class SystemController implements PropertyChangeListener
      */
     public void quitApplication()
     {
-        taskManager.kill();
-        java.lang.System.exit(0); // TODO: look into shutdown hooks and whether or not I'll need them.
+        int quit = JOptionPane.OK_OPTION;
+
+        if (simulationChangedSinceLastSave)
+        {
+            quit = JOptionPane.showConfirmDialog(
+                    frame,
+                    "The changes you have made to the simulation will be lost.",
+                    "Are you sure you wish to quit?",
+                    JOptionPane.YES_NO_OPTION);
+        }
+
+        if (quit == JOptionPane.OK_OPTION)
+        {
+            taskManager.kill();
+            java.lang.System.exit(0); // TODO: look into shutdown hooks and whether or not I'll need them.
+        }
     }
 
     // TODO: should this be moved somewhere else?
@@ -179,12 +215,15 @@ public class SystemController implements PropertyChangeListener
         {
             structureManager.updateStructure(structure);
         }
+
+        simulationChangedSinceLastSave = true;
     }
 
     public void addStructureToWorld(Integer id)
     {
         Structure structure = structureManager.createStructureFromTemplate(id);
         world.addNewStructure(structure);
+        simulationChangedSinceLastSave = true;
     }
 
     public void addDeviceToStructure(DeviceType deviceType)
@@ -201,6 +240,7 @@ public class SystemController implements PropertyChangeListener
     public void removeWorldStructure(Integer id)
     {
         world.removeStructure(id);
+        simulationChangedSinceLastSave = true;
     }
 
     public void selectWorldStructure(Structure structure)

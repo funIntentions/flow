@@ -14,9 +14,10 @@ Tidying Up
 * Remove the now unsupported update rates -> weeks, months and years
 * Daily Stats should indicate that time of day is in minutes
 * Selection panel should display the structures properties next to the load profile (this means displaying a lot of information...Worth it?)
-* Removed cancel option from structure editor since it didn't actually cancel any changes.
+* Removed cancel option from structure editor since it didn't actually cancel any changes. (now you can only "close")
 - Table spacing ratio should be adjusted, at the moment it looks awkward
 - Find more to tidy up
+* Strange demand spikes are actually expected. They happen when two devices time spans overlap for a single minute
 
 - Auto-increment the position property of structures
 - Implement Energy Sources
@@ -36,7 +37,6 @@ Future
 
 QUESTIONS:
 - Plans for the graphics panel? Changing visuals (lights on in houses with power, polluted air when emissions are high)
-- Instead of years, weeks, months for update rates, have an calculate now which just processes everything at the same time? Not sure how that will handle storage strategies
-- Weather simulation, I'd recommend allowing the user to specify the weather patterns similar to how the user can specify device usage times, Cloud Coverage 60% 6:00 to 7:00, etc.
-    - It's time consuming to construct an accurate simulation for weather?
+- Have an calculate now which just processes everything at the same time? Not sure how that will handle storage strategies
+- Weather simulation, simple variation/energy fluctuation parameter
 

@@ -14,6 +14,9 @@ import com.projects.systems.simulation.World;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.net.URL;
 import java.util.Locale;
@@ -57,7 +60,16 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
 
     private ProjectSmartGrid(JFrame frame)
     {
-        SystemController controller = new SystemController();
+        SystemController controller = new SystemController(frame);
+
+        WindowListener windowListener = new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent we) {
+                controller.quitApplication();
+            }
+        };
+        frame.addWindowListener(windowListener);
 
         quitApplicationAction = new QuitApplicationAction(controller);
         loadDefaultAction = new LoadDefaultAction(controller);
@@ -143,9 +155,10 @@ public class ProjectSmartGrid extends JPanel implements SubscribedView //TODO: M
         }
 
         JFrame mainFrame = new JFrame("Project SmartGrid");
+
         Locale.setDefault(Locale.CANADA);
         mainFrame.setPreferredSize(new Dimension(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT));
-        mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        mainFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         ProjectSmartGrid project = new ProjectSmartGrid(mainFrame);
         mainFrame.setJMenuBar(project.createMenuBar());
         mainFrame.setContentPane(project);
