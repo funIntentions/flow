@@ -17,6 +17,8 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
@@ -40,7 +42,48 @@ public class SelectionInfoPanel extends JPanel implements SubscribedView
         chartPanel = new ChartPanel(createChart());
 
         devicePropertiesTableModel = new PropertiesTable();
-        JTable devicePropertiesTable = new JTable(devicePropertiesTableModel);
+        JTable devicePropertiesTable = new JTable(devicePropertiesTableModel)
+        {
+            private static final long serialVersionUID = 1L;
+            private Class editingClass;
+
+            @Override
+            public TableCellRenderer getCellRenderer(int row, int column) {
+                editingClass = null;
+                int modelColumn = convertColumnIndexToModel(column);
+                if (modelColumn == 1) {
+                    Object value = getModel().getValueAt(row, modelColumn);
+                    if (value == null) {
+                        value = 0.0;
+                        getModel().setValueAt(value, row, column);
+                    }
+                    Class rowClass = value.getClass();
+                    return getDefaultRenderer(rowClass);
+                } else {
+                    return super.getCellRenderer(row, column);
+                }
+            }
+
+            @Override
+            public TableCellEditor getCellEditor(int row, int column) {
+                editingClass = null;
+                int modelColumn = convertColumnIndexToModel(column);
+                if (modelColumn == 1) {
+                    editingClass = getModel().getValueAt(row, modelColumn).getClass();
+                    return getDefaultEditor(editingClass);
+                } else {
+                    return super.getCellEditor(row, column);
+                }
+            }
+            //  This method is also invoked by the editor when the value in the editor
+            //  component is saved in the TableModel. The class was saved when the
+            //  editor was invoked so the proper class can be created.
+
+            @Override
+            public Class getColumnClass(int column) {
+                return editingClass != null ? editingClass : super.getColumnClass(column);
+            }
+        };
 
         structurePropertiesTableModel = new PropertiesTable();
         JTable structurePropertiesTable = new JTable(structurePropertiesTableModel);

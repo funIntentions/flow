@@ -1,11 +1,11 @@
 package com.projects.systems.simulation;
 
-import com.projects.models.*;
+        import com.projects.models.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+        import java.util.ArrayList;
+        import java.util.HashMap;
+        import java.util.List;
+        import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Dan on 6/24/2015.
@@ -90,8 +90,14 @@ public class DemandManager
             {
                 float storageDemand = storageManager.getStructuresStorageDemandAtTime(structure, time);
                 float loadDemand = loadProfile.get(time);
+                float totalDemand = loadDemand + storageDemand;
 
-                demandProfile.add(loadDemand + storageDemand);
+                if (totalDemand < 0) // Storage device released energy is greater than the current load
+                {
+                    totalDemand = 0;
+                }
+
+                demandProfile.add(totalDemand);
             }
 
             structureDemandProfiles.put(structure.getId(), demandProfile);

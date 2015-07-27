@@ -186,12 +186,12 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                 <property>
                     <name>Standby Consumption</name>
                     <value type="DOUBLE">0</value>
-                    <units>kW</units>
+                    <units>W</units>
                 </property>
                 <property>
                     <name>Usage Consumption</name>
                     <value type="DOUBLE">0</value>
-                    <units>kW</units>
+                    <units>W</units>
                 </property>
             </properties>
             <timeSpans/>
@@ -231,12 +231,12 @@ xsi:noNamespaceSchemaLocation="SmartGridTemplate.xsd">
                 <property>
                     <name>Storage Capacity</name>
                     <value type="DOUBLE">0</value>
-                    <units>kW</units>
+                    <units>W</units>
                 </property>
                 <property>
                     <name>Stored Energy</name>
                     <value type="DOUBLE">0</value>
-                    <units>kW</units>
+                    <units>W</units>
                 </property>
                 <property>
                     <name>Storage Strategy</name>

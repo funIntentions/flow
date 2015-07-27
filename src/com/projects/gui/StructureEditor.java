@@ -101,6 +101,7 @@ public class StructureEditor implements SubscribedView
             @Override
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e);
+                completeEditing();
                 close();
             }
         });
@@ -359,7 +360,7 @@ public class StructureEditor implements SubscribedView
         usageControls.add(removeUsageButton);
         deviceUsagePanel.add(usageControls, BorderLayout.PAGE_END);
 
-        AbstractAction okAction = new AbstractAction("OK")
+        AbstractAction okAction = new AbstractAction("Close")
         {
             @Override
             public void actionPerformed(ActionEvent e)
@@ -372,18 +373,8 @@ public class StructureEditor implements SubscribedView
             }
         };
 
-        AbstractAction cancelAction = new AbstractAction("Cancel")
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                close();
-            }
-        };
-
         creationControlButtons = new JPanel(new FlowLayout());
         creationControlButtons.add(new JButton(okAction));
-        creationControlButtons.add(new JButton(cancelAction));
 
         inputCompositeUnitInfoPanel = new JPanel(new GridLayout(2,2));
         inputCompositeUnitInfoPanel.setBorder(BorderFactory.createTitledBorder("Information"));

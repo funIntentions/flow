@@ -1,11 +1,11 @@
 package com.projects.systems.simulation;
 
 import com.projects.models.PowerPlant;
-import com.projects.models.WorldTimer;
+import com.projects.systems.*;
 
+import java.lang.System;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Dan on 7/17/2015.
@@ -119,7 +119,6 @@ public class StatsManager
         for (int time = 0; time < demandProfile.size(); ++time)
         {
             int currentDemand = demandProfile.get(time);
-
             dailyDemandTrend.add((float) currentDemand);
             dailyEmissionTrend.add(getEmissionsForDemand(currentDemand));
             dailyPriceTrend.add(getPriceForDemand(currentDemand));
@@ -177,3 +176,4 @@ public class StatsManager
         return dailyTrendDataReady;
     }
 }
+

@@ -46,7 +46,7 @@ public class SupplyManager
                 powerPlant.setCurrentOutput(production);
                 price += productionNeeded * powerPlant.getProductionCost();
                 emissions += productionNeeded * powerPlant.getEmissionRate();
-                demand -= production;
+                demand -= Math.round(production);
             }
         }
 
