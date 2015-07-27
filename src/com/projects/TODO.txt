@@ -1,5 +1,5 @@
 Tidying Up
-- If the simulation is running/unsaved the Loading Default and Loading file should halt the simulation, but first prompt the user if they're sure.
+* If the simulation is running/unsaved the Loading Default and Loading file should halt the simulation, but first prompt the user if they're sure.
 - Change units from Wh to kWh
     - Just the demand charts?
 * Add border/labels to the overview display for Emission and Expense ranking

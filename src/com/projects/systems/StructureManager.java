@@ -1,5 +1,6 @@
 package com.projects.systems;
 
+import com.projects.gui.panel.GraphicsPanel;
 import com.projects.helper.DeviceType;
 import com.projects.helper.ImageType;
 import com.projects.models.*;
@@ -366,6 +367,13 @@ public class StructureManager extends System
 
         copyDevices(template, structure);
         structure.setId(getNextAvailableStructureId());
+
+        if (structure.getX() == 0 && structure.getY() == 0)
+        {
+            structure.setX(GraphicsPanel.getNextX());
+            structure.setY(GraphicsPanel.getNextY());
+        }
+
         structures.put(structure.getId(), structure);
         return structure;
     }

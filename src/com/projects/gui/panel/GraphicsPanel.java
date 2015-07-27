@@ -22,6 +22,11 @@ import java.util.List;
  */
 public class GraphicsPanel extends JPanel implements SubscribedView
 {
+    private static int nextX = -1;
+    private static int nextY = 0;
+    private static int numberOfHorizontalCells = 25;
+    private static int numberOfVerticalCells = 25;
+
     Dimension worldDimensions;
     Dimension cellDimensions;
     HashMap<ImageType, BufferedImage> images;
@@ -32,14 +37,30 @@ public class GraphicsPanel extends JPanel implements SubscribedView
     public GraphicsPanel()
     {
         setBackground(Color.DARK_GRAY);
-        int numberOfHorizontalCells = 25;
-        int numberOfVerticalCells = 25;
         cellDimensions = new Dimension(32, 32);
         worldDimensions = new Dimension((int)(numberOfHorizontalCells * cellDimensions.getWidth()), (int)(numberOfVerticalCells * cellDimensions.getHeight())); // this is the preferred dimension
         images = new HashMap<ImageType, BufferedImage>();
         scaledImages = new HashMap<ImageType, BufferedImage>();
         structures = new ArrayList<Structure>();
         worldSpaceColor = new Color(128,202,140);
+    }
+
+    public static int getNextX()
+    {
+        ++nextX;
+
+        if (nextX == numberOfHorizontalCells)
+        {
+            ++nextY;
+            nextX = 0;
+        }
+
+        return nextX;
+    }
+
+    public static int getNextY()
+    {
+        return nextY;
     }
 
     @Override
@@ -128,6 +149,7 @@ public class GraphicsPanel extends JPanel implements SubscribedView
         {
             structures.clear();
             structures = (List<Structure>)event.getNewValue();
+            repaint();
         }
         else if (event.getPropertyName().equals(World.PC_STRUCTURE_UPDATE))
         {
