@@ -1,10 +1,12 @@
 package com.projects.gui.panel;
 
+import com.projects.gui.DeviceTabbedPane;
 import com.projects.gui.SubscribedView;
 import com.projects.gui.table.PropertiesTable;
-import com.projects.models.Appliance;
-import com.projects.models.Structure;
-import com.projects.models.TimeSpan;
+import com.projects.input.listeners.DeviceSelectedListener;
+import com.projects.input.listeners.DeviceTableListener;
+import com.projects.management.SystemController;
+import com.projects.models.*;
 import com.projects.systems.StructureManager;
 import com.projects.systems.simulation.World;
 import org.jfree.chart.ChartFactory;
@@ -26,20 +28,72 @@ public class SelectionInfoPanel extends JPanel implements SubscribedView
 {
     private ChartPanel chartPanel;
     private XYSeriesCollection data;
-    private PropertiesTable propertiesTableModel;
+    private PropertiesTable devicePropertiesTableModel;
+    private PropertiesTable structurePropertiesTableModel;
+    private DeviceTabbedPane deviceTabbedPane;
 
-    public SelectionInfoPanel()
+    public SelectionInfoPanel(SystemController controller)
     {
         setLayout(new GridLayout(1,2));
 
         chartPanel = new ChartPanel(createChart());
 
-        propertiesTableModel = new PropertiesTable();
-        JTable propertiesTable = new JTable(propertiesTableModel);
-        JScrollPane propertiesScrollPane = new JScrollPane(propertiesTable);
+        devicePropertiesTableModel = new PropertiesTable();
+        JTable devicePropertiesTable = new JTable(devicePropertiesTableModel);
+
+        structurePropertiesTableModel = new PropertiesTable();
+        JTable structurePropertiesTable = new JTable(structurePropertiesTableModel);
+
+        DeviceSelectedListener deviceSelectedListener = new DeviceSelectedListener(controller);
+        DeviceTableListener deviceTableListener = new DeviceTableListener(controller);
+
+        JPanel deviceAndPropertyPanel = new JPanel(new GridLayout(1,2));
+        deviceTabbedPane = new DeviceTabbedPane(deviceTableListener, deviceSelectedListener);
+
+        JScrollPane devicePropertiesScrollPane = new JScrollPane(devicePropertiesTable);
+        JScrollPane structurePropertiesScrollPane = new JScrollPane(structurePropertiesTable);
+
+        JPanel propertyPanel = new JPanel(new GridLayout(2,1));
+        propertyPanel.add(devicePropertiesScrollPane);
+        propertyPanel.add(structurePropertiesScrollPane);
+
+        deviceAndPropertyPanel.add(deviceTabbedPane);
+        deviceAndPropertyPanel.add(propertyPanel);
 
         add(chartPanel);
-        add(propertiesScrollPane);
+        add(deviceAndPropertyPanel);
+    }
+
+    private void populateStructureDevicesAndProperties(Structure structure)
+    {
+        deviceTabbedPane.clearTables();
+
+        List<Device> devices = structure.getAppliances();
+        for (Device device : devices)
+        {
+            deviceTabbedPane.addAppliance(device);
+        }
+
+        devices = structure.getEnergySources();
+        for (Device device : devices)
+        {
+            deviceTabbedPane.addEnergySource(device);
+        }
+
+        devices = structure.getEnergyStorageDevices();
+        for (Device device : devices)
+        {
+            deviceTabbedPane.addEnergyStorage(device);
+        }
+
+        structurePropertiesTableModel.clearTable();
+        List<Property> properties = structure.getProperties();
+
+        for (Property property : properties)
+        {
+            Object[] row = {property.getName(), property.getValue(), property.getUnits()};
+            structurePropertiesTableModel.addRow(row);
+        }
     }
 
     public void modelPropertyChange(PropertyChangeEvent event)
@@ -53,9 +107,24 @@ public class SelectionInfoPanel extends JPanel implements SubscribedView
         else if (event.getPropertyName().equals(StructureManager.PC_TEMPLATE_SELECTED)
                 || event.getPropertyName().equals(World.PC_STRUCTURE_SELECTED))
         {
-            propertiesTableModel.clearTable();
+            deviceTabbedPane.clearTables();
+            devicePropertiesTableModel.clearTable();
+            structurePropertiesTableModel.clearTable();
 
+            populateStructureDevicesAndProperties((Structure)event.getNewValue());
+        }
+        else if (event.getPropertyName().equals(StructureManager.PC_DEVICE_SELECTED))
+        {
+            devicePropertiesTableModel.clearTable();
 
+            Device device = (Device)event.getNewValue();
+            List<Property> properties = device.getProperties();
+
+            for (Property property : properties)
+            {
+                Object[] row = {property.getName(), property.getValue(), property.getUnits()};
+                devicePropertiesTableModel.addRow(row);
+            }
         }
     }
 
