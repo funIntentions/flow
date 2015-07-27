@@ -8,9 +8,9 @@ import java.util.ArrayList;
  */
 public class PropertiesTable extends AbstractTableModel
 {
-    private String[] columnNames = {"Property",
+    protected String[] columnNames = {"Property",
                                         "Value", "Units"};
-    private ArrayList<Object[]> data;
+    protected ArrayList<Object[]> data;
 
     public PropertiesTable()
     {
@@ -35,25 +35,6 @@ public class PropertiesTable extends AbstractTableModel
 
     public Class getColumnClass(int c) {
         return getValueAt(0, c).getClass();
-    }
-
-    /*
-     * Don't need to implement this method unless your table's
-     * editable.
-     */
-    public boolean isCellEditable(int row, int col) {
-        //Note that the data/cell address is constant,
-        //no matter where the cell appears onscreen.
-       return (col == 1);
-    }
-
-    /*
-     * Don't need to implement this method unless your table's
-     * data can change.
-     */
-    public void setValueAt(Object value, int row, int col) {
-        data.get(row)[col] = value;
-        fireTableCellUpdated(row, col);
     }
 
     public void addRow(Object[] row)

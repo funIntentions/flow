@@ -16,11 +16,11 @@ public class DeviceTabbedPane extends JTabbedPane
     private DevicePanel energySourceTab;
     private DevicePanel energyStorageTab;
 
-    public DeviceTabbedPane(TableModelListener tableModelListener, MouseListener deviceSelectedListener)
+    public DeviceTabbedPane(boolean editable, TableModelListener tableModelListener, MouseListener deviceSelectedListener)
     {
-        applianceTab = new DevicePanel("Appliances", tableModelListener, deviceSelectedListener);
-        energySourceTab = new DevicePanel("Energy Sources", tableModelListener, deviceSelectedListener);
-        energyStorageTab = new DevicePanel("Energy Storage", tableModelListener, deviceSelectedListener);
+        applianceTab = new DevicePanel("Appliances", editable, tableModelListener, deviceSelectedListener);
+        energySourceTab = new DevicePanel("Energy Sources", editable, tableModelListener, deviceSelectedListener);
+        energyStorageTab = new DevicePanel("Energy Storage", editable, tableModelListener, deviceSelectedListener);
 
         addTab(applianceTab.getTitle(), applianceTab);
         addTab(energySourceTab.getTitle(), energySourceTab);

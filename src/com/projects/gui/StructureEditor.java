@@ -50,7 +50,7 @@ public class StructureEditor implements SubscribedView
 
     private DeviceTabbedPane deviceTabbedPane;
     private JDialog creationDialog;
-    private PropertiesTable devicePropertiesTable, buildingPropertiesTable;
+    private EditablePropertiesTable devicePropertiesTable, buildingPropertiesTable;
     private JTable deviceUsageTable;
     private UsageTable usageTable;
     private SystemController controller;
@@ -176,7 +176,7 @@ public class StructureEditor implements SubscribedView
 
         TableModelListener devicePropertiesTableListener = new DevicePropertiesTableListener(controller);
         JComboBox<StorageStrategy> storageStrategyCombobox = new JComboBox<StorageStrategy>(StorageStrategy.values());
-        devicePropertiesTable = new PropertiesTable();
+        devicePropertiesTable = new EditablePropertiesTable();
         devicePropertiesTable.addTableModelListener(devicePropertiesTableListener);
         JTable propertyTable = new JTable(devicePropertiesTable) {
             private static final long serialVersionUID = 1L;
@@ -228,7 +228,7 @@ public class StructureEditor implements SubscribedView
         devicePropertiesScrollPane.setBorder(BorderFactory.createTitledBorder("Device Properties"));
 
         ObjectPropertiesTableListener objectPropertiesTableListener = new ObjectPropertiesTableListener(controller);
-        buildingPropertiesTable = new PropertiesTable();
+        buildingPropertiesTable = new EditablePropertiesTable();
         buildingPropertiesTable.addTableModelListener(objectPropertiesTableListener);
         JTable buildingPropertyTable = new JTable(buildingPropertiesTable)
         {
@@ -448,7 +448,7 @@ public class StructureEditor implements SubscribedView
 
         DeviceSelectedListener deviceSelectedListener = new DeviceSelectedListener(controller);
         DeviceTableListener deviceTableListener = new DeviceTableListener(controller);
-        deviceTabbedPane = new DeviceTabbedPane(deviceTableListener, deviceSelectedListener);
+        deviceTabbedPane = new DeviceTabbedPane(true, deviceTableListener, deviceSelectedListener);
         deviceTabbedPane.setBorder(BorderFactory.createTitledBorder("Building's Devices"));
         deviceTabbedPane.addChangeListener(new ChangeListener() {
             @Override
@@ -482,9 +482,6 @@ public class StructureEditor implements SubscribedView
                 }
             }
         });
-
-        DeviceTabbedPane unitDeviceTabbedPane = new DeviceTabbedPane(deviceTableListener, deviceSelectedListener);
-        unitDeviceTabbedPane.setBorder(BorderFactory.createTitledBorder("Unit's Devices"));
 
         deviceButtonPanel = new JPanel(new FlowLayout());
         deviceButtonPanel.add(addApplianceButton);

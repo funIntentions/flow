@@ -3,6 +3,7 @@ package com.projects.gui.panel;
 import com.projects.gui.ImprovedFormattedTextField;
 import com.projects.gui.table.DeviceTable;
 import com.projects.gui.ImprovedTableCellEditor;
+import com.projects.gui.table.EditableDeviceTable;
 import com.projects.gui.table.StringFormat;
 import com.projects.models.Device;
 
@@ -20,10 +21,15 @@ public class DevicePanel extends JScrollPane
     private JTable table;
     private DeviceTable deviceTable;
 
-    public DevicePanel(String panelTitle, TableModelListener tableModelListener, MouseListener mouseListener)
+    public DevicePanel(String panelTitle, boolean editable, TableModelListener tableModelListener, MouseListener mouseListener)
     {
         title = panelTitle;
-        deviceTable = new DeviceTable();
+
+        if (editable)
+            deviceTable = new EditableDeviceTable();
+        else
+            deviceTable = new DeviceTable();
+
         deviceTable.addTableModelListener(tableModelListener);
         table = new JTable(deviceTable)
         {

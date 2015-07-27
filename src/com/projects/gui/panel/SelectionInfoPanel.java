@@ -16,6 +16,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
@@ -48,10 +49,13 @@ public class SelectionInfoPanel extends JPanel implements SubscribedView
         DeviceTableListener deviceTableListener = new DeviceTableListener(controller);
 
         JPanel deviceAndPropertyPanel = new JPanel(new GridLayout(1,2));
-        deviceTabbedPane = new DeviceTabbedPane(deviceTableListener, deviceSelectedListener);
+        deviceTabbedPane = new DeviceTabbedPane(false, deviceTableListener, deviceSelectedListener);
+        deviceTabbedPane.setBorder(BorderFactory.createTitledBorder("Devices"));
 
         JScrollPane devicePropertiesScrollPane = new JScrollPane(devicePropertiesTable);
+        devicePropertiesScrollPane.setBorder(BorderFactory.createTitledBorder("Device Properties"));
         JScrollPane structurePropertiesScrollPane = new JScrollPane(structurePropertiesTable);
+        structurePropertiesScrollPane.setBorder(BorderFactory.createTitledBorder("Structure Properties"));
 
         JPanel propertyPanel = new JPanel(new GridLayout(2,1));
         propertyPanel.add(devicePropertiesScrollPane);
@@ -105,7 +109,8 @@ public class SelectionInfoPanel extends JPanel implements SubscribedView
             data.addSeries(makeLoadProfileDataSeries((List<Float>) event.getNewValue()));
         }
         else if (event.getPropertyName().equals(StructureManager.PC_TEMPLATE_SELECTED)
-                || event.getPropertyName().equals(World.PC_STRUCTURE_SELECTED))
+                || event.getPropertyName().equals(World.PC_STRUCTURE_SELECTED)
+                || event.getPropertyName().equals(StructureManager.PC_STRUCTURE_EDITED))
         {
             deviceTabbedPane.clearTables();
             devicePropertiesTableModel.clearTable();
