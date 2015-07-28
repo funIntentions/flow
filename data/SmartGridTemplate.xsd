@@ -62,8 +62,8 @@
 
     <xs:complexType name="timeSpanType">
         <xs:sequence>
-            <xs:element name="from" type="intType"/>
-            <xs:element name="to" type="intType"/>
+            <xs:element name="from" type="decType"/>
+            <xs:element name="to" type="decType"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -96,6 +96,7 @@
     <xs:complexType name="deviceTemplate">
         <xs:sequence>
             <xs:element name="name" type="stringType"/>
+            <xs:element name="id" type="intType"/>
             <xs:element name="type" type="deviceType"/>
             <xs:element name="properties" type="propertyListType"/>
             <xs:element name="timeSpans" type="timeSpanListType"/>

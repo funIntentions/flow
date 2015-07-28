@@ -16,7 +16,7 @@ Tidying Up
 * Selection panel should display the structures properties next to the load profile (this means displaying a lot of information...Worth it?)
 * Removed cancel option from structure editor since it didn't actually cancel any changes. (now you can only "close")
 - Table spacing ratio should be adjusted, at the moment it looks awkward
-- Find more to tidy up
+- Errors in time spans editing when input is unparseable
 * Strange demand spikes are actually expected. They happen when two devices time spans overlap for a single minute
 
 - Auto-increment the position property of structures
