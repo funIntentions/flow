@@ -40,3 +40,7 @@ QUESTIONS:
 - Have an calculate now which just processes everything at the same time? Not sure how that will handle storage strategies
 - Weather simulation, simple variation/energy fluctuation parameter
 
+|------------------------|
+| Some Known Issues/Bugs |
+|------------------------|
+- Editing Time Spans -> multiple time spans that are the same or those who overlap (currently this will count that time twice)

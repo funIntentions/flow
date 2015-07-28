@@ -1,4 +1,4 @@
-application version 7.6.2015
+application version 7.28.2015
 
 |-----------|
 | Interface |
@@ -58,7 +58,7 @@ Tool Bar
 	Resets the simulation to a state where no time has passed
 
 =========================
-Template Structures Panel
+Template Structures Table
 =========================
 
 + This panel simply displays a list of template structures which can be added to the simulation world
@@ -69,7 +69,7 @@ Template Structures Panel
 + Clicking on a structure in the list selects it
 
 ======================
-World Structures Panel
+World Structures Table
 ======================
 
 + This panel simply displays a list of world structures which are active in the simulation
@@ -90,12 +90,10 @@ Simulation Info Panel
 
 < Overview Tab >
 
-+ Usage
-	The kWh of energy used by applications within structures in the World Structures Panel
-+ Cost
-	The cost of generating electricity to meet the demand at this moment
-+ Emissions
-	The grams per kWh produced at this moment to meet demand
++ Structure Expense Sum Table
+    After the simulation completes, the structures are sorted by how much each spent on electricity, these expense differences are the result of different storage strategies and devices usage patterns.
++ Structure Environmental Impact
+    After the simulation completes, the structures are sorted by their environmental impact. The emission differences vary depending on when the structure's were buying power (peak emission times or not).
 + Time
 	The total amount of time that has elapsed in the simulation since it's start.
 	Time: Hours:Minutes:Seconds Date: Year/Month/Day
@@ -109,21 +107,32 @@ Simulation Info Panel
 
 < Selection Tab >
 
-+ Displays the load profile of the world structure you have selected
++ Displays the load profile and the devices of the world structure you have selected
 
 < Supply and Demand Tab >
 
-+ Supply (Currently not updated)
-    Will display which power plants are producing how much power
++ Supply
+    Displays which power plants are producing how much power
 + Demand
     Displays the current demand in the simulation in real time as the simulation updates
 
-< Price and Emissions Tab > // TODO: explain in more depth
+< Price and Emissions Tab >
 
 + Price
     Displays how the price of electricity changes as demand increases
 + Emissions
     Displays how the emissions produced to meet demand change as demand increases
+
+< Daily Trends Tab >
+The date picker allows you to select any day from the simulation period and see the fluctuations in price, emissions and demand during that day.
+
++ Price
+    Displays the changing cost of electricity ($/kWh) during the currently selected day.
++ Emissions
+    Displays the changing emissions produced to meet electricity (g/kWh) demands during the currently selected day.
++ Demand
+    Displays the changing demand for electricity during the currently selected day.
+
 
 |------------------------------------------|
 | Editing Structures (In Structure Editor) |
@@ -167,24 +176,28 @@ Selecting a device will also display the daily time spans which it is active dur
 - Remove Time Span button will remove the time span in the row that is currently selected in the Daily Device Usage Table
 
 
-|-------------------------|
-| A Functional Simulation |
-|-------------------------|
-1. You'll need to create a home with a least one appliance
+|----------------------------------|
+| Creating A Functional Simulation |
+|----------------------------------|
+
+- From Predefined Template
+1. There are a variety of structures that are already predefined. The structures that don't have Empty preceding their name are predefined and ready for the simulation.
+    These structures don't need any devices or properties adjusted to function within the simulation.
+2. Add one or more Homes to the simulation (e.g., Winter Home, Summer Home with Storage)
+3. Next add one more more Power Plants to the simulation (e.g. Wind Farm, Hydro Power Plant, Gas Power Plant)
+4. You'll need to specify the time range for the simulation in the Simulation Info panel (by default the start date is today's date and the end date is tomorrow's which means the simulation will run for one day)
+5. You'll need to specify the update rate for the simulation in the Simulation Info panel (by default it's seconds which is quite slow)
+6. You can now press Run on the tool bar and the simulation should begin
+
+- From Scratch
+1. You'll need to create a home (Empty Single Unit Building) with a least one appliance
 	1.1 For that appliance(s) you'll have to get it's average consumption property (Watts need) to something other than 0
 	1.2 For that appliance(s) you'll need to specify some time spans that it will be active during 
 		For Example: Add Time Span and set the To value to 12:00 and leave From at 00:00 - the device will be active from midnight to noon
-2. You'll need to create a power plant
+2. You'll need to create a power plant (Empty Power Plant)
 	2.1 For that power plant you'll need to set the production cost ($ per kWh) to something other than 0
 	2.3 For that power plant you'll need to set the emission rate (g per kWh) to something other than 0
-3. You'll need to specify the time limit for the simulation in the Simulation Info panel (by default it's set to 1 day which is fine)
-4. You'll need to specify the update rate for the simulation in the Simulation Info panel (by default it's seconds which is quite slow if you don't want to wait all day)
-5. You can now press Run on the tool bar and the simulation will begin
-6. You should now see the values in the Simulation Info Panel being updated
+3. You'll need to specify the time range for the simulation in the Simulation Info panel (by default the start date is today's date and the end date is tomorrow's which means the simulation will run for one day)
+4. You'll need to specify the update rate for the simulation in the Simulation Info panel (by default it's seconds which is quite slow)
+5. You can now press Run on the tool bar and the simulation should begin
 
-
-|------------------------|
-| Some Known Issues/Bugs |
-|------------------------|
-- Editing Time Spans isn't very robust, restrictions are needed to:
-	- prevent multiple time spans that are the same or those who overlap (currently this will count that time twice)
