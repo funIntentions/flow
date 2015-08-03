@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projects.view.StructureDetailsPaneController">
+   <center>
+      <LineChart fx:id="loadProfileChart" animated="false" createSymbols="false" title="Load Profile" BorderPane.alignment="CENTER">
+        <xAxis>
+          <CategoryAxis label="Time (Minutes)" side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis label="Demand (Watts)" side="LEFT" />
+        </yAxis>
+      </LineChart>
+   </center>
+</BorderPane>

@@ -22,14 +22,6 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="deviceType">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="APPLIANCE"/>
-            <xs:enumeration value="ENERGY_STORAGE"/>
-            <xs:enumeration value="ENERGY_SOURCE"/>
-        </xs:restriction>
-    </xs:simpleType>
-
     <xs:simpleType name="storageStrategyType">
         <xs:restriction base="xs:string">
             <xs:enumeration value="TEST_ONE"/>
@@ -87,57 +79,107 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="deviceListType">
+    <xs:complexType name="applianceListType">
         <xs:sequence>
-            <xs:element name="device" type="deviceTemplate" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="appliance" type="applianceTemplate" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="deviceTemplate">
+    <xs:complexType name="energySourceListType">
+        <xs:sequence>
+            <xs:element name="energySource" type="energyStorageTemplate" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="energyStorageListType">
+        <xs:sequence>
+            <xs:element name="energyStorageDevice" type="energyStorageTemplate" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="applianceTemplate">
         <xs:sequence>
             <xs:element name="name" type="stringType"/>
             <xs:element name="id" type="intType"/>
-            <xs:element name="type" type="deviceType"/>
-            <xs:element name="properties" type="propertyListType"/>
+            <xs:element name="standbyConsumption" type="decType"/>
+            <xs:element name="usageConsumption" type="decType"/>
             <xs:element name="timeSpans" type="timeSpanListType"/>
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="structureTemplate">
+    <xs:complexType name="energyStorageTemplate">
+        <xs:sequence>
+            <xs:element name="name" type="stringType"/>
+            <xs:element name="id" type="intType"/>
+            <xs:element name="chargeDischargeRate" type="decType"/>
+            <xs:element name="storageCapacity" type="decType"/>
+            <xs:element name="storageStrategy" type="storageStrategyType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="energySourceTemplate">
+        <xs:sequence>
+            <xs:element name="name" type="stringType"/>
+            <xs:element name="id" type="intType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="simpleStructureTemplate">
+        <xs:sequence>
+            <xs:element name="name" type="stringType"/>
+            <xs:element name="id" type="intType"/>
+            <xs:element name="type" type="structureType"/>
+            <xs:element name="image" type="imageType"/>
+            <xs:element name="appliances" type="applianceListType"/>
+            <xs:element name="energySources" type="energySourceListType"/>
+            <xs:element name="energyStorageDevices" type="energyStorageListType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="compositeStructureTemplate">
         <xs:sequence>
             <xs:element name="name" type="stringType"/>
             <xs:element name="id" type="intType"/>
             <xs:element name="type" type="structureType"/>
             <xs:element name="image" type="imageType"/>
             <xs:element name="numberOfUnits" type="intType"/>
-            <xs:element name="properties" type="propertyListType"/>
-            <xs:element name="appliances" type="deviceListType"/>
-            <xs:element name="energySources" type="deviceListType"/>
-            <xs:element name="energyStorageDevices" type="deviceListType"/>
+            <xs:element name="appliances" type="applianceListType"/>
+            <xs:element name="energySources" type="energySourceListType"/>
+            <xs:element name="energyStorageDevices" type="energyStorageListType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="powerPlantTemplate">
+        <xs:sequence>
+            <xs:element name="name" type="stringType"/>
+            <xs:element name="id" type="intType"/>
+            <xs:element name="type" type="structureType"/>
+            <xs:element name="image" type="imageType"/>
+            <xs:element name="emissionRate" type="decType"/>
+            <xs:element name="cost" type="decType"/>
+            <xs:element name="capacity" type="decType"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:element name="smartGrid">
         <xs:complexType>
             <xs:all>
-                <xs:element name="template">
+                <xs:element name="templateStructures">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="structure" type="structureTemplate" maxOccurs="unbounded"/>
+                            <xs:element name="simpleStructure" type="simpleStructureTemplate" maxOccurs="unbounded"/>
+                            <xs:element name="compositeStructure" type="compositeStructureTemplate" maxOccurs="unbounded"/>
+                            <xs:element name="powerPlant" type="powerPlantTemplate" maxOccurs="unbounded"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
-                <xs:element name="world">
+                <xs:element name="worldStructures">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="structure" type="structureTemplate" minOccurs="0" maxOccurs="unbounded"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="devices">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="device" type="deviceTemplate" maxOccurs="unbounded"/>
+                            <xs:element name="simpleStructure" type="simpleStructureTemplate" minOccurs="0" maxOccurs="unbounded"/>
+                            <xs:element name="compositeStructure" type="compositeStructureTemplate" minOccurs="0" maxOccurs="unbounded"/>
+                            <xs:element name="powerPlant" type="powerPlantTemplate" minOccurs="0" maxOccurs="unbounded"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
