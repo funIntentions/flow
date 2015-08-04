@@ -520,8 +520,8 @@ public class Main extends Application {
             structureNodes = doc.getElementsByTagName("worldStructures");
             List<Structure> worldStructures = readStructures(structureNodes);
 
-            templateStructureData.setAll(templateStructures);
-            worldStructureData.setAll(worldStructures);
+            templateStructureData.addAll(templateStructures);
+            worldStructureData.addAll(worldStructures);
 
             setSimulationFilePath(file);
         }
