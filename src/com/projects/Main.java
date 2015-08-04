@@ -1,9 +1,6 @@
 package com.projects;
 
-import com.projects.helper.ImageType;
-import com.projects.helper.SimulationState;
-import com.projects.helper.StorageStrategy;
-import com.projects.helper.Utils;
+import com.projects.helper.*;
 import com.projects.model.*;
 import com.projects.simulation.World;
 import com.projects.view.*;
@@ -579,7 +576,7 @@ public class Main extends Application {
         Element structureElement = (Element)structureNode;
 
         String name = getElementStringFromTag(structureElement, "name");
-        Integer id = Integer.valueOf(getElementStringFromTag(structureElement, "id"));
+        Integer id = Integer.valueOf(getElementStringFromTag(structureElement, "id")); // TODO: remove id's from save file?
         String image = getElementStringFromTag(structureElement, "image");
 
         ImageType imageType = ImageType.HOUSE_IMAGE;
@@ -595,7 +592,7 @@ public class Main extends Application {
         NodeList energyStorageList = structureElement.getElementsByTagName("energyStorageDevices");
         List<EnergyStorage> energyStorageDevices = readEnergyStorageDevices(energyStorageList);
 
-        return new Structure(name, id, 0, 0, imageType, appliances, energySources, energyStorageDevices);
+        return new Structure(name, StructureUtil.getNextStructureId(), 0, 0, imageType, appliances, energySources, energyStorageDevices);
     }
 
     public Structure readPowerPlant(Node structureNode)
@@ -615,7 +612,7 @@ public class Main extends Application {
             imageType = ImageType.valueOf(image);
         }
 
-        return new PowerPlant(name, id, imageType, emissionRate, cost, capacity);
+        return new PowerPlant(name, StructureUtil.getNextStructureId(), imageType, emissionRate, cost, capacity);
     }
 
     private String getElementStringFromTag(Element parent, String tag)
