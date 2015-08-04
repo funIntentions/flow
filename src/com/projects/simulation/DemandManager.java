@@ -54,6 +54,11 @@ public class DemandManager
         return structureLoadProfiles.get(structure.getId());
     }
 
+    public List<Float> getDemandProfile(Structure structure)
+    {
+        return structureDemandProfiles.get(structure.getId());
+    }
+
     public void calculateLoadProfiles()
     {
         structureLoadProfiles.clear();

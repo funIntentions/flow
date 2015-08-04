@@ -174,7 +174,6 @@ public class World
             statsManager.logDailyTrends(demandManager.getDemandProfileForToday());
             demandManager.calculateDaysExpenses(statsManager.getDailyPriceTrends());
             demandManager.calculateDaysEnvironmentalImpact(statsManager.getDailyEmissionTrends());
-            storageManager.reset();
             storageManager.updateStorageStrategies(demandManager, statsManager);
             demandManager.calculateDemandProfiles(storageManager);
             demandManager.resetDay();

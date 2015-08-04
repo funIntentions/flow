@@ -102,8 +102,8 @@ public class StorageManager
             else if (priceForDemand > priceForAverageDemand
                     && storage.getStoredEnergy() > 0)
             {
-                chargeAmount = -(float)(storage.getChargingRate()/ TimeUnit.HOURS.toMinutes(1)); // TODO: add property discharge rate to storage devices, then change charging rate here to that
-                if (0 > storage.getStoredEnergy() - chargeAmount)
+                chargeAmount = -(float)(storage.getChargingRate()/ TimeUnit.HOURS.toMinutes(1));
+                if (0 > storage.getStoredEnergy() + chargeAmount)
                 {
                     chargeAmount = -(float)(storage.getStoredEnergy());
                 }
@@ -117,7 +117,7 @@ public class StorageManager
         deviceStorageProfiles.put(storage.getId(), storageProfile);
     }
 
-    public void runStorageStrategyTestTwo(DemandManager demandManager, StatsManager statsManager, EnergyStorage storage)
+    public void runGreedyStorageStrategy(DemandManager demandManager, StatsManager statsManager, EnergyStorage storage)
     {
         // Strategy example, charge when empty and discharge when full
         List<Integer> previousDaysDemandProfiles = demandManager.getDemandProfileForToday();
@@ -148,7 +148,7 @@ public class StorageManager
             }
             else if (storage.getStorageState() == StorageState.DISCHARGING)
             {
-                chargeAmount = -(float)(storage.getChargingRate()/ TimeUnit.HOURS.toMinutes(1)); // TODO: add property discharge rate to storage devices, then change charging rate here to that
+                chargeAmount = -(float)(storage.getChargingRate()/ TimeUnit.HOURS.toMinutes(1));
                 if (0 > storage.getStoredEnergy() - chargeAmount)
                 {
                     chargeAmount = -(float)(storage.getStoredEnergy());
@@ -163,10 +163,78 @@ public class StorageManager
         deviceStorageProfiles.put(storage.getId(), storageProfile);
     }
 
+    public void runLocalAverageMatchingStrategy(DemandManager demandManager, StatsManager statsManager, Structure structure, EnergyStorage storage)
+    {
+        // Strategy example, store when electricity has a low cost and then use that power when it's a highDemandPrice
+        List<Float> previousDaysStructureDemandProfiles = demandManager.getLoadProfile(structure);
+        List<Float> storageProfile = deviceStorageProfiles.get(storage.getId());
+
+        if (storageProfile == null || storageProfile.size() == 0)
+        {
+            storageProfile = new ArrayList<>();
+
+            for (Float demand : previousDaysStructureDemandProfiles)
+            {
+                storageProfile.add(0f);
+            }
+        }
+
+        float transferCapacity = (float)(storage.getChargingRate()/ TimeUnit.HOURS.toMinutes(1));
+
+        float averageDemand = 0;
+
+        for (Float demand : previousDaysStructureDemandProfiles)
+        {
+            averageDemand += demand;
+        }
+
+        averageDemand /= previousDaysStructureDemandProfiles.size();
+
+        for (int time = 0; time < previousDaysStructureDemandProfiles.size(); ++time)
+        {
+            float demand = previousDaysStructureDemandProfiles.get(time);
+            float requestedChargeAmount = Math.round(averageDemand - demand);
+            float chargeAmount = 0;
+
+            if (requestedChargeAmount < 0 && storage.getStoredEnergy() > 0) // discharge
+            {
+                if (Math.abs(requestedChargeAmount) < transferCapacity)
+                    chargeAmount = requestedChargeAmount;
+                else
+                    chargeAmount = -transferCapacity;
+
+                if (0 > storage.getStoredEnergy() + chargeAmount)
+                {
+                    chargeAmount = -(float)(storage.getStoredEnergy());
+                }
+            }
+            else if (requestedChargeAmount > 0 && storage.getStorageCapacity() > storage.getStoredEnergy()) // charge
+            {
+                if (requestedChargeAmount < transferCapacity)
+                    chargeAmount = requestedChargeAmount;
+                else
+                    chargeAmount = transferCapacity;
+
+                if (storage.getStorageCapacity() < storage.getStoredEnergy() + chargeAmount)
+                {
+                    chargeAmount = (float)(storage.getStorageCapacity() - storage.getStoredEnergy());
+                }
+            }
+            else // do the same as yesterday
+            {
+                chargeAmount = storageProfile.get(time);
+            }
+
+            storage.setStoredEnergy(storage.getStoredEnergy() + chargeAmount);
+
+            storageProfile.set(time, chargeAmount);
+        }
+
+        deviceStorageProfiles.put(storage.getId(), storageProfile);
+    }
+
     public void updateStorageStrategies(DemandManager demandManager, StatsManager statsManager)
     {
-        deviceStorageProfiles.clear();
-
         for (Structure structure : structures)
         {
             List<EnergyStorage> energyStorageDevices = (List)structure.getEnergyStorageDevices();
@@ -181,7 +249,11 @@ public class StorageManager
                     } break;
                     case TEST_TWO:
                     {
-                        runStorageStrategyTestTwo(demandManager, statsManager, storage);
+                        runGreedyStorageStrategy(demandManager, statsManager, storage);
+                    } break;
+                    case LOCAL_AVERAGE_MATCHING:
+                    {
+                        runLocalAverageMatchingStrategy(demandManager, statsManager, structure, storage);
                     } break;
                 }
             }
