@@ -6,6 +6,6 @@ package com.projects.helper;
 public enum StorageStrategy
 {
     TEST_ONE,
-    TEST_TWO,
+    GREEDY,
     LOCAL_AVERAGE_MATCHING
 }

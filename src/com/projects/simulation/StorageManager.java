@@ -69,7 +69,7 @@ public class StorageManager
     {
         // Strategy example, store when electricity has a low cost and then use that power when it's a highDemandPrice
         List<Integer> previousDaysDemandProfiles = demandManager.getDemandProfileForToday();
-        List<Float> storageProfile = new ArrayList<Float>();
+        List<Float> storageProfile = deviceStorageProfiles.get(storage.getId());
 
         float averageDemand = 0;
 
@@ -121,7 +121,7 @@ public class StorageManager
     {
         // Strategy example, charge when empty and discharge when full
         List<Integer> previousDaysDemandProfiles = demandManager.getDemandProfileForToday();
-        List<Float> storageProfile = new ArrayList<Float>();
+        List<Float> storageProfile = deviceStorageProfiles.get(storage.getId());
 
         for (int time = 0; time < previousDaysDemandProfiles.size(); ++time)
         {
@@ -157,7 +157,7 @@ public class StorageManager
                 storage.setStoredEnergy(storage.getStoredEnergy() + chargeAmount);
             }
 
-            storageProfile.add(chargeAmount);
+            storageProfile.set(time, chargeAmount);
         }
 
         deviceStorageProfiles.put(storage.getId(), storageProfile);
@@ -168,16 +168,6 @@ public class StorageManager
         // Strategy example, store when electricity has a low cost and then use that power when it's a highDemandPrice
         List<Float> previousDaysStructureDemandProfiles = demandManager.getLoadProfile(structure);
         List<Float> storageProfile = deviceStorageProfiles.get(storage.getId());
-
-        if (storageProfile == null || storageProfile.size() == 0)
-        {
-            storageProfile = new ArrayList<>();
-
-            for (Float demand : previousDaysStructureDemandProfiles)
-            {
-                storageProfile.add(0f);
-            }
-        }
 
         float transferCapacity = (float)(storage.getChargingRate()/ TimeUnit.HOURS.toMinutes(1));
 
@@ -241,13 +231,26 @@ public class StorageManager
 
             for (EnergyStorage storage : energyStorageDevices)
             {
+                // Initialize if empty
+                List<Float> storageProfile = deviceStorageProfiles.get(storage.getId());
+                if (storageProfile == null || storageProfile.size() == 0)
+                {
+                    storageProfile = new ArrayList<>();
+
+                    for (int time = 0; time < TimeUnit.DAYS.toMinutes(1); ++time)
+                    {
+                        storageProfile.add(0f);
+                    }
+                }
+                deviceStorageProfiles.put(storage.getId(), storageProfile);
+
                 switch (storage.getStorageStrategy())
                 {
                     case TEST_ONE:
                     {
                         runStorageStrategyTestOne(demandManager, statsManager, storage);
                     } break;
-                    case TEST_TWO:
+                    case GREEDY:
                     {
                         runGreedyStorageStrategy(demandManager, statsManager, storage);
                     } break;
