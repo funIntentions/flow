@@ -96,9 +96,9 @@ public class RootLayoutController
     @FXML
     private void handleAbout() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Test");
-        alert.setHeaderText("About");
-        alert.setContentText("Author: Daniel Russell");
+        alert.setTitle("About");
+        alert.setHeaderText("Hello there,");
+        alert.setContentText("Please reference the readme for instructions.");
 
         alert.showAndWait();
     }

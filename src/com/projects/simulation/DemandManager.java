@@ -46,6 +46,8 @@ public class DemandManager
         {
             if (isConsumer(newValue))
                 main.getStructureDetailsPaneController().setStructureData(newValue, getLoadProfile(newValue));
+            else
+                main.getStructureDetailsPaneController().setStructureData(newValue, new ArrayList<>());
         });
     }
 

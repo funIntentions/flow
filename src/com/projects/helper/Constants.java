@@ -10,12 +10,6 @@ public class Constants
     public static final String HOUSE_IMAGE_PATH = "/images/House.png";
     public static final String POWER_PLANT_IMAGE_PATH = "/images/PowerPlant.png";
     public static final String HOURS_AND_MINUTES_FORMAT = "HH:mm";
-    public static final int FRAME_WIDTH = 1200;
-    public static final int FRAME_HEIGHT = 800;
-    public static final int STRUCTURE_EDITOR_REGULAR_WIDTH = 800;
-    public static final int STRUCTURE_EDITOR_REGULAR_HEIGHT = 600;
-    public static final int STRUCTURE_EDITOR_SMALL_WIDTH = 400;
-    public static final int STRUCTURE_EDITOR_SMALL_HEIGHT = 300;
     public static final long FIXED_SIMULATION_RATE_MILLISECONDS = 33; // 30 frames a second
     public static final double FIXED_SIMULATION_RATE_SECONDS = 0.0333333;
 }
