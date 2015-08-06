@@ -10,14 +10,15 @@ function strategize(storageDevice, loadProfile, oldStorageProfile, newStoragePro
 
     local transferCapacity = storageDevice:getChargingRate()/60.0
     local averageDemand = 0;
+    local length = loadProfile:size() - 1;
 
-    for time = 0, loadProfile:size() do
+    for time = 0, length do
         averageDemand = averageDemand + loadProfile:get(time);
     end
 
     averageDemand = averageDemand/loadProfile:size();
 
-    for time = 0, loadProfile.size() do
+    for time = 0, length do
 
         local demand = loadProfile:get(time);
         local requestedChargeAmount = math.floor(averageDemand - demand + 0.5)
@@ -31,7 +32,7 @@ function strategize(storageDevice, loadProfile, oldStorageProfile, newStoragePro
             end
 
             if 0 > (storageDevice:getStoredEnergy() + chargeAmount) then
-                chargeAmount = - storageDevice.getStoredEnergy()
+                chargeAmount = - storageDevice:getStoredEnergy()
             end
         elseif requestedChargeAmount > 0 and storageDevice:getStorageCapacity() > storageDevice:getStoredEnergy() then
             if requestedChargeAmount < transferCapacity then
@@ -49,7 +50,7 @@ function strategize(storageDevice, loadProfile, oldStorageProfile, newStoragePro
 
         storageDevice:setStoredEnergy(storageDevice:getStoredEnergy() + chargeAmount)
 
-        newStorageProfile.set(time, chargeAmount)
+        newStorageProfile:add(chargeAmount)
     end
 end
 

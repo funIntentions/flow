@@ -11,6 +11,7 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.luaj.vm2.lib.jse.JsePlatform;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,11 +25,19 @@ public class StorageManager
     private Main main;
     private List<Structure> structures;
     private HashMap<Integer, List<Float>> deviceStorageProfiles;
+    private File[] strategyScripts;
 
     public StorageManager()
     {
         structures = new ArrayList<Structure>();
         deviceStorageProfiles = new HashMap<Integer, List<Float>>();
+
+        strategyScripts = new File(Constants.STRATEGIES_FILE_PATH).listFiles();
+
+        for (File file : strategyScripts)
+        {
+            System.out.println(file.getName());
+        }
     }
 
     public void setMain(Main main)
@@ -270,14 +279,25 @@ public class StorageManager
         }
     }
 
+    private class StorageProfileWrapper
+    {
+        public final List<Float> storageProfile = new ArrayList<>();
+
+        public void set(int index, float value)
+        {
+            storageProfile.set(index, value);
+        }
+
+        public void add(float item)
+        {
+            storageProfile.add(item);
+        }
+    }
+
     public void callLua(EnergyStorage storageDevice, List<Float> loadProfile, List<Float> oldStorageProfile)
     {
-        List<Float> newStorageProfile = new ArrayList<>();
 
-        for (Float storage : oldStorageProfile)
-        {
-            newStorageProfile.add(0f);
-        }
+        StorageProfileWrapper newStorageProfileWrapper = new StorageProfileWrapper();
 
         try {
             LuaValue luaGlobals = JsePlatform.standardGlobals();
@@ -286,7 +306,7 @@ public class StorageManager
             LuaValue storageDeviceLua = CoerceJavaToLua.coerce(storageDevice);
             LuaValue loadProfileLua = CoerceJavaToLua.coerce(loadProfile);
             LuaValue oldStorageProfileLua = CoerceJavaToLua.coerce(oldStorageProfile);
-            LuaValue newStorageProfileLua = CoerceJavaToLua.coerce(newStorageProfile);
+            LuaValue newStorageProfileLua = CoerceJavaToLua.coerce(newStorageProfileWrapper);
             LuaValue[] luaValues = new LuaValue[4];
             luaValues[0] = storageDeviceLua;
             luaValues[1] = loadProfileLua;
@@ -303,6 +323,8 @@ public class StorageManager
         } catch (LuaError e){
             e.printStackTrace();
         }
+
+        List<Float> newStorageProfile = newStorageProfileWrapper.storageProfile;
 
         deviceStorageProfiles.put(storageDevice.getId(), newStorageProfile);
     }
