@@ -267,12 +267,13 @@ public class StorageManager
                     } break;
                     case GREEDY:
                     {
-                        runGreedyStorageStrategy(demandManager, statsManager, storage);
+                        //runGreedyStorageStrategy(demandManager, statsManager, storage);
+                        callLuaStrategyScript("GreedyStrategy.lua", storage, demandManager.getLoadProfile(structure), deviceStorageProfiles.get(storage.getId()));
                     } break;
                     case LOCAL_AVERAGE_MATCHING:
                     {
                         //runLocalAverageMatchingStrategy(demandManager, statsManager, structure, storage);
-                        callLua(storage, demandManager.getLoadProfile(structure), deviceStorageProfiles.get(storage.getId()));
+                        callLuaStrategyScript("LocalAverageMatchingStrategy.lua", storage, demandManager.getLoadProfile(structure), deviceStorageProfiles.get(storage.getId()));
                     } break;
                 }
             }
@@ -294,14 +295,14 @@ public class StorageManager
         }
     }
 
-    public void callLua(EnergyStorage storageDevice, List<Float> loadProfile, List<Float> oldStorageProfile)
+    public void callLuaStrategyScript(String script, EnergyStorage storageDevice, List<Float> loadProfile, List<Float> oldStorageProfile)
     {
 
         StorageProfileWrapper newStorageProfileWrapper = new StorageProfileWrapper();
 
         try {
             LuaValue luaGlobals = JsePlatform.standardGlobals();
-            luaGlobals.get("dofile").call(LuaValue.valueOf(Constants.STRATEGIES_FILE_PATH + "LocalAverageMatchingStrategy.lua"));
+            luaGlobals.get("dofile").call(LuaValue.valueOf(Constants.STRATEGIES_FILE_PATH + script));
 
             LuaValue storageDeviceLua = CoerceJavaToLua.coerce(storageDevice);
             LuaValue loadProfileLua = CoerceJavaToLua.coerce(loadProfile);
