@@ -1,9 +1,15 @@
 package com.projects.simulation;
 
 import com.projects.Main;
+import com.projects.helper.Constants;
 import com.projects.helper.StorageState;
 import com.projects.model.EnergyStorage;
 import com.projects.model.Structure;
+import org.luaj.vm2.LuaError;
+import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.Varargs;
+import org.luaj.vm2.lib.jse.CoerceJavaToLua;
+import org.luaj.vm2.lib.jse.JsePlatform;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -256,11 +262,49 @@ public class StorageManager
                     } break;
                     case LOCAL_AVERAGE_MATCHING:
                     {
-                        runLocalAverageMatchingStrategy(demandManager, statsManager, structure, storage);
+                        //runLocalAverageMatchingStrategy(demandManager, statsManager, structure, storage);
+                        callLua(storage, demandManager.getLoadProfile(structure), deviceStorageProfiles.get(storage.getId()));
                     } break;
                 }
             }
         }
+    }
+
+    public void callLua(EnergyStorage storageDevice, List<Float> loadProfile, List<Float> oldStorageProfile)
+    {
+        List<Float> newStorageProfile = new ArrayList<>();
+
+        for (Float storage : oldStorageProfile)
+        {
+            newStorageProfile.add(0f);
+        }
+
+        try {
+            LuaValue luaGlobals = JsePlatform.standardGlobals();
+            luaGlobals.get("dofile").call(LuaValue.valueOf(Constants.STRATEGIES_FILE_PATH + "LocalAverageMatchingStrategy.lua"));
+
+            LuaValue storageDeviceLua = CoerceJavaToLua.coerce(storageDevice);
+            LuaValue loadProfileLua = CoerceJavaToLua.coerce(loadProfile);
+            LuaValue oldStorageProfileLua = CoerceJavaToLua.coerce(oldStorageProfile);
+            LuaValue newStorageProfileLua = CoerceJavaToLua.coerce(newStorageProfile);
+            LuaValue[] luaValues = new LuaValue[4];
+            luaValues[0] = storageDeviceLua;
+            luaValues[1] = loadProfileLua;
+            luaValues[2] = oldStorageProfileLua;
+            luaValues[3] = newStorageProfileLua;
+            Varargs varargs = LuaValue.varargsOf(luaValues);
+
+            LuaValue strategize = luaGlobals.get("strategize");
+            if (!strategize.isnil()) {
+                strategize.invoke(varargs);
+            } else {
+                System.out.println("Lua function not found");
+            }
+        } catch (LuaError e){
+            e.printStackTrace();
+        }
+
+        deviceStorageProfiles.put(storageDevice.getId(), newStorageProfile);
     }
 
     public boolean removeStructure(Structure structureToRemove)
