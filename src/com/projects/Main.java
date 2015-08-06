@@ -18,6 +18,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.luaj.vm2.LuaError;
+import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.jse.CoerceJavaToLua;
+import org.luaj.vm2.lib.jse.JsePlatform;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -37,6 +41,8 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.Preferences;
+
+
 
 public class Main extends Application {
 
@@ -70,6 +76,42 @@ public class Main extends Application {
         selectedWorldStructure = new SimpleObjectProperty<>(structure);
 
         world = new World();
+
+        LineData lineData = callGetLuaLine();
+
+        for (int i = 0; i < lineData.valueList.size(); ++i)
+        {
+            System.out.println(lineData.valueList.get(i));
+        }
+    }
+
+    public class LineData
+    {
+        public final List<Float> valueList = new ArrayList<Float>();
+        public void addValue(float value){
+            valueList.add(value);
+        }
+    }
+
+    public LineData callGetLuaLine()
+    {
+        LineData lineValue = new LineData();
+        try {
+            LuaValue luaGlobals = JsePlatform.standardGlobals();
+            luaGlobals.get("dofile").call(LuaValue.valueOf(Constants.STRATEGIES_FILE_PATH + "LuaCode.lua"));
+
+            LuaValue luaVals = CoerceJavaToLua.coerce(lineValue);
+
+            LuaValue luaGetLine = luaGlobals.get("GetLineData");
+            if (!luaGetLine.isnil()) {
+                luaGetLine.call(luaVals);
+            } else {
+                System.out.println("Lua function not found");
+            }
+        } catch (LuaError e){
+            e.printStackTrace();
+        }
+        return lineValue;
     }
 
     public ObservableList<Structure> getWorldStructureData()
