@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.prefs.Preferences;
 
@@ -67,6 +68,8 @@ public class Main extends Application {
     private ProductionStatisticsController productionStatisticsController;
     private StructureComparisonsController structureComparisonsController;
 
+
+    private HashMap<String, String> storageStrategyScripts;
     private World world;
 
     public Main()
@@ -75,43 +78,21 @@ public class Main extends Application {
         selectedTemplateStructure = new SimpleObjectProperty<>(structure);
         selectedWorldStructure = new SimpleObjectProperty<>(structure);
 
+        storageStrategyScripts = new HashMap<>();
         world = new World();
+    }
 
-        LineData lineData = callGetLuaLine();
+    private void readStorageStrategies()
+    {
+        File[] strategyScriptFiles = new File(Constants.STRATEGIES_FILE_PATH).listFiles();
 
-        for (int i = 0; i < lineData.valueList.size(); ++i)
+        if (strategyScriptFiles != null)
         {
-            System.out.println(lineData.valueList.get(i));
-        }
-    }
-
-    public class LineData
-    {
-        public final List<Float> valueList = new ArrayList<Float>();
-        public void addValue(float value){
-            valueList.add(value);
-        }
-    }
-
-    public LineData callGetLuaLine()
-    {
-        LineData lineValue = new LineData();
-        try {
-            LuaValue luaGlobals = JsePlatform.standardGlobals();
-            luaGlobals.get("dofile").call(LuaValue.valueOf(Constants.STRATEGIES_FILE_PATH + "LuaCode.lua"));
-
-            LuaValue luaVals = CoerceJavaToLua.coerce(lineValue);
-
-            LuaValue luaGetLine = luaGlobals.get("GetLineData");
-            if (!luaGetLine.isnil()) {
-                luaGetLine.call(luaVals);
-            } else {
-                System.out.println("Lua function not found");
+            for (File file : strategyScriptFiles)
+            {
+                storageStrategyScripts.put(Utils.getStrategyName(file.getName()), file.getName());
             }
-        } catch (LuaError e){
-            e.printStackTrace();
         }
-        return lineValue;
     }
 
     public ObservableList<Structure> getWorldStructureData()
@@ -447,6 +428,9 @@ public class Main extends Application {
             StructureEditDialogController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setStructure(structure);
+
+            readStorageStrategies();
+            controller.setStorageStrategies(storageStrategyScripts);
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
@@ -790,7 +774,7 @@ public class Main extends Application {
                     Integer id = Integer.parseInt(getElementStringFromTag(deviceElement, "id"));
                     Double chargeDischargeRate = Double.parseDouble(getElementStringFromTag(deviceElement, "chargingRate"));
                     Double storageCapacity = Double.parseDouble(getElementStringFromTag(deviceElement, "storageCapacity"));
-                    StorageStrategy storageStrategy = StorageStrategy.valueOf(getElementStringFromTag(deviceElement, "storageStrategy"));
+                    String storageStrategy = getElementStringFromTag(deviceElement, "storageStrategy");
 
                     EnergyStorage energyStorage = new EnergyStorage(name, id, chargeDischargeRate, storageCapacity, 0, storageStrategy);
 

@@ -40,4 +40,34 @@ public class Utils
         Path currentRelativePath = Paths.get("");
         return currentRelativePath.toAbsolutePath().toString();
     }
+
+    public static String getStrategyName(String fileName)
+    {
+        String name = new String();
+
+        String fileNameLower = fileName.toLowerCase();
+        char[] characters = fileNameLower.toCharArray();
+
+        for (int index = 0; index < characters.length; ++index)
+        {
+            if (characters[index] == '.')
+            {
+                break;
+            }
+            else if (characters[index] == '_')
+            {
+                name += ' ';
+            }
+            else if (index == 0 || characters[index - 1] == '_')
+            {
+                name += Character.toUpperCase(characters[index]);
+            }
+            else
+            {
+                name += characters[index];
+            }
+        }
+
+        return name;
+    }
 }

@@ -2,7 +2,6 @@ package com.projects.view;
 
 import com.projects.helper.Constants;
 import com.projects.helper.DeviceUtil;
-import com.projects.helper.StorageStrategy;
 import com.projects.model.Appliance;
 import com.projects.model.EnergyStorage;
 import com.projects.model.Structure;
@@ -18,6 +17,8 @@ import javafx.util.converter.LocalTimeStringConverter;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Dan on 7/28/2015.
@@ -79,11 +80,12 @@ public class StructureEditDialogController
     private TextField energyStorageCapacity;
 
     @FXML
-    private ComboBox<StorageStrategy> energyStorageStrategy;
+    private ComboBox<String> energyStorageStrategy;
 
     private ObservableList<Appliance> appliances;
-
     private ObservableList<EnergyStorage> energyStorageDevices;
+
+    private HashMap<String, String> storageStrategies;
 
     private Stage dialogStage = null;
     private Structure structure = null;
@@ -109,8 +111,6 @@ public class StructureEditDialogController
         energyStorageList.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showEnergyStorageProperties(oldValue, newValue));
 
-        energyStorageStrategy.setItems(FXCollections.observableArrayList(StorageStrategy.values()));
-
         usageFromColumn.setCellValueFactory(cellData -> cellData.getValue().fromProperty());
         usageToColumn.setCellValueFactory(cellData -> cellData.getValue().toProperty());
 
@@ -130,6 +130,8 @@ public class StructureEditDialogController
 
         energyStorageDevices = FXCollections.observableArrayList(energyStorage -> new Observable[] {energyStorage.nameProperty()});
         energyStorageList.setItems(energyStorageDevices);
+
+        storageStrategies = new HashMap<>();
     }
 
     /**
@@ -150,6 +152,12 @@ public class StructureEditDialogController
         appliances.addAll(structure.getAppliances());
         energyStorageDevices.clear();
         energyStorageDevices.addAll(structure.getEnergyStorageDevices());
+    }
+
+    public void setStorageStrategies(HashMap<String, String> storageStrategies)
+    {
+        this.storageStrategies = storageStrategies;
+        energyStorageStrategy.setItems(FXCollections.observableArrayList(storageStrategies.keySet()));
     }
 
     private void showApplianceProperties(Appliance lastSelected, Appliance applianceSelected)
@@ -308,7 +316,7 @@ public class StructureEditDialogController
             }
         }
 
-        energyStorage.setStorageStrategy(energyStorageStrategy.getValue());
+        energyStorage.setStorageStrategy(storageStrategies.get(energyStorageStrategy.getSelectionModel().getSelectedItem()));
 
         if (errorMessage.length() == 0)
             return true;
@@ -345,7 +353,7 @@ public class StructureEditDialogController
     @FXML
     private void handleCreateNewEnergyStorageDevice()
     {
-        EnergyStorage energyStorage = new EnergyStorage("Energy Storage", DeviceUtil.getNextDeviceId(), 0.0, 0.0, 0.0, StorageStrategy.TEST_ONE);
+        EnergyStorage energyStorage = new EnergyStorage("Energy Storage", DeviceUtil.getNextDeviceId(), 0.0, 0.0, 0.0, energyStorageStrategy.getSelectionModel().getSelectedItem());
         energyStorageDevices.add(energyStorage);
     }
 

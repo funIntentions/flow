@@ -190,7 +190,6 @@ public class StructureOverviewController
     {
         Structure structure = templateStructureList.getSelectionModel().getSelectedItem();
 
-
         if (structure != null)
         {
             if (structure instanceof PowerPlant)

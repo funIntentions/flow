@@ -1,9 +1,10 @@
 package com.projects.model;
 
 import com.projects.helper.StorageState;
-import com.projects.helper.StorageStrategy;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  * Created by Dan on 6/26/2015.
@@ -13,17 +14,17 @@ public class EnergyStorage extends Device
     private DoubleProperty chargingRate;
     private DoubleProperty storageCapacity;
     private DoubleProperty storedEnergy;
-    private StorageStrategy storageStrategy;
+    private StringProperty storageStrategy;
     private StorageState storageState = StorageState.CHARGING;
 
-    public EnergyStorage(String name, int id, double chargingRate, double storageCapacity, double storedEnergy, StorageStrategy storageStrategy)
+    public EnergyStorage(String name, int id, double chargingRate, double storageCapacity, double storedEnergy, String storageStrategy)
     {
         super(name, id);
 
         this.chargingRate = new SimpleDoubleProperty(chargingRate);
         this.storageCapacity = new SimpleDoubleProperty(storageCapacity);
         this.storedEnergy = new SimpleDoubleProperty(storedEnergy);
-        this.storageStrategy = storageStrategy;
+        this.storageStrategy = new SimpleStringProperty(storageStrategy);
     }
 
     public double getChargingRate()
@@ -51,14 +52,19 @@ public class EnergyStorage extends Device
         this.storageState = storageState;
     }
 
-    public StorageStrategy getStorageStrategy()
+    public String getStorageStrategy()
+    {
+        return storageStrategy.get();
+    }
+
+    public StringProperty storageStrategyProperty()
     {
         return storageStrategy;
     }
 
-    public void setStorageStrategy(StorageStrategy storageStrategy)
+    public void setStorageStrategy(String storageStrategy)
     {
-        this.storageStrategy = storageStrategy;
+        this.storageStrategy.set(storageStrategy);
     }
 
     public double getStoredEnergy()

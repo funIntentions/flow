@@ -3,6 +3,7 @@ package com.projects.simulation;
 import com.projects.Main;
 import com.projects.helper.Constants;
 import com.projects.helper.StorageState;
+import com.projects.helper.Utils;
 import com.projects.model.EnergyStorage;
 import com.projects.model.Structure;
 import org.luaj.vm2.LuaError;
@@ -25,19 +26,11 @@ public class StorageManager
     private Main main;
     private List<Structure> structures;
     private HashMap<Integer, List<Float>> deviceStorageProfiles;
-    private File[] strategyScripts;
 
     public StorageManager()
     {
         structures = new ArrayList<Structure>();
         deviceStorageProfiles = new HashMap<Integer, List<Float>>();
-
-        strategyScripts = new File(Constants.STRATEGIES_FILE_PATH).listFiles();
-
-        for (File file : strategyScripts)
-        {
-            System.out.println(file.getName());
-        }
     }
 
     public void setMain(Main main)
@@ -259,7 +252,8 @@ public class StorageManager
                 }
                 deviceStorageProfiles.put(storage.getId(), storageProfile);
 
-                switch (storage.getStorageStrategy())
+                callLuaStrategyScript(storage.getStorageStrategy(), storage, demandManager.getLoadProfile(structure), deviceStorageProfiles.get(storage.getId()));
+                /*switch (storage.getStorageStrategy())
                 {
                     case TEST_ONE:
                     {
@@ -268,14 +262,14 @@ public class StorageManager
                     case GREEDY:
                     {
                         //runGreedyStorageStrategy(demandManager, statsManager, storage);
-                        callLuaStrategyScript("GreedyStrategy.lua", storage, demandManager.getLoadProfile(structure), deviceStorageProfiles.get(storage.getId()));
+                        callLuaStrategyScript("Greedy_Strategy.lua", storage, demandManager.getLoadProfile(structure), deviceStorageProfiles.get(storage.getId()));
                     } break;
                     case LOCAL_AVERAGE_MATCHING:
                     {
                         //runLocalAverageMatchingStrategy(demandManager, statsManager, structure, storage);
-                        callLuaStrategyScript("LocalAverageMatchingStrategy.lua", storage, demandManager.getLoadProfile(structure), deviceStorageProfiles.get(storage.getId()));
+                        callLuaStrategyScript("Local_Average_Matching_Strategy.lua", storage, demandManager.getLoadProfile(structure), deviceStorageProfiles.get(storage.getId()));
                     } break;
-                }
+                }*/
             }
         }
     }
