@@ -2,8 +2,6 @@ package com.projects.simulation;
 
 import com.projects.Main;
 import com.projects.helper.Constants;
-import com.projects.helper.StorageState;
-import com.projects.helper.Utils;
 import com.projects.model.EnergyStorage;
 import com.projects.model.Structure;
 import org.luaj.vm2.LuaError;
@@ -12,7 +10,6 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.luaj.vm2.lib.jse.JsePlatform;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,7 +48,6 @@ public class StorageManager
 
             for (EnergyStorage storage : storageDevices)
             {
-                storage.setStorageState(StorageState.CHARGING);
                 storage.setStoredEnergy(0);
             }
         }
@@ -125,112 +121,6 @@ public class StorageManager
         deviceStorageProfiles.put(storage.getId(), storageProfile);
     }
 
-    public void runGreedyStorageStrategy(DemandManager demandManager, StatsManager statsManager, EnergyStorage storage)
-    {
-        // Strategy example, charge when empty and discharge when full
-        List<Integer> previousDaysDemandProfiles = demandManager.getDemandProfileForToday();
-        List<Float> storageProfile = deviceStorageProfiles.get(storage.getId());
-
-        for (int time = 0; time < previousDaysDemandProfiles.size(); ++time)
-        {
-            float chargeAmount = 0;
-
-            if (storage.getStoredEnergy() == 0)
-            {
-                storage.setStorageState(StorageState.CHARGING);
-            }
-            else if (storage.getStoredEnergy() == storage.getStorageCapacity())
-            {
-                storage.setStorageState(StorageState.DISCHARGING);
-            }
-
-            if (storage.getStorageState() == StorageState.CHARGING)
-            {
-                chargeAmount = (float)(storage.getChargingRate()/ TimeUnit.HOURS.toMinutes(1));
-                if (storage.getStorageCapacity() < storage.getStoredEnergy() + chargeAmount)
-                {
-                    chargeAmount = (float)(storage.getStorageCapacity() - storage.getStoredEnergy());
-                }
-
-                storage.setStoredEnergy(storage.getStoredEnergy() + chargeAmount);
-            }
-            else if (storage.getStorageState() == StorageState.DISCHARGING)
-            {
-                chargeAmount = -(float)(storage.getChargingRate()/ TimeUnit.HOURS.toMinutes(1));
-                if (0 > storage.getStoredEnergy() - chargeAmount)
-                {
-                    chargeAmount = -(float)(storage.getStoredEnergy());
-                }
-
-                storage.setStoredEnergy(storage.getStoredEnergy() + chargeAmount);
-            }
-
-            storageProfile.set(time, chargeAmount);
-        }
-
-        deviceStorageProfiles.put(storage.getId(), storageProfile);
-    }
-
-    public void runLocalAverageMatchingStrategy(DemandManager demandManager, StatsManager statsManager, Structure structure, EnergyStorage storage)
-    {
-        // Strategy example, store when electricity has a low cost and then use that power when it's a highDemandPrice
-        List<Float> previousDaysStructureDemandProfiles = demandManager.getLoadProfile(structure);
-        List<Float> storageProfile = deviceStorageProfiles.get(storage.getId());
-
-        float transferCapacity = (float)(storage.getChargingRate()/ TimeUnit.HOURS.toMinutes(1));
-
-        float averageDemand = 0;
-
-        for (Float demand : previousDaysStructureDemandProfiles)
-        {
-            averageDemand += demand;
-        }
-
-        averageDemand /= previousDaysStructureDemandProfiles.size();
-
-        for (int time = 0; time < previousDaysStructureDemandProfiles.size(); ++time)
-        {
-            float demand = previousDaysStructureDemandProfiles.get(time);
-            float requestedChargeAmount = Math.round(averageDemand - demand);
-            float chargeAmount = 0;
-
-            if (requestedChargeAmount < 0 && storage.getStoredEnergy() > 0) // discharge
-            {
-                if (Math.abs(requestedChargeAmount) < transferCapacity)
-                    chargeAmount = requestedChargeAmount;
-                else
-                    chargeAmount = -transferCapacity;
-
-                if (0 > storage.getStoredEnergy() + chargeAmount)
-                {
-                    chargeAmount = -(float)(storage.getStoredEnergy());
-                }
-            }
-            else if (requestedChargeAmount > 0 && storage.getStorageCapacity() > storage.getStoredEnergy()) // charge
-            {
-                if (requestedChargeAmount < transferCapacity)
-                    chargeAmount = requestedChargeAmount;
-                else
-                    chargeAmount = transferCapacity;
-
-                if (storage.getStorageCapacity() < storage.getStoredEnergy() + chargeAmount)
-                {
-                    chargeAmount = (float)(storage.getStorageCapacity() - storage.getStoredEnergy());
-                }
-            }
-            else // do the same as yesterday
-            {
-                chargeAmount = storageProfile.get(time);
-            }
-
-            storage.setStoredEnergy(storage.getStoredEnergy() + chargeAmount);
-
-            storageProfile.set(time, chargeAmount);
-        }
-
-        deviceStorageProfiles.put(storage.getId(), storageProfile);
-    }
-
     public void updateStorageStrategies(DemandManager demandManager, StatsManager statsManager)
     {
         for (Structure structure : structures)
@@ -252,24 +142,7 @@ public class StorageManager
                 }
                 deviceStorageProfiles.put(storage.getId(), storageProfile);
 
-                callLuaStrategyScript(storage.getStorageStrategy(), storage, demandManager.getLoadProfile(structure), deviceStorageProfiles.get(storage.getId()));
-                /*switch (storage.getStorageStrategy())
-                {
-                    case TEST_ONE:
-                    {
-                        runStorageStrategyTestOne(demandManager, statsManager, storage);
-                    } break;
-                    case GREEDY:
-                    {
-                        //runGreedyStorageStrategy(demandManager, statsManager, storage);
-                        callLuaStrategyScript("Greedy_Strategy.lua", storage, demandManager.getLoadProfile(structure), deviceStorageProfiles.get(storage.getId()));
-                    } break;
-                    case LOCAL_AVERAGE_MATCHING:
-                    {
-                        //runLocalAverageMatchingStrategy(demandManager, statsManager, structure, storage);
-                        callLuaStrategyScript("Local_Average_Matching_Strategy.lua", storage, demandManager.getLoadProfile(structure), deviceStorageProfiles.get(storage.getId()));
-                    } break;
-                }*/
+                runLuaStrategyScript(storage.getStorageStrategy(), storage, demandManager.getLoadProfile(structure), deviceStorageProfiles.get(storage.getId()));
             }
         }
     }
@@ -289,7 +162,7 @@ public class StorageManager
         }
     }
 
-    public void callLuaStrategyScript(String script, EnergyStorage storageDevice, List<Float> loadProfile, List<Float> oldStorageProfile)
+    public void runLuaStrategyScript(String script, EnergyStorage storageDevice, List<Float> loadProfile, List<Float> oldStorageProfile)
     {
 
         StorageProfileWrapper newStorageProfileWrapper = new StorageProfileWrapper();

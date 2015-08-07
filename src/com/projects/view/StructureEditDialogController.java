@@ -17,6 +17,7 @@ import javafx.util.converter.LocalTimeStringConverter;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -158,6 +159,7 @@ public class StructureEditDialogController
     {
         this.storageStrategies = storageStrategies;
         energyStorageStrategy.setItems(FXCollections.observableArrayList(storageStrategies.keySet()));
+        energyStorageStrategy.getSelectionModel().select(0);
     }
 
     private void showApplianceProperties(Appliance lastSelected, Appliance applianceSelected)
@@ -172,7 +174,7 @@ public class StructureEditDialogController
             applianceNameField.setText(applianceSelected.getName());
             applianceStandbyConsumptionField.setText(String.valueOf(applianceSelected.getStandbyConsumption()));
             applianceUsageConsumptionField.setText(String.valueOf(applianceSelected.getUsageConsumption()));
-            usageTable.setItems(applianceSelected.getElectricityUsageSchedule().getActiveTimeSpans());
+            usageTable.setItems(applianceSelected.getActiveTimeSpans());
         }
     }
 
@@ -346,7 +348,7 @@ public class StructureEditDialogController
     @FXML
     private void handleCreateNewAppliance()
     {
-        Appliance appliance = new Appliance("Appliance", DeviceUtil.getNextDeviceId(), 0.0, 0.0);
+        Appliance appliance = new Appliance("Appliance", DeviceUtil.getNextDeviceId(), 0.0, 0.0, new ArrayList<>());
         appliances.add(appliance);
     }
 
@@ -384,7 +386,7 @@ public class StructureEditDialogController
         if (appliance != null)
         {
             TimeSpan timeSpan = new TimeSpan(LocalTime.ofSecondOfDay(0), LocalTime.ofSecondOfDay(0));
-            appliance.getElectricityUsageSchedule().addTimeSpanAndRecalculate(timeSpan);
+            usageTable.getItems().add(timeSpan);
         }
         else
         {

@@ -80,7 +80,7 @@ public class DemandManager
 
                 for (Appliance appliance : appliances)
                 {
-                    if (appliance.getElectricityUsageSchedule().isOnAtTime(time * interval))
+                    if (appliance.isOnAtTime(time * interval))
                     {
                         float sum = loadProfile.get(time) + (float) appliance.getUsageConsumption();
                         loadProfile.set(time, sum);
@@ -226,34 +226,6 @@ public class DemandManager
 
         if (demandProfileForToday.size() == TimeUnit.DAYS.toMinutes(1))
             dailyDemandProfileReady = true;
-    }
-
-    public double getAppliancesUsageInHours(double elapsedSecondsThisFrame, double totalTimeElapsedInSeconds, Appliance appliance)
-    {
-        double usageInSeconds = 0;
-        ElectricityUsageSchedule usageSchedule = appliance.getElectricityUsageSchedule();
-
-        double elapsedSecondsThisDay = (totalTimeElapsedInSeconds - elapsedSecondsThisFrame) % WorldTimer.SECONDS_IN_DAY;
-        double secondsLeftInDay = WorldTimer.SECONDS_IN_DAY - elapsedSecondsThisDay;
-
-        if (elapsedSecondsThisFrame <= secondsLeftInDay)
-        {
-            usageInSeconds += usageSchedule.getElectricityUsageDuringSpan(new TimeSpan(LocalTime.ofSecondOfDay((long)elapsedSecondsThisDay), LocalTime.ofSecondOfDay((long)(elapsedSecondsThisDay + elapsedSecondsThisFrame))));
-        }
-        else
-        {
-            usageInSeconds += usageSchedule.getElectricityUsageDuringSpan(new TimeSpan(LocalTime.ofSecondOfDay((long)elapsedSecondsThisDay), LocalTime.ofSecondOfDay((long)(elapsedSecondsThisDay + secondsLeftInDay))));
-
-            double remainingSeconds = elapsedSecondsThisFrame - secondsLeftInDay;
-
-            int numDays = (int)Math.floor(remainingSeconds / WorldTimer.SECONDS_IN_DAY);
-            usageInSeconds += ((double)numDays) * usageSchedule.getUsagePerDay();
-            remainingSeconds = remainingSeconds % WorldTimer.SECONDS_IN_DAY;
-
-            usageInSeconds += usageSchedule.getElectricityUsageDuringSpan(new TimeSpan(LocalTime.ofSecondOfDay(0), LocalTime.ofSecondOfDay((long)remainingSeconds)));
-        }
-
-        return usageInSeconds / WorldTimer.SECONDS_IN_HOUR;
     }
 
     public void reset()

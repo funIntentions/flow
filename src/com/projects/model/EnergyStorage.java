@@ -1,6 +1,5 @@
 package com.projects.model;
 
-import com.projects.helper.StorageState;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -15,7 +14,6 @@ public class EnergyStorage extends Device
     private DoubleProperty storageCapacity;
     private DoubleProperty storedEnergy;
     private StringProperty storageStrategy;
-    private StorageState storageState = StorageState.CHARGING;
 
     public EnergyStorage(String name, int id, double chargingRate, double storageCapacity, double storedEnergy, String storageStrategy)
     {
@@ -40,16 +38,6 @@ public class EnergyStorage extends Device
     public void setChargingRate(double chargingRate)
     {
         this.chargingRate.set(chargingRate);
-    }
-
-    public StorageState getStorageState()
-    {
-        return storageState;
-    }
-
-    public void setStorageState(StorageState storageState)
-    {
-        this.storageState = storageState;
     }
 
     public String getStorageStrategy()

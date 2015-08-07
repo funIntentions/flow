@@ -2,6 +2,10 @@ package com.projects.model;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+import java.util.List;
 
 /**
  * Created by Dan on 6/26/2015.
@@ -10,15 +14,28 @@ public class Appliance extends Device
 {
     private DoubleProperty standbyConsumption;
     private DoubleProperty usageConsumption;
-    private ElectricityUsageSchedule electricityUsageSchedule;
+    private ObservableList<TimeSpan> activeTimeSpans;
 
-    public Appliance(String name, int id, Double standbyConsumption, Double usageConsumption)
+    public Appliance(String name, int id, Double standbyConsumption, Double usageConsumption, List<TimeSpan> activeTimeSpans)
     {
         super(name, id);
 
         this.standbyConsumption = new SimpleDoubleProperty(standbyConsumption);
         this.usageConsumption = new SimpleDoubleProperty(usageConsumption);
-        this.electricityUsageSchedule = new ElectricityUsageSchedule();
+        this.activeTimeSpans = FXCollections.observableArrayList(activeTimeSpans);
+    }
+
+    public boolean isOnAtTime(long time)
+    {
+        for (TimeSpan deviceUsage : activeTimeSpans)
+        {
+            if (deviceUsage.getFrom().toSecondOfDay() <= time && deviceUsage.getTo().toSecondOfDay() >= time)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public double getStandbyConsumption()
@@ -51,13 +68,13 @@ public class Appliance extends Device
         this.usageConsumption.set(usageConsumption);
     }
 
-    public ElectricityUsageSchedule getElectricityUsageSchedule()
+    public ObservableList<TimeSpan> getActiveTimeSpans()
     {
-        return electricityUsageSchedule;
+        return activeTimeSpans;
     }
 
-    public void setElectricityUsageSchedule(ElectricityUsageSchedule electricityUsageSchedule)
+    public void setActiveTimeSpans(ObservableList<TimeSpan> activeTimeSpans)
     {
-        this.electricityUsageSchedule = electricityUsageSchedule;
+        this.activeTimeSpans = activeTimeSpans;
     }
 }

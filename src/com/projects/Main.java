@@ -706,12 +706,7 @@ public class Main extends Application {
                     NodeList timeSpanList = deviceElement.getElementsByTagName("timeSpans");
                     List<TimeSpan> timeSpans = readTimeSpans(timeSpanList);
 
-                    Appliance appliance = new Appliance(name, id, standbyConsumption, usageConsumption);
-
-                    for (TimeSpan timeSpan : timeSpans) // TODO: refactor and take out this loop, add timeSpans through constructor
-                    {
-                        appliance.getElectricityUsageSchedule().addTimeSpanAndRecalculate(timeSpan);
-                    }
+                    Appliance appliance = new Appliance(name, id, standbyConsumption, usageConsumption, timeSpans);
 
                     deviceList.add(appliance);
                 }
@@ -901,7 +896,7 @@ public class Main extends Application {
         deviceNode.appendChild(getElement(doc, "usageConsumption", String.valueOf(appliance.getUsageConsumption())));
 
         Element timeSpanMembers = doc.createElement("timeSpans");
-        List<TimeSpan> timeSpans = appliance.getElectricityUsageSchedule().getActiveTimeSpans();
+        List<TimeSpan> timeSpans = appliance.getActiveTimeSpans();
         for (TimeSpan timeSpan : timeSpans)
         {
             timeSpanMembers.appendChild(getTimeSpanNode(doc, timeSpan));
