@@ -55,22 +55,6 @@ public class World
         simulationStatus = new SimulationStatus();
     }
 
-    public void newWorld(List<Structure> structureList)
-    {
-        pauseSimulation();
-        demandManager.removeAllStructures();
-        supplyManager.removeAllStructures();
-        storageManager.removeAllStructures();
-
-        structures.clear();
-
-        for (Structure structure : structureList)
-        {
-            updateStructure(structure);
-        }
-        resetSimulation();
-    }
-
     public void updateStructure(Structure structure)
     {
         structures.put(structure.getId(), structure);
@@ -78,6 +62,11 @@ public class World
         if (demandManager.syncStructures(structure))
         {
             demandManager.calculateLoadProfiles();
+
+            if (structure.getId() == main.selectedWorldStructureProperty().get().getId())
+            {
+                main.getStructureDetailsPaneController().setStructureData(structure, demandManager.getLoadProfile(structure));
+            }
         }
 
         storageManager.syncStructures(structure);
