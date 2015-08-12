@@ -4,6 +4,7 @@ import com.projects.Main;
 import com.projects.helper.ImageType;
 import com.projects.helper.StructureUtil;
 import com.projects.model.PowerPlant;
+import com.projects.model.SingleUnitStructure;
 import com.projects.model.Structure;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -110,17 +111,10 @@ public class StructureOverviewController
             {
                 structure = new PowerPlant((PowerPlant)selectedStructure);
             }
-            else
+            else //if (selectedStructure instanceof SingleUnitStructure)
             {
-                structure = new Structure(selectedStructure.getName(),
-                        StructureUtil.getNextStructureId(),
-                        selectedStructure.getX(),
-                        selectedStructure.getY(),
-                        selectedStructure.getImage(),
-                        selectedStructure.getAppliances(),
-                        selectedStructure.getEnergySources(),
-                        selectedStructure.getEnergyStorageDevices());
-            }
+                structure = new SingleUnitStructure((SingleUnitStructure)selectedStructure);
+            } // TODO: add Composite Unit Structures or modify single unit structures so that they do the same
 
             worldStructureList.getItems().add(structure);
         }
@@ -141,14 +135,7 @@ public class StructureOverviewController
             }
             else
             {
-                structure = new Structure(selectedStructure.getName(),
-                        StructureUtil.getNextStructureId(),
-                        selectedStructure.getX(),
-                        selectedStructure.getY(),
-                        selectedStructure.getImage(),
-                        selectedStructure.getAppliances(),
-                        selectedStructure.getEnergySources(),
-                        selectedStructure.getEnergyStorageDevices());
+                structure = new SingleUnitStructure((SingleUnitStructure)selectedStructure);
             }
 
             templateStructureList.getItems().add(structure);
@@ -168,7 +155,7 @@ public class StructureOverviewController
             }
             else
             {
-                main.showStructureEditDialog(structure);
+                main.showStructureEditDialog((SingleUnitStructure)structure);
             }
 
             triggerWorldListUpdate(structure); // TODO: find a more elegant way
@@ -198,7 +185,7 @@ public class StructureOverviewController
             }
             else
             {
-                main.showStructureEditDialog(structure);
+                main.showStructureEditDialog((SingleUnitStructure)structure);
             }
 
             triggerTemplateListUpdate(structure);

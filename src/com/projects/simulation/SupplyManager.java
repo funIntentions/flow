@@ -2,6 +2,7 @@ package com.projects.simulation;
 
 import com.projects.Main;
 import com.projects.model.PowerPlant;
+import com.projects.model.SingleUnitStructure;
 import com.projects.model.Structure;
 
 import java.util.ArrayList;
@@ -138,7 +139,7 @@ public class SupplyManager
                 }
             }
 
-            int energySourceCount = changedStructure.getEnergySources().size();
+            int energySourceCount = ((SingleUnitStructure)changedStructure).getEnergySources().size();
 
             if (structureIndex < 0 && (energySourceCount > 0))
             {

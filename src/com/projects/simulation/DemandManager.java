@@ -2,6 +2,7 @@ package com.projects.simulation;
 
 import com.projects.Main;
 import com.projects.model.*;
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class DemandManager
 {
-    private List<Structure> structures;
+    private List<SingleUnitStructure> structures;
     private HashMap<Integer, Float> structureExpenses;
     private HashMap<Integer, Float> structureEnvironmentalImpact;
     private HashMap<Integer, List<Float>> structureLoadProfiles;
@@ -31,7 +32,7 @@ public class DemandManager
     {
         structureExpenses = new HashMap<>();
         structureEnvironmentalImpact = new HashMap<>();
-        structures = new ArrayList<Structure>();
+        structures = new ArrayList<SingleUnitStructure>();
         structureLoadProfiles = new HashMap<Integer, List<Float>>();
         structureDemandProfiles = new HashMap<Integer, List<Float>>();
         demandProfileForToday = new ArrayList<Integer>();
@@ -69,7 +70,7 @@ public class DemandManager
         int interval = 60;
         int length = secondsInDay/interval;
 
-        for (Structure structure : structures)
+        for (SingleUnitStructure structure : structures)
         {
             List<Float> loadProfile = new ArrayList<Float>();
             List<Appliance> appliances = (List)structure.getAppliances();
@@ -101,7 +102,7 @@ public class DemandManager
     {
         structureDemandProfiles.clear();
 
-        for (Structure structure : structures)
+        for (SingleUnitStructure structure : structures)
         {
             List<Float> loadProfile = structureLoadProfiles.get(structure.getId());
             List<Float> demandProfile = new ArrayList<Float>();
@@ -261,7 +262,7 @@ public class DemandManager
         structures.clear();
     }
 
-    public boolean syncStructures(Structure changedStructure)
+    public boolean syncStructures(SingleUnitStructure changedStructure)
     {
         int structureIndex = -1;
 
@@ -318,7 +319,7 @@ public class DemandManager
         return demandProfileForToday;
     }
 
-    public List<Structure> getStructures()
+    public List<SingleUnitStructure> getStructures()
     {
         return structures;
     }

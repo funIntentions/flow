@@ -1,6 +1,7 @@
 package com.projects.view;
 
 import com.projects.Main;
+import com.projects.model.SingleUnitStructure;
 import com.projects.model.Structure;
 import javafx.beans.Observable;
 import javafx.beans.property.FloatProperty;
@@ -83,7 +84,7 @@ public class StructureComparisonsController
         structureRankingTable.setItems(sortedList);
     }
 
-    public void displayResults(List<Structure> structureList, HashMap<Integer, Float> expenses, HashMap<Integer, Float> environmentalImpact)
+    public void displayResults(List<SingleUnitStructure> structureList, HashMap<Integer, Float> expenses, HashMap<Integer, Float> environmentalImpact)
     {
         observableList.clear();
         for (Structure structure : structureList)

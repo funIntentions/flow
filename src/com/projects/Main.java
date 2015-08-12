@@ -4,6 +4,7 @@ import com.projects.helper.*;
 import com.projects.model.*;
 import com.projects.simulation.World;
 import com.projects.view.*;
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader;
 import javafx.application.Application;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -408,7 +409,7 @@ public class Main extends Application {
      * @param structure the structure object to be edited
      * @return true if the user clicked OK, false otherwise.
      */
-    public boolean showStructureEditDialog(Structure structure)
+    public boolean showStructureEditDialog(SingleUnitStructure structure)
     {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
@@ -618,7 +619,7 @@ public class Main extends Application {
         NodeList energyStorageList = structureElement.getElementsByTagName("energyStorageDevices");
         List<EnergyStorage> energyStorageDevices = readEnergyStorageDevices(energyStorageList);
 
-        return new Structure(name, StructureUtil.getNextStructureId(), 0, 0, imageType, appliances, energySources, energyStorageDevices);
+        return new SingleUnitStructure(name, StructureUtil.getNextStructureId(), imageType, appliances, energySources, energyStorageDevices);
     }
 
     public Structure readPowerPlant(Node structureNode)
@@ -834,7 +835,7 @@ public class Main extends Application {
         if (structure instanceof PowerPlant)
             return getPowerPlantStructureNode(doc, (PowerPlant)structure);
         else
-            return getSimpleStructureNode(doc, structure);
+            return getSimpleStructureNode(doc, (SingleUnitStructure)structure);
     }
 
     private Node getPowerPlantStructureNode(Document doc, PowerPlant powerPlant)
@@ -851,7 +852,7 @@ public class Main extends Application {
         return structureNode;
     }
 
-    private Node getSimpleStructureNode(Document doc, Structure structure)
+    private Node getSimpleStructureNode(Document doc, SingleUnitStructure structure)
     {
         Element structureNode = doc.createElement("simpleStructure");
 

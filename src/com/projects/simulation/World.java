@@ -3,6 +3,7 @@ package com.projects.simulation;
 import com.projects.Main;
 import com.projects.helper.Constants;
 import com.projects.helper.SimulationState;
+import com.projects.model.SingleUnitStructure;
 import com.projects.model.Structure;
 import com.projects.model.WorldTimer;
 import javafx.application.Platform;
@@ -59,7 +60,7 @@ public class World
     {
         structures.put(structure.getId(), structure);
 
-        if (demandManager.syncStructures(structure))
+        if (structure instanceof SingleUnitStructure && demandManager.syncStructures((SingleUnitStructure)structure))
         {
             demandManager.calculateLoadProfiles();
 
@@ -69,7 +70,10 @@ public class World
             }
         }
 
-        storageManager.syncStructures(structure);
+        if (structure instanceof SingleUnitStructure)
+        {
+            storageManager.syncStructures((SingleUnitStructure)structure);
+        }
 
         if (supplyManager.syncStructures(structure))
         {
