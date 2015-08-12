@@ -262,6 +262,8 @@ public class StructureEditDialogController
             }
         }
 
+        structure.calculateLoadProfile();
+
         if (errorMessage.length() == 0)
             return true;
         else
@@ -384,6 +386,7 @@ public class StructureEditDialogController
         {
             TimeSpan timeSpan = new TimeSpan(LocalTime.ofSecondOfDay(0), LocalTime.ofSecondOfDay(0));
             usageTable.getItems().add(timeSpan);
+            structure.calculateLoadProfile();
         }
         else
         {
@@ -403,7 +406,10 @@ public class StructureEditDialogController
     {
         int index = usageTable.getSelectionModel().getSelectedIndex();
         if (index >= 0)
+        {
             usageTable.getItems().remove(index);
+            structure.calculateLoadProfile();
+        }
     }
 
     /**

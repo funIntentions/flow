@@ -62,11 +62,9 @@ public class World
 
         if (structure instanceof SingleUnitStructure && demandManager.syncStructures((SingleUnitStructure)structure))
         {
-            demandManager.calculateLoadProfiles();
-
             if (structure.getId() == main.selectedWorldStructureProperty().get().getId())
             {
-                main.getStructureDetailsPaneController().setStructureData(structure, demandManager.getLoadProfile(structure));
+                main.getStructureDetailsPaneController().setStructureData(structure, ((SingleUnitStructure) structure).getLoadProfile());
             }
         }
 

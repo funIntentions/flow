@@ -143,7 +143,7 @@ public class StorageManager
                 }
                 deviceStorageProfiles.put(storage.getId(), storageProfile);
 
-                runLuaStrategyScript(storage.getStorageStrategy(), storage, demandManager.getLoadProfile(structure), deviceStorageProfiles.get(storage.getId()));
+                runLuaStrategyScript(storage.getStorageStrategy(), storage, structure.getLoadProfile(), deviceStorageProfiles.get(storage.getId()));
             }
         }
     }

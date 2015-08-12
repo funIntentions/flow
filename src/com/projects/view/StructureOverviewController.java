@@ -70,14 +70,20 @@ public class StructureOverviewController
     {
         Structure structure = templateStructureList.getSelectionModel().getSelectedItem();
         if (structure != null)
+        {
             main.selectedTemplateStructureProperty().set(structure);
+            main.selectedStructureProperty().set(structure);
+        }
     }
 
     private void selectWorldStructure()
     {
         Structure structure = worldStructureList.getSelectionModel().getSelectedItem();
         if (structure != null)
+        {
             main.selectedWorldStructureProperty().set(structure);
+            main.selectedStructureProperty().set(structure);
+        }
     }
 
     @FXML

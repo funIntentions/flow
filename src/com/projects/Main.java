@@ -55,6 +55,7 @@ public class Main extends Application {
     private ObservableList<Structure> worldStructureData = FXCollections.observableArrayList();
     private ObjectProperty<Structure> selectedTemplateStructure = null;
     private ObjectProperty<Structure> selectedWorldStructure = null;
+    private ObjectProperty<Structure> selectedStructure = null;
     private ObjectProperty<LocalDate> startDate = new SimpleObjectProperty<>(LocalDate.now());
     private ObjectProperty<LocalDate> endDate = new SimpleObjectProperty<>(startDate.getValue().plusDays(1));
     private ObjectProperty<LocalTime> currentTime = new SimpleObjectProperty<>(LocalTime.now());
@@ -78,6 +79,7 @@ public class Main extends Application {
         Structure structure = new Structure("Temp", -1, -1, -1, ImageType.HOUSE_IMAGE);
         selectedTemplateStructure = new SimpleObjectProperty<>(structure);
         selectedWorldStructure = new SimpleObjectProperty<>(structure);
+        selectedStructure = new SimpleObjectProperty<>(structure);
 
         storageStrategyScripts = new HashMap<>();
         world = new World();
@@ -112,6 +114,11 @@ public class Main extends Application {
     {
         return selectedWorldStructure;
     }
+    public ObjectProperty<Structure> selectedStructureProperty()
+    {
+        return selectedStructure;
+    }
+
     public ObjectProperty<SimulationState> simulationStateProperty()
     {
         return simulationState;

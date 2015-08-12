@@ -18,7 +18,6 @@ public class DemandManager
     private List<SingleUnitStructure> structures;
     private HashMap<Integer, Float> structureExpenses;
     private HashMap<Integer, Float> structureEnvironmentalImpact;
-    private HashMap<Integer, List<Float>> structureLoadProfiles;
     private HashMap<Integer, List<Float>> structureDemandProfiles;
     private List<Integer> demandProfileForToday;
     private float timeOverflow;
@@ -33,7 +32,6 @@ public class DemandManager
         structureExpenses = new HashMap<>();
         structureEnvironmentalImpact = new HashMap<>();
         structures = new ArrayList<SingleUnitStructure>();
-        structureLoadProfiles = new HashMap<Integer, List<Float>>();
         structureDemandProfiles = new HashMap<Integer, List<Float>>();
         demandProfileForToday = new ArrayList<Integer>();
         timeOverflow = 0;
@@ -43,59 +41,18 @@ public class DemandManager
     {
         this.main = main;
 
-        main.selectedWorldStructureProperty().addListener((observable, oldValue, newValue) ->
+        main.selectedStructureProperty().addListener((observable, oldValue, newValue) ->
         {
-            if (isConsumer(newValue))
-                main.getStructureDetailsPaneController().setStructureData(newValue, getLoadProfile(newValue));
+            if (newValue instanceof SingleUnitStructure)
+                main.getStructureDetailsPaneController().setStructureData(newValue, ((SingleUnitStructure)newValue).getLoadProfile());
             else
                 main.getStructureDetailsPaneController().setStructureData(newValue, new ArrayList<>());
         });
     }
 
-    public List<Float> getLoadProfile(Structure structure)
-    {
-        return structureLoadProfiles.get(structure.getId());
-    }
-
     public List<Float> getDemandProfile(Structure structure)
     {
         return structureDemandProfiles.get(structure.getId());
-    }
-
-    public void calculateLoadProfiles()
-    {
-        structureLoadProfiles.clear();
-
-        int secondsInDay = (int)TimeUnit.DAYS.toSeconds(1);
-        int interval = 60;
-        int length = secondsInDay/interval;
-
-        for (SingleUnitStructure structure : structures)
-        {
-            List<Float> loadProfile = new ArrayList<Float>();
-            List<Appliance> appliances = (List)structure.getAppliances();
-
-            for (int time = 0; time < length; ++time)
-            {
-                loadProfile.add(0f);
-
-                for (Appliance appliance : appliances)
-                {
-                    if (appliance.isOnAtTime(time * interval))
-                    {
-                        float sum = loadProfile.get(time) + (float) appliance.getUsageConsumption();
-                        loadProfile.set(time, sum);
-                    }
-                    else
-                    {
-                        float sum = loadProfile.get(time) + (float) appliance.getStandbyConsumption();
-                        loadProfile.set(time, sum);
-                    }
-                }
-            }
-
-            structureLoadProfiles.put(structure.getId(), loadProfile);
-        }
     }
 
     public void calculateDemandProfiles(StorageManager storageManager)
@@ -104,7 +61,7 @@ public class DemandManager
 
         for (SingleUnitStructure structure : structures)
         {
-            List<Float> loadProfile = structureLoadProfiles.get(structure.getId());
+            List<Float> loadProfile = structure.getLoadProfile();
             List<Float> demandProfile = new ArrayList<Float>();
 
             int length = loadProfile.size();
@@ -236,11 +193,6 @@ public class DemandManager
         structureExpenses.clear();
         structureEnvironmentalImpact.clear();
         resetDay();
-    }
-
-    private boolean isConsumer(Structure structure)
-    {
-        return (structureLoadProfiles.get(structure.getId()) != null);
     }
 
     public boolean removeStructure(Structure structureToRemove)
