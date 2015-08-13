@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javafx.util.converter.LocalTimeStringConverter;
@@ -16,7 +17,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Dan on 7/28/2015.
@@ -52,6 +52,27 @@ public class StructureEditDialogController
 
     @FXML
     private TableView<TimeSpan> usageTable;
+
+    @FXML
+    private TableColumn<TimeSpan, Boolean> mondayColumn;
+
+    @FXML
+    private TableColumn<TimeSpan, Boolean> tuesdayColumn;
+
+    @FXML
+    private TableColumn<TimeSpan, Boolean> wednesdayColumn;
+
+    @FXML
+    private TableColumn<TimeSpan, Boolean> thursdayColumn;
+
+    @FXML
+    private TableColumn<TimeSpan, Boolean> fridayColumn;
+
+    @FXML
+    private TableColumn<TimeSpan, Boolean> saturdayColumn;
+
+    @FXML
+    private TableColumn<TimeSpan, Boolean> sundayColumn;
 
     @FXML
     private TableColumn<TimeSpan, LocalTime> usageFromColumn;
@@ -111,6 +132,13 @@ public class StructureEditDialogController
 
         usageFromColumn.setCellValueFactory(cellData -> cellData.getValue().fromProperty());
         usageToColumn.setCellValueFactory(cellData -> cellData.getValue().toProperty());
+        mondayColumn.setCellValueFactory(cellData -> cellData.getValue().mondayProperty());
+        tuesdayColumn.setCellValueFactory(cellData -> cellData.getValue().tuesdayProperty());
+        wednesdayColumn.setCellValueFactory(cellData -> cellData.getValue().wednesdayProperty());
+        thursdayColumn.setCellValueFactory(cellData -> cellData.getValue().thursdayProperty());
+        fridayColumn.setCellValueFactory(cellData -> cellData.getValue().fridayProperty());
+        saturdayColumn.setCellValueFactory(cellData -> cellData.getValue().saturdayProperty());
+        sundayColumn.setCellValueFactory(cellData -> cellData.getValue().sundayProperty());
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(Constants.HOURS_AND_MINUTES_FORMAT);
         LocalTimeStringConverter localTimeStringConverter = new LocalTimeStringConverter(dateTimeFormatter, dateTimeFormatter);
@@ -120,8 +148,16 @@ public class StructureEditDialogController
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setFrom(t.getNewValue()));
 
         usageToColumn.setCellFactory(TextFieldTableCell.<TimeSpan,LocalTime>forTableColumn(localTimeStringConverter));
-        usageToColumn.setOnEditCommit((TableColumn.CellEditEvent<TimeSpan,LocalTime> t) ->
+        usageToColumn.setOnEditCommit((TableColumn.CellEditEvent<TimeSpan, LocalTime> t) ->
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setTo(t.getNewValue()));
+
+        mondayColumn.setCellFactory(CheckBoxTableCell.forTableColumn(mondayColumn));
+        tuesdayColumn.setCellFactory(CheckBoxTableCell.forTableColumn(tuesdayColumn));
+        wednesdayColumn.setCellFactory(CheckBoxTableCell.forTableColumn(wednesdayColumn));
+        thursdayColumn.setCellFactory(CheckBoxTableCell.forTableColumn(thursdayColumn));
+        fridayColumn.setCellFactory(CheckBoxTableCell.forTableColumn(fridayColumn));
+        saturdayColumn.setCellFactory(CheckBoxTableCell.forTableColumn(saturdayColumn));
+        sundayColumn.setCellFactory(CheckBoxTableCell.forTableColumn(sundayColumn));
 
         appliances = FXCollections.observableArrayList(appliance -> new Observable[] {appliance.nameProperty()});
         applianceList.setItems(appliances);

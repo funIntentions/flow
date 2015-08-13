@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projects.view.StructureEditDialogController">
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projects.view.StructureEditDialogController">
    <children>
       <SplitPane dividerPositions="0.5" layoutX="200.0" layoutY="120.0" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -157,8 +160,19 @@
                            <children>
                               <TableView fx:id="usageTable" prefHeight="87.0" prefWidth="296.0">
                                 <columns>
-                                  <TableColumn fx:id="usageFromColumn" prefWidth="113.0" text="From" />
-                                  <TableColumn fx:id="usageToColumn" minWidth="8.0" prefWidth="116.0" text="To" />
+                                  <TableColumn fx:id="usageFromColumn" prefWidth="60.0" text="From" />
+                                  <TableColumn fx:id="usageToColumn" minWidth="8.0" prefWidth="60.0" text="To" />
+                                    <TableColumn prefWidth="100.0" text="Days">
+                                       <columns>
+                                          <TableColumn fx:id="mondayColumn" prefWidth="40.0" text="Mon" />
+                                          <TableColumn fx:id="tuesdayColumn" prefWidth="40.0" text="Tues" />
+                                          <TableColumn fx:id="wednesdayColumn" prefWidth="40.0" text="Wed" />
+                                          <TableColumn fx:id="thursdayColumn" prefWidth="40.0" text="Thurs" />
+                                          <TableColumn fx:id="fridayColumn" prefWidth="40.0" text="Fri" />
+                                          <TableColumn fx:id="saturdayColumn" prefWidth="40.0" text="Sat" />
+                                          <TableColumn fx:id="sundayColumn" prefWidth="40.0" text="Sun" />
+                                       </columns>
+                                    </TableColumn>
                                 </columns>
                               </TableView>
                               <HBox alignment="CENTER" prefWidth="296.0" spacing="8.0" GridPane.rowIndex="1">
