@@ -2,6 +2,7 @@ package com.projects.view;
 
 import com.projects.helper.Constants;
 import com.projects.helper.DeviceUtil;
+import com.projects.helper.Utils;
 import com.projects.model.*;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
@@ -220,10 +221,12 @@ public class StructureEditDialogController
 
         if (selected != null)
         {
+            String strategyName = Utils.getStrategyName(selected.getStorageStrategy());
+
             energyStorageNameField.setText(selected.getName());
             energyStorageChargeDischargeRate.setText(String.valueOf(selected.getChargingRate()));
             energyStorageCapacity.setText(String.valueOf(selected.getStorageCapacity()));
-            energyStorageStrategy.getSelectionModel().select(selected.getStorageStrategy());
+            energyStorageStrategy.getSelectionModel().select(strategyName);
         }
     }
 
