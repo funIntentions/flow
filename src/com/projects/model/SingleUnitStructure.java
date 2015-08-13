@@ -2,7 +2,6 @@ package com.projects.model;
 
 import com.projects.helper.Constants;
 import com.projects.helper.ImageType;
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -16,7 +15,7 @@ public class SingleUnitStructure extends Structure
     protected ObservableList<Appliance> appliances;
     protected ObservableList<EnergySource> energySources;
     protected ObservableList<EnergyStorage> energyStorageDevices;
-    private ObservableList<Float> loadProfile;
+    private ObservableList<ObservableList<Float>> loadProfilesForWeek;
 
     public SingleUnitStructure(SingleUnitStructure singleUnitStructure)
     {
@@ -25,7 +24,7 @@ public class SingleUnitStructure extends Structure
         this.appliances = singleUnitStructure.getAppliances();
         this.energySources = singleUnitStructure.getEnergySources();
         this.energyStorageDevices = singleUnitStructure.getEnergyStorageDevices();
-        this.loadProfile = singleUnitStructure.getLoadProfile();
+        this.loadProfilesForWeek = singleUnitStructure.getLoadProfilesForWeek();
     }
 
     public SingleUnitStructure(String name, int id, ImageType imageType, List<Appliance> appliances, List<EnergySource> energySources, List<EnergyStorage> energyStorageDevices)
@@ -35,35 +34,42 @@ public class SingleUnitStructure extends Structure
         this.appliances = FXCollections.observableArrayList(appliances);
         this.energySources = FXCollections.observableArrayList(energySources);
         this.energyStorageDevices = FXCollections.observableArrayList(energyStorageDevices);
-        this.loadProfile = FXCollections.observableArrayList();
+        this.loadProfilesForWeek = FXCollections.observableArrayList();
 
         calculateLoadProfile();
     }
 
     public void calculateLoadProfile()
     {
-        loadProfile.clear();
+        loadProfilesForWeek.clear();
 
         int interval = 60;
         int length = (int)Constants.SECONDS_IN_DAY/interval;
 
-        for (int time = 0; time < length; ++time)
+        for (int day = 0; day < Constants.DAYS_IN_WEEK; ++day)
         {
-            loadProfile.add(0f);
+            ObservableList<Float> loadProfile = FXCollections.observableArrayList();
 
-            for (Appliance appliance : appliances)
+            for (int time = 0; time < length; ++time)
             {
-                if (appliance.isOnAtTime(time * interval))
+                loadProfile.add(0f);
+
+                for (Appliance appliance : appliances)
                 {
-                    float sum = loadProfile.get(time) + (float) appliance.getUsageConsumption();
-                    loadProfile.set(time, sum);
-                }
-                else
-                {
-                    float sum = loadProfile.get(time) + (float) appliance.getStandbyConsumption();
-                    loadProfile.set(time, sum);
+                    if (appliance.isOn(day, time * interval))
+                    {
+                        float sum = loadProfile.get(time) + (float) appliance.getUsageConsumption();
+                        loadProfile.set(time, sum);
+                    }
+                    else
+                    {
+                        float sum = loadProfile.get(time) + (float) appliance.getStandbyConsumption();
+                        loadProfile.set(time, sum);
+                    }
                 }
             }
+
+            loadProfilesForWeek.add(loadProfile);
         }
     }
 
@@ -97,13 +103,8 @@ public class SingleUnitStructure extends Structure
         this.energySources = energySources;
     }
 
-    public ObservableList<Float> getLoadProfile()
+    public ObservableList<ObservableList<Float>> getLoadProfilesForWeek()
     {
-        return loadProfile;
-    }
-
-    public void setLoadProfile(ObservableList<Float> loadProfile)
-    {
-        this.loadProfile = loadProfile;
+        return loadProfilesForWeek;
     }
 }

@@ -122,7 +122,7 @@ public class StorageManager
         deviceStorageProfiles.put(storage.getId(), storageProfile);
     }
 
-    public void updateStorageStrategies(DemandManager demandManager, StatsManager statsManager)
+    public void updateStorageStrategies(int day, DemandManager demandManager, StatsManager statsManager)
     {
         for (SingleUnitStructure structure : structures)
         {
@@ -143,7 +143,7 @@ public class StorageManager
                 }
                 deviceStorageProfiles.put(storage.getId(), storageProfile);
 
-                runLuaStrategyScript(storage.getStorageStrategy(), storage, structure.getLoadProfile(), deviceStorageProfiles.get(storage.getId()));
+                runLuaStrategyScript(storage.getStorageStrategy(), storage, structure.getLoadProfilesForWeek().get(day), deviceStorageProfiles.get(storage.getId()));
             }
         }
     }

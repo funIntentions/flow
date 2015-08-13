@@ -14,11 +14,11 @@
    <children>
       <BorderPane prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
-            <SplitPane dividerPositions="0.25" BorderPane.alignment="CENTER">
+            <SplitPane dividerPositions="0.22" prefWidth="240.0" BorderPane.alignment="CENTER">
               <items>
                 <AnchorPane>
                      <children>
-                        <VBox layoutX="39.0" layoutY="49.0" prefHeight="598.0" prefWidth="239.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox layoutX="39.0" layoutY="49.0" prefWidth="240.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <TitledPane fx:id="simulationControlsTitledPane" alignment="TOP_CENTER" animated="false" text="Simulation ">
                                 <content>

@@ -64,7 +64,7 @@ public class World
         {
             if (structure.getId() == main.selectedWorldStructureProperty().get().getId())
             {
-                main.getStructureDetailsPaneController().setStructureData(structure, ((SingleUnitStructure) structure).getLoadProfile());
+                main.getStructureDetailsPaneController().setStructureData(structure, ((SingleUnitStructure) structure).getLoadProfilesForWeek());
             }
         }
 
@@ -103,7 +103,7 @@ public class World
     {
         if (!running && !worldTimer.isTimeLimitReached())
         {
-            demandManager.calculateDemandProfiles(storageManager);
+            demandManager.calculateDemandProfiles(worldTimer.getCurrentDate().getDayOfWeek().getValue() - 1, storageManager);
             updateStatus();
             simulationHandle = scheduler.scheduleAtFixedRate(simulationTick, 0, Constants.FIXED_SIMULATION_RATE_MILLISECONDS, TimeUnit.MILLISECONDS);
             running = true;
@@ -165,8 +165,8 @@ public class World
             statsManager.logDailyTrends(demandManager.getDemandProfileForToday());
             demandManager.calculateDaysExpenses(statsManager.getDailyPriceTrends());
             demandManager.calculateDaysEnvironmentalImpact(statsManager.getDailyEmissionTrends());
-            storageManager.updateStorageStrategies(demandManager, statsManager);
-            demandManager.calculateDemandProfiles(storageManager);
+            storageManager.updateStorageStrategies(worldTimer.getCurrentDate().getDayOfWeek().getValue() - 1, demandManager, statsManager);
+            demandManager.calculateDemandProfiles(worldTimer.getCurrentDate().getDayOfWeek().getValue() - 1, storageManager);
             demandManager.resetDay();
         }
 

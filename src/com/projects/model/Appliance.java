@@ -25,11 +25,13 @@ public class Appliance extends Device
         this.activeTimeSpans = FXCollections.observableArrayList(activeTimeSpans);
     }
 
-    public boolean isOnAtTime(long time)
+    public boolean isOn(int day, long time)
     {
         for (TimeSpan deviceUsage : activeTimeSpans)
         {
-            if (deviceUsage.getFrom().toSecondOfDay() <= time && deviceUsage.getTo().toSecondOfDay() >= time)
+            if (deviceUsage.isActiveForDay(day) &&
+                    (deviceUsage.getFrom().toSecondOfDay() <= time &&
+                    deviceUsage.getTo().toSecondOfDay() >= time))
             {
                 return true;
             }

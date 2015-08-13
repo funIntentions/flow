@@ -1,6 +1,5 @@
 package com.projects.model;
 
-import com.projects.helper.DateUtil;
 import javafx.beans.property.*;
 
 import java.time.LocalTime;
@@ -31,6 +30,29 @@ public class TimeSpan
         friday = new SimpleBooleanProperty(true);
         saturday = new SimpleBooleanProperty(true);
         sunday = new SimpleBooleanProperty(true);
+    }
+
+    public boolean isActiveForDay(int day)
+    {
+        switch(day)
+        {
+            case 0:
+                return monday.get();
+            case 1:
+                return tuesday.get();
+            case 2:
+                return wednesday.get();
+            case 3:
+                return thursday.get();
+            case 4:
+                return friday.get();
+            case 5:
+                return saturday.get();
+            case 6:
+                return sunday.get();
+            default:
+                return false;
+        }
     }
 
     public LocalTime getFrom()

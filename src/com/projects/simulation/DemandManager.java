@@ -42,7 +42,7 @@ public class DemandManager
         main.selectedStructureProperty().addListener((observable, oldValue, newValue) ->
         {
             if (newValue instanceof SingleUnitStructure)
-                main.getStructureDetailsPaneController().setStructureData(newValue, ((SingleUnitStructure)newValue).getLoadProfile());
+                main.getStructureDetailsPaneController().setStructureData(newValue, ((SingleUnitStructure)newValue).getLoadProfilesForWeek());
             else
                 main.getStructureDetailsPaneController().setStructureData(newValue, new ArrayList<>());
         });
@@ -53,13 +53,13 @@ public class DemandManager
         return structureDemandProfiles.get(structure.getId());
     }
 
-    public void calculateDemandProfiles(StorageManager storageManager)
+    public void calculateDemandProfiles(int day, StorageManager storageManager)
     {
         structureDemandProfiles.clear();
 
         for (SingleUnitStructure structure : structures)
         {
-            List<Float> loadProfile = structure.getLoadProfile();
+            List<Float> loadProfile = structure.getLoadProfilesForWeek().get(day);
             List<Float> demandProfile = new ArrayList<Float>();
 
             int length = loadProfile.size();
