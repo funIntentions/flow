@@ -22,6 +22,9 @@ public class StructureOverviewController
     private ListView<Structure> worldStructureList;
 
     @FXML
+    private Tab worldViewTab;
+
+    @FXML
     private Tab structureDetailsTab;
 
     @FXML
@@ -269,6 +272,11 @@ public class StructureOverviewController
     public void showSimulationControlsPane(BorderPane simulationControls)
     {
         simulationControlsTitledPane.setContent(simulationControls);
+    }
+
+    public void showWorldViewPane(BorderPane worldView)
+    {
+        worldViewTab.setContent(worldView);
     }
 
     public void showDailyStatisticsPane(BorderPane dailyStatistics)

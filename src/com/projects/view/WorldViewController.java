@@ -47,7 +47,7 @@ public class WorldViewController
         animationTimer.start();
     }
 
-    private void setMain(Main main)
+    public void setMain(Main main)
     {
         this.main = main;
     }

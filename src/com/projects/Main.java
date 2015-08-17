@@ -64,6 +64,7 @@ public class Main extends Application {
     private DailyStatisticsController dailyStatisticsController;
     private ProductionStatisticsController productionStatisticsController;
     private StructureComparisonsController structureComparisonsController;
+    private WorldViewController worldViewController;
 
 
     private HashMap<String, String> storageStrategyScripts;
@@ -374,6 +375,26 @@ public class Main extends Application {
         return null;
     }
 
+    private BorderPane initWorldViewPane()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("view/WorldView.fxml"));
+            BorderPane worldViewPane = (BorderPane) loader.load();
+
+            worldViewController = loader.getController();
+            worldViewController.setMain(this);
+            return worldViewPane;
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     /**
      * Shows the person overview inside the root layout.
      */
@@ -393,6 +414,7 @@ public class Main extends Application {
             controller.showDailyStatisticsPane(initDailyStatisticsPane());
             controller.showProductionStatisticsPane(initProductionStatisticsPane());
             controller.showStructureComparisonsPane(initStructureComparisonsPane());
+            controller.showWorldViewPane(initWorldViewPane());
             return personOverview;
         }
         catch (IOException e)
