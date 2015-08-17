@@ -1,7 +1,8 @@
 package com.projects.simulation;
 
 import com.projects.Main;
-import com.projects.model.*;
+import com.projects.model.SingleUnitStructure;
+import com.projects.model.Structure;
 
 import java.util.ArrayList;
 import java.util.HashMap;
