@@ -1,14 +1,20 @@
 package com.projects.view;
 
 import com.projects.Main;
+import com.projects.helper.Constants;
 import com.projects.helper.ImageType;
 import com.projects.helper.StructureUtil;
+import com.projects.model.Appliance;
 import com.projects.model.PowerPlant;
 import com.projects.model.SingleUnitStructure;
 import com.projects.model.Structure;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Dan on 7/27/2015.
@@ -225,10 +231,31 @@ public class StructureOverviewController
             main.getTemplateStructureData().set(index, structure);
     }
 
+    private int getRandomStructureXPosition()
+    {
+        int random = new Random().nextInt((int)Math.floor(main.getWorldViewController().getWidth()));
+
+        return random - random % Constants.IMAGE_SIZE;
+    }
+
+    private int getRandomStructureYPosition()
+    {
+        int random = new Random().nextInt((int)Math.floor(main.getWorldViewController().getHeight()));
+
+        return random - random % Constants.IMAGE_SIZE;
+    }
+
     @FXML
     private void handleWorldCreateSingleUnitStructure()
     {
-        Structure structure = new Structure("New Single Unit Structure", StructureUtil.getNextStructureId(), 0, 0, ImageType.HOUSE_IMAGE);
+        SingleUnitStructure structure = new SingleUnitStructure("New Single Unit Structure",
+                StructureUtil.getNextStructureId(),
+                ImageType.HOUSE_IMAGE,
+                getRandomStructureXPosition(),
+                getRandomStructureYPosition(),
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>());
 
         main.getWorldStructureData().add(structure);
     }
@@ -236,7 +263,12 @@ public class StructureOverviewController
     @FXML
     private void handleWorldCreatePowerPlantStructure()
     {
-        PowerPlant powerPlant = new PowerPlant("New Power Plant", StructureUtil.getNextStructureId(), ImageType.POWER_PLANT_IMAGE, 0.0, 0.0, 0.0);
+        PowerPlant powerPlant = new PowerPlant("New Power Plant",
+                StructureUtil.getNextStructureId(),
+                ImageType.POWER_PLANT_IMAGE,
+                getRandomStructureXPosition(),
+                getRandomStructureYPosition(),
+                0.0, 0.0, 0.0);
 
         main.getWorldStructureData().add(powerPlant);
     }
@@ -244,7 +276,14 @@ public class StructureOverviewController
     @FXML
     private void handleTemplateCreateSingleUnitStructure()
     {
-        Structure structure = new Structure("New Single Unit Structure", StructureUtil.getNextStructureId(), 0, 0, ImageType.HOUSE_IMAGE);
+        SingleUnitStructure structure = new SingleUnitStructure("New Single Unit Structure",
+                StructureUtil.getNextStructureId(),
+                ImageType.HOUSE_IMAGE,
+                getRandomStructureXPosition(),
+                getRandomStructureYPosition(),
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>());
 
         main.getTemplateStructureData().add(structure);
     }
@@ -252,7 +291,12 @@ public class StructureOverviewController
     @FXML
     private void handleTemplateCreatePowerPlantStructure()
     {
-        PowerPlant powerPlant = new PowerPlant("New Power Plant", StructureUtil.getNextStructureId(), ImageType.POWER_PLANT_IMAGE, 0.0, 0.0, 0.0);
+        PowerPlant powerPlant = new PowerPlant("New Power Plant",
+                StructureUtil.getNextStructureId(),
+                ImageType.POWER_PLANT_IMAGE,
+                getRandomStructureXPosition(),
+                getRandomStructureYPosition(),
+                0.0, 0.0, 0.0);
 
         main.getTemplateStructureData().add(powerPlant);
     }

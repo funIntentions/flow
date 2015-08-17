@@ -27,9 +27,9 @@ public class SingleUnitStructure extends Structure
         this.loadProfilesForWeek = singleUnitStructure.getLoadProfilesForWeek();
     }
 
-    public SingleUnitStructure(String name, int id, ImageType imageType, List<Appliance> appliances, List<EnergySource> energySources, List<EnergyStorage> energyStorageDevices)
+    public SingleUnitStructure(String name, int id, ImageType imageType, int x, int y, List<Appliance> appliances, List<EnergySource> energySources, List<EnergyStorage> energyStorageDevices)
     {
-        super(name, id, 0, 0, imageType);
+        super(name, id, x, y, imageType);
 
         this.appliances = FXCollections.observableArrayList(appliances);
         this.energySources = FXCollections.observableArrayList(energySources);

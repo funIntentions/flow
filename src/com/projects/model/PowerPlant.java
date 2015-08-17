@@ -15,9 +15,9 @@ public class PowerPlant extends Structure implements Comparable<PowerPlant>
     private DoubleProperty capacity;
     private DoubleProperty currentOutput;
 
-    public PowerPlant(String name, int id, ImageType imageType, double emissionRate, double cost, double capacity)
+    public PowerPlant(String name, int id, ImageType imageType, int x, int y, double emissionRate, double cost, double capacity)
     {
-        super(name, id, 0, 0, imageType);
+        super(name, id, x, y, imageType);
         this.emissionRate = new SimpleDoubleProperty(emissionRate);
         this.cost = new SimpleDoubleProperty(cost);
         this.capacity = new SimpleDoubleProperty(capacity);

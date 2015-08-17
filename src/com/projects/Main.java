@@ -235,6 +235,10 @@ public class Main extends Application {
     {
         return structureComparisonsController;
     }
+    public WorldViewController getWorldViewController()
+    {
+        return worldViewController;
+    }
 
     @Override
     public void start(Stage primaryStage)
@@ -643,7 +647,14 @@ public class Main extends Application {
         NodeList energyStorageList = structureElement.getElementsByTagName("energyStorageDevices");
         List<EnergyStorage> energyStorageDevices = readEnergyStorageDevices(energyStorageList);
 
-        return new SingleUnitStructure(name, StructureUtil.getNextStructureId(), imageType, appliances, energySources, energyStorageDevices);
+        return new SingleUnitStructure(name,
+                StructureUtil.getNextStructureId(),
+                imageType,
+                0,
+                0,
+                appliances,
+                energySources,
+                energyStorageDevices);
     }
 
     public Structure readPowerPlant(Node structureNode)
@@ -663,7 +674,7 @@ public class Main extends Application {
             imageType = ImageType.valueOf(image);
         }
 
-        return new PowerPlant(name, StructureUtil.getNextStructureId(), imageType, emissionRate, cost, capacity);
+        return new PowerPlant(name, StructureUtil.getNextStructureId(), imageType, 0, 0, emissionRate, cost, capacity);
     }
 
     private String getElementStringFromTag(Element parent, String tag)
