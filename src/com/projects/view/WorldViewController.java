@@ -2,6 +2,7 @@ package com.projects.view;
 
 import com.projects.Main;
 import com.projects.helper.Constants;
+import com.projects.model.SingleUnitStructure;
 import com.projects.model.Sprite;
 import com.projects.model.Structure;
 import javafx.animation.AnimationTimer;
@@ -13,6 +14,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -64,26 +66,39 @@ public class WorldViewController
         selectionMade = false;
     }
 
+    private void clearSelection()
+    {
+        selectionMade = false;
+        selected = null;
+    }
+
+    private void setSelection(Structure structure)
+    {
+        selectionMade = true;
+        selectionSprite.setXPosition((structure.getSprite().getXPosition() + structure.getSprite().getImage().getWidth() / 2) - selectionSprite.getImage().getWidth() / 2);
+        selectionSprite.setYPosition((structure.getSprite().getYPosition() + structure.getSprite().getImage().getHeight() / 2) - selectionSprite.getImage().getHeight() / 2);
+        selected = structure;
+    }
+
     @FXML
     private void handleMousePressed(MouseEvent mouseEvent)
     {
-        mouseDown = true;
-        selectionMade = false;
-        selected = null;
-
-        List<Structure> worldStructures = main.getWorldStructureData();
         Rectangle2D selectionRect = new Rectangle2D(mouseEvent.getX() - selectionRange/2, mouseEvent.getY() - selectionRange/2, selectionRange, selectionRange);
+        mouseDown = true;
 
-        for (Structure structure : worldStructures)
+        if (selected == null || !selected.getSprite().intersects(selectionRect)) // prioritize keeping the current selection
         {
-            if (structure.getSprite().intersects(selectionRect))
+            clearSelection();
+            List<Structure> worldStructures = main.getWorldStructureData();
+
+            for (Structure structure : worldStructures)
             {
-                selectionMade = true;
-                selectionSprite.setXPosition((structure.getSprite().getXPosition() + structure.getSprite().getImage().getWidth() / 2) - selectionSprite.getImage().getWidth() / 2);
-                selectionSprite.setYPosition((structure.getSprite().getYPosition() + structure.getSprite().getImage().getHeight() / 2) - selectionSprite.getImage().getHeight() / 2);
-                selected = structure;
-                main.selectedStructureProperty().set(structure);
-                break;
+                if (structure.getSprite().intersects(selectionRect))
+                {
+                    setSelection(structure);
+                    main.selectedStructureProperty().set(structure);
+                    break;
+                }
             }
         }
     }
@@ -109,6 +124,23 @@ public class WorldViewController
     public void setMain(Main main)
     {
         this.main = main;
+
+        main.selectedStructureProperty().addListener((observable, oldValue, newValue) ->
+        {
+            if (selected == null || selected.getId() != newValue.getId())
+            {
+                clearSelection();
+                List<Structure> worldStructures = main.getWorldStructureData();
+
+                for (Structure structure : worldStructures)
+                {
+                    if (structure.getId() == newValue.getId())
+                    {
+                        setSelection(structure);
+                    }
+                }
+            }
+        });
     }
 
     public double getWidth()

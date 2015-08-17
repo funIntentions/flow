@@ -345,6 +345,21 @@ public class StructureOverviewController
         templateStructureList.setItems(main.getTemplateStructureData());
         worldStructureList.setItems(main.getWorldStructureData());
 
+        main.selectedStructureProperty().addListener((observable, oldValue, newValue) ->
+        {
+            templateStructureList.getSelectionModel().clearSelection();
+            worldStructureList.getSelectionModel().clearSelection();
+
+            if (templateStructureList.getItems().contains(newValue))
+            {
+                templateStructureList.getSelectionModel().select(newValue);
+            }
+            else if (worldStructureList.getItems().contains(newValue))
+            {
+                worldStructureList.getSelectionModel().select(newValue);
+            }
+        });
+
         main.simulationStateProperty().addListener((observable, oldValue, newValue) ->
         {
             switch (newValue)
