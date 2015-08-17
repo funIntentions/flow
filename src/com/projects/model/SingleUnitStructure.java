@@ -19,7 +19,7 @@ public class SingleUnitStructure extends Structure
 
     public SingleUnitStructure(SingleUnitStructure singleUnitStructure)
     {
-        super(singleUnitStructure.getName(), singleUnitStructure.getId(), singleUnitStructure.getX(), singleUnitStructure.getY(), singleUnitStructure.getImage());
+        super(singleUnitStructure.getName(), singleUnitStructure.getId(), singleUnitStructure.getSprite(), singleUnitStructure.getImage());
 
         this.appliances = singleUnitStructure.getAppliances();
         this.energySources = singleUnitStructure.getEnergySources();

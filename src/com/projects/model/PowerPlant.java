@@ -26,7 +26,7 @@ public class PowerPlant extends Structure implements Comparable<PowerPlant>
 
     public PowerPlant(PowerPlant powerPlant)
     {
-        super(powerPlant.getName(), StructureUtil.getNextStructureId(), powerPlant.getX(), powerPlant.getY(), powerPlant.getImage());
+        super(powerPlant.getName(), StructureUtil.getNextStructureId(), powerPlant.getSprite(), powerPlant.getImage());
 
         this.emissionRate = new SimpleDoubleProperty(powerPlant.getEmissionRate());
         this.cost = new SimpleDoubleProperty(powerPlant.getCost());
