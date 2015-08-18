@@ -3,6 +3,7 @@ package com.projects.model;
 import com.projects.helper.Constants;
 import com.projects.helper.DemandState;
 import com.projects.helper.ImageType;
+import com.projects.helper.StructureUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -21,7 +22,7 @@ public class SingleUnitStructure extends Structure
 
     public SingleUnitStructure(SingleUnitStructure singleUnitStructure)
     {
-        super(singleUnitStructure.getName(), singleUnitStructure.getId(), singleUnitStructure.getAnimatedSprite(), singleUnitStructure.getImage());
+        super(singleUnitStructure.getName(), StructureUtil.getNextStructureId(), singleUnitStructure.getAnimatedSprite(), singleUnitStructure.getImage());
 
         this.appliances = singleUnitStructure.getAppliances();
         this.energySources = singleUnitStructure.getEnergySources();
