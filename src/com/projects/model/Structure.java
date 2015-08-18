@@ -28,7 +28,7 @@ public class Structure
         this.sprite = new Sprite(sprite);
     }
 
-    public Structure(String name, int id, int x, int y, ImageType image)
+    public Structure(String name, int id, double x, double y, ImageType image)
     {
         this.name = new SimpleStringProperty(name);
         this.id = new SimpleIntegerProperty(id);

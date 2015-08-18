@@ -631,7 +631,8 @@ public class Main extends Application {
         Element structureElement = (Element)structureNode;
 
         String name = getElementStringFromTag(structureElement, "name");
-        Integer id = Integer.valueOf(getElementStringFromTag(structureElement, "id")); // TODO: remove id's from save file?
+        Double x = Double.valueOf(getElementStringFromTag(structureElement, "x"));
+        Double y = Double.valueOf(getElementStringFromTag(structureElement, "y"));
         String image = getElementStringFromTag(structureElement, "image");
 
         ImageType imageType = ImageType.HOUSE_IMAGE;
@@ -650,8 +651,8 @@ public class Main extends Application {
         return new SingleUnitStructure(name,
                 StructureUtil.getNextStructureId(),
                 imageType,
-                0,
-                0,
+                x,
+                y,
                 appliances,
                 energySources,
                 energyStorageDevices);
@@ -662,7 +663,8 @@ public class Main extends Application {
         Element structureElement = (Element)structureNode;
 
         String name = getElementStringFromTag(structureElement, "name");
-        Integer id = Integer.valueOf(getElementStringFromTag(structureElement, "id"));
+        Double x = Double.valueOf(getElementStringFromTag(structureElement, "x"));
+        Double y = Double.valueOf(getElementStringFromTag(structureElement, "y"));
         String image = getElementStringFromTag(structureElement, "image");
         Double emissionRate = Double.parseDouble(getElementStringFromTag(structureElement, "emissionRate"));
         Double cost = Double.parseDouble(getElementStringFromTag(structureElement, "cost"));
@@ -674,7 +676,7 @@ public class Main extends Application {
             imageType = ImageType.valueOf(image);
         }
 
-        return new PowerPlant(name, StructureUtil.getNextStructureId(), imageType, 0, 0, emissionRate, cost, capacity);
+        return new PowerPlant(name, StructureUtil.getNextStructureId(), imageType, x, y, emissionRate, cost, capacity);
     }
 
     private String getElementStringFromTag(Element parent, String tag)
@@ -735,14 +737,13 @@ public class Main extends Application {
                     Element deviceElement = (Element)deviceNode;
 
                     String name = getElementStringFromTag(deviceElement, "name");
-                    Integer id = Integer.parseInt(getElementStringFromTag(deviceElement, "id"));
                     Double standbyConsumption = Double.parseDouble(getElementStringFromTag(deviceElement, "standbyConsumption"));
                     Double usageConsumption = Double.parseDouble(getElementStringFromTag(deviceElement, "usageConsumption"));
 
                     NodeList timeSpanList = deviceElement.getElementsByTagName("timeSpans");
                     List<TimeSpan> timeSpans = readTimeSpans(timeSpanList);
 
-                    Appliance appliance = new Appliance(name, id, standbyConsumption, usageConsumption, timeSpans);
+                    Appliance appliance = new Appliance(name, DeviceUtil.getNextDeviceId(), standbyConsumption, usageConsumption, timeSpans);
 
                     deviceList.add(appliance);
                 }
@@ -771,9 +772,8 @@ public class Main extends Application {
                     Element deviceElement = (Element)deviceNode;
 
                     String name = getElementStringFromTag(deviceElement, "name");
-                    Integer id = Integer.parseInt(getElementStringFromTag(deviceElement, "id"));
 
-                    EnergySource energySource = new EnergySource(name, id, 0, 0, 0); // TODO: implement energy source
+                    EnergySource energySource = new EnergySource(name, DeviceUtil.getNextDeviceId(), 0, 0, 0); // TODO: implement energy source
 
                     deviceList.add(energySource);
                 }
@@ -802,12 +802,11 @@ public class Main extends Application {
                     Element deviceElement = (Element)deviceNode;
 
                     String name = getElementStringFromTag(deviceElement, "name");
-                    Integer id = Integer.parseInt(getElementStringFromTag(deviceElement, "id"));
                     Double chargeDischargeRate = Double.parseDouble(getElementStringFromTag(deviceElement, "chargingRate"));
                     Double storageCapacity = Double.parseDouble(getElementStringFromTag(deviceElement, "storageCapacity"));
                     String storageStrategy = getElementStringFromTag(deviceElement, "storageStrategy");
 
-                    EnergyStorage energyStorage = new EnergyStorage(name, id, chargeDischargeRate, storageCapacity, 0, storageStrategy);
+                    EnergyStorage energyStorage = new EnergyStorage(name, DeviceUtil.getNextDeviceId(), chargeDischargeRate, storageCapacity, 0, storageStrategy);
 
                     deviceList.add(energyStorage);
                 }
@@ -878,7 +877,8 @@ public class Main extends Application {
         Element structureNode = doc.createElement("powerPlant");
 
         structureNode.appendChild(getElement(doc, "name", powerPlant.getName()));
-        structureNode.appendChild(getElement(doc, "id", String.valueOf(powerPlant.getId())));
+        structureNode.appendChild(getElement(doc, "x", String.valueOf(powerPlant.getSprite().getXPosition())));
+        structureNode.appendChild(getElement(doc, "y", String.valueOf(powerPlant.getSprite().getYPosition())));
         structureNode.appendChild(getElement(doc, "image", String.valueOf(powerPlant.getImage())));
         structureNode.appendChild(getElement(doc, "emissionRate", String.valueOf(powerPlant.getEmissionRate())));
         structureNode.appendChild(getElement(doc, "cost", String.valueOf(powerPlant.getCost())));
@@ -892,7 +892,8 @@ public class Main extends Application {
         Element structureNode = doc.createElement("simpleStructure");
 
         structureNode.appendChild(getElement(doc, "name", structure.getName()));
-        structureNode.appendChild(getElement(doc, "id", String.valueOf(structure.getId())));
+        structureNode.appendChild(getElement(doc, "x", String.valueOf(structure.getSprite().getXPosition())));
+        structureNode.appendChild(getElement(doc, "y", String.valueOf(structure.getSprite().getYPosition())));
         structureNode.appendChild(getElement(doc, "image", String.valueOf(structure.getImage())));
 
         Element appliances = doc.createElement("appliances");
@@ -927,7 +928,6 @@ public class Main extends Application {
         Element deviceNode = doc.createElement("appliance");
 
         deviceNode.appendChild(getElement(doc, "name", appliance.getName()));
-        deviceNode.appendChild(getElement(doc, "id", String.valueOf(appliance.getId())));
         deviceNode.appendChild(getElement(doc, "standbyConsumption", String.valueOf(appliance.getStandbyConsumption())));
         deviceNode.appendChild(getElement(doc, "usageConsumption", String.valueOf(appliance.getUsageConsumption())));
 
@@ -947,7 +947,6 @@ public class Main extends Application {
         Element deviceNode = doc.createElement("energySource");
 
         deviceNode.appendChild(getElement(doc, "name", energySource.getName()));
-        deviceNode.appendChild(getElement(doc, "id", String.valueOf(energySource.getId())));
 
         return deviceNode;
     }
@@ -957,13 +956,13 @@ public class Main extends Application {
         Element deviceNode = doc.createElement("energyStorage");
 
         deviceNode.appendChild(getElement(doc, "name", energyStorage.getName()));
-        deviceNode.appendChild(getElement(doc, "id", String.valueOf(energyStorage.getId())));
         deviceNode.appendChild(getElement(doc, "chargingRate", String.valueOf(energyStorage.getChargingRate())));
         deviceNode.appendChild(getElement(doc, "storageCapacity", String.valueOf(energyStorage.getStorageCapacity())));
         deviceNode.appendChild(getElement(doc, "storageStrategy", String.valueOf(energyStorage.getStorageStrategy())));
 
         return deviceNode;
     }
+
     private Element getElement(Document doc, String elementName, String value)
     {
         Element node = doc.createElement(elementName);

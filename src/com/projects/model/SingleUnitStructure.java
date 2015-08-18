@@ -27,7 +27,7 @@ public class SingleUnitStructure extends Structure
         this.loadProfilesForWeek = singleUnitStructure.getLoadProfilesForWeek();
     }
 
-    public SingleUnitStructure(String name, int id, ImageType imageType, int x, int y, List<Appliance> appliances, List<EnergySource> energySources, List<EnergyStorage> energyStorageDevices)
+    public SingleUnitStructure(String name, int id, ImageType imageType, double x, double y, List<Appliance> appliances, List<EnergySource> energySources, List<EnergyStorage> energyStorageDevices)
     {
         super(name, id, x, y, imageType);
 
