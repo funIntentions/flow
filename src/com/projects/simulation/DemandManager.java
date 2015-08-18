@@ -213,9 +213,10 @@ public class DemandManager
             }
 
             demandProfileForToday.add((int) electricityDemand);
+
+            updateDemandStates(time);
         }
 
-        updateDemandStates(totalElapsedMinutesThisDay);
 
         if (demandProfileForToday.size() == TimeUnit.DAYS.toMinutes(1))
             dailyDemandProfileReady = true;
