@@ -1,9 +1,12 @@
 package com.projects.simulation;
 
 import com.projects.Main;
+import com.projects.helper.Constants;
+import com.projects.helper.DemandState;
 import com.projects.model.SingleUnitStructure;
 import com.projects.model.Structure;
 
+import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +27,7 @@ public class DemandManager
     private double totalUsageInkWh = 0;
     private double electricityDemand = 0;
     private boolean dailyDemandProfileReady = false;
+    private float lowDemand, averageDemand, mediumDemand, highDemand;
     private Main main;
 
     public DemandManager()
@@ -52,6 +56,36 @@ public class DemandManager
     public List<Float> getDemandProfile(Structure structure)
     {
         return structureDemandProfiles.get(structure.getId());
+    }
+
+    public void calculateDemandStates(int day)
+    {
+        structureDemandProfiles.clear();
+        float largestDemandSum = 0, demandSum;
+
+        for (int time = 0; time < Constants.MINUTES_IN_DAY; ++time)
+        {
+            demandSum = 0;
+            for (SingleUnitStructure structure : structures)
+            {
+                List<Float> loadProfile = structure.getLoadProfilesForWeek().get(day);
+
+                demandSum += loadProfile.get(time);
+            }
+
+            demandSum /= structures.size();
+
+            if (demandSum > largestDemandSum)
+            {
+                largestDemandSum = demandSum;
+            }
+        }
+
+        float increment = largestDemandSum/4.0f; // 4.0 == number of states
+        lowDemand = increment;
+        averageDemand = increment*2;
+        mediumDemand = increment*3;
+        highDemand = increment*4;
     }
 
     public void calculateDemandProfiles(int day, StorageManager storageManager)
@@ -181,8 +215,36 @@ public class DemandManager
             demandProfileForToday.add((int) electricityDemand);
         }
 
+        updateDemandStates(totalElapsedMinutesThisDay);
+
         if (demandProfileForToday.size() == TimeUnit.DAYS.toMinutes(1))
             dailyDemandProfileReady = true;
+    }
+
+    private void updateDemandStates(int minutesElapsedToday)
+    {
+        for (SingleUnitStructure structure : structures)
+        {
+            List<Float> demandProfile = structureDemandProfiles.get(structure.getId());
+            float structuresDemandAtTime = demandProfile.get(minutesElapsedToday);
+
+            if (structuresDemandAtTime <= lowDemand)
+            {
+                structure.setDemandState(DemandState.LOW);
+            }
+            else if (structuresDemandAtTime <= averageDemand)
+            {
+                structure.setDemandState(DemandState.AVERAGE);
+            }
+            else if (structuresDemandAtTime <= mediumDemand)
+            {
+                structure.setDemandState(DemandState.MEDIUM);
+            }
+            else if (structuresDemandAtTime <= highDemand)
+            {
+                structure.setDemandState(DemandState.HIGH);
+            }
+        }
     }
 
     public void reset()

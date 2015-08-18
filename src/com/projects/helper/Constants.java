@@ -18,5 +18,6 @@ public class Constants
     public static final long FIXED_SIMULATION_RATE_MILLISECONDS = 33; // 30 frames a second
     public static final double FIXED_SIMULATION_RATE_SECONDS = 0.0333333;
     public static final long SECONDS_IN_DAY = TimeUnit.DAYS.toSeconds(1);
+    public static final long MINUTES_IN_DAY = TimeUnit.DAYS.toMinutes(1);
     public static final long DAYS_IN_WEEK = 7;
 }

@@ -102,6 +102,7 @@ public class World
     {
         if (!running && !worldTimer.isTimeLimitReached())
         {
+            demandManager.calculateDemandStates(worldTimer.getCurrentDate().getDayOfWeek().getValue() - 1);
             demandManager.calculateDemandProfiles(worldTimer.getCurrentDate().getDayOfWeek().getValue() - 1, storageManager);
             updateStatus();
             simulationHandle = scheduler.scheduleAtFixedRate(simulationTick, 0, Constants.FIXED_SIMULATION_RATE_MILLISECONDS, TimeUnit.MILLISECONDS);
@@ -165,6 +166,7 @@ public class World
             demandManager.calculateDaysExpenses(statsManager.getDailyPriceTrends());
             demandManager.calculateDaysEnvironmentalImpact(statsManager.getDailyEmissionTrends());
             storageManager.updateStorageStrategies(worldTimer.getCurrentDate().getDayOfWeek().getValue() - 1, demandManager, statsManager);
+            demandManager.calculateDemandStates(worldTimer.getCurrentDate().getDayOfWeek().getValue() - 1);
             demandManager.calculateDemandProfiles(worldTimer.getCurrentDate().getDayOfWeek().getValue() - 1, storageManager);
             demandManager.resetDay();
         }

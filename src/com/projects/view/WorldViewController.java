@@ -2,6 +2,7 @@ package com.projects.view;
 
 import com.projects.Main;
 import com.projects.helper.Constants;
+import com.projects.model.SingleUnitStructure;
 import com.projects.model.Sprite;
 import com.projects.model.Structure;
 import javafx.animation.AnimationTimer;
@@ -53,6 +54,31 @@ public class WorldViewController
 
                 for (Structure structure : worldStructures)
                 {
+                    if (structure instanceof SingleUnitStructure)
+                    {
+                        SingleUnitStructure singleUnitStructure = (SingleUnitStructure)structure;
+
+                        switch (singleUnitStructure.getDemandState())
+                        {
+                            case LOW:
+                            {
+                                singleUnitStructure.getAnimatedSprite().setFrame(0);
+                            } break;
+                            case AVERAGE:
+                            {
+                                singleUnitStructure.getAnimatedSprite().setFrame(1);
+                            } break;
+                            case MEDIUM:
+                            {
+                                singleUnitStructure.getAnimatedSprite().setFrame(2);
+                            } break;
+                            case HIGH:
+                            {
+                                singleUnitStructure.getAnimatedSprite().setFrame(3);
+                            } break;
+                        }
+                    }
+
                     Sprite structureSprite = structure.getAnimatedSprite();
                     gc.drawImage(structureSprite.getImage(), structureSprite.getXPosition(), structureSprite.getYPosition());
                 }
