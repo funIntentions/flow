@@ -154,9 +154,10 @@ public class World
             }
         });
 
-
         demandManager.calculateDemand(worldTimer.getModifiedTimeElapsedInSeconds(), worldTimer.getTotalTimeInSeconds());
         supplyManager.calculateSupply(demandManager.getElectricityDemand());
+        supplyManager.updateProductionStates();
+
         updateStatus();
 
         if (demandManager.isDailyDemandProfileReady())
@@ -183,6 +184,8 @@ public class World
                             demandManager.getStructureExpenses(),
                             demandManager.getStructureEnvironmentalImpact());
                     statsManager.setStatsForDay(0);
+                    demandManager.resetDemandStates();
+                    supplyManager.resetProductionStates();
 
                     main.simulationStateProperty().setValue(SimulationState.FINISHED);
                 }

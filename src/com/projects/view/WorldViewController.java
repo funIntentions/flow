@@ -2,6 +2,8 @@ package com.projects.view;
 
 import com.projects.Main;
 import com.projects.helper.Constants;
+import com.projects.helper.ProductionState;
+import com.projects.model.PowerPlant;
 import com.projects.model.SingleUnitStructure;
 import com.projects.model.Sprite;
 import com.projects.model.Structure;
@@ -37,13 +39,15 @@ public class WorldViewController
     {
         gc = worldCanvas.getGraphicsContext2D();
 
-        //final long start = System.nanoTime();
+        final long start = System.nanoTime();
 
         animationTimer = new AnimationTimer()
         {
             @Override
             public void handle(long now)
             {
+                double time = (now - start) / 1000000000.0;
+
                 gc.clearRect(0, 0, worldCanvas.getWidth(), worldCanvas.getHeight());
                 List<Structure> worldStructures = main.getWorldStructureData();
 
@@ -76,6 +80,19 @@ public class WorldViewController
                             {
                                 singleUnitStructure.getAnimatedSprite().setFrame(3);
                             } break;
+                        }
+                    }
+                    else
+                    {
+                        PowerPlant powerPlant = (PowerPlant)structure;
+
+                        if (powerPlant.getProductionState() == ProductionState.PRODUCING)
+                        {
+                            powerPlant.getAnimatedSprite().animate(time);
+                        }
+                        else
+                        {
+                            powerPlant.getAnimatedSprite().setFrame(0);
                         }
                     }
 

@@ -248,6 +248,14 @@ public class DemandManager
         }
     }
 
+    public void resetDemandStates()
+    {
+        for (SingleUnitStructure singleUnitStructure : structures)
+        {
+            singleUnitStructure.setDemandState(DemandState.LOW);
+        }
+    }
+
     public void reset()
     {
         usageInWattsPerHour = 0;

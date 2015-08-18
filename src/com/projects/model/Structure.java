@@ -48,12 +48,12 @@ public class Structure
         }
         else
         {
-            //for (int i = 0; i < 4; ++i)
-            //{
-                images.add(new Image("/images/PowerPlant.png"));
-            //}
+            for (int i = 0; i < 6; ++i)
+            {
+                images.add(new Image("/images/PowerPlant_" + i + ".png"));
+            }
 
-            this.animatedSprite = new AnimatedSprite(images, x, y, 2);
+            this.animatedSprite = new AnimatedSprite(images, x, y, 0.4);
         }
     }
 

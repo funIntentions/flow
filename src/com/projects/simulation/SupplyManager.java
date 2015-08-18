@@ -1,6 +1,7 @@
 package com.projects.simulation;
 
 import com.projects.Main;
+import com.projects.helper.ProductionState;
 import com.projects.model.PowerPlant;
 import com.projects.model.SingleUnitStructure;
 import com.projects.model.Structure;
@@ -65,6 +66,25 @@ public class SupplyManager
         }
 
         return true;
+    }
+
+    public void updateProductionStates()
+    {
+        for (PowerPlant powerPlant : powerPlants)
+        {
+            if (powerPlant.getCurrentOutput() > 0)
+                powerPlant.setProductionState(ProductionState.PRODUCING);
+            else
+                powerPlant.setProductionState(ProductionState.IDLE);
+        }
+    }
+
+    public void resetProductionStates()
+    {
+        for (PowerPlant powerPlant : powerPlants)
+        {
+            powerPlant.setProductionState(ProductionState.IDLE);
+        }
     }
 
     public void reset()
