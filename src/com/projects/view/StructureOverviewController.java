@@ -233,16 +233,12 @@ public class StructureOverviewController
 
     private int getRandomStructureXPosition()
     {
-        int random = new Random().nextInt((int)Math.floor(main.getWorldViewController().getWidth()));
-
-        return random - random % Constants.IMAGE_SIZE;
+        return new Random().nextInt((int)Math.floor(main.getWorldViewController().getWidth() - Constants.IMAGE_SIZE));
     }
 
     private int getRandomStructureYPosition()
     {
-        int random = new Random().nextInt((int)Math.floor(main.getWorldViewController().getHeight()));
-
-        return random - random % Constants.IMAGE_SIZE;
+        return new Random().nextInt((int)Math.floor(main.getWorldViewController().getHeight() - Constants.IMAGE_SIZE));
     }
 
     @FXML

@@ -8,9 +8,9 @@ import javafx.scene.image.Image;
  */
 public class Sprite
 {
-    private double xPosition;
-    private double yPosition;
-    private Image image;
+    protected double xPosition;
+    protected double yPosition;
+    protected Image image;
 
     public Sprite(Sprite sprite)
     {

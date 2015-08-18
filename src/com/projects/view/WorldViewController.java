@@ -2,11 +2,9 @@ package com.projects.view;
 
 import com.projects.Main;
 import com.projects.helper.Constants;
-import com.projects.model.SingleUnitStructure;
 import com.projects.model.Sprite;
 import com.projects.model.Structure;
 import javafx.animation.AnimationTimer;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
@@ -14,7 +12,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,7 +53,7 @@ public class WorldViewController
 
                 for (Structure structure : worldStructures)
                 {
-                    Sprite structureSprite = structure.getSprite();
+                    Sprite structureSprite = structure.getAnimatedSprite();
                     gc.drawImage(structureSprite.getImage(), structureSprite.getXPosition(), structureSprite.getYPosition());
                 }
             }
@@ -75,8 +72,8 @@ public class WorldViewController
     private void setSelection(Structure structure)
     {
         selectionMade = true;
-        selectionSprite.setXPosition((structure.getSprite().getXPosition() + structure.getSprite().getImage().getWidth() / 2) - selectionSprite.getImage().getWidth() / 2);
-        selectionSprite.setYPosition((structure.getSprite().getYPosition() + structure.getSprite().getImage().getHeight() / 2) - selectionSprite.getImage().getHeight() / 2);
+        selectionSprite.setXPosition((structure.getAnimatedSprite().getXPosition() + structure.getAnimatedSprite().getImage().getWidth() / 2) - selectionSprite.getImage().getWidth() / 2);
+        selectionSprite.setYPosition((structure.getAnimatedSprite().getYPosition() + structure.getAnimatedSprite().getImage().getHeight() / 2) - selectionSprite.getImage().getHeight() / 2);
         selected = structure;
     }
 
@@ -86,14 +83,14 @@ public class WorldViewController
         Rectangle2D selectionRect = new Rectangle2D(mouseEvent.getX() - selectionRange/2, mouseEvent.getY() - selectionRange/2, selectionRange, selectionRange);
         mouseDown = true;
 
-        if (selected == null || !selected.getSprite().intersects(selectionRect)) // prioritize keeping the current selection
+        if (selected == null || !selected.getAnimatedSprite().intersects(selectionRect)) // prioritize keeping the current selection
         {
             clearSelection();
             List<Structure> worldStructures = main.getWorldStructureData();
 
             for (Structure structure : worldStructures)
             {
-                if (structure.getSprite().intersects(selectionRect))
+                if (structure.getAnimatedSprite().intersects(selectionRect))
                 {
                     setSelection(structure);
                     main.selectedStructureProperty().set(structure);
@@ -108,10 +105,10 @@ public class WorldViewController
     {
         if (mouseDown && selected != null)
         {
-            selected.getSprite().setXPosition(mouseEvent.getX() - selected.getSprite().getImage().getWidth()/2);
-            selected.getSprite().setYPosition(mouseEvent.getY() - selected.getSprite().getImage().getHeight()/2);
-            selectionSprite.setXPosition((selected.getSprite().getXPosition() + selected.getSprite().getImage().getWidth() / 2) - selectionSprite.getImage().getWidth() / 2);
-            selectionSprite.setYPosition((selected.getSprite().getYPosition() + selected.getSprite().getImage().getHeight() / 2) - selectionSprite.getImage().getHeight() / 2);
+            selected.getAnimatedSprite().setXPosition(mouseEvent.getX() - selected.getAnimatedSprite().getImage().getWidth()/2);
+            selected.getAnimatedSprite().setYPosition(mouseEvent.getY() - selected.getAnimatedSprite().getImage().getHeight()/2);
+            selectionSprite.setXPosition((selected.getAnimatedSprite().getXPosition() + selected.getAnimatedSprite().getImage().getWidth() / 2) - selectionSprite.getImage().getWidth() / 2);
+            selectionSprite.setYPosition((selected.getAnimatedSprite().getYPosition() + selected.getAnimatedSprite().getImage().getHeight() / 2) - selectionSprite.getImage().getHeight() / 2);
         }
     }
 

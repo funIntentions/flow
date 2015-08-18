@@ -877,8 +877,8 @@ public class Main extends Application {
         Element structureNode = doc.createElement("powerPlant");
 
         structureNode.appendChild(getElement(doc, "name", powerPlant.getName()));
-        structureNode.appendChild(getElement(doc, "x", String.valueOf(powerPlant.getSprite().getXPosition())));
-        structureNode.appendChild(getElement(doc, "y", String.valueOf(powerPlant.getSprite().getYPosition())));
+        structureNode.appendChild(getElement(doc, "x", String.valueOf(powerPlant.getAnimatedSprite().getXPosition())));
+        structureNode.appendChild(getElement(doc, "y", String.valueOf(powerPlant.getAnimatedSprite().getYPosition())));
         structureNode.appendChild(getElement(doc, "image", String.valueOf(powerPlant.getImage())));
         structureNode.appendChild(getElement(doc, "emissionRate", String.valueOf(powerPlant.getEmissionRate())));
         structureNode.appendChild(getElement(doc, "cost", String.valueOf(powerPlant.getCost())));
@@ -892,8 +892,8 @@ public class Main extends Application {
         Element structureNode = doc.createElement("simpleStructure");
 
         structureNode.appendChild(getElement(doc, "name", structure.getName()));
-        structureNode.appendChild(getElement(doc, "x", String.valueOf(structure.getSprite().getXPosition())));
-        structureNode.appendChild(getElement(doc, "y", String.valueOf(structure.getSprite().getYPosition())));
+        structureNode.appendChild(getElement(doc, "x", String.valueOf(structure.getAnimatedSprite().getXPosition())));
+        structureNode.appendChild(getElement(doc, "y", String.valueOf(structure.getAnimatedSprite().getYPosition())));
         structureNode.appendChild(getElement(doc, "image", String.valueOf(structure.getImage())));
 
         Element appliances = doc.createElement("appliances");

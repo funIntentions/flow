@@ -1,6 +1,7 @@
 package com.projects.model;
 
 import com.projects.helper.ImageType;
+import com.projects.helper.ProductionState;
 import com.projects.helper.StructureUtil;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -14,6 +15,7 @@ public class PowerPlant extends Structure implements Comparable<PowerPlant>
     private DoubleProperty cost;
     private DoubleProperty capacity;
     private DoubleProperty currentOutput;
+    private ProductionState productionState = ProductionState.IDLE;
 
     public PowerPlant(String name, int id, ImageType imageType, double x, double y, double emissionRate, double cost, double capacity)
     {
@@ -26,7 +28,7 @@ public class PowerPlant extends Structure implements Comparable<PowerPlant>
 
     public PowerPlant(PowerPlant powerPlant)
     {
-        super(powerPlant.getName(), StructureUtil.getNextStructureId(), powerPlant.getSprite(), powerPlant.getImage());
+        super(powerPlant.getName(), StructureUtil.getNextStructureId(), powerPlant.getAnimatedSprite(), powerPlant.getImage());
 
         this.emissionRate = new SimpleDoubleProperty(powerPlant.getEmissionRate());
         this.cost = new SimpleDoubleProperty(powerPlant.getCost());
@@ -97,5 +99,15 @@ public class PowerPlant extends Structure implements Comparable<PowerPlant>
     public void setCurrentOutput(double currentOutput)
     {
         this.currentOutput.set(currentOutput);
+    }
+
+    public ProductionState getProductionState()
+    {
+        return productionState;
+    }
+
+    public void setProductionState(ProductionState productionState)
+    {
+        this.productionState = productionState;
     }
 }

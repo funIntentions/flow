@@ -1,6 +1,7 @@
 package com.projects.model;
 
 import com.projects.helper.Constants;
+import com.projects.helper.DemandState;
 import com.projects.helper.ImageType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,10 +17,11 @@ public class SingleUnitStructure extends Structure
     protected ObservableList<EnergySource> energySources;
     protected ObservableList<EnergyStorage> energyStorageDevices;
     private ObservableList<ObservableList<Float>> loadProfilesForWeek;
+    private DemandState demandState = DemandState.LOW;
 
     public SingleUnitStructure(SingleUnitStructure singleUnitStructure)
     {
-        super(singleUnitStructure.getName(), singleUnitStructure.getId(), singleUnitStructure.getSprite(), singleUnitStructure.getImage());
+        super(singleUnitStructure.getName(), singleUnitStructure.getId(), singleUnitStructure.getAnimatedSprite(), singleUnitStructure.getImage());
 
         this.appliances = singleUnitStructure.getAppliances();
         this.energySources = singleUnitStructure.getEnergySources();
@@ -106,5 +108,15 @@ public class SingleUnitStructure extends Structure
     public ObservableList<ObservableList<Float>> getLoadProfilesForWeek()
     {
         return loadProfilesForWeek;
+    }
+
+    public DemandState getDemandState()
+    {
+        return demandState;
+    }
+
+    public void setDemandState(DemandState demandState)
+    {
+        this.demandState = demandState;
     }
 }
