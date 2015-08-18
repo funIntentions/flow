@@ -132,6 +132,7 @@ public class StructureOverviewController
             } // TODO: add Composite Unit Structures or modify single unit structures so that they do the same
 
             worldStructureList.getItems().add(structure);
+            main.selectedStructureProperty().set(structure);
         }
     }
 
@@ -154,6 +155,7 @@ public class StructureOverviewController
             }
 
             templateStructureList.getItems().add(structure);
+            main.selectedStructureProperty().set(structure);
         }
     }
 
@@ -254,6 +256,7 @@ public class StructureOverviewController
                 new ArrayList<>());
 
         main.getWorldStructureData().add(structure);
+        main.selectedStructureProperty().set(structure);
     }
 
     @FXML
@@ -267,6 +270,7 @@ public class StructureOverviewController
                 0.0, 0.0, 0.0);
 
         main.getWorldStructureData().add(powerPlant);
+        main.selectedStructureProperty().set(powerPlant);
     }
 
     @FXML
@@ -282,6 +286,7 @@ public class StructureOverviewController
                 new ArrayList<>());
 
         main.getTemplateStructureData().add(structure);
+        main.selectedStructureProperty().set(structure);
     }
 
     @FXML
@@ -295,6 +300,7 @@ public class StructureOverviewController
                 0.0, 0.0, 0.0);
 
         main.getTemplateStructureData().add(powerPlant);
+        main.selectedStructureProperty().set(powerPlant);
     }
 
     @FXML

@@ -7,6 +7,7 @@ import com.projects.model.PowerPlant;
 import com.projects.model.SingleUnitStructure;
 import com.projects.model.Sprite;
 import com.projects.model.Structure;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
@@ -159,6 +160,30 @@ public class WorldViewController
     private void handleMouseReleased(MouseEvent mouseEvent)
     {
         mouseDown = false;
+
+        if (selected != null)
+        {
+            if (selected.getAnimatedSprite().getXPosition() < 0)
+            {
+                selected.getAnimatedSprite().setXPosition(0);
+            }
+            else if (selected.getAnimatedSprite().getXPosition() > worldCanvas.getWidth() - Constants.IMAGE_SIZE)
+            {
+                selected.getAnimatedSprite().setXPosition(worldCanvas.getWidth() - Constants.IMAGE_SIZE);
+            }
+
+            if (selected.getAnimatedSprite().getYPosition() < 0)
+            {
+                selected.getAnimatedSprite().setYPosition(0);
+            }
+            else if (selected.getAnimatedSprite().getYPosition() > worldCanvas.getHeight() - Constants.IMAGE_SIZE)
+            {
+                selected.getAnimatedSprite().setYPosition(worldCanvas.getHeight() - Constants.IMAGE_SIZE);
+            }
+
+            selectionSprite.setXPosition((selected.getAnimatedSprite().getXPosition() + selected.getAnimatedSprite().getImage().getWidth() / 2) - selectionSprite.getImage().getWidth() / 2);
+            selectionSprite.setYPosition((selected.getAnimatedSprite().getYPosition() + selected.getAnimatedSprite().getImage().getHeight() / 2) - selectionSprite.getImage().getHeight() / 2);
+        }
     }
 
     public void setMain(Main main)
