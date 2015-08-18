@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Dan on 8/12/2015.
  */
-public class SingleUnitStructure extends Structure
+public class Building extends Structure
 {
     protected ObservableList<Appliance> appliances;
     protected ObservableList<EnergySource> energySources;
@@ -20,17 +20,17 @@ public class SingleUnitStructure extends Structure
     private ObservableList<ObservableList<Float>> loadProfilesForWeek;
     private DemandState demandState = DemandState.LOW;
 
-    public SingleUnitStructure(SingleUnitStructure singleUnitStructure)
+    public Building(Building building)
     {
-        super(singleUnitStructure.getName(), StructureUtil.getNextStructureId(), singleUnitStructure.getAnimatedSprite(), singleUnitStructure.getImage());
+        super(building.getName(), StructureUtil.getNextStructureId(), building.getAnimatedSprite(), building.getImage());
 
-        this.appliances = singleUnitStructure.getAppliances();
-        this.energySources = singleUnitStructure.getEnergySources();
-        this.energyStorageDevices = singleUnitStructure.getEnergyStorageDevices();
-        this.loadProfilesForWeek = singleUnitStructure.getLoadProfilesForWeek();
+        this.appliances = building.getAppliances();
+        this.energySources = building.getEnergySources();
+        this.energyStorageDevices = building.getEnergyStorageDevices();
+        this.loadProfilesForWeek = building.getLoadProfilesForWeek();
     }
 
-    public SingleUnitStructure(String name, int id, ImageType imageType, double x, double y, List<Appliance> appliances, List<EnergySource> energySources, List<EnergyStorage> energyStorageDevices)
+    public Building(String name, int id, ImageType imageType, double x, double y, List<Appliance> appliances, List<EnergySource> energySources, List<EnergyStorage> energyStorageDevices)
     {
         super(name, id, x, y, imageType);
 

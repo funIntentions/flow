@@ -3,11 +3,10 @@ package com.projects.view;
 import com.projects.Main;
 import com.projects.helper.Constants;
 import com.projects.helper.ProductionState;
+import com.projects.model.Building;
 import com.projects.model.PowerPlant;
-import com.projects.model.SingleUnitStructure;
 import com.projects.model.Sprite;
 import com.projects.model.Structure;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
@@ -59,27 +58,27 @@ public class WorldViewController
 
                 for (Structure structure : worldStructures)
                 {
-                    if (structure instanceof SingleUnitStructure)
+                    if (structure instanceof Building)
                     {
-                        SingleUnitStructure singleUnitStructure = (SingleUnitStructure)structure;
+                        Building building = (Building)structure;
 
-                        switch (singleUnitStructure.getDemandState())
+                        switch (building.getDemandState())
                         {
                             case LOW:
                             {
-                                singleUnitStructure.getAnimatedSprite().setFrame(0);
+                                building.getAnimatedSprite().setFrame(0);
                             } break;
                             case AVERAGE:
                             {
-                                singleUnitStructure.getAnimatedSprite().setFrame(1);
+                                building.getAnimatedSprite().setFrame(1);
                             } break;
                             case MEDIUM:
                             {
-                                singleUnitStructure.getAnimatedSprite().setFrame(2);
+                                building.getAnimatedSprite().setFrame(2);
                             } break;
                             case HIGH:
                             {
-                                singleUnitStructure.getAnimatedSprite().setFrame(3);
+                                building.getAnimatedSprite().setFrame(3);
                             } break;
                         }
                     }

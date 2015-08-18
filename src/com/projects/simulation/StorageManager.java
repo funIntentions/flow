@@ -2,8 +2,8 @@ package com.projects.simulation;
 
 import com.projects.Main;
 import com.projects.helper.Constants;
+import com.projects.model.Building;
 import com.projects.model.EnergyStorage;
-import com.projects.model.SingleUnitStructure;
 import com.projects.model.Structure;
 import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaValue;
@@ -22,12 +22,12 @@ import java.util.concurrent.TimeUnit;
 public class StorageManager
 {
     private Main main;
-    private List<SingleUnitStructure> structures;
+    private List<Building> structures;
     private HashMap<Integer, List<Float>> deviceStorageProfiles;
 
     public StorageManager()
     {
-        structures = new ArrayList<SingleUnitStructure>();
+        structures = new ArrayList<Building>();
         deviceStorageProfiles = new HashMap<Integer, List<Float>>();
     }
 
@@ -43,7 +43,7 @@ public class StorageManager
             profile.clear();
         }
 
-        for (SingleUnitStructure structure : structures)
+        for (Building structure : structures)
         {
             List<EnergyStorage> storageDevices = (List)structure.getEnergyStorageDevices();
 
@@ -54,7 +54,7 @@ public class StorageManager
         }
     }
 
-    public float getStructuresStorageDemandAtTime(SingleUnitStructure structure, int time)
+    public float getStructuresStorageDemandAtTime(Building structure, int time)
     {
         List<EnergyStorage> storageDevices = (List)structure.getEnergyStorageDevices();
         float demand = 0;
@@ -124,7 +124,7 @@ public class StorageManager
 
     public void updateStorageStrategies(int day, DemandManager demandManager, StatsManager statsManager)
     {
-        for (SingleUnitStructure structure : structures)
+        for (Building structure : structures)
         {
             List<EnergyStorage> energyStorageDevices = (List)structure.getEnergyStorageDevices();
 
@@ -218,7 +218,7 @@ public class StorageManager
         deviceStorageProfiles.clear();
     }
 
-    public void addStructureStorageDevices(SingleUnitStructure structure)
+    public void addStructureStorageDevices(Building structure)
     {
         List<EnergyStorage> storageDevices = (List)structure.getEnergyStorageDevices();
 
@@ -228,7 +228,7 @@ public class StorageManager
         }
     }
 
-    public void removeStructureStorageDevices(SingleUnitStructure structure)
+    public void removeStructureStorageDevices(Building structure)
     {
         List<EnergyStorage> storageDevices = (List)structure.getEnergyStorageDevices();
 
@@ -243,7 +243,7 @@ public class StorageManager
         return deviceStorageProfiles;
     }
 
-    public boolean syncStructures(SingleUnitStructure changedStructure)
+    public boolean syncStructures(Building changedStructure)
     {
         int structureIndex = -1;
 

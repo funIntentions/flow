@@ -437,7 +437,7 @@ public class Main extends Application {
      * @param structure the structure object to be edited
      * @return true if the user clicked OK, false otherwise.
      */
-    public boolean showStructureEditDialog(SingleUnitStructure structure)
+    public boolean showStructureEditDialog(Building structure)
     {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
@@ -648,7 +648,7 @@ public class Main extends Application {
         NodeList energyStorageList = structureElement.getElementsByTagName("energyStorageDevices");
         List<EnergyStorage> energyStorageDevices = readEnergyStorageDevices(energyStorageList);
 
-        return new SingleUnitStructure(name,
+        return new Building(name,
                 StructureUtil.getNextStructureId(),
                 imageType,
                 x,
@@ -869,7 +869,7 @@ public class Main extends Application {
         if (structure instanceof PowerPlant)
             return getPowerPlantStructureNode(doc, (PowerPlant)structure);
         else
-            return getSimpleStructureNode(doc, (SingleUnitStructure)structure);
+            return getSimpleStructureNode(doc, (Building)structure);
     }
 
     private Node getPowerPlantStructureNode(Document doc, PowerPlant powerPlant)
@@ -887,7 +887,7 @@ public class Main extends Application {
         return structureNode;
     }
 
-    private Node getSimpleStructureNode(Document doc, SingleUnitStructure structure)
+    private Node getSimpleStructureNode(Document doc, Building structure)
     {
         Element structureNode = doc.createElement("simpleStructure");
 

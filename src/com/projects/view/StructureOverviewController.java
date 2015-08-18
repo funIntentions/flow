@@ -4,16 +4,14 @@ import com.projects.Main;
 import com.projects.helper.Constants;
 import com.projects.helper.ImageType;
 import com.projects.helper.StructureUtil;
-import com.projects.model.Appliance;
+import com.projects.model.Building;
 import com.projects.model.PowerPlant;
-import com.projects.model.SingleUnitStructure;
 import com.projects.model.Structure;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -126,9 +124,9 @@ public class StructureOverviewController
             {
                 structure = new PowerPlant((PowerPlant)selectedStructure);
             }
-            else //if (selectedStructure instanceof SingleUnitStructure)
+            else //if (selectedStructure instanceof Building)
             {
-                structure = new SingleUnitStructure((SingleUnitStructure)selectedStructure);
+                structure = new Building((Building)selectedStructure);
             } // TODO: add Composite Unit Structures or modify single unit structures so that they do the same
 
             worldStructureList.getItems().add(structure);
@@ -151,7 +149,7 @@ public class StructureOverviewController
             }
             else
             {
-                structure = new SingleUnitStructure((SingleUnitStructure)selectedStructure);
+                structure = new Building((Building)selectedStructure);
             }
 
             templateStructureList.getItems().add(structure);
@@ -172,7 +170,7 @@ public class StructureOverviewController
             }
             else
             {
-                main.showStructureEditDialog((SingleUnitStructure)structure);
+                main.showStructureEditDialog((Building)structure);
             }
 
             triggerWorldListUpdate(structure); // TODO: find a more elegant way
@@ -202,7 +200,7 @@ public class StructureOverviewController
             }
             else
             {
-                main.showStructureEditDialog((SingleUnitStructure)structure);
+                main.showStructureEditDialog((Building)structure);
             }
 
             triggerTemplateListUpdate(structure);
@@ -244,9 +242,9 @@ public class StructureOverviewController
     }
 
     @FXML
-    private void handleWorldCreateSingleUnitStructure()
+    private void handleWorldCreateBuildingStructure()
     {
-        SingleUnitStructure structure = new SingleUnitStructure("New Single Unit Structure",
+        Building structure = new Building("New Building",
                 StructureUtil.getNextStructureId(),
                 ImageType.HOUSE_IMAGE,
                 getRandomStructureXPosition(),
@@ -274,9 +272,9 @@ public class StructureOverviewController
     }
 
     @FXML
-    private void handleTemplateCreateSingleUnitStructure()
+    private void handleTemplateCreateBuildingStructure()
     {
-        SingleUnitStructure structure = new SingleUnitStructure("New Single Unit Structure",
+        Building structure = new Building("New Building",
                 StructureUtil.getNextStructureId(),
                 ImageType.HOUSE_IMAGE,
                 getRandomStructureXPosition(),

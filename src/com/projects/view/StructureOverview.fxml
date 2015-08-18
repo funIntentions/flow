@@ -31,8 +31,7 @@
                                                 <Button fx:id="templateRemoveButton" mnemonicParsing="false" onAction="#handleTemplateRemoveStructure" text="Remove" />
                                                 <MenuButton fx:id="templateCreateButton" mnemonicParsing="false" text="Create">
                                                   <items>
-                                                    <MenuItem mnemonicParsing="false" onAction="#handleTemplateCreateSingleUnitStructure" text="Single Unit Structure" />
-                                                    <MenuItem mnemonicParsing="false" text="Composite Unit Structure" />
+                                                    <MenuItem mnemonicParsing="false" onAction="#handleTemplateCreateBuildingStructure" text="Building" />
                                                       <MenuItem mnemonicParsing="false" onAction="#handleTemplateCreatePowerPlantStructure" text="Power Plant" />
                                                   </items>
                                                 </MenuButton>
@@ -54,8 +53,7 @@
                                                 <Button fx:id="worldRemoveButton" mnemonicParsing="false" onAction="#handleWorldRemoveStructure" text="Remove" />
                                                 <MenuButton fx:id="worldCreateButton" mnemonicParsing="false" text="Create">
                                                    <items>
-                                                      <MenuItem mnemonicParsing="false" onAction="#handleWorldCreateSingleUnitStructure" text="Single Unit Structure" />
-                                                      <MenuItem mnemonicParsing="false" text="Composite Unit Structure" />
+                                                      <MenuItem mnemonicParsing="false" onAction="#handleWorldCreateBuildingStructure" text="Building" />
                                                       <MenuItem mnemonicParsing="false" onAction="#handleWorldCreatePowerPlantStructure" text="Power Plant" />
                                                    </items>
                                                 </MenuButton>

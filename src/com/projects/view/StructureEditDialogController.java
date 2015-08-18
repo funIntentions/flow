@@ -5,7 +5,7 @@ import com.projects.helper.DeviceUtil;
 import com.projects.helper.Utils;
 import com.projects.model.Appliance;
 import com.projects.model.EnergyStorage;
-import com.projects.model.SingleUnitStructure;
+import com.projects.model.Building;
 import com.projects.model.TimeSpan;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
@@ -111,7 +111,7 @@ public class StructureEditDialogController
     private HashMap<String, String> storageStrategies;
 
     private Stage dialogStage = null;
-    private SingleUnitStructure structure = null;
+    private Building structure = null;
     private boolean okClicked = false;
 
     /**
@@ -182,7 +182,7 @@ public class StructureEditDialogController
         this.dialogStage = dialogStage;
     }
 
-    public void setStructure(SingleUnitStructure structure)
+    public void setStructure(Building structure)
     {
         this.structure = structure;
         structureNameField.setText(structure.getName());

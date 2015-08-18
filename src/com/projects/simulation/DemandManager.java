@@ -3,10 +3,9 @@ package com.projects.simulation;
 import com.projects.Main;
 import com.projects.helper.Constants;
 import com.projects.helper.DemandState;
-import com.projects.model.SingleUnitStructure;
+import com.projects.model.Building;
 import com.projects.model.Structure;
 
-import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class DemandManager
 {
-    private List<SingleUnitStructure> structures;
+    private List<Building> structures;
     private HashMap<Integer, Float> structureExpenses;
     private HashMap<Integer, Float> structureEnvironmentalImpact;
     private HashMap<Integer, List<Float>> structureDemandProfiles;
@@ -34,7 +33,7 @@ public class DemandManager
     {
         structureExpenses = new HashMap<>();
         structureEnvironmentalImpact = new HashMap<>();
-        structures = new ArrayList<SingleUnitStructure>();
+        structures = new ArrayList<Building>();
         structureDemandProfiles = new HashMap<Integer, List<Float>>();
         demandProfileForToday = new ArrayList<Integer>();
         timeOverflow = 0;
@@ -46,8 +45,8 @@ public class DemandManager
 
         main.selectedStructureProperty().addListener((observable, oldValue, newValue) ->
         {
-            if (newValue instanceof SingleUnitStructure)
-                main.getStructureDetailsPaneController().setStructureData(newValue, ((SingleUnitStructure)newValue).getLoadProfilesForWeek());
+            if (newValue instanceof Building)
+                main.getStructureDetailsPaneController().setStructureData(newValue, ((Building)newValue).getLoadProfilesForWeek());
             else
                 main.getStructureDetailsPaneController().setStructureData(newValue, new ArrayList<>());
         });
@@ -66,7 +65,7 @@ public class DemandManager
         for (int time = 0; time < Constants.MINUTES_IN_DAY; ++time)
         {
             demandSum = 0;
-            for (SingleUnitStructure structure : structures)
+            for (Building structure : structures)
             {
                 List<Float> loadProfile = structure.getLoadProfilesForWeek().get(day);
 
@@ -92,7 +91,7 @@ public class DemandManager
     {
         structureDemandProfiles.clear();
 
-        for (SingleUnitStructure structure : structures)
+        for (Building structure : structures)
         {
             List<Float> loadProfile = structure.getLoadProfilesForWeek().get(day);
             List<Float> demandProfile = new ArrayList<Float>();
@@ -224,7 +223,7 @@ public class DemandManager
 
     private void updateDemandStates(int minutesElapsedToday)
     {
-        for (SingleUnitStructure structure : structures)
+        for (Building structure : structures)
         {
             List<Float> demandProfile = structureDemandProfiles.get(structure.getId());
             float structuresDemandAtTime = demandProfile.get(minutesElapsedToday);
@@ -250,9 +249,9 @@ public class DemandManager
 
     public void resetDemandStates()
     {
-        for (SingleUnitStructure singleUnitStructure : structures)
+        for (Building building : structures)
         {
-            singleUnitStructure.setDemandState(DemandState.LOW);
+            building.setDemandState(DemandState.LOW);
         }
     }
 
@@ -284,7 +283,7 @@ public class DemandManager
         structures.clear();
     }
 
-    public boolean syncStructures(SingleUnitStructure changedStructure)
+    public boolean syncStructures(Building changedStructure)
     {
         int structureIndex = -1;
 
@@ -341,7 +340,7 @@ public class DemandManager
         return demandProfileForToday;
     }
 
-    public List<SingleUnitStructure> getStructures()
+    public List<Building> getStructures()
     {
         return structures;
     }

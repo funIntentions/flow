@@ -3,7 +3,7 @@ package com.projects.simulation;
 import com.projects.Main;
 import com.projects.helper.Constants;
 import com.projects.helper.SimulationState;
-import com.projects.model.SingleUnitStructure;
+import com.projects.model.Building;
 import com.projects.model.Structure;
 import com.projects.model.WorldTimer;
 import javafx.application.Platform;
@@ -59,17 +59,17 @@ public class World
     {
         structures.put(structure.getId(), structure);
 
-        if (structure instanceof SingleUnitStructure && demandManager.syncStructures((SingleUnitStructure)structure))
+        if (structure instanceof Building && demandManager.syncStructures((Building)structure))
         {
             if (structure.getId() == main.selectedWorldStructureProperty().get().getId())
             {
-                main.getStructureDetailsPaneController().setStructureData(structure, ((SingleUnitStructure) structure).getLoadProfilesForWeek());
+                main.getStructureDetailsPaneController().setStructureData(structure, ((Building) structure).getLoadProfilesForWeek());
             }
         }
 
-        if (structure instanceof SingleUnitStructure)
+        if (structure instanceof Building)
         {
-            storageManager.syncStructures((SingleUnitStructure)structure);
+            storageManager.syncStructures((Building)structure);
         }
 
         if (supplyManager.syncStructures(structure))
