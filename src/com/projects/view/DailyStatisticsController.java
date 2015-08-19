@@ -158,6 +158,7 @@ public class DailyStatisticsController
                 case FINISHED:
                 {
                     datePickerForSelectedDate.setDisable(false);
+                    datePickerForSelectedDate.setValue(main.getStartDate());
                 }
             }
         });

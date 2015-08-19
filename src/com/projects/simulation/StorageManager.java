@@ -5,12 +5,21 @@ import com.projects.helper.Constants;
 import com.projects.model.Building;
 import com.projects.model.EnergyStorage;
 import com.projects.model.Structure;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.luaj.vm2.lib.jse.JsePlatform;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,58 +77,6 @@ public class StorageManager
         }
 
         return demand;
-    }
-
-    public void runStorageStrategyTestOne(DemandManager demandManager, StatsManager statsManager, EnergyStorage storage)
-    {
-        // Strategy example, store when electricity has a low cost and then use that power when it's a highDemandPrice
-        List<Integer> previousDaysDemandProfiles = demandManager.getDemandProfileForToday();
-        List<Float> storageProfile = deviceStorageProfiles.get(storage.getId());
-
-        float averageDemand = 0;
-
-        for (Integer demand : previousDaysDemandProfiles)
-        {
-            averageDemand += demand;
-        }
-
-        averageDemand /= previousDaysDemandProfiles.size();
-
-        float priceForAverageDemand = statsManager.getPriceForDemand((int)Math.floor(averageDemand));
-
-        for (int time = 0; time < previousDaysDemandProfiles.size(); ++time)
-        {
-            int demand = previousDaysDemandProfiles.get(time);
-            float priceForDemand = statsManager.getPriceForDemand(demand);
-            float chargeAmount = 0;
-
-            if (priceForDemand < priceForAverageDemand
-                    && storage.getStoredEnergy() < storage.getStorageCapacity())
-            {
-                chargeAmount = (float)(storage.getChargingRate()/ TimeUnit.HOURS.toMinutes(1));
-                if (storage.getStorageCapacity() < storage.getStoredEnergy() + chargeAmount)
-                {
-                    chargeAmount = (float)(storage.getStorageCapacity() - storage.getStoredEnergy());
-                }
-
-                storage.setStoredEnergy(storage.getStoredEnergy() + chargeAmount);
-            }
-            else if (priceForDemand > priceForAverageDemand
-                    && storage.getStoredEnergy() > 0)
-            {
-                chargeAmount = -(float)(storage.getChargingRate()/ TimeUnit.HOURS.toMinutes(1));
-                if (0 > storage.getStoredEnergy() + chargeAmount)
-                {
-                    chargeAmount = -(float)(storage.getStoredEnergy());
-                }
-
-                storage.setStoredEnergy(storage.getStoredEnergy() + chargeAmount);
-            }
-
-            storageProfile.add(chargeAmount);
-        }
-
-        deviceStorageProfiles.put(storage.getId(), storageProfile);
     }
 
     public void updateStorageStrategies(int day, DemandManager demandManager, StatsManager statsManager)
@@ -184,18 +141,66 @@ public class StorageManager
             Varargs varargs = LuaValue.varargsOf(luaValues);
 
             LuaValue strategize = luaGlobals.get("strategize");
-            if (!strategize.isnil()) {
+
+            if (!strategize.isnil())
+            {
                 strategize.invoke(varargs);
-            } else {
+            }
+            else
+            {
                 System.out.println("Lua function not found");
             }
-        } catch (LuaError e){
-            e.printStackTrace();
+        }
+        catch (LuaError error)
+        {
+            Platform.runLater(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    displayLuaExceptionDialog(error, script);
+                }
+            });
         }
 
         List<Float> newStorageProfile = newStorageProfileWrapper.storageProfile;
 
         deviceStorageProfiles.put(storageDevice.getId(), newStorageProfile);
+    }
+
+    private void displayLuaExceptionDialog(LuaError error, String script)
+    {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Exception");
+        alert.setHeaderText("Error in Script");
+        alert.setContentText("A problem occurred while trying to run " + script + " as a storage strategy.");
+
+        // Create expandable Exception.
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        error.printStackTrace(pw);
+        String exceptionText = sw.toString();
+
+        Label label = new Label("Stacktrace:");
+
+        TextArea textArea = new TextArea(exceptionText);
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+
+        textArea.setMaxWidth(Double.MAX_VALUE);
+        textArea.setMaxHeight(Double.MAX_VALUE);
+        GridPane.setVgrow(textArea, Priority.ALWAYS);
+        GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+        GridPane expContent = new GridPane();
+        expContent.setMaxWidth(Double.MAX_VALUE);
+        expContent.add(label, 0, 0);
+        expContent.add(textArea, 0, 1);
+
+        // Set expandable Exception into the dialog pane.
+        alert.getDialogPane().setExpandableContent(expContent);
+
+        alert.showAndWait();
     }
 
     public boolean removeStructure(Structure structureToRemove)

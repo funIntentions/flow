@@ -93,6 +93,28 @@ public class StructureOverviewController
         }
     }
 
+    private void alertNoTemplateStructureSelected()
+    {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.initOwner(main.getPrimaryStage());
+        alert.setTitle("No Selection");
+        alert.setHeaderText("No Structure Selected");
+        alert.setContentText("Please select a structure from the template structures list.");
+
+        alert.showAndWait();
+    }
+
+    private void alertNoWorldStructureSelected()
+    {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.initOwner(main.getPrimaryStage());
+        alert.setTitle("No Selection");
+        alert.setHeaderText("No Structure Selected");
+        alert.setContentText("Please select a structure from the world structures list.");
+
+        alert.showAndWait();
+    }
+
     @FXML
     private void handleWorldRemoveStructure()
     {
@@ -100,6 +122,8 @@ public class StructureOverviewController
 
         if (selectedIndex >= 0)
             worldStructureList.getItems().remove(selectedIndex);
+        else
+            alertNoWorldStructureSelected();
     }
 
     @FXML
@@ -109,6 +133,8 @@ public class StructureOverviewController
 
         if (selectedIndex >= 0)
             templateStructureList.getItems().remove(selectedIndex);
+        else
+            alertNoTemplateStructureSelected();
     }
 
     @FXML
@@ -132,6 +158,8 @@ public class StructureOverviewController
             worldStructureList.getItems().add(structure);
             main.selectedStructureProperty().set(structure);
         }
+        else
+            alertNoTemplateStructureSelected();
     }
 
     @FXML
@@ -155,6 +183,8 @@ public class StructureOverviewController
             templateStructureList.getItems().add(structure);
             main.selectedStructureProperty().set(structure);
         }
+        else
+            alertNoWorldStructureSelected();
     }
 
     @FXML
@@ -176,15 +206,7 @@ public class StructureOverviewController
             triggerWorldListUpdate(structure); // TODO: find a more elegant way
         }
         else
-        {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.initOwner(main.getPrimaryStage());
-            alert.setTitle("No Selection");
-            alert.setHeaderText("No Structure Selected");
-            alert.setContentText("Please select a structure in the table.");
-
-            alert.showAndWait();
-        }
+            alertNoWorldStructureSelected();
     }
 
     @FXML
@@ -206,15 +228,7 @@ public class StructureOverviewController
             triggerTemplateListUpdate(structure);
         }
         else
-        {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.initOwner(main.getPrimaryStage());
-            alert.setTitle("No Selection");
-            alert.setHeaderText("No Structure Selected");
-            alert.setContentText("Please select a structure in the table.");
-
-            alert.showAndWait();
-        }
+            alertNoTemplateStructureSelected();
     }
 
     private void triggerWorldListUpdate(Structure structure)
