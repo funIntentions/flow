@@ -711,8 +711,8 @@
 <worldStructures>
 <simpleStructure>
 <name>Winter Home With Storage</name>
-<x>97.0</x>
-<y>239.0</y>
+<x>35.0</x>
+<y>118.0</y>
 <sprite>0</sprite>
 <appliances>
 <appliance>
@@ -874,9 +874,9 @@
 </simpleStructure>
 <powerPlant>
 <name>Hydro Power Plant</name>
-<x>432.0</x>
-<y>241.0</y>
-<sprite>1</sprite>
+<x>157.0</x>
+<y>161.0</y>
+<sprite>7</sprite>
 <emissionRate>10.0</emissionRate>
 <cost>0.035</cost>
 <capacity>6000.0</capacity>

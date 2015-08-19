@@ -452,7 +452,7 @@ public class Main extends Application {
      * @param structure the structure object to be edited
      * @return true if the user clicked OK, false otherwise.
      */
-    public boolean showStructureEditDialog(Building structure)
+    public boolean showBuildingEditDialog(Building structure)
     {
         try
         {
@@ -463,7 +463,7 @@ public class Main extends Application {
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit Structure");
+            dialogStage.setTitle("Edit Building");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);

@@ -199,7 +199,7 @@ public class StructureOverviewController
             }
             else
             {
-                main.showStructureEditDialog((Building)structure);
+                main.showBuildingEditDialog((Building) structure);
             }
 
             triggerWorldListUpdate(structure); // TODO: find a more elegant way
@@ -221,7 +221,7 @@ public class StructureOverviewController
             }
             else
             {
-                main.showStructureEditDialog((Building)structure);
+                main.showBuildingEditDialog((Building) structure);
             }
 
             triggerTemplateListUpdate(structure);
