@@ -2,7 +2,6 @@ package com.projects.view;
 
 import com.projects.Main;
 import com.projects.helper.Constants;
-import com.projects.helper.ImageType;
 import com.projects.helper.StructureUtil;
 import com.projects.model.Building;
 import com.projects.model.PowerPlant;
@@ -260,9 +259,9 @@ public class StructureOverviewController
     {
         Building structure = new Building("New Building",
                 StructureUtil.getNextStructureId(),
-                ImageType.HOUSE_IMAGE,
                 getRandomStructureXPosition(),
                 getRandomStructureYPosition(),
+                main.getBuildingSprites().get(0),
                 new ArrayList<>(),
                 new ArrayList<>(),
                 new ArrayList<>());
@@ -276,9 +275,9 @@ public class StructureOverviewController
     {
         PowerPlant powerPlant = new PowerPlant("New Power Plant",
                 StructureUtil.getNextStructureId(),
-                ImageType.POWER_PLANT_IMAGE,
                 getRandomStructureXPosition(),
                 getRandomStructureYPosition(),
+                main.getPowerPlantSprites().get(1),
                 0.0, 0.0, 0.0);
 
         main.getWorldStructureData().add(powerPlant);
@@ -290,9 +289,9 @@ public class StructureOverviewController
     {
         Building structure = new Building("New Building",
                 StructureUtil.getNextStructureId(),
-                ImageType.HOUSE_IMAGE,
                 getRandomStructureXPosition(),
                 getRandomStructureYPosition(),
+                main.getBuildingSprites().get(0),
                 new ArrayList<>(),
                 new ArrayList<>(),
                 new ArrayList<>());
@@ -306,9 +305,9 @@ public class StructureOverviewController
     {
         PowerPlant powerPlant = new PowerPlant("New Power Plant",
                 StructureUtil.getNextStructureId(),
-                ImageType.POWER_PLANT_IMAGE,
                 getRandomStructureXPosition(),
                 getRandomStructureYPosition(),
+                main.getPowerPlantSprites().get(1),
                 0.0, 0.0, 0.0);
 
         main.getTemplateStructureData().add(powerPlant);

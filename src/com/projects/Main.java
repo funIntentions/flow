@@ -74,7 +74,9 @@ public class Main extends Application {
 
     public Main()
     {
-        Structure structure = new Structure("Temp", -1, -1, -1, ImageType.HOUSE_IMAGE);
+        List<Image> images = new ArrayList<>();
+        images.add(new Image("/images/Selection.png"));
+        Structure structure = new Structure("Temp", -1, -1, -1, new AnimatedSprite(-1, images, -1, -1, -1));
         selectedTemplateStructure = new SimpleObjectProperty<>(structure);
         selectedWorldStructure = new SimpleObjectProperty<>(structure);
         selectedStructure = new SimpleObjectProperty<>(structure);
@@ -259,9 +261,9 @@ public class Main extends Application {
         this.primaryStage.setTitle("Working Title");
 
         world.setMain(this);
+        readSpriteData();
         initRootLayout();
         world.resetSimulation();
-        readSpriteData();
     }
 
     public void reset()
@@ -697,7 +699,7 @@ public class Main extends Application {
                 Node structureNode = structures.item(i);
                 if (structureNode.getNodeType() == Node.ELEMENT_NODE)
                 {
-                   structureList.add(readSimpleStructure(structureNode));
+                   structureList.add(readBuilding(structureNode));
                 }
             }
 
@@ -719,20 +721,14 @@ public class Main extends Application {
         return structureList;
     }
 
-    public Structure readSimpleStructure(Node structureNode)
+    public Structure readBuilding(Node structureNode)
     {
         Element structureElement = (Element)structureNode;
 
         String name = getElementStringFromTag(structureElement, "name");
         Double x = Double.valueOf(getElementStringFromTag(structureElement, "x"));
         Double y = Double.valueOf(getElementStringFromTag(structureElement, "y"));
-        String image = getElementStringFromTag(structureElement, "image");
-
-        ImageType imageType = ImageType.HOUSE_IMAGE;
-        if (Utils.isInEnum(image, ImageType.class))
-        {
-            imageType = ImageType.valueOf(image);
-        }
+        Integer sprite = Integer.valueOf(getElementStringFromTag(structureElement, "sprite"));
 
         NodeList applianceList = structureElement.getElementsByTagName("appliances");
         List<Appliance> appliances = readAppliances(applianceList);
@@ -743,9 +739,9 @@ public class Main extends Application {
 
         return new Building(name,
                 StructureUtil.getNextStructureId(),
-                imageType,
                 x,
                 y,
+                buildingSprites.get(sprite),
                 appliances,
                 energySources,
                 energyStorageDevices);
@@ -758,18 +754,12 @@ public class Main extends Application {
         String name = getElementStringFromTag(structureElement, "name");
         Double x = Double.valueOf(getElementStringFromTag(structureElement, "x"));
         Double y = Double.valueOf(getElementStringFromTag(structureElement, "y"));
-        String image = getElementStringFromTag(structureElement, "image");
+        Integer sprite = Integer.valueOf(getElementStringFromTag(structureElement, "sprite"));
         Double emissionRate = Double.parseDouble(getElementStringFromTag(structureElement, "emissionRate"));
         Double cost = Double.parseDouble(getElementStringFromTag(structureElement, "cost"));
         Double capacity = Double.parseDouble(getElementStringFromTag(structureElement, "capacity"));
 
-        ImageType imageType = ImageType.POWER_PLANT_IMAGE;
-        if (Utils.isInEnum(image, ImageType.class))
-        {
-            imageType = ImageType.valueOf(image);
-        }
-
-        return new PowerPlant(name, StructureUtil.getNextStructureId(), imageType, x, y, emissionRate, cost, capacity);
+        return new PowerPlant(name, StructureUtil.getNextStructureId(), x, y, powerPlantSprites.get(sprite), emissionRate, cost, capacity);
     }
 
     private String getElementStringFromTag(Element parent, String tag)
@@ -962,7 +952,7 @@ public class Main extends Application {
         if (structure instanceof PowerPlant)
             return getPowerPlantStructureNode(doc, (PowerPlant)structure);
         else
-            return getSimpleStructureNode(doc, (Building)structure);
+            return getBuildingNode(doc, (Building) structure);
     }
 
     private Node getPowerPlantStructureNode(Document doc, PowerPlant powerPlant)
@@ -972,7 +962,7 @@ public class Main extends Application {
         structureNode.appendChild(getElement(doc, "name", powerPlant.getName()));
         structureNode.appendChild(getElement(doc, "x", String.valueOf(powerPlant.getAnimatedSprite().getXPosition())));
         structureNode.appendChild(getElement(doc, "y", String.valueOf(powerPlant.getAnimatedSprite().getYPosition())));
-        structureNode.appendChild(getElement(doc, "image", String.valueOf(powerPlant.getImage())));
+        structureNode.appendChild(getElement(doc, "sprite", String.valueOf(powerPlant.getAnimatedSprite().getId())));
         structureNode.appendChild(getElement(doc, "emissionRate", String.valueOf(powerPlant.getEmissionRate())));
         structureNode.appendChild(getElement(doc, "cost", String.valueOf(powerPlant.getCost())));
         structureNode.appendChild(getElement(doc, "capacity", String.valueOf(powerPlant.getCapacity())));
@@ -980,14 +970,14 @@ public class Main extends Application {
         return structureNode;
     }
 
-    private Node getSimpleStructureNode(Document doc, Building structure)
+    private Node getBuildingNode(Document doc, Building structure)
     {
         Element structureNode = doc.createElement("simpleStructure");
 
         structureNode.appendChild(getElement(doc, "name", structure.getName()));
         structureNode.appendChild(getElement(doc, "x", String.valueOf(structure.getAnimatedSprite().getXPosition())));
         structureNode.appendChild(getElement(doc, "y", String.valueOf(structure.getAnimatedSprite().getYPosition())));
-        structureNode.appendChild(getElement(doc, "image", String.valueOf(structure.getImage())));
+        structureNode.appendChild(getElement(doc, "sprite", String.valueOf(structure.getAnimatedSprite().getId())));
 
         Element appliances = doc.createElement("appliances");
         List<Appliance> applianceList = structure.getAppliances();

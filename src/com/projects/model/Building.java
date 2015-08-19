@@ -2,7 +2,6 @@ package com.projects.model;
 
 import com.projects.helper.Constants;
 import com.projects.helper.DemandState;
-import com.projects.helper.ImageType;
 import com.projects.helper.StructureUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,7 +21,7 @@ public class Building extends Structure
 
     public Building(Building building)
     {
-        super(building.getName(), StructureUtil.getNextStructureId(), building.getAnimatedSprite(), building.getImage());
+        super(building.getName(), StructureUtil.getNextStructureId(), building.getAnimatedSprite());
 
         this.appliances = building.getAppliances();
         this.energySources = building.getEnergySources();
@@ -30,9 +29,9 @@ public class Building extends Structure
         this.loadProfilesForWeek = building.getLoadProfilesForWeek();
     }
 
-    public Building(String name, int id, ImageType imageType, double x, double y, List<Appliance> appliances, List<EnergySource> energySources, List<EnergyStorage> energyStorageDevices)
+    public Building(String name, int id, double x, double y, AnimatedSprite animatedSprite, List<Appliance> appliances, List<EnergySource> energySources, List<EnergyStorage> energyStorageDevices)
     {
-        super(name, id, x, y, imageType);
+        super(name, id, x, y, animatedSprite);
 
         this.appliances = FXCollections.observableArrayList(appliances);
         this.energySources = FXCollections.observableArrayList(energySources);

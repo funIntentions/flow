@@ -1,15 +1,9 @@
 package com.projects.model;
 
-import com.projects.helper.Constants;
-import com.projects.helper.ImageType;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.scene.image.Image;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Dan on 7/27/2015.
@@ -18,43 +12,22 @@ public class Structure
 {
     protected StringProperty name;
     protected IntegerProperty id;
-    protected ImageType image;
     protected AnimatedSprite animatedSprite;
 
-    public Structure(String name, int id, AnimatedSprite animatedSprite, ImageType image)
+    public Structure(String name, int id, AnimatedSprite animatedSprite)
     {
         this.name = new SimpleStringProperty(name);
         this.id = new SimpleIntegerProperty(id);
-        this.image = image;
         this.animatedSprite = new AnimatedSprite(animatedSprite);
     }
 
-    public Structure(String name, int id, double x, double y, ImageType image)
+    public Structure(String name, int id, double x, double y, AnimatedSprite animatedSprite)
     {
         this.name = new SimpleStringProperty(name);
         this.id = new SimpleIntegerProperty(id);
-        this.image = image;
-
-        List<Image> images = new ArrayList<>();
-
-        if (image == ImageType.HOUSE_IMAGE)
-        {
-            for (int i = 0; i < 4; ++i)
-            {
-                images.add(new Image("/images/House_" + i + ".png"));
-            }
-
-            this.animatedSprite = new AnimatedSprite(0, images, x, y, 0);
-        }
-        else
-        {
-            for (int i = 0; i < 6; ++i)
-            {
-                images.add(new Image("/images/PowerPlant_" + i + ".png"));
-            }
-
-            this.animatedSprite = new AnimatedSprite(1, images, x, y, 0.4);
-        }
+        this.animatedSprite = new AnimatedSprite(animatedSprite);
+        this.animatedSprite.setXPosition(x);
+        this.animatedSprite.setYPosition(y);
     }
 
     public String getName()
@@ -85,16 +58,6 @@ public class Structure
     public void setId(int id)
     {
         this.id.set(id);
-    }
-
-    public ImageType getImage()
-    {
-        return image;
-    }
-
-    public void setImage(ImageType image)
-    {
-        this.image = image;
     }
 
     public AnimatedSprite getAnimatedSprite()
