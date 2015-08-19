@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projects.view.StructureEditDialogController">
    <children>
       <SplitPane dividerPositions="0.5" layoutX="200.0" layoutY="120.0" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -17,11 +19,20 @@
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Label prefHeight="17.0" text="Structure's Name: " GridPane.halignment="CENTER" />
-                              <TextField fx:id="structureNameField" GridPane.columnIndex="1" />
+                              <Label prefHeight="17.0" text="Structure's Name: " GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                              <TextField fx:id="structureNameField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <ComboBox fx:id="structureSpriteComboBox" GridPane.halignment="CENTER">
+                                 <GridPane.margin>
+                                    <Insets bottom="8.0" top="8.0" />
+                                 </GridPane.margin>
+                              </ComboBox>
+                              <Label text="Number of Units" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>
                            <padding>
                               <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />

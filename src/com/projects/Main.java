@@ -476,6 +476,7 @@ public class Main extends Application {
 
             readStorageStrategies();
             controller.setStorageStrategies(storageStrategyScripts);
+            controller.setStructureSprites(buildingSprites);
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
@@ -517,6 +518,7 @@ public class Main extends Application {
             PowerPlantEditDialogController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setPowerPlant(powerPlant);
+            controller.setSprites(powerPlantSprites);
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();

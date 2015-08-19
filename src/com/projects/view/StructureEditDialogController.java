@@ -3,10 +3,7 @@ package com.projects.view;
 import com.projects.helper.Constants;
 import com.projects.helper.DeviceUtil;
 import com.projects.helper.Utils;
-import com.projects.model.Appliance;
-import com.projects.model.EnergyStorage;
-import com.projects.model.Building;
-import com.projects.model.TimeSpan;
+import com.projects.model.*;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,19 +11,27 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.converter.LocalTimeStringConverter;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Dan on 7/28/2015.
  */
 public class StructureEditDialogController
 {
+
+    @FXML
+    private ComboBox<AnimatedSprite> structureSpriteComboBox;
+
     @FXML
     private TextField structureNameField;
 
@@ -169,6 +174,37 @@ public class StructureEditDialogController
         energyStorageDevices = FXCollections.observableArrayList(energyStorage -> new Observable[] {energyStorage.nameProperty()});
         energyStorageList.setItems(energyStorageDevices);
 
+        structureSpriteComboBox.setCellFactory(new Callback<ListView<AnimatedSprite>, ListCell<AnimatedSprite>>()
+        {
+            @Override
+            public ListCell<AnimatedSprite> call(ListView<AnimatedSprite> p)
+            {
+                return new ListCell<AnimatedSprite>()
+                {
+                    private ImageView imageView = new ImageView();
+                    {
+                        setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                    }
+
+                    @Override
+                    protected void updateItem(AnimatedSprite item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item == null || empty)
+                        {
+                            setGraphic(null);
+                        }
+                        else
+                        {
+                            imageView.setImage(item.getAnimation().getFrames().get(0));
+                            setGraphic(imageView);
+                        }
+                    }
+                };
+            }
+        });
+        structureSpriteComboBox.setButtonCell(structureSpriteComboBox.getCellFactory().call(null));
+
         storageStrategies = new HashMap<>();
     }
 
@@ -190,6 +226,12 @@ public class StructureEditDialogController
         appliances.addAll(structure.getAppliances());
         energyStorageDevices.clear();
         energyStorageDevices.addAll(structure.getEnergyStorageDevices());
+    }
+
+    public void setStructureSprites(HashMap<Integer, AnimatedSprite> sprites)
+    {
+        structureSpriteComboBox.setItems(FXCollections.observableArrayList(sprites.values()));
+        structureSpriteComboBox.getSelectionModel().select(0);
     }
 
     public void setStorageStrategies(HashMap<String, String> storageStrategies)
@@ -465,6 +507,11 @@ public class StructureEditDialogController
             structure.setName(structureNameField.getText());
             structure.setAppliances(appliances);
             structure.setEnergyStorageDevices(energyStorageDevices);
+
+            AnimatedSprite animatedSprite = new AnimatedSprite(structureSpriteComboBox.getValue());
+            animatedSprite.setXPosition(structure.getAnimatedSprite().getXPosition());
+            animatedSprite.setYPosition(structure.getAnimatedSprite().getYPosition());
+            structure.setAnimatedSprite(animatedSprite);
 
             okClicked = true;
             dialogStage.close();

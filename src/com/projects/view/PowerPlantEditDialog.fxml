@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="260.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projects.view.PowerPlantEditDialogController">
    <children>
       <BorderPane layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="260.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -18,16 +20,22 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label text="Name:" />
-                  <Label text="Emission Rate:" GridPane.rowIndex="1" />
-                  <Label text="Cost: " GridPane.rowIndex="2" />
-                  <Label text="Capacity: " GridPane.rowIndex="3" />
-                  <TextField fx:id="emissionRateField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField fx:id="costField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField fx:id="capacityField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <TextField fx:id="powerPlantNameField" GridPane.columnIndex="1" />
+                  <Label text="Name:" GridPane.rowIndex="1" />
+                  <Label text="Emission Rate:" GridPane.rowIndex="2" />
+                  <Label text="Cost: " GridPane.rowIndex="3" />
+                  <Label text="Capacity: " GridPane.rowIndex="4" />
+                  <TextField fx:id="emissionRateField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="costField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="capacityField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <TextField fx:id="powerPlantNameField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ComboBox fx:id="powerPlantSpriteComboBox" GridPane.halignment="CENTER">
+                     <GridPane.margin>
+                        <Insets bottom="8.0" top="8.0" />
+                     </GridPane.margin>
+                  </ComboBox>
                </children>
                <padding>
                   <Insets left="20.0" right="20.0" />

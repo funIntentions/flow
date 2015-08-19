@@ -1,16 +1,24 @@
 package com.projects.view;
 
+import com.projects.model.AnimatedSprite;
 import com.projects.model.PowerPlant;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+
+import java.util.HashMap;
 
 /**
  * Created by Dan on 7/30/2015.
  */
 public class PowerPlantEditDialogController
 {
+    @FXML
+    private ComboBox<AnimatedSprite> powerPlantSpriteComboBox;
+
     @FXML
     private TextField powerPlantNameField;
 
@@ -27,6 +35,37 @@ public class PowerPlantEditDialogController
     private PowerPlant powerPlant = null;
     private boolean okClicked = false;
 
+    @FXML
+    private void initialize()
+    {
+        powerPlantSpriteComboBox.setCellFactory(new Callback<ListView<AnimatedSprite>, ListCell<AnimatedSprite>>() {
+            @Override
+            public ListCell<AnimatedSprite> call(ListView<AnimatedSprite> p) {
+                return new ListCell<AnimatedSprite>() {
+                    private ImageView imageView = new ImageView();
+
+                    {
+                        setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                    }
+
+                    @Override
+                    protected void updateItem(AnimatedSprite item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item == null || empty) {
+                            setGraphic(null);
+                        } else {
+                            imageView.setImage(item.getAnimation().getFrames().get(0));
+                            setGraphic(imageView);
+                        }
+                    }
+                };
+            }
+        });
+
+        powerPlantSpriteComboBox.setButtonCell(powerPlantSpriteComboBox.getCellFactory().call(null));
+    }
+
     public void setPowerPlant(PowerPlant powerPlant)
     {
         this.powerPlant = powerPlant;
@@ -34,6 +73,12 @@ public class PowerPlantEditDialogController
         emissionRateField.setText(String.valueOf(powerPlant.getEmissionRate()));
         costField.setText(String.valueOf(powerPlant.getCost()));
         capacityField.setText(String.valueOf(powerPlant.getCapacity()));
+    }
+
+    public void setSprites(HashMap<Integer, AnimatedSprite> sprites)
+    {
+        powerPlantSpriteComboBox.setItems(FXCollections.observableArrayList(sprites.values()));
+        powerPlantSpriteComboBox.getSelectionModel().select(0);
     }
 
     /**
@@ -67,6 +112,11 @@ public class PowerPlantEditDialogController
             powerPlant.setEmissionRate(Double.valueOf(emissionRateField.getText()));
             powerPlant.setCost(Double.valueOf(costField.getText()));
             powerPlant.setCapacity(Double.valueOf(capacityField.getText()));
+
+            AnimatedSprite animatedSprite = new AnimatedSprite(powerPlantSpriteComboBox.getValue());
+            animatedSprite.setXPosition(powerPlant.getAnimatedSprite().getXPosition());
+            animatedSprite.setYPosition(powerPlant.getAnimatedSprite().getYPosition());
+            powerPlant.setAnimatedSprite(animatedSprite);
 
             okClicked = true;
             dialogStage.close();
