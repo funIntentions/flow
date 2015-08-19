@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<sprites>
+    <building>
+        <sprite>
+            <name>House</name>
+            <numberOfImages>4</numberOfImages>
+        </sprite>
+    </building>
+    <powerPlant>
+        <sprite>
+            <name>PowerPlant</name>
+            <numberOfImages>6</numberOfImages>
+        </sprite>
+    </powerPlant>
+</sprites>

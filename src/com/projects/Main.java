@@ -66,7 +66,6 @@ public class Main extends Application {
     private StructureComparisonsController structureComparisonsController;
     private WorldViewController worldViewController;
 
-
     private HashMap<String, String> storageStrategyScripts;
     private World world;
 
@@ -439,7 +438,8 @@ public class Main extends Application {
      */
     public boolean showStructureEditDialog(Building structure)
     {
-        try {
+        try
+        {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/StructureEditDialog.fxml"));
@@ -465,7 +465,9 @@ public class Main extends Application {
             dialogStage.showAndWait();
 
             return controller.isOkClicked();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
             return false;
         }
