@@ -44,7 +44,7 @@ public class Structure
                 images.add(new Image("/images/House_" + i + ".png"));
             }
 
-            this.animatedSprite = new AnimatedSprite(images, x, y, 0);
+            this.animatedSprite = new AnimatedSprite(0, images, x, y, 0);
         }
         else
         {
@@ -53,7 +53,7 @@ public class Structure
                 images.add(new Image("/images/PowerPlant_" + i + ".png"));
             }
 
-            this.animatedSprite = new AnimatedSprite(images, x, y, 0.4);
+            this.animatedSprite = new AnimatedSprite(1, images, x, y, 0.4);
         }
     }
 

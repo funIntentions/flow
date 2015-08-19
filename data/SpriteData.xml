@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <sprites>
-    <building>
+    <buildingSprites>
         <sprite>
+            <id>0</id>
             <name>House</name>
             <numberOfImages>4</numberOfImages>
+            <duration>0</duration>
         </sprite>
-    </building>
-    <powerPlant>
+    </buildingSprites>
+    <powerPlantSprites>
         <sprite>
+            <id>1</id>
             <name>PowerPlant</name>
             <numberOfImages>6</numberOfImages>
+            <duration>1</duration>
         </sprite>
-    </powerPlant>
+    </powerPlantSprites>
 </sprites>

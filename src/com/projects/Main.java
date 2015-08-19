@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
@@ -67,6 +68,8 @@ public class Main extends Application {
     private WorldViewController worldViewController;
 
     private HashMap<String, String> storageStrategyScripts;
+    private HashMap<Integer, AnimatedSprite> buildingSprites;
+    private HashMap<Integer, AnimatedSprite> powerPlantSprites;
     private World world;
 
     public Main()
@@ -77,6 +80,8 @@ public class Main extends Application {
         selectedStructure = new SimpleObjectProperty<>(structure);
 
         storageStrategyScripts = new HashMap<>();
+        buildingSprites = new HashMap<>();
+        powerPlantSprites = new HashMap<>();
         world = new World();
     }
 
@@ -112,6 +117,14 @@ public class Main extends Application {
     public ObjectProperty<Structure> selectedStructureProperty()
     {
         return selectedStructure;
+    }
+    public HashMap<Integer, AnimatedSprite> getPowerPlantSprites()
+    {
+        return powerPlantSprites;
+    }
+    public HashMap<Integer, AnimatedSprite> getBuildingSprites()
+    {
+        return buildingSprites;
     }
 
     public ObjectProperty<SimulationState> simulationStateProperty()
@@ -248,6 +261,7 @@ public class Main extends Application {
         world.setMain(this);
         initRootLayout();
         world.resetSimulation();
+        readSpriteData();
     }
 
     public void reset()
@@ -559,6 +573,83 @@ public class Main extends Application {
             // Update the stage title.
             primaryStage.setTitle("Working Title");
         }
+    }
+
+    public void readSpriteData()
+    {
+        File file = new File(Utils.getWorkingDir() + Constants.SPRITES_FILE_PATH);
+
+        try
+        {
+            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+            Document doc = docBuilder.parse(file);
+
+            NodeList structureNodes = doc.getElementsByTagName("buildingSprites");
+            List<AnimatedSprite> building = readSprites(structureNodes);
+            structureNodes = doc.getElementsByTagName("powerPlantSprites");
+            List<AnimatedSprite> powerPlant = readSprites(structureNodes);
+
+            for (AnimatedSprite animatedSprite : building)
+            {
+                buildingSprites.put(animatedSprite.getId(), animatedSprite);
+            }
+
+            for (AnimatedSprite animatedSprite : powerPlant)
+            {
+                powerPlantSprites.put(animatedSprite.getId(), animatedSprite);
+            }
+
+        }
+        catch (Exception exception)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Could not load data");
+            alert.setContentText("Could not load data from file:\n" + file.getPath());
+
+            alert.showAndWait();
+        }
+    }
+
+    public List<AnimatedSprite> readSprites(NodeList spritesList)
+    {
+        List<AnimatedSprite> spriteList = new ArrayList<>();
+        Node spritesNode = spritesList.item(0);
+
+        if (spritesNode.getNodeType() == Node.ELEMENT_NODE) {
+            Element structuresElement = (Element) spritesNode;
+            NodeList structures = structuresElement.getElementsByTagName("sprite");
+            int length = structures.getLength();
+
+            for (int i = 0; i < length; ++i) {
+                Node spriteNode = structures.item(i);
+                if (spriteNode.getNodeType() == Node.ELEMENT_NODE) {
+                    spriteList.add(readSprite(spriteNode));
+                }
+            }
+        }
+
+        return spriteList;
+    }
+
+    public AnimatedSprite readSprite(Node spriteNode)
+    {
+        Element structureElement = (Element)spriteNode;
+
+        String name = getElementStringFromTag(structureElement, "name");
+        Integer id = Integer.valueOf(getElementStringFromTag(structureElement, "id"));
+        Integer numberOfImages = Integer.valueOf(getElementStringFromTag(structureElement, "numberOfImages"));
+        Double duration = Double.valueOf(getElementStringFromTag(structureElement, "duration"));
+
+        List<Image> images = new ArrayList<>();
+
+        for (int i = 0; i < numberOfImages; ++i)
+        {
+            images.add(new Image("/images/" + name + "_" + i + ".png"));
+        }
+
+        return new AnimatedSprite(id, images, 0, 0, duration);
     }
 
     public void readSimulation(File file)

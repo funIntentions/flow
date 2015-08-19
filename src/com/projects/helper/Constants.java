@@ -10,6 +10,7 @@ public class Constants
     public static final String SMART_GRID_FILE = "grid";
     public static final String STRATEGIES_FILE_PATH = "./strategies/";
     public static final String TEMPLATE_FILE_PATH = "/data/SmartGridTemplate.xml";
+    public static final String SPRITES_FILE_PATH = "/data/SpriteData.xml";
     public static final String SELECTION_IMAGE = "/images/Selection.png";
     public static final String HOURS_AND_MINUTES_FORMAT = "HH:mm";
     public static final int IMAGE_SIZE = 32; // Width and height
