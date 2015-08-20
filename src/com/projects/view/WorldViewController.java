@@ -92,7 +92,8 @@ public class WorldViewController
                         }
                         else
                         {
-                            powerPlant.getAnimatedSprite().setFrame(0);
+                            if (powerPlant.getAnimatedSprite().getAnimation().getFrame() != 0)
+                                powerPlant.getAnimatedSprite().animate(time);
                         }
                     }
 

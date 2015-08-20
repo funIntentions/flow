@@ -36,8 +36,8 @@
         <sprite>
             <id>5</id>
             <name>WindMill</name>
-            <numberOfImages>1</numberOfImages>
-            <duration>1</duration>
+            <numberOfImages>4</numberOfImages>
+            <duration>0.25</duration>
         </sprite>
         <sprite>
             <id>6</id>

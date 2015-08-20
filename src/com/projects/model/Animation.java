@@ -11,6 +11,7 @@ public class Animation
 {
     private List<Image> frames;
     private double duration;
+    private int frame = 0;
 
     public Animation(List<Image> frames, double duration)
     {
@@ -20,8 +21,8 @@ public class Animation
 
     public Image animate(double time)
     {
-        int index = (int)((time % (frames.size() * duration)) / duration);
-        return frames.get(index);
+        frame = (int)((time % (frames.size() * duration)) / duration);
+        return frames.get(frame);
     }
 
     public List<Image> getFrames()
@@ -42,5 +43,10 @@ public class Animation
     public void setDuration(double duration)
     {
         this.duration = duration;
+    }
+
+    public int getFrame()
+    {
+        return frame;
     }
 }
