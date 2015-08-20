@@ -23,6 +23,7 @@ public class ProductionStatisticsController
     private XYChart.Series<String, Float> emissionsForDemandSeries;
 
     private Main main;
+    private int length = 100;
 
     @FXML
     private void initialize()
@@ -39,9 +40,14 @@ public class ProductionStatisticsController
     public void setPriceForDemandData(List<Float> prices)
     {
         priceForDemandSeries.getData().clear();
+        int increments = prices.size() / length;
 
-        for (int demand = 0; demand < prices.size(); demand+=30)
+        for (int index = 0; index < length; ++index)
         {
+            int demand = index * increments;
+            if (demand > prices.size())
+                demand = prices.size() - 1;
+
             priceForDemandSeries.getData().add(new XYChart.Data<>(String.valueOf(demand), prices.get(demand)));
         }
     }
@@ -49,9 +55,14 @@ public class ProductionStatisticsController
     public void setEmissionsForDemandData(List<Float> emissions)
     {
         emissionsForDemandSeries.getData().clear();
+        int increments = emissions.size() / length;
 
-        for (int demand = 0; demand < emissions.size(); demand+=30)
+        for (int  index = 0; index < length; ++index)
         {
+            int demand = index * increments;
+            if (demand > emissions.size())
+                demand = emissions.size() - 1;
+
             emissionsForDemandSeries.getData().add(new XYChart.Data<>(String.valueOf(demand), emissions.get(demand)));
         }
     }
