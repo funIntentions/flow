@@ -83,7 +83,12 @@ public class World
     public void removeStructure(Integer id)
     {
         demandManager.removeStructure(structures.get(id));
-        supplyManager.removeStructure(structures.get(id));
+        if (supplyManager.removeStructure(structures.get(id)))
+        {
+            statsManager.updatePriceAndEmissionsStats(supplyManager);
+            main.getProductionStatisticsController().setEmissionsForDemandData(statsManager.getEmissionsForDemand());
+            main.getProductionStatisticsController().setPriceForDemandData(statsManager.getPriceForDemand());
+        }
         storageManager.removeStructure(structures.get(id));
         structures.remove(id);
     }
