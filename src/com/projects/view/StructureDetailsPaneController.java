@@ -33,7 +33,7 @@ public class StructureDetailsPaneController
     private void initialize()
     {
         series = new XYChart.Series<>();
-        series.setName("Empty");
+        series.setName("No Selection");
         loadProfileChart.getData().add(series);
 
         daysOfTheWeekTabPane.getSelectionModel().selectedItemProperty().addListener(
@@ -63,7 +63,11 @@ public class StructureDetailsPaneController
     public void setStructureData(Structure structure, List<ObservableList<Float>> loadProfilesForWeek)
     {
         this.loadProfilesForWeek = loadProfilesForWeek;
-        series.setName(structure.getName());
+
+        if (structure != null)
+            series.setName(structure.getName());
+        else
+            series.setName("No Selection");
 
         switchChartData();
     }

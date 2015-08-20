@@ -192,7 +192,11 @@ public class WorldViewController
 
         main.selectedStructureProperty().addListener((observable, oldValue, newValue) ->
         {
-            if (selected == null || selected.getId() != newValue.getId())
+            if (newValue == null)
+            {
+                clearSelection();
+            }
+            else if (selected == null || selected.getId() != newValue.getId())
             {
                 clearSelection();
                 List<Structure> worldStructures = main.getWorldStructureData();

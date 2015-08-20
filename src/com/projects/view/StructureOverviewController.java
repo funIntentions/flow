@@ -120,7 +120,10 @@ public class StructureOverviewController
         int selectedIndex = worldStructureList.getSelectionModel().getSelectedIndex();
 
         if (selectedIndex >= 0)
+        {
             worldStructureList.getItems().remove(selectedIndex);
+            main.selectedStructureProperty().set(worldStructureList.getSelectionModel().getSelectedItem());
+        }
         else
             alertNoWorldStructureSelected();
     }
@@ -131,7 +134,10 @@ public class StructureOverviewController
         int selectedIndex = templateStructureList.getSelectionModel().getSelectedIndex();
 
         if (selectedIndex >= 0)
+        {
             templateStructureList.getItems().remove(selectedIndex);
+            main.selectedStructureProperty().set(templateStructureList.getSelectionModel().getSelectedItem());
+        }
         else
             alertNoTemplateStructureSelected();
     }

@@ -231,7 +231,7 @@ public class StructureEditDialogController
     public void setStructureSprites(HashMap<Integer, AnimatedSprite> sprites)
     {
         structureSpriteComboBox.setItems(FXCollections.observableArrayList(sprites.values()));
-        structureSpriteComboBox.getSelectionModel().select(0);
+        structureSpriteComboBox.getSelectionModel().select(sprites.get(structure.getAnimatedSprite().getId()));
     }
 
     public void setStorageStrategies(HashMap<String, String> storageStrategies)

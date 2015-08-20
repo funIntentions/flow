@@ -78,7 +78,7 @@ public class PowerPlantEditDialogController
     public void setSprites(HashMap<Integer, AnimatedSprite> sprites)
     {
         powerPlantSpriteComboBox.setItems(FXCollections.observableArrayList(sprites.values()));
-        powerPlantSpriteComboBox.getSelectionModel().select(0);
+        powerPlantSpriteComboBox.getSelectionModel().select(sprites.get(powerPlant.getAnimatedSprite().getId()));
     }
 
     /**
