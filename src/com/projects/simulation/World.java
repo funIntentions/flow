@@ -59,12 +59,9 @@ public class World
     {
         structures.put(structure.getId(), structure);
 
-        if (structure instanceof Building && demandManager.syncStructures((Building)structure))
+        if (structure instanceof Building)
         {
-            if (structure.getId() == main.selectedWorldStructureProperty().get().getId())
-            {
-                main.getStructureDetailsPaneController().setStructureData(structure, ((Building) structure).getLoadProfilesForWeek());
-            }
+            demandManager.syncStructures((Building)structure);
         }
 
         if (structure instanceof Building)

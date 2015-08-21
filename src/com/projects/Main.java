@@ -481,6 +481,7 @@ public class Main extends Application {
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
+            structureDetailsPaneController.setStructureData(structure, structure.getLoadProfilesForWeek());
 
             return controller.isOkClicked();
         }

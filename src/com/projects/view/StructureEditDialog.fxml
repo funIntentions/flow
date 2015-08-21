@@ -87,8 +87,7 @@
                      <bottom>
                         <HBox alignment="CENTER" spacing="8.0" BorderPane.alignment="CENTER">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#handleOk" text="Ok" />
-                              <Button mnemonicParsing="false" onAction="#handleCancel" text="Cancel" />
+                              <Button mnemonicParsing="false" onAction="#handleClose" text="Close" />
                            </children>
                            <opaqueInsets>
                               <Insets />

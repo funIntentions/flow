@@ -544,7 +544,7 @@ public class StructureEditDialogController
      * Called when the user clicks ok.
      */
     @FXML
-    private void handleOk()
+    private void handleClose()
     {
         if (updateTabsDevices(deviceTabPane.getSelectionModel().getSelectedItem()) && isInputValid())
         {
@@ -556,19 +556,11 @@ public class StructureEditDialogController
             animatedSprite.setXPosition(structure.getAnimatedSprite().getXPosition());
             animatedSprite.setYPosition(structure.getAnimatedSprite().getYPosition());
             structure.setAnimatedSprite(animatedSprite);
+            structure.calculateLoadProfile();
 
             okClicked = true;
             dialogStage.close();
         }
-    }
-
-    /**
-     * Called when the user clicks cancel.
-     */
-    @FXML
-    private void handleCancel()
-    {
-        dialogStage.close();
     }
 
     /**

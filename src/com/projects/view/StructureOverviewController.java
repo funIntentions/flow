@@ -374,6 +374,7 @@ public class StructureOverviewController
             if (templateStructureList.getItems().contains(newValue))
             {
                 templateStructureList.getSelectionModel().select(newValue);
+
             }
             else if (worldStructureList.getItems().contains(newValue))
             {
