@@ -226,6 +226,8 @@ public class StructureEditDialogController
         energyStorageDevices.clear();
         energyStorageDevices.addAll(structure.getEnergyStorageDevices());
 
+        useCustomLoadProfileCheckBox.setSelected(structure.isUsingCustomLoadProfile());
+
         if (structure.isUsingCustomLoadProfile())
             manuallyEditLoadProfileButton.setDisable(false);
         else
@@ -456,10 +458,18 @@ public class StructureEditDialogController
     @FXML
     private void handleUseCustomLoadProfile()
     {
+        structure.setUsingCustomLoadProfile(useCustomLoadProfileCheckBox.isSelected());
+        structure.calculateLoadProfile();
+
         if (useCustomLoadProfileCheckBox.isSelected())
+        {
             manuallyEditLoadProfileButton.setDisable(false);
+
+        }
         else
+        {
             manuallyEditLoadProfileButton.setDisable(true);
+        }
     }
 
     @FXML

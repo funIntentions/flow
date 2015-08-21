@@ -3,6 +3,7 @@ package com.projects.view;
 import com.projects.helper.Constants;
 import com.projects.model.Building;
 import com.projects.model.UsageTimeSpan;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
@@ -12,9 +13,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
+import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.LocalTimeStringConverter;
 
+import javax.swing.text.NumberFormatter;
 import java.awt.image.BufferedImage;
+import java.beans.EventHandler;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -88,13 +92,25 @@ public class LoadProfileEditDialogController
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(Constants.HOURS_AND_MINUTES_FORMAT);
         LocalTimeStringConverter localTimeStringConverter = new LocalTimeStringConverter(dateTimeFormatter, dateTimeFormatter);
 
+        DoubleStringConverter doubleStringConverter = new DoubleStringConverter();
+
+        usageColumn.setCellFactory(TextFieldTableCell.<UsageTimeSpan, Double>forTableColumn(doubleStringConverter));
+        usageColumn.setOnEditCommit((TableColumn.CellEditEvent<UsageTimeSpan, Double> t) ->
+        {
+            (t.getTableView().getItems().get(t.getTablePosition().getRow())).setUsage(t.getNewValue());
+        });
+
         usageFromColumn.setCellFactory(TextFieldTableCell.<UsageTimeSpan, LocalTime>forTableColumn(localTimeStringConverter));
         usageFromColumn.setOnEditCommit((TableColumn.CellEditEvent<UsageTimeSpan, LocalTime> t) ->
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setFrom(t.getNewValue()));
+        {
+            (t.getTableView().getItems().get(t.getTablePosition().getRow())).setFrom(t.getNewValue());
+        });
 
         usageToColumn.setCellFactory(TextFieldTableCell.<UsageTimeSpan,LocalTime>forTableColumn(localTimeStringConverter));
         usageToColumn.setOnEditCommit((TableColumn.CellEditEvent<UsageTimeSpan, LocalTime> t) ->
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setTo(t.getNewValue()));
+        {
+            (t.getTableView().getItems().get(t.getTablePosition().getRow())).setTo(t.getNewValue());
+        });
 
         mondayColumn.setCellFactory(CheckBoxTableCell.forTableColumn(mondayColumn));
         tuesdayColumn.setCellFactory(CheckBoxTableCell.forTableColumn(tuesdayColumn));
@@ -105,14 +121,22 @@ public class LoadProfileEditDialogController
         sundayColumn.setCellFactory(CheckBoxTableCell.forTableColumn(sundayColumn));
 
         daysOfTheWeekTabPane.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> switchChartData());
+                (observable, oldValue, newValue) -> updateChartData());
     }
 
     public void setBuilding(Building building)
     {
         this.building = building;
         usageTable.setItems(building.getManualLoadProfileData());
-        switchChartData();
+        updateChartData();
+
+        building.getManualLoadProfileData().addListener(new ListChangeListener<UsageTimeSpan>() {
+            @Override
+            public void onChanged(Change<? extends UsageTimeSpan> c)
+            {
+                updateChartData();
+            }
+        });
     }
 
     public void setDialogStage(Stage dialogStage)
@@ -120,8 +144,9 @@ public class LoadProfileEditDialogController
         this.dialogStage = dialogStage;
     }
 
-    private void switchChartData()
+    private void updateChartData()
     {
+        building.calculateLoadProfile();
         int day = daysOfTheWeekTabPane.getSelectionModel().getSelectedIndex();
 
         List<Float> loadProfile = building.getLoadProfilesForWeek() != null && building.getLoadProfilesForWeek().size() > 0 ? building.getLoadProfilesForWeek().get(day): new ArrayList<>();
@@ -140,6 +165,18 @@ public class LoadProfileEditDialogController
     private void handleCreateTimeSpan()
     {
         UsageTimeSpan timeSpan = new UsageTimeSpan(0, LocalTime.ofSecondOfDay(0), LocalTime.ofSecondOfDay(0));
+
+        timeSpan.usageProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
+        timeSpan.fromProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
+        timeSpan.toProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
+        timeSpan.mondayProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
+        timeSpan.tuesdayProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
+        timeSpan.wednesdayProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
+        timeSpan.thursdayProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
+        timeSpan.fridayProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
+        timeSpan.saturdayProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
+        timeSpan.sundayProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
+
         usageTable.getItems().add(timeSpan);
         building.calculateLoadProfile();
     }
@@ -153,5 +190,11 @@ public class LoadProfileEditDialogController
             usageTable.getItems().remove(index);
             building.calculateLoadProfile();
         }
+    }
+
+    @FXML
+    private void handleClose()
+    {
+        dialogStage.close();
     }
 }

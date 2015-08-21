@@ -10,7 +10,7 @@
    <bottom>
       <BorderPane BorderPane.alignment="CENTER">
          <center>
-            <TableView fx:id="usageTable" prefWidth="752.0" BorderPane.alignment="CENTER">
+            <TableView fx:id="usageTable" prefHeight="300.0" prefWidth="752.0" BorderPane.alignment="CENTER">
               <columns>
                 <TableColumn fx:id="usageColumn" prefWidth="89.0" text="Usage" />
                 <TableColumn fx:id="usageFromColumn" prefWidth="61.0" text="From" />
@@ -34,7 +34,7 @@
                <children>
                   <Button mnemonicParsing="false" onAction="#handleCreateTimeSpan" text="Add Time Span" />
                   <Button mnemonicParsing="false" onAction="#handleRemoveTimeSpan" text="Remove Time Span" />
-                  <Button mnemonicParsing="false" text="Close" />
+                  <Button mnemonicParsing="false" onAction="#handleClose" text="Close" />
                </children>
                <opaqueInsets>
                   <Insets />
@@ -47,7 +47,7 @@
       </BorderPane>
    </bottom>
    <center>
-      <LineChart fx:id="loadProfileChart" title="Load Profile" BorderPane.alignment="CENTER">
+      <LineChart fx:id="loadProfileChart" legendVisible="false" title="Load Profile" BorderPane.alignment="CENTER">
         <xAxis>
           <CategoryAxis label="Time (Minutes)" side="BOTTOM" />
         </xAxis>
