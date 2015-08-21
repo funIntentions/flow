@@ -128,7 +128,7 @@ public class LoadProfileEditDialogController
     {
         this.building = building;
         usageTable.setItems(building.getManualLoadProfileData());
-        updateChartData();
+        initChartData();
 
         building.getManualLoadProfileData().addListener(new ListChangeListener<UsageTimeSpan>() {
             @Override
@@ -144,7 +144,7 @@ public class LoadProfileEditDialogController
         this.dialogStage = dialogStage;
     }
 
-    private void updateChartData()
+    private void initChartData()
     {
         building.calculateLoadProfile();
         int day = daysOfTheWeekTabPane.getSelectionModel().getSelectedIndex();
@@ -155,9 +155,25 @@ public class LoadProfileEditDialogController
         series.getData().clear();
         loadProfileChart.setAnimated(true);
 
-        for (int i = 0; i < loadProfile.size(); i+=30)
+        for (int i = 0; i < Constants.MINUTES_IN_DAY; i+=30)
         {
-            series.getData().add(new XYChart.Data<>(String.valueOf(i), loadProfile.get(i)));
+            series.getData().add(new XYChart.Data<>(String.valueOf(i/30), loadProfile.get(i)));
+        }
+    }
+
+    private void updateChartData()
+    {
+        building.calculateLoadProfile();
+        int day = daysOfTheWeekTabPane.getSelectionModel().getSelectedIndex();
+
+        List<Float> loadProfile = building.getLoadProfilesForWeek() != null && building.getLoadProfilesForWeek().size() > 0 ? building.getLoadProfilesForWeek().get(day): new ArrayList<>();
+
+        for (int i = 0; i < series.getData().size(); ++i)
+        {
+            XYChart.Data<String, Float> data = series.getData().get(i);
+
+            if (data.getYValue().floatValue() != loadProfile.get(i * 30).floatValue())
+                series.getData().set(i, new XYChart.Data<>(String.valueOf(i), loadProfile.get(i * 30)));
         }
     }
 
@@ -168,14 +184,18 @@ public class LoadProfileEditDialogController
 
         timeSpan.usageProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
         timeSpan.fromProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
-        timeSpan.toProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
+        timeSpan.toProperty().addListener((observable, oldValue, newValue) -> {
+            updateChartData();
+        });
         timeSpan.mondayProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
         timeSpan.tuesdayProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
         timeSpan.wednesdayProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
         timeSpan.thursdayProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
         timeSpan.fridayProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
         timeSpan.saturdayProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
-        timeSpan.sundayProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
+        timeSpan.sundayProperty().addListener((observable, oldValue, newValue) -> {
+            updateChartData();
+        });
 
         usageTable.getItems().add(timeSpan);
         building.calculateLoadProfile();
