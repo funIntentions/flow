@@ -6,6 +6,7 @@
 <x>208.0</x>
 <y>0.0</y>
 <sprite>0</sprite>
+<usingCustomLoadProfiles>false</usingCustomLoadProfiles>
 <appliances>
 <appliance>
 <name>Portable Fan</name>
@@ -163,12 +164,14 @@
 </appliances>
 <energySources/>
 <energyStorageDevices/>
+<usageTimeSpans/>
 </simpleStructure>
 <simpleStructure>
 <name>Winter Home</name>
 <x>166.0</x>
 <y>21.0</y>
 <sprite>0</sprite>
+<usingCustomLoadProfiles>false</usingCustomLoadProfiles>
 <appliances>
 <appliance>
 <name>Furnace Fan Motor (Coninuous)</name>
@@ -319,12 +322,14 @@
 </appliances>
 <energySources/>
 <energyStorageDevices/>
+<usageTimeSpans/>
 </simpleStructure>
 <simpleStructure>
 <name>Winter Home With Storage</name>
 <x>91.0</x>
 <y>19.0</y>
 <sprite>0</sprite>
+<usingCustomLoadProfiles>false</usingCustomLoadProfiles>
 <appliances>
 <appliance>
 <name>Furnace Fan Motor (Coninuous)</name>
@@ -482,12 +487,14 @@
 <storageStrategy>Local_Average_Matching_Strategy.lua</storageStrategy>
 </energyStorage>
 </energyStorageDevices>
+<usageTimeSpans/>
 </simpleStructure>
 <simpleStructure>
 <name>Summer Home With Storage</name>
 <x>67.0</x>
 <y>67.0</y>
 <sprite>0</sprite>
+<usingCustomLoadProfiles>false</usingCustomLoadProfiles>
 <appliances>
 <appliance>
 <name>Portable Fan</name>
@@ -652,6 +659,7 @@
 <storageStrategy>Greedy_Strategy.lua</storageStrategy>
 </energyStorage>
 </energyStorageDevices>
+<usageTimeSpans/>
 </simpleStructure>
 <powerPlant>
 <name>Coal Power Plant</name>
@@ -714,6 +722,7 @@
 <x>208.0</x>
 <y>0.0</y>
 <sprite>0</sprite>
+<usingCustomLoadProfiles>true</usingCustomLoadProfiles>
 <appliances>
 <appliance>
 <name>Portable Fan</name>
@@ -871,12 +880,30 @@
 </appliances>
 <energySources/>
 <energyStorageDevices/>
+<usageTimeSpans>
+<usageTimeSpan>
+<usage>100.0</usage>
+<from>0</from>
+<to>82800</to>
+</usageTimeSpan>
+<usageTimeSpan>
+<usage>50.0</usage>
+<from>0</from>
+<to>21600</to>
+</usageTimeSpan>
+<usageTimeSpan>
+<usage>200.0</usage>
+<from>18000</from>
+<to>36000</to>
+</usageTimeSpan>
+</usageTimeSpans>
 </simpleStructure>
 <simpleStructure>
 <name>Winter Home</name>
 <x>166.0</x>
 <y>21.0</y>
 <sprite>0</sprite>
+<usingCustomLoadProfiles>false</usingCustomLoadProfiles>
 <appliances>
 <appliance>
 <name>Furnace Fan Motor (Coninuous)</name>
@@ -1027,12 +1054,14 @@
 </appliances>
 <energySources/>
 <energyStorageDevices/>
+<usageTimeSpans/>
 </simpleStructure>
 <simpleStructure>
 <name>Winter Home With Storage</name>
 <x>91.0</x>
 <y>19.0</y>
 <sprite>0</sprite>
+<usingCustomLoadProfiles>false</usingCustomLoadProfiles>
 <appliances>
 <appliance>
 <name>Furnace Fan Motor (Coninuous)</name>
@@ -1190,12 +1219,14 @@
 <storageStrategy>Local_Average_Matching_Strategy.lua</storageStrategy>
 </energyStorage>
 </energyStorageDevices>
+<usageTimeSpans/>
 </simpleStructure>
 <simpleStructure>
 <name>Summer Home With Storage</name>
-<x>67.0</x>
-<y>67.0</y>
+<x>28.0</x>
+<y>54.0</y>
 <sprite>0</sprite>
+<usingCustomLoadProfiles>false</usingCustomLoadProfiles>
 <appliances>
 <appliance>
 <name>Portable Fan</name>
@@ -1360,6 +1391,7 @@
 <storageStrategy>Greedy_Strategy.lua</storageStrategy>
 </energyStorage>
 </energyStorageDevices>
+<usageTimeSpans/>
 </simpleStructure>
 <powerPlant>
 <name>Coal Power Plant</name>

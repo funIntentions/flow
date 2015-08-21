@@ -30,9 +30,10 @@ public class Building extends Structure
         this.energyStorageDevices = building.getEnergyStorageDevices();
         this.loadProfilesForWeek = building.getLoadProfilesForWeek();
         this.manualLoadProfileData = building.getManualLoadProfileData();
+        this.usingCustomLoadProfile = building.isUsingCustomLoadProfile();
     }
 
-    public Building(String name, int id, double x, double y, AnimatedSprite animatedSprite, List<Appliance> appliances, List<EnergySource> energySources, List<EnergyStorage> energyStorageDevices, List<UsageTimeSpan> customUsageTimeSpans)
+    public Building(String name, int id, double x, double y, AnimatedSprite animatedSprite, List<Appliance> appliances, List<EnergySource> energySources, List<EnergyStorage> energyStorageDevices, List<UsageTimeSpan> customUsageTimeSpans, Boolean usingCustomLoadProfiles)
     {
         super(name, id, x, y, animatedSprite);
 
@@ -41,6 +42,7 @@ public class Building extends Structure
         this.energyStorageDevices = FXCollections.observableArrayList(energyStorageDevices);
         this.loadProfilesForWeek = FXCollections.observableArrayList();
         this.manualLoadProfileData = FXCollections.observableArrayList(customUsageTimeSpans);
+        this.usingCustomLoadProfile = usingCustomLoadProfiles;
 
         calculateLoadProfile();
     }

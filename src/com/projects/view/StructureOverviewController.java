@@ -271,7 +271,8 @@ public class StructureOverviewController
                 new ArrayList<>(),
                 new ArrayList<>(),
                 new ArrayList<>(),
-                new ArrayList<>());
+                new ArrayList<>(),
+                false);
 
         main.getWorldStructureData().add(structure);
         main.selectedStructureProperty().set(structure);
@@ -302,7 +303,8 @@ public class StructureOverviewController
                 new ArrayList<>(),
                 new ArrayList<>(),
                 new ArrayList<>(),
-                new ArrayList<>());
+                new ArrayList<>(),
+                false);
 
         main.getTemplateStructureData().add(structure);
         main.selectedStructureProperty().set(structure);

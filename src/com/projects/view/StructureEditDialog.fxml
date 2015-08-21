@@ -22,7 +22,6 @@
                               <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
                               <Label prefHeight="17.0" text="Structure's Name: " GridPane.halignment="CENTER" GridPane.rowIndex="1" />
@@ -32,10 +31,8 @@
                                     <Insets bottom="8.0" top="8.0" />
                                  </GridPane.margin>
                               </ComboBox>
-                              <Label text="Number of Units" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <CheckBox fx:id="useCustomLoadProfileCheckBox" mnemonicParsing="false" onAction="#handleUseCustomLoadProfile" text="Use Custom Load Profile" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                              <Button fx:id="manuallyEditLoadProfileButton" mnemonicParsing="false" onAction="#handleManuallyEditLoadProfile" text="Manually Edit Load Profile" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                              <CheckBox fx:id="useCustomLoadProfileCheckBox" mnemonicParsing="false" onAction="#handleUseCustomLoadProfile" text="Use Custom Load Profile" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                              <Button fx:id="manuallyEditLoadProfileButton" mnemonicParsing="false" onAction="#handleManuallyEditLoadProfile" text="Manually Edit Load Profile" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                            </children>
                            <padding>
                               <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />

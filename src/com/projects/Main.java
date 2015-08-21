@@ -4,6 +4,7 @@ import com.projects.helper.*;
 import com.projects.model.*;
 import com.projects.simulation.World;
 import com.projects.view.*;
+import com.sun.prism.Texture;
 import javafx.application.Application;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -19,6 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.luaj.vm2.ast.Str;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -492,7 +494,6 @@ public class Main extends Application {
         }
     }
 
-
     public boolean showLoadProfileEditDialog(Building structure)
     {
         try
@@ -566,7 +567,6 @@ public class Main extends Application {
             return false;
         }
     }
-
 
     /**
      * Returns the main stage.
@@ -768,6 +768,7 @@ public class Main extends Application {
         Double x = Double.valueOf(getElementStringFromTag(structureElement, "x"));
         Double y = Double.valueOf(getElementStringFromTag(structureElement, "y"));
         Integer sprite = Integer.valueOf(getElementStringFromTag(structureElement, "sprite"));
+        Boolean usingCustomLoadProfiles = Boolean.valueOf(getElementStringFromTag(structureElement, "usingCustomLoadProfiles"));
 
         NodeList applianceList = structureElement.getElementsByTagName("appliances");
         List<Appliance> appliances = readAppliances(applianceList);
@@ -775,6 +776,8 @@ public class Main extends Application {
         List<EnergySource> energySources = readEnergySources(energySourceList);
         NodeList energyStorageList = structureElement.getElementsByTagName("energyStorageDevices");
         List<EnergyStorage> energyStorageDevices = readEnergyStorageDevices(energyStorageList);
+        NodeList usageTimeSpanList = structureElement.getElementsByTagName("usageTimeSpans");
+        List<UsageTimeSpan> usageTimeSpan = readUsageTimeSpans(usageTimeSpanList);
 
         return new Building(name,
                 StructureUtil.getNextStructureId(),
@@ -784,7 +787,8 @@ public class Main extends Application {
                 appliances,
                 energySources,
                 energyStorageDevices,
-                new ArrayList<>());
+                usageTimeSpan,
+                usingCustomLoadProfiles);
     }
 
     public Structure readPowerPlant(Node structureNode)
@@ -832,6 +836,38 @@ public class Main extends Application {
                     Integer to = Integer.parseInt(getElementStringFromTag(propertyElement, "to"));
 
                     TimeSpan timeSpan = new TimeSpan(LocalTime.ofSecondOfDay(from), LocalTime.ofSecondOfDay(to));
+
+                    timeSpanList.add(timeSpan);
+                }
+            }
+        }
+
+        return timeSpanList;
+    }
+
+    public List<UsageTimeSpan> readUsageTimeSpans(NodeList timeSpansList)
+    {
+        List<UsageTimeSpan> timeSpanList = new ArrayList<>();
+        Node propertiesNode = timeSpansList.item(0);
+
+        if (propertiesNode.getNodeType() == Node.ELEMENT_NODE)
+        {
+            Element propertiesElement = (Element)propertiesNode;
+            NodeList properties = propertiesElement.getElementsByTagName("usageTimeSpan");
+            int length = properties.getLength();
+
+            for (int i = 0; i < length; ++i)
+            {
+                Node propertyNode = properties.item(i);
+                if (propertyNode.getNodeType() == Node.ELEMENT_NODE)
+                {
+                    Element propertyElement = (Element)propertyNode;
+
+                    Double usage = Double.parseDouble(getElementStringFromTag(propertyElement, "usage"));
+                    Integer from = Integer.parseInt(getElementStringFromTag(propertyElement, "from"));
+                    Integer to = Integer.parseInt(getElementStringFromTag(propertyElement, "to"));
+
+                    UsageTimeSpan timeSpan = new UsageTimeSpan(usage, LocalTime.ofSecondOfDay(from), LocalTime.ofSecondOfDay(to));
 
                     timeSpanList.add(timeSpan);
                 }
@@ -1018,6 +1054,7 @@ public class Main extends Application {
         structureNode.appendChild(getElement(doc, "x", String.valueOf(structure.getAnimatedSprite().getXPosition())));
         structureNode.appendChild(getElement(doc, "y", String.valueOf(structure.getAnimatedSprite().getYPosition())));
         structureNode.appendChild(getElement(doc, "sprite", String.valueOf(structure.getAnimatedSprite().getId())));
+        structureNode.appendChild(getElement(doc, "usingCustomLoadProfiles", String.valueOf(structure.isUsingCustomLoadProfile())));
 
         Element appliances = doc.createElement("appliances");
         List<Appliance> applianceList = structure.getAppliances();
@@ -1042,6 +1079,14 @@ public class Main extends Application {
             energyStorageDevices.appendChild(getEnergyStorageNode(doc, energyStorage));
         }
         structureNode.appendChild(energyStorageDevices);
+
+        Element usageTimeSpanMembers = doc.createElement("usageTimeSpans");
+        List<UsageTimeSpan> usageTimeSpans = structure.getManualLoadProfileData();
+        for (UsageTimeSpan usageTimeSpan : usageTimeSpans)
+        {
+            usageTimeSpanMembers.appendChild(getUsageTimeSpanNode(doc, usageTimeSpan));
+        }
+        structureNode.appendChild(usageTimeSpanMembers);
 
         return structureNode;
     }
@@ -1100,6 +1145,16 @@ public class Main extends Application {
         timeSpanNode.appendChild(getElement(doc, "to", String.valueOf(timeSpan.getTo().toSecondOfDay())));
 
         return timeSpanNode;
+    }
+
+    private Node getUsageTimeSpanNode(Document doc, UsageTimeSpan usageTimeSpan)
+    {
+        Element usageTimeSpanNode = doc.createElement("usageTimeSpan");
+        usageTimeSpanNode.appendChild(getElement(doc, "usage", String.valueOf(usageTimeSpan.getUsage())));
+        usageTimeSpanNode.appendChild(getElement(doc, "from", String.valueOf(usageTimeSpan.getFrom().toSecondOfDay())));
+        usageTimeSpanNode.appendChild(getElement(doc, "to", String.valueOf(usageTimeSpan.getTo().toSecondOfDay())));
+
+        return usageTimeSpanNode;
     }
 
     public static void main(String[] args) {

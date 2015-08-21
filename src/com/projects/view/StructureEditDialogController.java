@@ -216,7 +216,6 @@ public class StructureEditDialogController
         storageStrategies = new HashMap<>();
     }
 
-
     public void setStructure(Building structure)
     {
         this.structure = structure;
