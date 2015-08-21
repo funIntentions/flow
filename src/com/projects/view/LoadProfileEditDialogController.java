@@ -11,8 +11,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.Stage;
 import javafx.util.converter.LocalTimeStringConverter;
 
+import java.awt.image.BufferedImage;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -62,8 +64,9 @@ public class LoadProfileEditDialogController
     @FXML
     private TableColumn<UsageTimeSpan, Double> usageColumn;
 
-    private XYChart.Series<String, Float> series;
-    private Building building;
+    private XYChart.Series<String, Float> series = new XYChart.Series<>();
+    private Building building = null;
+    private Stage dialogStage = null;
 
     @FXML
     private void initialize()
@@ -105,20 +108,34 @@ public class LoadProfileEditDialogController
                 (observable, oldValue, newValue) -> switchChartData());
     }
 
+    public void setBuilding(Building building)
+    {
+        this.building = building;
+        usageTable.setItems(building.getManualLoadProfileData());
+        switchChartData();
+    }
+
+    public void setDialogStage(Stage dialogStage)
+    {
+        this.dialogStage = dialogStage;
+    }
+
     private void switchChartData()
     {
         int day = daysOfTheWeekTabPane.getSelectionModel().getSelectedIndex();
 
         List<Float> loadProfile = building.getLoadProfilesForWeek() != null && building.getLoadProfilesForWeek().size() > 0 ? building.getLoadProfilesForWeek().get(day): new ArrayList<>();
 
+        loadProfileChart.setAnimated(false);
         series.getData().clear();
+        loadProfileChart.setAnimated(true);
 
         for (int i = 0; i < loadProfile.size(); i+=30)
         {
             series.getData().add(new XYChart.Data<>(String.valueOf(i), loadProfile.get(i)));
         }
     }
-    
+
     @FXML
     private void handleCreateTimeSpan()
     {

@@ -18,7 +18,7 @@ public class Building extends Structure
     private ObservableList<EnergyStorage> energyStorageDevices;
     private ObservableList<ObservableList<Float>> loadProfilesForWeek;
     private ObservableList<UsageTimeSpan> manualLoadProfileData;
-    private boolean usingManualLoadProfile;
+    private boolean usingCustomLoadProfile = false;
     private DemandState demandState = DemandState.LOW;
 
     public Building(Building building)
@@ -29,9 +29,10 @@ public class Building extends Structure
         this.energySources = building.getEnergySources();
         this.energyStorageDevices = building.getEnergyStorageDevices();
         this.loadProfilesForWeek = building.getLoadProfilesForWeek();
+        this.manualLoadProfileData = building.getManualLoadProfileData();
     }
 
-    public Building(String name, int id, double x, double y, AnimatedSprite animatedSprite, List<Appliance> appliances, List<EnergySource> energySources, List<EnergyStorage> energyStorageDevices)
+    public Building(String name, int id, double x, double y, AnimatedSprite animatedSprite, List<Appliance> appliances, List<EnergySource> energySources, List<EnergyStorage> energyStorageDevices, List<UsageTimeSpan> customUsageTimeSpans)
     {
         super(name, id, x, y, animatedSprite);
 
@@ -39,6 +40,7 @@ public class Building extends Structure
         this.energySources = FXCollections.observableArrayList(energySources);
         this.energyStorageDevices = FXCollections.observableArrayList(energyStorageDevices);
         this.loadProfilesForWeek = FXCollections.observableArrayList();
+        this.manualLoadProfileData = FXCollections.observableArrayList(customUsageTimeSpans);
 
         calculateLoadProfile();
     }
@@ -75,7 +77,7 @@ public class Building extends Structure
             {
                 loadProfile.add(0f);
 
-                if (!usingManualLoadProfile)
+                if (!usingCustomLoadProfile)
                 {
                     for (Appliance appliance : appliances)
                     {
@@ -111,12 +113,14 @@ public class Building extends Structure
         this.manualLoadProfileData = manualLoadProfileData;
     }
 
-    public boolean isUsingManualLoadProfile() {
-        return usingManualLoadProfile;
+    public boolean isUsingCustomLoadProfile()
+    {
+        return usingCustomLoadProfile;
     }
 
-    public void setUsingManualLoadProfile(boolean usingManualLoadProfile) {
-        this.usingManualLoadProfile = usingManualLoadProfile;
+    public void setUsingCustomLoadProfile(boolean usingCustomLoadProfile)
+    {
+        this.usingCustomLoadProfile = usingCustomLoadProfile;
     }
 
     public ObservableList<Appliance> getAppliances()

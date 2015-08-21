@@ -477,11 +477,47 @@ public class Main extends Application {
             readStorageStrategies();
             controller.setStorageStrategies(storageStrategyScripts);
             controller.setStructureSprites(buildingSprites);
+            controller.setMain(this);
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
 
             return controller.isOkClicked();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    public boolean showLoadProfileEditDialog(Building structure)
+    {
+        try
+        {
+            // Load the fxml file and create a new stage for the popup dialog.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("view/LoadProfileEditDialog.fxml"));
+            BorderPane page = (BorderPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Edit Load Profile");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the person into the controller.
+            LoadProfileEditDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setBuilding(structure);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+            return true;
         }
         catch (IOException e)
         {
@@ -746,7 +782,8 @@ public class Main extends Application {
                 buildingSprites.get(sprite),
                 appliances,
                 energySources,
-                energyStorageDevices);
+                energyStorageDevices,
+                new ArrayList<>());
     }
 
     public Structure readPowerPlant(Node structureNode)

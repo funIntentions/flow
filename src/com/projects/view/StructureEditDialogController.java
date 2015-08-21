@@ -1,5 +1,6 @@
 package com.projects.view;
 
+import com.projects.Main;
 import com.projects.helper.Constants;
 import com.projects.helper.DeviceUtil;
 import com.projects.helper.Utils;
@@ -110,6 +111,12 @@ public class StructureEditDialogController
     @FXML
     private ComboBox<String> energyStorageStrategy;
 
+    @FXML
+    private Button manuallyEditLoadProfileButton;
+
+    @FXML
+    private CheckBox useCustomLoadProfileCheckBox;
+
     private ObservableList<Appliance> appliances;
     private ObservableList<EnergyStorage> energyStorageDevices;
 
@@ -117,6 +124,7 @@ public class StructureEditDialogController
 
     private Stage dialogStage = null;
     private Building structure = null;
+    private Main main = null;
     private boolean okClicked = false;
 
     /**
@@ -208,6 +216,22 @@ public class StructureEditDialogController
         storageStrategies = new HashMap<>();
     }
 
+
+    public void setStructure(Building structure)
+    {
+        this.structure = structure;
+        structureNameField.setText(structure.getName());
+        appliances.clear();
+        appliances.addAll(structure.getAppliances());
+        energyStorageDevices.clear();
+        energyStorageDevices.addAll(structure.getEnergyStorageDevices());
+
+        if (structure.isUsingCustomLoadProfile())
+            manuallyEditLoadProfileButton.setDisable(false);
+        else
+            manuallyEditLoadProfileButton.setDisable(true);
+    }
+
     /**
      * Sets the stage of this dialog.
      *
@@ -218,14 +242,9 @@ public class StructureEditDialogController
         this.dialogStage = dialogStage;
     }
 
-    public void setStructure(Building structure)
+    public void setMain (Main main)
     {
-        this.structure = structure;
-        structureNameField.setText(structure.getName());
-        appliances.clear();
-        appliances.addAll(structure.getAppliances());
-        energyStorageDevices.clear();
-        energyStorageDevices.addAll(structure.getEnergyStorageDevices());
+        this.main = main;
     }
 
     public void setStructureSprites(HashMap<Integer, AnimatedSprite> sprites)
@@ -426,6 +445,21 @@ public class StructureEditDialogController
      */
     public boolean isOkClicked() {
         return okClicked;
+    }
+
+    @FXML
+    private void handleManuallyEditLoadProfile()
+    {
+        main.showLoadProfileEditDialog(structure);
+    }
+
+    @FXML
+    private void handleUseCustomLoadProfile()
+    {
+        if (useCustomLoadProfileCheckBox.isSelected())
+            manuallyEditLoadProfileButton.setDisable(false);
+        else
+            manuallyEditLoadProfileButton.setDisable(true);
     }
 
     @FXML

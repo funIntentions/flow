@@ -22,7 +22,7 @@ public class StructureDetailsPaneController
     @FXML
     private TabPane daysOfTheWeekTabPane;
 
-    private XYChart.Series<String, Float> series;
+    private XYChart.Series<String, Float> series = new XYChart.Series<>();
     private List<ObservableList<Float>> loadProfilesForWeek;
 
     /**
@@ -32,7 +32,6 @@ public class StructureDetailsPaneController
     @FXML
     private void initialize()
     {
-        series = new XYChart.Series<>();
         series.setName("No Selection");
         loadProfileChart.getData().add(series);
 

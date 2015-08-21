@@ -270,6 +270,7 @@ public class StructureOverviewController
                 main.getBuildingSprites().get(0),
                 new ArrayList<>(),
                 new ArrayList<>(),
+                new ArrayList<>(),
                 new ArrayList<>());
 
         main.getWorldStructureData().add(structure);
@@ -298,6 +299,7 @@ public class StructureOverviewController
                 getRandomStructureXPosition(),
                 getRandomStructureYPosition(),
                 main.getBuildingSprites().get(0),
+                new ArrayList<>(),
                 new ArrayList<>(),
                 new ArrayList<>(),
                 new ArrayList<>());
