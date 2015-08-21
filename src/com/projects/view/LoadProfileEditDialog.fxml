@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.chart.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+   <bottom>
+      <BorderPane BorderPane.alignment="CENTER">
+         <center>
+            <TableView prefWidth="752.0" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn prefWidth="89.0" text="Usage" />
+                <TableColumn prefWidth="61.0" text="From" />
+                  <TableColumn prefWidth="75.0" text="To" />
+                  <TableColumn prefWidth="75.0" text="Days">
+                     <columns>
+                        <TableColumn prefWidth="75.0" text="Mon" />
+                        <TableColumn prefWidth="75.0" text="Tue" />
+                        <TableColumn prefWidth="75.0" text="Wed" />
+                        <TableColumn prefWidth="75.0" text="Thur" />
+                        <TableColumn prefWidth="75.0" text="Fri" />
+                        <TableColumn prefWidth="75.0" text="Sat" />
+                        <TableColumn prefWidth="75.0" text="Sun" />
+                     </columns>
+                  </TableColumn>
+              </columns>
+            </TableView>
+         </center>
+         <bottom>
+            <HBox alignment="CENTER" spacing="8.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button mnemonicParsing="false" text="Add Time Span" />
+                  <Button mnemonicParsing="false" text="Remove Time Span" />
+                  <Button mnemonicParsing="false" text="Close" />
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets bottom="8.0" top="8.0" />
+               </padding>
+            </HBox>
+         </bottom>
+      </BorderPane>
+   </bottom>
+   <center>
+      <LineChart title="Load Profile" BorderPane.alignment="CENTER">
+        <xAxis>
+          <CategoryAxis label="Time (Minutes)" side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis label="Demand (Watts)" side="LEFT" />
+        </yAxis>
+      </LineChart>
+   </center>
+   <top>
+      <TabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Monday">
+            <content>
+              <AnchorPane />
+            </content>
+          </Tab>
+          <Tab text="Tuesday">
+            <content>
+              <AnchorPane />
+            </content>
+          </Tab>
+            <Tab text="Wednesday">
+               <content>
+                  <AnchorPane />
+               </content>
+            </Tab>
+            <Tab text="Thursday">
+               <content>
+                  <AnchorPane />
+               </content>
+            </Tab>
+            <Tab text="Friday">
+               <content>
+                  <AnchorPane />
+               </content>
+            </Tab>
+            <Tab text="Saturday">
+               <content>
+                  <AnchorPane />
+               </content>
+            </Tab>
+            <Tab text="Sunday">
+               <content>
+                  <AnchorPane />
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </top>
+</BorderPane>

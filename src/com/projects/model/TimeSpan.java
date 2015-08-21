@@ -12,15 +12,15 @@ import java.time.LocalTime;
  */
 public class TimeSpan
 {
-    private ObjectProperty<LocalTime> from;
-    private ObjectProperty<LocalTime> to;
-    private BooleanProperty monday;
-    private BooleanProperty tuesday;
-    private BooleanProperty wednesday;
-    private BooleanProperty thursday;
-    private BooleanProperty friday;
-    private BooleanProperty saturday;
-    private BooleanProperty sunday;
+    protected ObjectProperty<LocalTime> from;
+    protected ObjectProperty<LocalTime> to;
+    protected BooleanProperty monday;
+    protected BooleanProperty tuesday;
+    protected BooleanProperty wednesday;
+    protected BooleanProperty thursday;
+    protected BooleanProperty friday;
+    protected BooleanProperty saturday;
+    protected BooleanProperty sunday;
 
     public TimeSpan(LocalTime from, LocalTime to)
     {
