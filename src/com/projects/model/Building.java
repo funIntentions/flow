@@ -13,10 +13,12 @@ import java.util.List;
  */
 public class Building extends Structure
 {
-    protected ObservableList<Appliance> appliances;
-    protected ObservableList<EnergySource> energySources;
-    protected ObservableList<EnergyStorage> energyStorageDevices;
+    private ObservableList<Appliance> appliances;
+    private ObservableList<EnergySource> energySources;
+    private ObservableList<EnergyStorage> energyStorageDevices;
     private ObservableList<ObservableList<Float>> loadProfilesForWeek;
+    private ObservableList<UsageTimeSpan> manualLoadProfileData;
+    private boolean usingManualLoadProfile;
     private DemandState demandState = DemandState.LOW;
 
     public Building(Building building)
@@ -41,6 +43,23 @@ public class Building extends Structure
         calculateLoadProfile();
     }
 
+    public double getManualUsageAtDateAndTime(int day, double time)
+    {
+        double totalUsage = 0;
+
+        for (UsageTimeSpan manualUsage : manualLoadProfileData)
+        {
+            if (manualUsage.isActiveForDay(day) &&
+                    (manualUsage.getFrom().toSecondOfDay() <= time &&
+                            manualUsage.getTo().toSecondOfDay() >= time))
+            {
+                totalUsage += manualUsage.getUsage();
+            }
+        }
+
+        return totalUsage;
+    }
+
     public void calculateLoadProfile()
     {
         loadProfilesForWeek.clear();
@@ -56,23 +75,48 @@ public class Building extends Structure
             {
                 loadProfile.add(0f);
 
-                for (Appliance appliance : appliances)
+                if (!usingManualLoadProfile)
                 {
-                    if (appliance.isOn(day, time * interval))
+                    for (Appliance appliance : appliances)
                     {
-                        float sum = loadProfile.get(time) + (float) appliance.getUsageConsumption();
-                        loadProfile.set(time, sum);
+                        if (appliance.isOn(day, time * interval))
+                        {
+                            float sum = loadProfile.get(time) + (float) appliance.getUsageConsumption();
+                            loadProfile.set(time, sum);
+                        }
+                        else
+                        {
+                            float sum = loadProfile.get(time) + (float) appliance.getStandbyConsumption();
+                            loadProfile.set(time, sum);
+                        }
                     }
-                    else
-                    {
-                        float sum = loadProfile.get(time) + (float) appliance.getStandbyConsumption();
-                        loadProfile.set(time, sum);
-                    }
+                }
+                else
+                {
+                    loadProfile.set(time,(float) getManualUsageAtDateAndTime(day, time * interval));
                 }
             }
 
             loadProfilesForWeek.add(loadProfile);
         }
+    }
+
+    public ObservableList<UsageTimeSpan> getManualLoadProfileData()
+    {
+        return manualLoadProfileData;
+    }
+
+    public void setManualLoadProfileData(ObservableList<UsageTimeSpan> manualLoadProfileData)
+    {
+        this.manualLoadProfileData = manualLoadProfileData;
+    }
+
+    public boolean isUsingManualLoadProfile() {
+        return usingManualLoadProfile;
+    }
+
+    public void setUsingManualLoadProfile(boolean usingManualLoadProfile) {
+        this.usingManualLoadProfile = usingManualLoadProfile;
     }
 
     public ObservableList<Appliance> getAppliances()
