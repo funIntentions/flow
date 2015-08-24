@@ -23,7 +23,7 @@ public class StructureDetailsPaneController
     private TabPane daysOfTheWeekTabPane;
 
     private XYChart.Series<String, Float> series = new XYChart.Series<>();
-    private List<ObservableList<Float>> loadProfilesForWeek;
+    private List<ObservableList<Float>> loadProfilesForWeek = new ArrayList<>();
 
     /**
      * Initializes the controller class. This method is automatically called
@@ -68,6 +68,12 @@ public class StructureDetailsPaneController
         else
             series.setName("No Selection");
 
+        switchChartData();
+    }
+
+    public void clearLoadProfileDetails()
+    {
+        loadProfilesForWeek.clear();
         switchChartData();
     }
 }

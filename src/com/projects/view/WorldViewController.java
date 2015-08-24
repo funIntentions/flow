@@ -3,11 +3,13 @@ package com.projects.view;
 import com.projects.Main;
 import com.projects.helper.Constants;
 import com.projects.helper.ProductionState;
+import com.projects.helper.Utils;
 import com.projects.model.Building;
 import com.projects.model.PowerPlant;
 import com.projects.model.Sprite;
 import com.projects.model.Structure;
 import javafx.animation.AnimationTimer;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
@@ -15,6 +17,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -28,7 +34,7 @@ public class WorldViewController
     private GraphicsContext gc;
     private AnimationTimer animationTimer;
     private final int selectionRange = 14;
-    private Sprite selectionSprite = new Sprite(new Image(Constants.SELECTION_IMAGE), 0, 0);
+    private Sprite selectionSprite;// = new Sprite(new Image(Constants.SELECTION_IMAGE), 0, 0);
     private boolean selectionMade = false;
     private boolean mouseDown = false;
     private Structure selected = null;
@@ -37,6 +43,18 @@ public class WorldViewController
     @FXML
     private void initialize()
     {
+        try
+        {
+
+            BufferedImage bufferedImage = ImageIO.read(new File(Utils.getWorkingDir() + "/images/Selection.png"));
+            Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+            selectionSprite = new Sprite(image, 0, 0);
+        }
+        catch (IOException exception)
+        {
+            exception.printStackTrace();
+        }
+
         gc = worldCanvas.getGraphicsContext2D();
 
         final long start = System.nanoTime();
@@ -107,7 +125,7 @@ public class WorldViewController
         selectionMade = false;
     }
 
-    private void clearSelection()
+    public void clearSelection()
     {
         selectionMade = false;
         selected = null;

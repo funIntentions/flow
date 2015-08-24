@@ -50,6 +50,7 @@ public class RootLayoutController
 
         if (file != null)
         {
+            main.reset();
             main.readSimulation(file);
         }
     }

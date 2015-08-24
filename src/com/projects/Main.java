@@ -4,7 +4,6 @@ import com.projects.helper.*;
 import com.projects.model.*;
 import com.projects.simulation.World;
 import com.projects.view.*;
-import com.sun.prism.Texture;
 import javafx.application.Application;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -12,6 +11,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -20,12 +20,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.luaj.vm2.ast.Str;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -33,6 +33,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -77,7 +78,18 @@ public class Main extends Application {
     public Main()
     {
         List<Image> images = new ArrayList<>();
-        images.add(new Image("/images/Selection.png"));
+        try
+        {
+
+            BufferedImage bufferedImage = ImageIO.read(new File(Utils.getWorkingDir() + "/images/Selection.png"));
+            Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+            images.add(image);
+        }
+        catch (IOException exception)
+        {
+            exception.printStackTrace();
+        }
+
         Structure structure = new Structure("Temp", -1, -1, -1, new AnimatedSprite(-1, images, -1, -1, -1));
         selectedTemplateStructure = new SimpleObjectProperty<>(structure);
         selectedWorldStructure = new SimpleObjectProperty<>(structure);
@@ -91,6 +103,7 @@ public class Main extends Application {
 
     private void readStorageStrategies()
     {
+        storageStrategyScripts.clear();
         File[] strategyScriptFiles = new File(Constants.STRATEGIES_FILE_PATH).listFiles();
 
         if (strategyScriptFiles != null)
@@ -272,6 +285,14 @@ public class Main extends Application {
     {
         worldStructureData.clear();
         templateStructureData.clear();
+        dailyStatisticsController.clearDemandChart();
+        dailyStatisticsController.clearEmissionChart();
+        dailyStatisticsController.clearPriceChart();
+        productionStatisticsController.clearEmissionForDemandChart();
+        productionStatisticsController.clearPriceForDemandChart();
+        structureComparisonsController.clearComparisions();
+        structureDetailsPaneController.clearLoadProfileDetails();
+        worldViewController.clearSelection();
         setSimulationFilePath(null);
     }
 
@@ -644,6 +665,7 @@ public class Main extends Application {
         }
         catch (Exception exception)
         {
+            exception.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Could not load data");
@@ -683,11 +705,23 @@ public class Main extends Application {
         Integer numberOfImages = Integer.valueOf(getElementStringFromTag(structureElement, "numberOfImages"));
         Double duration = Double.valueOf(getElementStringFromTag(structureElement, "duration"));
 
+        String workingDir = Utils.getWorkingDir();
         List<Image> images = new ArrayList<>();
+        BufferedImage bufferedImage;
+        Image image;
 
-        for (int i = 0; i < numberOfImages; ++i)
+        try
         {
-            images.add(new Image("/images/" + name + "_" + i + ".png"));
+            for (int i = 0; i < numberOfImages; ++i)
+            {
+                bufferedImage = ImageIO.read(new File(workingDir + "/images/" + name + "_" + i + ".png"));
+                image = SwingFXUtils.toFXImage(bufferedImage, null);
+                images.add(image);
+            }
+        }
+        catch (IOException exception)
+        {
+            exception.printStackTrace();
         }
 
         return new AnimatedSprite(id, images, 0, 0, duration);
@@ -713,6 +747,7 @@ public class Main extends Application {
         }
         catch (Exception exception)
         {
+            exception.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Could not load data");

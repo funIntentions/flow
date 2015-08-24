@@ -98,6 +98,11 @@ public class StructureComparisonsController
         }
     }
 
+    public void clearComparisions()
+    {
+        observableList.clear();
+    }
+
     public void setMain(Main main)
     {
         this.main = main;

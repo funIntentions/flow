@@ -122,17 +122,17 @@ public class DailyStatisticsController
         }
     }
 
-    private void clearDemandChart()
+    public void clearDemandChart()
     {
         demandSeries.getData().clear();
     }
 
-    private void clearPriceChart()
+    public void clearPriceChart()
     {
         priceSeries.getData().clear();
     }
 
-    private void clearEmissionChart()
+    public void clearEmissionChart()
     {
         emissionSeries.getData().clear();
     }

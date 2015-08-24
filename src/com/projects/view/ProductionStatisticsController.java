@@ -67,6 +67,16 @@ public class ProductionStatisticsController
         }
     }
 
+    public void clearPriceForDemandChart()
+    {
+        priceForDemandSeries.getData().clear();
+    }
+
+    public void clearEmissionForDemandChart()
+    {
+        emissionsForDemandSeries.getData().clear();
+    }
+
     public void setMain(Main main)
     {
         this.main = main;
