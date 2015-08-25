@@ -188,7 +188,7 @@ public class World
                 @Override
                 public void run()
                 {
-                    main.getStructureComparisonsController().displayResults(demandManager.getStructures(),
+                    main.getStructureDetailsPaneController().displayResults(demandManager.getStructures(),
                             demandManager.getStructureExpenses(),
                             demandManager.getStructureEnvironmentalImpact());
                     statsManager.setStatsForDay(0);

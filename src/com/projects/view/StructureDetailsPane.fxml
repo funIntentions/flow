@@ -65,11 +65,11 @@
       </BorderPane>
    </center>
    <right>
-      <TableView BorderPane.alignment="CENTER">
+      <TableView fx:id="structureRankingTable" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn prefWidth="75.0" text="Structure" />
-          <TableColumn prefWidth="75.0" text="Expenses" />
-            <TableColumn prefWidth="160.0" text="Environmental Impact" />
+          <TableColumn fx:id="structureNameColumn" prefWidth="75.0" text="Structure" />
+          <TableColumn fx:id="structureExpensesColumn" prefWidth="75.0" text="Expenses" />
+            <TableColumn fx:id="structureEnvironmentalImpactColumn" prefWidth="160.0" text="Environmental Impact" />
         </columns>
       </TableView>
    </right>

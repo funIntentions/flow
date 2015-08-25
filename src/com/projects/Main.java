@@ -69,7 +69,6 @@ public class Main extends Application {
     private SimulationControlsController simulationControlsController;
     private DailyStatisticsController dailyStatisticsController;
     private ProductionStatisticsController productionStatisticsController;
-    private StructureComparisonsController structureComparisonsController;
     private StructureOverviewController structureOverviewController;
     private WorldViewController worldViewController;
 
@@ -263,10 +262,6 @@ public class Main extends Application {
     {
         return productionStatisticsController;
     }
-    public StructureComparisonsController getStructureComparisonsController()
-    {
-        return structureComparisonsController;
-    }
     public WorldViewController getWorldViewController()
     {
         return worldViewController;
@@ -302,7 +297,6 @@ public class Main extends Application {
         dailyStatisticsController.clearPriceChart();
         productionStatisticsController.clearEmissionForDemandChart();
         productionStatisticsController.clearPriceForDemandChart();
-        structureComparisonsController.clearComparisions();
         structureDetailsPaneController.clearLoadProfileDetails();
         worldViewController.clearSelection();
         world.resetSimulation();
@@ -410,26 +404,6 @@ public class Main extends Application {
         return null;
     }
 
-    private Pane initStructureComparisonsPane()
-    {
-        try
-        {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("view/StructureComparisons.fxml"));
-            Pane comparisonsPane = loader.load();
-
-            structureComparisonsController = loader.getController();
-            structureComparisonsController.setMain(this);
-            return comparisonsPane;
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
     private Pane initWorldViewPane()
     {
         try
@@ -468,7 +442,6 @@ public class Main extends Application {
             structureOverviewController.showStructureDetailsPane(initStructureDetailsPane());
             structureOverviewController.showDailyStatisticsPane(initDailyStatisticsPane());
             structureOverviewController.showProductionStatisticsPane(initProductionStatisticsPane());
-            structureOverviewController.showStructureComparisonsPane(initStructureComparisonsPane());
             structureOverviewController.showWorldViewPane(initWorldViewPane());
             return personOverview;
         }
