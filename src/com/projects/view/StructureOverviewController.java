@@ -43,9 +43,6 @@ public class StructureOverviewController
     private Tab productionStatsTab;
 
     @FXML
-    private Tab structureComparisonsTab;
-
-    @FXML
     private TitledPane simulationControlsTitledPane;
 
     @FXML
@@ -352,11 +349,6 @@ public class StructureOverviewController
     public void showProductionStatisticsPane(Pane productionStatistics)
     {
         productionStatsTab.setContent(productionStatistics);
-    }
-
-    public void showStructureComparisonsPane(Pane comparisonsPane)
-    {
-        structureComparisonsTab.setContent(comparisonsPane);
     }
 
     public void setMain(Main main)

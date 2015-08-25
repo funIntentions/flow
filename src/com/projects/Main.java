@@ -342,6 +342,7 @@ public class Main extends Application {
             Pane structureDetails = loader.load();
 
             structureDetailsPaneController = loader.getController();
+            structureDetailsPaneController.setMain(this);
             return structureDetails;
         } catch (IOException e) {
             e.printStackTrace();
