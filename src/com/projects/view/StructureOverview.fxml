@@ -8,15 +8,15 @@
    <children>
       <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
-            <SplitPane dividerPositions="0.22" BorderPane.alignment="CENTER">
+            <SplitPane dividerPositions="0.2328881469115192" BorderPane.alignment="CENTER">
               <items>
                 <AnchorPane>
                      <children>
-                        <VBox layoutX="39.0" layoutY="49.0" prefWidth="240.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox fx:id="leftPane" layoutX="39.0" layoutY="49.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <TitledPane fx:id="simulationControlsTitledPane" alignment="TOP_CENTER" animated="false" text="Simulation ">
                                 <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                  <AnchorPane />
                                 </content>
                               </TitledPane>
                               <TitledPane alignment="TOP_CENTER" animated="false" text="Template Structures" VBox.vgrow="ALWAYS">
@@ -43,7 +43,7 @@
                               </TitledPane>
                               <TitledPane alignment="TOP_CENTER" animated="false" text="World Structures" VBox.vgrow="ALWAYS">
                                 <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0">
+                                  <AnchorPane>
                                        <children>
                                           <ListView fx:id="worldStructureList" layoutX="-38.0" layoutY="-41.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="34.0" />
                                           <HBox alignment="CENTER" layoutX="14.0" layoutY="8.0" spacing="4.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="4.0">

@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -20,6 +21,9 @@ import java.util.Random;
  */
 public class StructureOverviewController
 {
+    @FXML
+    private VBox leftPane;
+
     @FXML
     private ListView<Structure> templateStructureList;
 
@@ -322,6 +326,7 @@ public class StructureOverviewController
     {
         templateStructureList.setOnMouseClicked((event) -> selectTemplateStructure());
         worldStructureList.setOnMouseClicked((event) -> selectWorldStructure());
+        SplitPane.setResizableWithParent(leftPane.getParent(), false);
     }
 
     public void showStructureDetailsPane(Pane structureDetails)

@@ -15,6 +15,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -69,6 +70,7 @@ public class Main extends Application {
     private DailyStatisticsController dailyStatisticsController;
     private ProductionStatisticsController productionStatisticsController;
     private StructureComparisonsController structureComparisonsController;
+    private StructureOverviewController structureOverviewController;
     private WorldViewController worldViewController;
 
     private HashMap<String, String> storageStrategyScripts;
@@ -269,6 +271,10 @@ public class Main extends Application {
     {
         return worldViewController;
     }
+    public StructureOverviewController getStructureOverviewController()
+    {
+        return structureOverviewController;
+    }
 
     public void toggleLegendShowing()
     {
@@ -311,7 +317,7 @@ public class Main extends Application {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/RootLayout.fxml"));
-            rootLayout = (BorderPane) loader.load();
+            rootLayout = loader.load();
 
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
@@ -456,14 +462,14 @@ public class Main extends Application {
             loader.setLocation(Main.class.getResource("view/StructureOverview.fxml"));
             Pane personOverview = loader.load();
 
-            StructureOverviewController controller = loader.getController();
-            controller.setMain(this);
-            controller.showSimulationControlsPane(initSimulationControlsPane());
-            controller.showStructureDetailsPane(initStructureDetailsPane());
-            controller.showDailyStatisticsPane(initDailyStatisticsPane());
-            controller.showProductionStatisticsPane(initProductionStatisticsPane());
-            controller.showStructureComparisonsPane(initStructureComparisonsPane());
-            controller.showWorldViewPane(initWorldViewPane());
+            structureOverviewController = loader.getController();
+            structureOverviewController.setMain(this);
+            structureOverviewController.showSimulationControlsPane(initSimulationControlsPane());
+            structureOverviewController.showStructureDetailsPane(initStructureDetailsPane());
+            structureOverviewController.showDailyStatisticsPane(initDailyStatisticsPane());
+            structureOverviewController.showProductionStatisticsPane(initProductionStatisticsPane());
+            structureOverviewController.showStructureComparisonsPane(initStructureComparisonsPane());
+            structureOverviewController.showWorldViewPane(initWorldViewPane());
             return personOverview;
         }
         catch (IOException e)
