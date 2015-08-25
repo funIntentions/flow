@@ -169,9 +169,15 @@ public class World
             demandManager.calculateDaysExpenses(statsManager.getDailyPriceTrends());
             demandManager.calculateDaysEnvironmentalImpact(statsManager.getDailyEmissionTrends());
             storageManager.updateStorageStrategies(worldTimer.getCurrentDate().getDayOfWeek().getValue() - 1, demandManager, statsManager);
-            demandManager.calculateDemandStates(worldTimer.getCurrentDate().getDayOfWeek().getValue() - 1);
-            demandManager.calculateDemandProfiles(worldTimer.getCurrentDate().getDayOfWeek().getValue() - 1, storageManager);
-            demandManager.resetDay();
+
+            if (!storageManager.errorEncountered()) {
+                demandManager.calculateDemandStates(worldTimer.getCurrentDate().getDayOfWeek().getValue() - 1);
+                demandManager.calculateDemandProfiles(worldTimer.getCurrentDate().getDayOfWeek().getValue() - 1, storageManager);
+                demandManager.resetDay();
+            } else {
+                pauseSimulation();
+                resetSimulation();
+            }
         }
 
         if (worldTimer.isTimeLimitReached())

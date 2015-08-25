@@ -261,6 +261,7 @@ public class DemandManager
         totalUsageInkWh = 0;
         structureExpenses.clear();
         structureEnvironmentalImpact.clear();
+        timeOverflow = 0;
         resetDay();
     }
 

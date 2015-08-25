@@ -33,6 +33,7 @@ public class StorageManager
     private Main main;
     private List<Building> structures;
     private HashMap<Integer, List<Float>> deviceStorageProfiles;
+    private Boolean errorEncountered = false;
 
     public StorageManager()
     {
@@ -47,6 +48,8 @@ public class StorageManager
 
     public void reset()
     {
+        errorEncountered = false;
+
         for (List<Float> profile : deviceStorageProfiles.values())
         {
             profile.clear();
@@ -153,6 +156,7 @@ public class StorageManager
         }
         catch (LuaError error)
         {
+            errorEncountered = true;
             Platform.runLater(new Runnable()
             {
                 @Override
@@ -289,5 +293,8 @@ public class StorageManager
         return true;
     }
 
+    public Boolean errorEncountered() {
+        return errorEncountered;
+    }
 }
 
