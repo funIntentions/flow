@@ -207,8 +207,6 @@ public class StructureOverviewController
             {
                 main.showBuildingEditDialog((Building) structure);
             }
-
-            triggerWorldListUpdate(structure); // TODO: find a more elegant way
         }
         else
             alertNoWorldStructureSelected();
@@ -235,14 +233,7 @@ public class StructureOverviewController
         else
             alertNoTemplateStructureSelected();
     }
-
-    private void triggerWorldListUpdate(Structure structure)
-    {
-        int index = worldStructureList.getSelectionModel().getSelectedIndex();
-        if (index >= 0)
-            main.getWorldStructureData().set(index, structure);
-    }
-
+    
     private void triggerTemplateListUpdate(Structure structure)
     {
         int index = templateStructureList.getSelectionModel().getSelectedIndex();
