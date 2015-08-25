@@ -1,6 +1,7 @@
 package com.projects.view;
 
 import com.projects.Main;
+import com.projects.helper.SimulationState;
 import com.projects.model.Building;
 import com.projects.model.Structure;
 import javafx.beans.property.FloatProperty;
@@ -157,6 +158,15 @@ public class StructureDetailsPaneController
                     structureRankingTable.getSelectionModel().select(results);
                     break;
                 }
+            }
+        });
+
+
+        main.simulationStateProperty().addListener((observable, oldValue, newValue) ->
+        {
+            if (newValue == SimulationState.RESET)
+            {
+                clearComparisions();
             }
         });
     }

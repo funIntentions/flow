@@ -298,6 +298,7 @@ public class Main extends Application {
         productionStatisticsController.clearEmissionForDemandChart();
         productionStatisticsController.clearPriceForDemandChart();
         structureDetailsPaneController.clearLoadProfileDetails();
+        structureDetailsPaneController.clearComparisions();
         worldViewController.clearSelection();
         world.resetSimulation();
         setSimulationFilePath(null);
