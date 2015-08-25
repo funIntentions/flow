@@ -4,6 +4,7 @@ import com.projects.helper.Constants;
 import com.projects.model.Building;
 import com.projects.model.UsageTimeSpan;
 import javafx.collections.ListChangeListener;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
@@ -13,12 +14,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.LocalTimeStringConverter;
 
-import javax.swing.text.NumberFormatter;
-import java.awt.image.BufferedImage;
-import java.beans.EventHandler;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -142,6 +141,12 @@ public class LoadProfileEditDialogController
     public void setDialogStage(Stage dialogStage)
     {
         this.dialogStage = dialogStage;
+
+        dialogStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                handleClose();
+            }
+        });
     }
 
     private void initChartData()

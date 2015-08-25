@@ -3,10 +3,12 @@ package com.projects.view;
 import com.projects.model.AnimatedSprite;
 import com.projects.model.PowerPlant;
 import javafx.collections.FXCollections;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 
 import java.util.HashMap;
@@ -89,6 +91,12 @@ public class PowerPlantEditDialogController
     public void setDialogStage(Stage dialogStage)
     {
         this.dialogStage = dialogStage;
+
+        dialogStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                handleOk();
+            }
+        });
     }
 
     /**
