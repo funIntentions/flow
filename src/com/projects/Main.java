@@ -18,6 +18,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.w3c.dom.Document;
@@ -328,12 +329,12 @@ public class Main extends Application {
         }
     }
 
-    private BorderPane initStructureDetailsPane()
+    private Pane initStructureDetailsPane()
     {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/StructureDetailsPane.fxml"));
-            BorderPane structureDetails = (BorderPane) loader.load();
+            Pane structureDetails = loader.load();
 
             structureDetailsPaneController = loader.getController();
             return structureDetails;
@@ -344,12 +345,12 @@ public class Main extends Application {
         return null;
     }
 
-    private BorderPane initSimulationControlsPane()
+    private Pane initSimulationControlsPane()
     {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/SimulationControls.fxml"));
-            BorderPane simulationControls = (BorderPane) loader.load();
+            Pane simulationControls = loader.load();
 
             simulationControlsController = loader.getController();
             simulationControlsController.setMain(this);
@@ -361,12 +362,12 @@ public class Main extends Application {
         return null;
     }
 
-    private BorderPane initDailyStatisticsPane()
+    private Pane initDailyStatisticsPane()
     {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/DailyStatistics.fxml"));
-            BorderPane dailyStatistics = (BorderPane) loader.load();
+            Pane dailyStatistics =  loader.load();
 
             dailyStatisticsController = loader.getController();
             dailyStatisticsController.setMain(this);
@@ -378,13 +379,13 @@ public class Main extends Application {
         return null;
     }
 
-    private BorderPane initProductionStatisticsPane()
+    private Pane initProductionStatisticsPane()
     {
         try
         {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/ProductionStatistics.fxml"));
-            BorderPane productionStatistics = (BorderPane) loader.load();
+            Pane productionStatistics = loader.load();
 
             productionStatisticsController = loader.getController();
             productionStatisticsController.setMain(this);
@@ -398,13 +399,13 @@ public class Main extends Application {
         return null;
     }
 
-    private BorderPane initStructureComparisonsPane()
+    private Pane initStructureComparisonsPane()
     {
         try
         {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/StructureComparisons.fxml"));
-            BorderPane comparisonsPane = (BorderPane) loader.load();
+            Pane comparisonsPane = loader.load();
 
             structureComparisonsController = loader.getController();
             structureComparisonsController.setMain(this);
@@ -418,13 +419,13 @@ public class Main extends Application {
         return null;
     }
 
-    private BorderPane initWorldViewPane()
+    private Pane initWorldViewPane()
     {
         try
         {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/WorldView.fxml"));
-            BorderPane worldViewPane = (BorderPane) loader.load();
+            Pane worldViewPane = loader.load();
 
             worldViewController = loader.getController();
             worldViewController.setMain(this);
@@ -441,14 +442,14 @@ public class Main extends Application {
     /**
      * Shows the person overview inside the root layout.
      */
-    public AnchorPane initStructureOverview()
+    public Pane initStructureOverview()
     {
         try
         {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/StructureOverview.fxml"));
-            AnchorPane personOverview = (AnchorPane) loader.load();
+            Pane personOverview = loader.load();
 
             StructureOverviewController controller = loader.getController();
             controller.setMain(this);

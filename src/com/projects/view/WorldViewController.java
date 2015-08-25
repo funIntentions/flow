@@ -14,13 +14,16 @@ import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,6 +42,20 @@ public class WorldViewController
     private boolean mouseDown = false;
     private Structure selected = null;
     private Main main;
+
+    private Color highUsage = new Color(213f/255f, 43f/255f, 43f/255f, 1);
+    private Color mediumUsage = new Color(213f/255f, 142f/255f, 61f/255f, 1);
+    private Color averageUsage = new Color(204f/255f, 213f/255f, 87f/255f, 1);
+    private Color lowUsage = new Color(63f/255f, 57f/255f, 57f/255f, 1);
+    private Label highUsageLabel = new Label("high usage");
+    private Label mediumUsageLabel = new Label("medium usage");
+    private Label averageUsageLabel = new Label("average usage");
+    private Label lowUsageLabel = new Label("low usage");
+
+    private int boxSize = 15;
+    private int legendXOffset = 30;
+    private int legendYOffset = 30;
+    private int legendYSpacing = 20;
 
     @FXML
     private void initialize()
@@ -67,7 +84,7 @@ public class WorldViewController
                 double time = (now - start) / 1000000000.0;
 
                 gc.clearRect(0, 0, worldCanvas.getWidth(), worldCanvas.getHeight());
-                List<Structure> worldStructures = main.getWorldStructureData();
+                List<Structure> worldStructures = main != null ? main.getWorldStructureData() : new ArrayList<>();
 
                 if (selectionMade)
                 {
@@ -117,6 +134,39 @@ public class WorldViewController
 
                     Sprite structureSprite = structure.getAnimatedSprite();
                     gc.drawImage(structureSprite.getImage(), structureSprite.getXPosition(), structureSprite.getYPosition());
+
+
+                    float yOffset = legendYOffset;
+
+                    gc.setFill(highUsage);
+                    gc.fillRoundRect(legendXOffset, yOffset, boxSize, boxSize, 10, 10);
+                    gc.setFill(Color.BLACK);
+                    gc.setFont(highUsageLabel.getFont());
+                    gc.fillText(highUsageLabel.getText(), legendXOffset + 40, yOffset + boxSize);
+
+                    yOffset += legendYSpacing;
+
+                    gc.setFill(mediumUsage);
+                    gc.fillRoundRect(legendXOffset, yOffset, boxSize, boxSize, 10, 10);
+                    gc.setFill(Color.BLACK);
+                    gc.setFont(mediumUsageLabel.getFont());
+                    gc.fillText(mediumUsageLabel.getText(), legendXOffset + 40, yOffset + boxSize);
+
+                    yOffset += legendYSpacing;
+
+                    gc.setFill(averageUsage);
+                    gc.fillRoundRect(legendXOffset, yOffset, boxSize, boxSize, 10, 10);
+                    gc.setFill(Color.BLACK);
+                    gc.setFont(averageUsageLabel.getFont());
+                    gc.fillText(averageUsageLabel.getText(), legendXOffset + 40, yOffset + boxSize);
+
+                    yOffset += legendYSpacing;
+
+                    gc.setFill(lowUsage);
+                    gc.fillRoundRect(legendXOffset, yOffset, boxSize, boxSize, 10, 10);
+                    gc.setFill(Color.BLACK);
+                    gc.setFont(lowUsageLabel.getFont());
+                    gc.fillText(lowUsageLabel.getText(), legendXOffset + 40, yOffset + boxSize);
                 }
             }
         };

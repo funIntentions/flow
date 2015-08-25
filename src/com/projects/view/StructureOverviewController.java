@@ -8,7 +8,9 @@ import com.projects.model.PowerPlant;
 import com.projects.model.Structure;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -233,7 +235,7 @@ public class StructureOverviewController
         else
             alertNoTemplateStructureSelected();
     }
-    
+
     private void triggerTemplateListUpdate(Structure structure)
     {
         int index = templateStructureList.getSelectionModel().getSelectedIndex();
@@ -322,32 +324,32 @@ public class StructureOverviewController
         worldStructureList.setOnMouseClicked((event) -> selectWorldStructure());
     }
 
-    public void showStructureDetailsPane(BorderPane structureDetails)
+    public void showStructureDetailsPane(Pane structureDetails)
     {
         structureDetailsTab.setContent(structureDetails);
     }
 
-    public void showSimulationControlsPane(BorderPane simulationControls)
+    public void showSimulationControlsPane(Pane simulationControls)
     {
         simulationControlsTitledPane.setContent(simulationControls);
     }
 
-    public void showWorldViewPane(BorderPane worldView)
+    public void showWorldViewPane(Pane worldView)
     {
         worldViewTab.setContent(worldView);
     }
 
-    public void showDailyStatisticsPane(BorderPane dailyStatistics)
+    public void showDailyStatisticsPane(Pane dailyStatistics)
     {
         dailyStatsTab.setContent(dailyStatistics);
     }
 
-    public void showProductionStatisticsPane(BorderPane productionStatistics)
+    public void showProductionStatisticsPane(Pane productionStatistics)
     {
         productionStatsTab.setContent(productionStatistics);
     }
 
-    public void showStructureComparisonsPane(BorderPane comparisonsPane)
+    public void showStructureComparisonsPane(Pane comparisonsPane)
     {
         structureComparisonsTab.setContent(comparisonsPane);
     }
