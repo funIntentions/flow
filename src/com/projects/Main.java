@@ -293,6 +293,7 @@ public class Main extends Application {
         structureComparisonsController.clearComparisions();
         structureDetailsPaneController.clearLoadProfileDetails();
         worldViewController.clearSelection();
+        world.resetSimulation();
         setSimulationFilePath(null);
     }
 
