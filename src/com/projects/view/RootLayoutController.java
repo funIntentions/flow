@@ -1,8 +1,11 @@
 package com.projects.view;
 
 import com.projects.Main;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.RadioMenuItem;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -12,6 +15,9 @@ import java.io.File;
  */
 public class RootLayoutController
 {
+    @FXML
+    private RadioMenuItem showLegendRadioMenuItem;
+
     private Main main;
 
     public RootLayoutController()
@@ -27,7 +33,13 @@ public class RootLayoutController
     @FXML
     private void initialize()
     {
-
+        showLegendRadioMenuItem.setSelected(true);
+        showLegendRadioMenuItem.setOnAction((new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                main.toggleLegendShowing();
+            }
+        }));
     }
 
     @FXML

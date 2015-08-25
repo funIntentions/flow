@@ -40,6 +40,7 @@ public class WorldViewController
     private Sprite selectionSprite;// = new Sprite(new Image(Constants.SELECTION_IMAGE), 0, 0);
     private boolean selectionMade = false;
     private boolean mouseDown = false;
+    private boolean showLegend = true;
     private Structure selected = null;
     private Main main;
 
@@ -135,38 +136,40 @@ public class WorldViewController
                     Sprite structureSprite = structure.getAnimatedSprite();
                     gc.drawImage(structureSprite.getImage(), structureSprite.getXPosition(), structureSprite.getYPosition());
 
+                    if (showLegend)
+                    {
+                        float yOffset = legendYOffset;
 
-                    float yOffset = legendYOffset;
+                        gc.setFill(highUsage);
+                        gc.fillRoundRect(legendXOffset, yOffset, boxSize, boxSize, 10, 10);
+                        gc.setFill(Color.BLACK);
+                        gc.setFont(highUsageLabel.getFont());
+                        gc.fillText(highUsageLabel.getText(), legendXOffset + 40, yOffset + boxSize);
 
-                    gc.setFill(highUsage);
-                    gc.fillRoundRect(legendXOffset, yOffset, boxSize, boxSize, 10, 10);
-                    gc.setFill(Color.BLACK);
-                    gc.setFont(highUsageLabel.getFont());
-                    gc.fillText(highUsageLabel.getText(), legendXOffset + 40, yOffset + boxSize);
+                        yOffset += legendYSpacing;
 
-                    yOffset += legendYSpacing;
+                        gc.setFill(mediumUsage);
+                        gc.fillRoundRect(legendXOffset, yOffset, boxSize, boxSize, 10, 10);
+                        gc.setFill(Color.BLACK);
+                        gc.setFont(mediumUsageLabel.getFont());
+                        gc.fillText(mediumUsageLabel.getText(), legendXOffset + 40, yOffset + boxSize);
 
-                    gc.setFill(mediumUsage);
-                    gc.fillRoundRect(legendXOffset, yOffset, boxSize, boxSize, 10, 10);
-                    gc.setFill(Color.BLACK);
-                    gc.setFont(mediumUsageLabel.getFont());
-                    gc.fillText(mediumUsageLabel.getText(), legendXOffset + 40, yOffset + boxSize);
+                        yOffset += legendYSpacing;
 
-                    yOffset += legendYSpacing;
+                        gc.setFill(averageUsage);
+                        gc.fillRoundRect(legendXOffset, yOffset, boxSize, boxSize, 10, 10);
+                        gc.setFill(Color.BLACK);
+                        gc.setFont(averageUsageLabel.getFont());
+                        gc.fillText(averageUsageLabel.getText(), legendXOffset + 40, yOffset + boxSize);
 
-                    gc.setFill(averageUsage);
-                    gc.fillRoundRect(legendXOffset, yOffset, boxSize, boxSize, 10, 10);
-                    gc.setFill(Color.BLACK);
-                    gc.setFont(averageUsageLabel.getFont());
-                    gc.fillText(averageUsageLabel.getText(), legendXOffset + 40, yOffset + boxSize);
+                        yOffset += legendYSpacing;
 
-                    yOffset += legendYSpacing;
-
-                    gc.setFill(lowUsage);
-                    gc.fillRoundRect(legendXOffset, yOffset, boxSize, boxSize, 10, 10);
-                    gc.setFill(Color.BLACK);
-                    gc.setFont(lowUsageLabel.getFont());
-                    gc.fillText(lowUsageLabel.getText(), legendXOffset + 40, yOffset + boxSize);
+                        gc.setFill(lowUsage);
+                        gc.fillRoundRect(legendXOffset, yOffset, boxSize, boxSize, 10, 10);
+                        gc.setFill(Color.BLACK);
+                        gc.setFont(lowUsageLabel.getFont());
+                        gc.fillText(lowUsageLabel.getText(), legendXOffset + 40, yOffset + boxSize);
+                    }
                 }
             }
         };
@@ -278,6 +281,16 @@ public class WorldViewController
                 }
             }
         });
+    }
+
+    public boolean isShowLegend()
+    {
+        return showLegend;
+    }
+
+    public void setShowLegend(boolean showLegend)
+    {
+        this.showLegend = showLegend;
     }
 
     public double getWidth()

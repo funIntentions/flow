@@ -270,6 +270,11 @@ public class Main extends Application {
         return worldViewController;
     }
 
+    public void toggleLegendShowing()
+    {
+        worldViewController.setShowLegend(!worldViewController.isShowLegend());
+    }
+
     @Override
     public void start(Stage primaryStage)
     {

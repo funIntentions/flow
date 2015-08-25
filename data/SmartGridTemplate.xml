@@ -719,8 +719,8 @@
 <worldStructures>
 <simpleStructure>
 <name>Summer Home</name>
-<x>208.0</x>
-<y>0.0</y>
+<x>236.0</x>
+<y>125.0</y>
 <sprite>0</sprite>
 <usingCustomLoadProfiles>true</usingCustomLoadProfiles>
 <appliances>
@@ -900,8 +900,8 @@
 </simpleStructure>
 <simpleStructure>
 <name>Winter Home</name>
-<x>166.0</x>
-<y>21.0</y>
+<x>177.0</x>
+<y>139.0</y>
 <sprite>0</sprite>
 <usingCustomLoadProfiles>false</usingCustomLoadProfiles>
 <appliances>
@@ -1058,8 +1058,8 @@
 </simpleStructure>
 <simpleStructure>
 <name>Winter Home With Storage</name>
-<x>91.0</x>
-<y>19.0</y>
+<x>131.0</x>
+<y>160.0</y>
 <sprite>0</sprite>
 <usingCustomLoadProfiles>false</usingCustomLoadProfiles>
 <appliances>
@@ -1223,8 +1223,8 @@
 </simpleStructure>
 <simpleStructure>
 <name>Summer Home With Storage</name>
-<x>28.0</x>
-<y>54.0</y>
+<x>85.0</x>
+<y>189.0</y>
 <sprite>0</sprite>
 <usingCustomLoadProfiles>false</usingCustomLoadProfiles>
 <appliances>
