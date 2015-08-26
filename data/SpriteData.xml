@@ -24,32 +24,32 @@
         <sprite>
             <id>1</id>
             <name>PowerPlant</name>
-            <numberOfImages>6</numberOfImages>
-            <duration>1</duration>
+            <numberOfImages>10</numberOfImages>
+            <duration>0.3</duration>
         </sprite>
         <sprite>
             <id>4</id>
             <name>Plant</name>
-            <numberOfImages>1</numberOfImages>
-            <duration>1</duration>
+            <numberOfImages>10</numberOfImages>
+            <duration>0.3</duration>
         </sprite>
         <sprite>
             <id>5</id>
             <name>WindMill</name>
             <numberOfImages>4</numberOfImages>
-            <duration>0.25</duration>
+            <duration>0.2</duration>
         </sprite>
         <sprite>
             <id>6</id>
             <name>SolarFarm</name>
-            <numberOfImages>1</numberOfImages>
-            <duration>1</duration>
+            <numberOfImages>8</numberOfImages>
+            <duration>0.3</duration>
         </sprite>
         <sprite>
             <id>7</id>
             <name>HydroPlant</name>
-            <numberOfImages>1</numberOfImages>
-            <duration>1</duration>
+            <numberOfImages>8</numberOfImages>
+            <duration>0.3</duration>
         </sprite>
     </powerPlantSprites>
 </sprites>

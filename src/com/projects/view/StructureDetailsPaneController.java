@@ -151,12 +151,15 @@ public class StructureDetailsPaneController
         {
             structureRankingTable.getSelectionModel().clearSelection();
 
-            for (StructureResults results : structureResultsList)
+            if (newValue != null)
             {
-                if (results.structureProperty.get().getId() == newValue.getId())
+                for (StructureResults results : structureResultsList)
                 {
-                    structureRankingTable.getSelectionModel().select(results);
-                    break;
+                    if (results.structureProperty.get().getId() == newValue.getId())
+                    {
+                        structureRankingTable.getSelectionModel().select(results);
+                        break;
+                    }
                 }
             }
         });
