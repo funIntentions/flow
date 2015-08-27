@@ -33,14 +33,11 @@ public class WorldViewController {
     private final int selectionRange = 14;
     @FXML
     private Canvas worldCanvas;
-    private GraphicsContext gc;
-    private AnimationTimer animationTimer;
-    private Sprite selectionSprite;
-    private boolean selectionMade = false;
-    private boolean mouseDown = false;
-    private boolean showLegend = true;
-    private Structure selected = null;
+
     private Main main;
+    private GraphicsContext gc;
+    private Sprite selectionSprite;
+    private Structure selected = null;
 
     private Color highUsage = new Color(213f / 255f, 43f / 255f, 43f / 255f, 1);
     private Color mediumUsage = new Color(213f / 255f, 142f / 255f, 61f / 255f, 1);
@@ -50,6 +47,10 @@ public class WorldViewController {
     private Label mediumUsageLabel = new Label("medium usage");
     private Label averageUsageLabel = new Label("average usage");
     private Label lowUsageLabel = new Label("low usage");
+
+    private boolean selectionMade = false;
+    private boolean mouseDown = false;
+    private boolean showLegend = true;
 
     long start = 0;
     private int boxSize = 15;
@@ -72,16 +73,12 @@ public class WorldViewController {
 
         start = System.nanoTime();
 
-        animationTimer = new AnimationTimer() {
+        AnimationTimer animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
 
                 gc.clearRect(0, 0, worldCanvas.getWidth(), worldCanvas.getHeight());
                 List<Structure> worldStructures = main != null ? main.getWorldStructureData() : new ArrayList<>();
-
-                if (selectionMade) {
-                    gc.drawImage(selectionSprite.getImage(), selectionSprite.getXPosition(), selectionSprite.getYPosition());
-                }
 
                 for (Structure structure : worldStructures) {
                     if (structure instanceof Building) {
@@ -127,57 +124,50 @@ public class WorldViewController {
                     Sprite structureSprite = structure.getAnimatedSprite();
                     gc.drawImage(structureSprite.getImage(), structureSprite.getXPosition(), structureSprite.getYPosition());
 
-                    if (showLegend) {
-                        float yOffset = legendYOffset;
+                }
 
-                        gc.setFill(highUsage);
-                        gc.fillRoundRect(legendXOffset, yOffset, boxSize, boxSize, 10, 10);
-                        gc.setFill(Color.BLACK);
-                        gc.setFont(highUsageLabel.getFont());
-                        gc.fillText(highUsageLabel.getText(), legendXOffset + 40, yOffset + boxSize);
+                if (selectionMade) {
+                    gc.drawImage(selectionSprite.getImage(), selectionSprite.getXPosition(), selectionSprite.getYPosition());
+                }
 
-                        yOffset += legendYSpacing;
+                if (showLegend) {
+                    float yOffset = legendYOffset;
 
-                        gc.setFill(mediumUsage);
-                        gc.fillRoundRect(legendXOffset, yOffset, boxSize, boxSize, 10, 10);
-                        gc.setFill(Color.BLACK);
-                        gc.setFont(mediumUsageLabel.getFont());
-                        gc.fillText(mediumUsageLabel.getText(), legendXOffset + 40, yOffset + boxSize);
+                    gc.setFill(highUsage);
+                    gc.fillRoundRect(legendXOffset, yOffset, boxSize, boxSize, 10, 10);
+                    gc.setFill(Color.BLACK);
+                    gc.setFont(highUsageLabel.getFont());
+                    gc.fillText(highUsageLabel.getText(), legendXOffset + 40, yOffset + boxSize);
 
-                        yOffset += legendYSpacing;
+                    yOffset += legendYSpacing;
 
-                        gc.setFill(averageUsage);
-                        gc.fillRoundRect(legendXOffset, yOffset, boxSize, boxSize, 10, 10);
-                        gc.setFill(Color.BLACK);
-                        gc.setFont(averageUsageLabel.getFont());
-                        gc.fillText(averageUsageLabel.getText(), legendXOffset + 40, yOffset + boxSize);
+                    gc.setFill(mediumUsage);
+                    gc.fillRoundRect(legendXOffset, yOffset, boxSize, boxSize, 10, 10);
+                    gc.setFill(Color.BLACK);
+                    gc.setFont(mediumUsageLabel.getFont());
+                    gc.fillText(mediumUsageLabel.getText(), legendXOffset + 40, yOffset + boxSize);
 
-                        yOffset += legendYSpacing;
+                    yOffset += legendYSpacing;
 
-                        gc.setFill(lowUsage);
-                        gc.fillRoundRect(legendXOffset, yOffset, boxSize, boxSize, 10, 10);
-                        gc.setFill(Color.BLACK);
-                        gc.setFont(lowUsageLabel.getFont());
-                        gc.fillText(lowUsageLabel.getText(), legendXOffset + 40, yOffset + boxSize);
-                    }
+                    gc.setFill(averageUsage);
+                    gc.fillRoundRect(legendXOffset, yOffset, boxSize, boxSize, 10, 10);
+                    gc.setFill(Color.BLACK);
+                    gc.setFont(averageUsageLabel.getFont());
+                    gc.fillText(averageUsageLabel.getText(), legendXOffset + 40, yOffset + boxSize);
+
+                    yOffset += legendYSpacing;
+
+                    gc.setFill(lowUsage);
+                    gc.fillRoundRect(legendXOffset, yOffset, boxSize, boxSize, 10, 10);
+                    gc.setFill(Color.BLACK);
+                    gc.setFont(lowUsageLabel.getFont());
+                    gc.fillText(lowUsageLabel.getText(), legendXOffset + 40, yOffset + boxSize);
                 }
             }
         };
 
         animationTimer.start();
         selectionMade = false;
-    }
-
-    public void clearSelection() {
-        selectionMade = false;
-        selected = null;
-    }
-
-    private void setSelection(Structure structure) {
-        selectionMade = true;
-        selectionSprite.setXPosition((structure.getAnimatedSprite().getXPosition() + structure.getAnimatedSprite().getImage().getWidth() / 2) - selectionSprite.getImage().getWidth() / 2);
-        selectionSprite.setYPosition((structure.getAnimatedSprite().getYPosition() + structure.getAnimatedSprite().getImage().getHeight() / 2) - selectionSprite.getImage().getHeight() / 2);
-        selected = structure;
     }
 
     @FXML
@@ -230,6 +220,18 @@ public class WorldViewController {
             selectionSprite.setXPosition((selected.getAnimatedSprite().getXPosition() + selected.getAnimatedSprite().getImage().getWidth() / 2) - selectionSprite.getImage().getWidth() / 2);
             selectionSprite.setYPosition((selected.getAnimatedSprite().getYPosition() + selected.getAnimatedSprite().getImage().getHeight() / 2) - selectionSprite.getImage().getHeight() / 2);
         }
+    }
+
+    public void clearSelection() {
+        selectionMade = false;
+        selected = null;
+    }
+
+    private void setSelection(Structure structure) {
+        selectionMade = true;
+        selectionSprite.setXPosition((structure.getAnimatedSprite().getXPosition() + structure.getAnimatedSprite().getImage().getWidth() / 2) - selectionSprite.getImage().getWidth() / 2);
+        selectionSprite.setYPosition((structure.getAnimatedSprite().getYPosition() + structure.getAnimatedSprite().getImage().getHeight() / 2) - selectionSprite.getImage().getHeight() / 2);
+        selected = structure;
     }
 
     public void setMain(Main main) {
