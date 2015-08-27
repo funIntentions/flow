@@ -21,7 +21,6 @@ public class DemandManager {
     private HashMap<Integer, List<Float>> structureDemandProfiles;
     private List<Integer> demandProfileForToday;
     private float timeOverflow;
-    private double usageInWattsPerHour = 0;
     private double totalUsageInkWh = 0;
     private double electricityDemand = 0;
     private boolean dailyDemandProfileReady = false;
@@ -220,7 +219,6 @@ public class DemandManager {
     }
 
     public void reset() {
-        usageInWattsPerHour = 0;
         totalUsageInkWh = 0;
         structureExpenses.clear();
         structureEnvironmentalImpact.clear();
@@ -237,10 +235,6 @@ public class DemandManager {
         }
 
         return false;
-    }
-
-    public void removeAllStructures() {
-        structures.clear();
     }
 
     public boolean syncStructures(Building changedStructure) {
@@ -271,10 +265,6 @@ public class DemandManager {
 
     public double getTotalUsageInkWh() {
         return totalUsageInkWh;
-    }
-
-    public double getUsageInWattsPerHour() {
-        return usageInWattsPerHour;
     }
 
     public double getElectricityDemand() {

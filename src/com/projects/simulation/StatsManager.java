@@ -16,7 +16,7 @@ public class StatsManager {
     List<List<Float>> dailyPriceTrends;
     List<List<Float>> dailyEmissionTrends;
     private Main main;
-    private int currentDay;
+    private int currentDay = -1;
     private boolean dailyTrendDataReady;
     private List<Integer> dailyDemandBuffer;
 
@@ -27,7 +27,6 @@ public class StatsManager {
         dailyPriceTrends = new ArrayList<>();
         dailyEmissionTrends = new ArrayList<>();
         dailyDemandTrends = new ArrayList<>();
-        currentDay = -1;
         resetDailyTrends();
     }
 
@@ -45,7 +44,6 @@ public class StatsManager {
         main.getDailyStatisticsController().setPriceChartData(dailyPriceTrends.get(day));
         main.getDailyStatisticsController().setEmissionsChartData(dailyEmissionTrends.get(day));
     }
-
 
     public void reset() {
         dailyPriceTrends.clear();
@@ -132,36 +130,48 @@ public class StatsManager {
         ++currentDay;
     }
 
-    public List<Float> getDailyEmissionTrends() {
+    public List<Float> getDailyEmissionTrendsForToday() {
         return dailyEmissionTrends.get(currentDay);
     }
 
-    public List<Float> getDailyPriceTrends() {
+    public List<Float> getDailyPriceTrendsForToday() {
         return dailyPriceTrends.get(currentDay);
     }
 
-    public List<Float> getDailyDemandTrends() {
+    public List<Float> getDailyDemandTrendsForToday() {
         return dailyDemandTrends.get(currentDay);
     }
 
-    public List<Float> getDailyEmissionTrends(int day) {
+    public List<Float> getDailyEmissionTrendsForDay(int day) {
         return dailyEmissionTrends.get(day);
     }
 
-    public List<Float> getDailyPriceTrends(int day) {
+    public List<Float> getDailyPriceTrendsForDay(int day) {
         return dailyPriceTrends.get(day);
     }
 
-    public List<Float> getDailyDemandTrends(int day) {
+    public List<Float> getDailyDemandTrendsForDay(int day) {
         return dailyDemandTrends.get(day);
     }
 
-    public List<Float> getPriceForDemand() {
+    public List<Float> getPriceForDemandData() {
         return priceForDemand;
     }
 
-    public List<Float> getEmissionsForDemand() {
+    public List<Float> getEmissionsForDemandData() {
         return emissionsForDemand;
+    }
+
+    public List<List<Float>> getDailyEmissionTrends() {
+        return dailyEmissionTrends;
+    }
+
+    public List<List<Float>> getDailyDemandTrends() {
+        return dailyDemandTrends;
+    }
+
+    public List<List<Float>> getDailyPriceTrends() {
+        return dailyPriceTrends;
     }
 
     public boolean isDailyTrendDataReady() {

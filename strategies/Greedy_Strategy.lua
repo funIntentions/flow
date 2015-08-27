@@ -6,8 +6,9 @@
 -- To change this template use File | Settings | File Templates.
 --
 
-function strategize(storageDevice, loadProfile, oldStorageProfile, newStorageProfile)
+function strategize(storageDevice, building, simulationStatus, newStorageProfile)
 
+    local loadProfile = building:getLoadProfilesForWeek():get(simulationStatus.dayOfTheWeek)
     local transferCapacity = storageDevice:getChargingRate()
     local length = loadProfile:size() - 1;
     local charging, discharging = 1, 2

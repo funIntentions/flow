@@ -6,8 +6,9 @@
 -- To change this template use File | Settings | File Templates.
 --
 
-function strategize(storageDevice, loadProfile, oldStorageProfile, newStorageProfile)
+function strategize(storageDevice, building, simulationStatus, newStorageProfile)
 
+    local loadProfile = building:getLoadProfilesForWeek():get(simulationStatus.dayOfTheWeek)
     local chargeTimes = {{from = 0, to = 1}, {from = 10, to = 11}, {from = 14, to = 15} }
     local dischargeTimes = {{from = 6.5, to = 7.5}, {from = 12, to = 13}, {from = 18, to = 19}}
 

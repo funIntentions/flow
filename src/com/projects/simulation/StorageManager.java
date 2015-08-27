@@ -72,7 +72,7 @@ public class StorageManager {
         return demand;
     }
 
-    public void updateStorageStrategies(int day, DemandManager demandManager, StatsManager statsManager) {
+    public void updateStorageStrategies(World.SimulationStatus simulationStatus) {
         for (Building structure : structures) {
             List<EnergyStorage> energyStorageDevices = (List) structure.getEnergyStorageDevices();
 
@@ -88,27 +88,27 @@ public class StorageManager {
                 }
                 deviceStorageProfiles.put(storage.getId(), storageProfile);
 
-                runLuaStrategyScript(storage.getStorageStrategy(), storage, structure.getLoadProfilesForWeek().get(day), deviceStorageProfiles.get(storage.getId()));
+                runLuaStrategyScript(storage, structure, simulationStatus);
             }
         }
     }
 
-    public void runLuaStrategyScript(String script, EnergyStorage storageDevice, List<Float> loadProfile, List<Float> oldStorageProfile) {
+    public void runLuaStrategyScript(EnergyStorage storageDevice, Building building, World.SimulationStatus simulationStatus) {
 
         StorageProfileWrapper newStorageProfileWrapper = new StorageProfileWrapper();
 
         try {
             LuaValue luaGlobals = JsePlatform.standardGlobals();
-            luaGlobals.get("dofile").call(LuaValue.valueOf(Constants.STRATEGIES_FILE_PATH + script));
+            luaGlobals.get("dofile").call(LuaValue.valueOf(Constants.STRATEGIES_FILE_PATH + storageDevice.getStorageStrategy()));
 
             LuaValue storageDeviceLua = CoerceJavaToLua.coerce(storageDevice);
-            LuaValue loadProfileLua = CoerceJavaToLua.coerce(loadProfile);
-            LuaValue oldStorageProfileLua = CoerceJavaToLua.coerce(oldStorageProfile);
+            LuaValue buildingLua = CoerceJavaToLua.coerce(building);
+            LuaValue simulationStatusLua = CoerceJavaToLua.coerce(simulationStatus);
             LuaValue newStorageProfileLua = CoerceJavaToLua.coerce(newStorageProfileWrapper);
             LuaValue[] luaValues = new LuaValue[4];
             luaValues[0] = storageDeviceLua;
-            luaValues[1] = loadProfileLua;
-            luaValues[2] = oldStorageProfileLua;
+            luaValues[1] = buildingLua;
+            luaValues[2] = simulationStatusLua;
             luaValues[3] = newStorageProfileLua;
             Varargs varargs = LuaValue.varargsOf(luaValues);
 
@@ -121,7 +121,7 @@ public class StorageManager {
             }
         } catch (LuaError error) {
             errorEncountered = true;
-            Platform.runLater(() -> displayLuaExceptionDialog(error, script));
+            Platform.runLater(() -> displayLuaExceptionDialog(error, storageDevice.getStorageStrategy()));
         }
 
         List<Float> newStorageProfile = newStorageProfileWrapper.storageProfile;

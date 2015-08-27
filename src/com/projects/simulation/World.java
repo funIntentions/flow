@@ -4,6 +4,7 @@ import com.projects.Main;
 import com.projects.helper.Constants;
 import com.projects.helper.SimulationState;
 import com.projects.model.Building;
+import com.projects.model.PowerPlant;
 import com.projects.model.Structure;
 import com.projects.model.WorldTimer;
 import javafx.application.Platform;
@@ -11,7 +12,9 @@ import javafx.collections.ListChangeListener;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -21,6 +24,19 @@ import java.util.concurrent.TimeUnit;
  * Created by Dan on 5/27/2015.
  */
 public class World {
+
+    public class SimulationStatus {
+        public int dayOfTheWeek = 0;
+        public List<Building> buildings = new ArrayList<>();
+        public List<PowerPlant> powerPlants = new ArrayList<>();
+        public HashMap<Integer, List<Float>> previousStorageProfiles;
+        public List<Float> priceForDemand;
+        public List<Float> emissionsForDemand;
+        public List<List<Float>> dailyDemandTrends;
+        public List<List<Float>> dailyPriceTrends;
+        public List<List<Float>> dailyEmissionTrends;
+    }
+
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final Runnable simulationTick = World.this::tick;
     private HashMap<Integer, Structure> structures;
@@ -60,8 +76,8 @@ public class World {
 
         if (supplyManager.syncStructures(structure)) {
             statsManager.updatePriceAndEmissionsStats(supplyManager);
-            main.getProductionStatisticsController().setEmissionsForDemandData(statsManager.getEmissionsForDemand());
-            main.getProductionStatisticsController().setPriceForDemandData(statsManager.getPriceForDemand());
+            main.getProductionStatisticsController().setEmissionsForDemandData(statsManager.getEmissionsForDemandData());
+            main.getProductionStatisticsController().setPriceForDemandData(statsManager.getPriceForDemandData());
         }
     }
 
@@ -69,8 +85,8 @@ public class World {
         demandManager.removeStructure(structures.get(id));
         if (supplyManager.removeStructure(structures.get(id))) {
             statsManager.updatePriceAndEmissionsStats(supplyManager);
-            main.getProductionStatisticsController().setEmissionsForDemandData(statsManager.getEmissionsForDemand());
-            main.getProductionStatisticsController().setPriceForDemandData(statsManager.getPriceForDemand());
+            main.getProductionStatisticsController().setEmissionsForDemandData(statsManager.getEmissionsForDemandData());
+            main.getProductionStatisticsController().setPriceForDemandData(statsManager.getPriceForDemandData());
         }
         storageManager.removeStructure(structures.get(id));
         structures.remove(id);
@@ -88,7 +104,6 @@ public class World {
         if (!running && !worldTimer.isTimeLimitReached()) {
             demandManager.calculateDemandStates(worldTimer.getCurrentDate().getDayOfWeek().getValue() - 1);
             demandManager.calculateDemandProfiles(worldTimer.getCurrentDate().getDayOfWeek().getValue() - 1, storageManager);
-            updateStatus();
             simulationHandle = scheduler.scheduleAtFixedRate(simulationTick, 0, Constants.FIXED_SIMULATION_RATE_MILLISECONDS, TimeUnit.MILLISECONDS);
             running = true;
 
@@ -111,9 +126,20 @@ public class World {
         demandManager.reset();
         storageManager.reset();
         statsManager.reset();
-        updateStatus();
 
         main.simulationStateProperty().setValue(SimulationState.RESET);
+    }
+
+    private void updateSimulationStatus() {
+        simulationStatus.dayOfTheWeek = worldTimer.getCurrentDate().getDayOfWeek().getValue() - 1;
+        simulationStatus.buildings = demandManager.getStructures();
+        simulationStatus.powerPlants = supplyManager.getPowerPlants();
+        simulationStatus.previousStorageProfiles = storageManager.getDeviceStorageProfiles();
+        simulationStatus.priceForDemand = statsManager.getPriceForDemandData();
+        simulationStatus.emissionsForDemand = statsManager.getPriceForDemandData();
+        simulationStatus.dailyDemandTrends = statsManager.getDailyDemandTrends();
+        simulationStatus.dailyPriceTrends = statsManager.getDailyPriceTrends();
+        simulationStatus.dailyEmissionTrends = statsManager.getDailyEmissionTrends();
     }
 
     public void changeUpdateRate(WorldTimer.UpdateRate updateRate) {
@@ -132,14 +158,14 @@ public class World {
         supplyManager.calculateSupply(demandManager.getElectricityDemand());
         supplyManager.updateProductionStates();
 
-        updateStatus();
-
         if (demandManager.isDailyDemandProfileReady()) {
             statsManager.resetDailyTrends();
             statsManager.logDailyTrends(demandManager.getDemandProfileForToday());
-            demandManager.calculateDaysExpenses(statsManager.getDailyPriceTrends());
-            demandManager.calculateDaysEnvironmentalImpact(statsManager.getDailyEmissionTrends());
-            storageManager.updateStorageStrategies(worldTimer.getCurrentDate().getDayOfWeek().getValue() - 1, demandManager, statsManager);
+            demandManager.calculateDaysExpenses(statsManager.getDailyPriceTrendsForToday());
+            demandManager.calculateDaysEnvironmentalImpact(statsManager.getDailyEmissionTrendsForToday());
+
+            updateSimulationStatus();
+            storageManager.updateStorageStrategies(simulationStatus);
 
             if (!storageManager.errorEncountered()) {
                 demandManager.calculateDemandStates(worldTimer.getCurrentDate().getDayOfWeek().getValue() - 1);
@@ -164,15 +190,6 @@ public class World {
                 main.simulationStateProperty().setValue(SimulationState.FINISHED);
             });
         }
-    }
-
-    private void updateStatus() {
-        simulationStatus.worldTimer = worldTimer;
-        simulationStatus.powerPlants = supplyManager.getPowerPlants();
-        simulationStatus.price = supplyManager.getPrice();
-        simulationStatus.totalUsageInkWh = demandManager.getTotalUsageInkWh();
-        simulationStatus.electricityDemand = demandManager.getElectricityDemand();
-        simulationStatus.emissions = supplyManager.getEmissions();
     }
 
     public HashMap<Integer, Structure> getStructures() {
