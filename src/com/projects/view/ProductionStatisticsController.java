@@ -1,6 +1,7 @@
 package com.projects.view;
 
 import com.projects.Main;
+import com.projects.helper.Utils;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
@@ -44,7 +45,7 @@ public class ProductionStatisticsController {
             if (demand > prices.size())
                 demand = prices.size() - 1;
 
-            priceForDemandSeries.getData().add(new XYChart.Data<>(String.valueOf(demand), prices.get(demand)));
+            priceForDemandSeries.getData().add(new XYChart.Data<>(String.valueOf(Utils.wattsToKilowatts(demand)), prices.get(demand)));
         }
     }
 
@@ -57,7 +58,7 @@ public class ProductionStatisticsController {
             if (demand > emissions.size())
                 demand = emissions.size() - 1;
 
-            emissionsForDemandSeries.getData().add(new XYChart.Data<>(String.valueOf(demand), emissions.get(demand)));
+            emissionsForDemandSeries.getData().add(new XYChart.Data<>(String.valueOf(Utils.wattsToKilowatts(demand)), emissions.get(demand)));
         }
     }
 

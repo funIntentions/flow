@@ -69,6 +69,7 @@ public class LoadProfileEditDialogController {
     private XYChart.Series<String, Float> series = new XYChart.Series<>();
     private Building building = null;
     private Stage dialogStage = null;
+    private int minuteInterval = 30;
 
     @FXML
     private void initialize() {
@@ -141,8 +142,9 @@ public class LoadProfileEditDialogController {
         series.getData().clear();
         loadProfileChart.setAnimated(true);
 
-        for (int i = 0; i < Constants.MINUTES_IN_DAY; i += 30) {
-            series.getData().add(new XYChart.Data<>(String.valueOf(i / 30), loadProfile.get(i)));
+        for (int i = 0; i < Constants.MINUTES_IN_DAY; i += minuteInterval) {
+            float hour = (i/minuteInterval)/2f;
+            series.getData().add(new XYChart.Data<>(String.valueOf(hour), loadProfile.get(i)));
         }
     }
 
@@ -155,8 +157,9 @@ public class LoadProfileEditDialogController {
         for (int i = 0; i < series.getData().size(); ++i) {
             XYChart.Data<String, Float> data = series.getData().get(i);
 
-            if (data.getYValue().floatValue() != loadProfile.get(i * 30).floatValue())
-                series.getData().set(i, new XYChart.Data<>(String.valueOf(i), loadProfile.get(i * 30)));
+            float hour = (i*minuteInterval)/2f;
+            if (data.getYValue().floatValue() != loadProfile.get(i * minuteInterval).floatValue())
+                series.getData().set(i, new XYChart.Data<>(String.valueOf(hour), loadProfile.get(i * minuteInterval)));
         }
     }
 

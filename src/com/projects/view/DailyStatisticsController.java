@@ -1,6 +1,8 @@
 package com.projects.view;
 
 import com.projects.Main;
+import com.projects.helper.Constants;
+import com.projects.helper.Utils;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
@@ -35,6 +37,8 @@ public class DailyStatisticsController {
     private XYChart.Series<String, Float> emissionSeries;
 
     private Main main;
+
+    private float minuteInterval = 30f;
 
     @FXML
     private void initialize() {
@@ -86,24 +90,27 @@ public class DailyStatisticsController {
     public void setDemandChartData(List<Float> demand) {
         clearDemandChart();
 
-        for (int i = 0; i < demand.size(); i += 30) {
-            demandSeries.getData().add(new XYChart.Data<>(String.valueOf(i), demand.get(i)));
+        for (int i = 0; i < demand.size(); i += minuteInterval) {
+            float hour = (i/minuteInterval)/2f;
+            demandSeries.getData().add(new XYChart.Data<>(String.valueOf(hour), Utils.wattsToKilowatts(demand.get(i))));
         }
     }
 
     public void setPriceChartData(List<Float> price) {
         clearPriceChart();
 
-        for (int i = 0; i < price.size(); i += 30) {
-            priceSeries.getData().add(new XYChart.Data<>(String.valueOf(i), price.get(i)));
+        for (int i = 0; i < price.size(); i += minuteInterval) {
+            float hour = (i/minuteInterval)/2f;
+            priceSeries.getData().add(new XYChart.Data<>(String.valueOf(hour), price.get(i)));
         }
     }
 
     public void setEmissionsChartData(List<Float> emissions) {
         clearEmissionChart();
 
-        for (int i = 0; i < emissions.size(); i += 30) {
-            emissionSeries.getData().add(new XYChart.Data<>(String.valueOf(i), emissions.get(i)));
+        for (int i = 0; i < emissions.size(); i += minuteInterval) {
+            float hour = (i/minuteInterval)/2f;
+            emissionSeries.getData().add(new XYChart.Data<>(String.valueOf(hour), emissions.get(i)));
         }
     }
 

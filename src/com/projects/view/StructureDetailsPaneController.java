@@ -43,6 +43,7 @@ public class StructureDetailsPaneController {
     private XYChart.Series<String, Float> series = new XYChart.Series<>();
     private List<ObservableList<Float>> loadProfilesForWeek = new ArrayList<>();
     private Main main;
+    private int minuteInterval = 30;
 
     /**
      * Initializes the controller class. This method is automatically called
@@ -93,8 +94,9 @@ public class StructureDetailsPaneController {
 
         series.getData().clear();
 
-        for (int i = 0; i < loadProfile.size(); i += 30) {
-            series.getData().add(new XYChart.Data<>(String.valueOf(i), loadProfile.get(i)));
+        for (int i = 0; i < loadProfile.size(); i += minuteInterval) {
+            float hour = (i/minuteInterval)/2f;
+            series.getData().add(new XYChart.Data<>(String.valueOf(hour), loadProfile.get(i)));
         }
     }
 

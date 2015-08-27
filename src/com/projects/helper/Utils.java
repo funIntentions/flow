@@ -60,4 +60,8 @@ public class Utils {
 
         return name;
     }
+
+    public static float  wattsToKilowatts(float watts) {
+        return watts/1000f;
+    }
 }
