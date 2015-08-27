@@ -35,7 +35,7 @@ public class WorldViewController {
     private Canvas worldCanvas;
     private GraphicsContext gc;
     private AnimationTimer animationTimer;
-    private Sprite selectionSprite;// = new Sprite(new Image(Constants.SELECTION_IMAGE), 0, 0);
+    private Sprite selectionSprite;
     private boolean selectionMade = false;
     private boolean mouseDown = false;
     private boolean showLegend = true;
@@ -51,6 +51,7 @@ public class WorldViewController {
     private Label averageUsageLabel = new Label("average usage");
     private Label lowUsageLabel = new Label("low usage");
 
+    long start = 0;
     private int boxSize = 15;
     private int legendXOffset = 30;
     private int legendYOffset = 30;
@@ -69,12 +70,11 @@ public class WorldViewController {
 
         gc = worldCanvas.getGraphicsContext2D();
 
-        final long start = System.nanoTime();
+        start = System.nanoTime();
 
         animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                double time = (now - start) / 1000000000.0;
 
                 gc.clearRect(0, 0, worldCanvas.getWidth(), worldCanvas.getHeight());
                 List<Structure> worldStructures = main != null ? main.getWorldStructureData() : new ArrayList<>();
@@ -109,10 +109,18 @@ public class WorldViewController {
                         PowerPlant powerPlant = (PowerPlant) structure;
 
                         if (powerPlant.getProductionState() == ProductionState.PRODUCING) {
-                            powerPlant.getAnimatedSprite().animate(time);
+                            if (powerPlant.getAnimatedSprite().getAnimation().isPlaying())
+                                powerPlant.getAnimatedSprite().animate(now);
+                            else {
+                                powerPlant.getAnimatedSprite().getAnimation().start();
+                                powerPlant.getAnimatedSprite().animate(now);
+                            }
                         } else {
                             if (powerPlant.getAnimatedSprite().getAnimation().getFrame() != 0)
-                                powerPlant.getAnimatedSprite().animate(time);
+                                powerPlant.getAnimatedSprite().animate(now);
+                            else {
+                                powerPlant.getAnimatedSprite().getAnimation().stop();powerPlant.getAnimatedSprite().animate(now);
+                            }
                         }
                     }
 
