@@ -30,12 +30,7 @@ public class RootLayoutController {
     @FXML
     private void initialize() {
         showLegendRadioMenuItem.setSelected(true);
-        showLegendRadioMenuItem.setOnAction((new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                main.toggleLegendShowing();
-            }
-        }));
+        showLegendRadioMenuItem.setOnAction((e -> main.toggleLegendShowing()));
     }
 
     @FXML

@@ -21,8 +21,8 @@ public class SupplyManager {
     private double price;
 
     public SupplyManager() {
-        structures = new ArrayList<Structure>();
-        powerPlants = new ArrayList<PowerPlant>();
+        structures = new ArrayList<>();
+        powerPlants = new ArrayList<>();
         reset();
     }
 

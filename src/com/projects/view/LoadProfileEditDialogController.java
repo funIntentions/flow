@@ -93,21 +93,15 @@ public class LoadProfileEditDialogController {
 
         usageColumn.setCellFactory(TextFieldTableCell.<UsageTimeSpan, Double>forTableColumn(doubleStringConverter));
         usageColumn.setOnEditCommit((TableColumn.CellEditEvent<UsageTimeSpan, Double> t) ->
-        {
-            (t.getTableView().getItems().get(t.getTablePosition().getRow())).setUsage(t.getNewValue());
-        });
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setUsage(t.getNewValue()));
 
         usageFromColumn.setCellFactory(TextFieldTableCell.<UsageTimeSpan, LocalTime>forTableColumn(localTimeStringConverter));
         usageFromColumn.setOnEditCommit((TableColumn.CellEditEvent<UsageTimeSpan, LocalTime> t) ->
-        {
-            (t.getTableView().getItems().get(t.getTablePosition().getRow())).setFrom(t.getNewValue());
-        });
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setFrom(t.getNewValue()));
 
         usageToColumn.setCellFactory(TextFieldTableCell.<UsageTimeSpan, LocalTime>forTableColumn(localTimeStringConverter));
         usageToColumn.setOnEditCommit((TableColumn.CellEditEvent<UsageTimeSpan, LocalTime> t) ->
-        {
-            (t.getTableView().getItems().get(t.getTablePosition().getRow())).setTo(t.getNewValue());
-        });
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setTo(t.getNewValue()));
 
         mondayColumn.setCellFactory(CheckBoxTableCell.forTableColumn(mondayColumn));
         tuesdayColumn.setCellFactory(CheckBoxTableCell.forTableColumn(tuesdayColumn));
@@ -126,22 +120,15 @@ public class LoadProfileEditDialogController {
         usageTable.setItems(building.getManualLoadProfileData());
         initChartData();
 
-        building.getManualLoadProfileData().addListener(new ListChangeListener<UsageTimeSpan>() {
-            @Override
-            public void onChanged(Change<? extends UsageTimeSpan> c) {
-                updateChartData();
-            }
+        building.getManualLoadProfileData().addListener((ListChangeListener<UsageTimeSpan>) c -> {
+            updateChartData();
         });
     }
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
 
-        dialogStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent we) {
-                handleClose();
-            }
-        });
+        dialogStage.setOnCloseRequest(we -> handleClose());
     }
 
     private void initChartData() {

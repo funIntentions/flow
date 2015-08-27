@@ -31,9 +31,9 @@ public class DemandManager {
     public DemandManager() {
         structureExpenses = new HashMap<>();
         structureEnvironmentalImpact = new HashMap<>();
-        structures = new ArrayList<Building>();
-        structureDemandProfiles = new HashMap<Integer, List<Float>>();
-        demandProfileForToday = new ArrayList<Integer>();
+        structures = new ArrayList<>();
+        structureDemandProfiles = new HashMap<>();
+        demandProfileForToday = new ArrayList<>();
         timeOverflow = 0;
     }
 
@@ -84,7 +84,7 @@ public class DemandManager {
 
         for (Building structure : structures) {
             List<Float> loadProfile = structure.getLoadProfilesForWeek().get(day);
-            List<Float> demandProfile = new ArrayList<Float>();
+            List<Float> demandProfile = new ArrayList<>();
 
             int length = loadProfile.size();
             for (int time = 0; time < length; ++time) {
@@ -125,7 +125,7 @@ public class DemandManager {
         }
     }
 
-    public void calculateDaysEnvironmentalImpact(List<Float> todaysEmissions) {
+    public void calculateDaysEnvironmentalImpact(List<Float> emissionsToday) {
 
         for (Structure structure : structures) {
             List<Float> structuresDemandProfile = structureDemandProfiles.get(structure.getId());
@@ -137,9 +137,9 @@ public class DemandManager {
 
             for (int time = 0; time < structuresDemandProfile.size(); ++time) {
                 Float demandAtThisTime = structuresDemandProfile.get(time);
-                Float emissionsAtThieTime = todaysEmissions.get(time);
+                Float emissionsAtTheTime = emissionsToday.get(time);
 
-                Float newExpense = (demandAtThisTime / (1000 * TimeUnit.HOURS.toMinutes(1))) * emissionsAtThieTime; // Convert Watts this minute to kWh TODO: change from watts per minute to kWatts per minute
+                Float newExpense = (demandAtThisTime / (1000 * TimeUnit.HOURS.toMinutes(1))) * emissionsAtTheTime; // Convert Watts this minute to kWh TODO: change from watts per minute to kWatts per minute
                 totalEmissions += newExpense;
             }
 

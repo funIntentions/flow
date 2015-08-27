@@ -20,7 +20,7 @@
 </timeSpans>
 </appliance>
 <appliance>
-<name>Furnace Fan Motor (Coninuous)</name>
+<name>Furnace Fan Motor (Continuous)</name>
 <standbyConsumption>0.0</standbyConsumption>
 <usageConsumption>350.0</usageConsumption>
 <timeSpans>
@@ -174,7 +174,7 @@
 <usingCustomLoadProfiles>false</usingCustomLoadProfiles>
 <appliances>
 <appliance>
-<name>Furnace Fan Motor (Coninuous)</name>
+<name>Furnace Fan Motor (Continuous)</name>
 <standbyConsumption>0.0</standbyConsumption>
 <usageConsumption>350.0</usageConsumption>
 <timeSpans>
@@ -332,7 +332,7 @@
 <usingCustomLoadProfiles>false</usingCustomLoadProfiles>
 <appliances>
 <appliance>
-<name>Furnace Fan Motor (Coninuous)</name>
+<name>Furnace Fan Motor (Continuous)</name>
 <standbyConsumption>0.0</standbyConsumption>
 <usageConsumption>350.0</usageConsumption>
 <timeSpans>
@@ -508,7 +508,7 @@
 </timeSpans>
 </appliance>
 <appliance>
-<name>Furnace Fan Motor (Coninuous)</name>
+<name>Furnace Fan Motor (Continuous)</name>
 <standbyConsumption>0.0</standbyConsumption>
 <usageConsumption>350.0</usageConsumption>
 <timeSpans>
@@ -736,7 +736,7 @@
 </timeSpans>
 </appliance>
 <appliance>
-<name>Furnace Fan Motor (Coninuous)</name>
+<name>Furnace Fan Motor (Continuous)</name>
 <standbyConsumption>0.0</standbyConsumption>
 <usageConsumption>350.0</usageConsumption>
 <timeSpans>
@@ -906,7 +906,7 @@
 <usingCustomLoadProfiles>false</usingCustomLoadProfiles>
 <appliances>
 <appliance>
-<name>Furnace Fan Motor (Coninuous)</name>
+<name>Furnace Fan Motor (Continuous)</name>
 <standbyConsumption>0.0</standbyConsumption>
 <usageConsumption>350.0</usageConsumption>
 <timeSpans>
@@ -1064,7 +1064,7 @@
 <usingCustomLoadProfiles>false</usingCustomLoadProfiles>
 <appliances>
 <appliance>
-<name>Furnace Fan Motor (Coninuous)</name>
+<name>Furnace Fan Motor (Continuous)</name>
 <standbyConsumption>0.0</standbyConsumption>
 <usageConsumption>350.0</usageConsumption>
 <timeSpans>
@@ -1240,7 +1240,7 @@
 </timeSpans>
 </appliance>
 <appliance>
-<name>Furnace Fan Motor (Coninuous)</name>
+<name>Furnace Fan Motor (Continuous)</name>
 <standbyConsumption>0.0</standbyConsumption>
 <usageConsumption>350.0</usageConsumption>
 <timeSpans>

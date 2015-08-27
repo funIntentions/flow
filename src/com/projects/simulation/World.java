@@ -22,11 +22,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class World {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    private final Runnable simulationTick = new Runnable() {
-        public void run() {
-            tick();
-        }
-    };
+    private final Runnable simulationTick = World.this::tick;
     private HashMap<Integer, Structure> structures;
     private ScheduledFuture<?> simulationHandle;
 
@@ -40,7 +36,7 @@ public class World {
     private Main main;
 
     public World() {
-        structures = new HashMap<Integer, Structure>();
+        structures = new HashMap<>();
 
         running = false;
         demandManager = new DemandManager();
@@ -127,12 +123,9 @@ public class World {
     private void tick() {
         worldTimer.tick(Constants.FIXED_SIMULATION_RATE_SECONDS);
 
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                main.currentTimeProperty().setValue(LocalTime.ofSecondOfDay((int) (worldTimer.getTotalTimeInSeconds() % TimeUnit.DAYS.toSeconds(1))));
-                main.currentDateProperty().setValue(worldTimer.getCurrentDate());
-            }
+        Platform.runLater(() -> {
+            main.currentTimeProperty().setValue(LocalTime.ofSecondOfDay((int) (worldTimer.getTotalTimeInSeconds() % TimeUnit.DAYS.toSeconds(1))));
+            main.currentDateProperty().setValue(worldTimer.getCurrentDate());
         });
 
         demandManager.calculateDemand(worldTimer.getModifiedTimeElapsedInSeconds(), worldTimer.getTotalTimeInSeconds());
@@ -160,18 +153,15 @@ public class World {
 
         if (worldTimer.isTimeLimitReached()) {
             pauseSimulation();
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    main.getStructureDetailsPaneController().displayResults(demandManager.getStructures(),
-                            demandManager.getStructureExpenses(),
-                            demandManager.getStructureEnvironmentalImpact());
-                    statsManager.setStatsForDay(0);
-                    demandManager.resetDemandStates();
-                    supplyManager.resetProductionStates();
+            Platform.runLater(() -> {
+                main.getStructureDetailsPaneController().displayResults(demandManager.getStructures(),
+                        demandManager.getStructureExpenses(),
+                        demandManager.getStructureEnvironmentalImpact());
+                statsManager.setStatsForDay(0);
+                demandManager.resetDemandStates();
+                supplyManager.resetProductionStates();
 
-                    main.simulationStateProperty().setValue(SimulationState.FINISHED);
-                }
+                main.simulationStateProperty().setValue(SimulationState.FINISHED);
             });
         }
     }
@@ -211,19 +201,16 @@ public class World {
             setEndDate(newValue);
         });
 
-        main.getWorldStructureData().addListener(new ListChangeListener<Structure>() {
-            @Override
-            public void onChanged(Change<? extends Structure> c) {
-                while (c.next()) {
-                    if (c.wasPermutated()) {
-                    } else if (c.wasUpdated()) {
-                    } else {
-                        for (Structure removed : c.getRemoved()) {
-                            removeStructure(removed.getId());
-                        }
-                        for (Structure added : c.getAddedSubList()) {
-                            updateStructure(added);
-                        }
+        main.getWorldStructureData().addListener((ListChangeListener<Structure>) c -> {
+            while (c.next()) {
+                if (c.wasPermutated()) {
+                } else if (c.wasUpdated()) {
+                } else {
+                    for (Structure removed : c.getRemoved()) {
+                        removeStructure(removed.getId());
+                    }
+                    for (Structure added : c.getAddedSubList()) {
+                        updateStructure(added);
                     }
                 }
             }

@@ -82,7 +82,7 @@ public class StructureDetailsPaneController {
         }
     }
 
-    public void clearComparisions() {
+    public void clearComparisons() {
         structureResultsList.clear();
     }
 
@@ -141,7 +141,7 @@ public class StructureDetailsPaneController {
         main.simulationStateProperty().addListener((observable, oldValue, newValue) ->
         {
             if (newValue == SimulationState.RESET) {
-                clearComparisions();
+                clearComparisons();
             }
         });
     }

@@ -21,12 +21,12 @@ public class StatsManager {
     private List<Integer> dailyDemandBuffer;
 
     public StatsManager() {
-        dailyDemandBuffer = new ArrayList<Integer>();
-        priceForDemand = new ArrayList<Float>();
-        emissionsForDemand = new ArrayList<Float>();
-        dailyPriceTrends = new ArrayList<List<Float>>();
-        dailyEmissionTrends = new ArrayList<List<Float>>();
-        dailyDemandTrends = new ArrayList<List<Float>>();
+        dailyDemandBuffer = new ArrayList<>();
+        priceForDemand = new ArrayList<>();
+        emissionsForDemand = new ArrayList<>();
+        dailyPriceTrends = new ArrayList<>();
+        dailyEmissionTrends = new ArrayList<>();
+        dailyDemandTrends = new ArrayList<>();
         currentDay = -1;
         resetDailyTrends();
     }
@@ -114,9 +114,9 @@ public class StatsManager {
     }
 
     public void logDailyTrends(List<Integer> demandProfile) {
-        List<Float> dailyDemandTrend = new ArrayList<Float>();
-        List<Float> dailyEmissionTrend = new ArrayList<Float>();
-        List<Float> dailyPriceTrend = new ArrayList<Float>();
+        List<Float> dailyDemandTrend = new ArrayList<>();
+        List<Float> dailyEmissionTrend = new ArrayList<>();
+        List<Float> dailyPriceTrend = new ArrayList<>();
 
         for (int time = 0; time < demandProfile.size(); ++time) {
             int currentDemand = demandProfile.get(time);

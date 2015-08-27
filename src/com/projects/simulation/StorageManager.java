@@ -34,8 +34,8 @@ public class StorageManager {
     private Boolean errorEncountered = false;
 
     public StorageManager() {
-        structures = new ArrayList<Building>();
-        deviceStorageProfiles = new HashMap<Integer, List<Float>>();
+        structures = new ArrayList<>();
+        deviceStorageProfiles = new HashMap<>();
     }
 
     public void setMain(Main main) {
@@ -121,12 +121,7 @@ public class StorageManager {
             }
         } catch (LuaError error) {
             errorEncountered = true;
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    displayLuaExceptionDialog(error, script);
-                }
-            });
+            Platform.runLater(() -> displayLuaExceptionDialog(error, script));
         }
 
         List<Float> newStorageProfile = newStorageProfileWrapper.storageProfile;
@@ -146,7 +141,7 @@ public class StorageManager {
         error.printStackTrace(pw);
         String exceptionText = sw.toString();
 
-        Label label = new Label("Stacktrace:");
+        Label label = new Label("Stack Trace:");
 
         TextArea textArea = new TextArea(exceptionText);
         textArea.setEditable(false);
@@ -188,7 +183,7 @@ public class StorageManager {
         List<EnergyStorage> storageDevices = (List) structure.getEnergyStorageDevices();
 
         for (EnergyStorage storage : storageDevices) {
-            deviceStorageProfiles.put(storage.getId(), new ArrayList<Float>());
+            deviceStorageProfiles.put(storage.getId(), new ArrayList<>());
         }
     }
 

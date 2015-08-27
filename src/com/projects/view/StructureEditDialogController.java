@@ -232,11 +232,7 @@ public class StructureEditDialogController {
      */
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
-        dialogStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent we) {
-                handleClose();
-            }
-        });
+        dialogStage.setOnCloseRequest(we -> handleClose());
     }
 
     public void setMain(Main main) {

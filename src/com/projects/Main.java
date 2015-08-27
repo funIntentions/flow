@@ -268,7 +268,7 @@ public class Main extends Application {
         productionStatisticsController.clearEmissionForDemandChart();
         productionStatisticsController.clearPriceForDemandChart();
         structureDetailsPaneController.clearLoadProfileDetails();
-        structureDetailsPaneController.clearComparisions();
+        structureDetailsPaneController.clearComparisons();
         worldViewController.clearSelection();
         world.resetSimulation();
         setSimulationFilePath(null);
@@ -422,7 +422,7 @@ public class Main extends Application {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/StructureEditDialog.fxml"));
-            AnchorPane page = (AnchorPane) loader.load();
+            AnchorPane page = loader.load();
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
@@ -458,7 +458,7 @@ public class Main extends Application {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/LoadProfileEditDialog.fxml"));
-            BorderPane page = (BorderPane) loader.load();
+            BorderPane page = loader.load();
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
@@ -496,7 +496,7 @@ public class Main extends Application {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/PowerPlantEditDialog.fxml"));
-            AnchorPane page = (AnchorPane) loader.load();
+            AnchorPane page = loader.load();
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
@@ -678,7 +678,7 @@ public class Main extends Application {
     }
 
     public List<Structure> readStructures(NodeList structuresList) {
-        List<Structure> structureList = new ArrayList<Structure>();
+        List<Structure> structureList = new ArrayList<>();
         Node structuresNode = structuresList.item(0);
 
         if (structuresNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -761,7 +761,7 @@ public class Main extends Application {
     }
 
     public List<TimeSpan> readTimeSpans(NodeList timeSpansList) {
-        List<TimeSpan> timeSpanList = new ArrayList<TimeSpan>();
+        List<TimeSpan> timeSpanList = new ArrayList<>();
         Node propertiesNode = timeSpansList.item(0);
 
         if (propertiesNode.getNodeType() == Node.ELEMENT_NODE) {
