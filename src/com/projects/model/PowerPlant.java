@@ -8,16 +8,14 @@ import javafx.beans.property.SimpleDoubleProperty;
 /**
  * Created by Dan on 7/30/2015.
  */
-public class PowerPlant extends Structure implements Comparable<PowerPlant>
-{
+public class PowerPlant extends Structure implements Comparable<PowerPlant> {
     private DoubleProperty emissionRate;
     private DoubleProperty cost;
     private DoubleProperty capacity;
     private DoubleProperty currentOutput;
     private ProductionState productionState = ProductionState.IDLE;
 
-    public PowerPlant(String name, int id, double x, double y, AnimatedSprite animatedSprite, double emissionRate, double cost, double capacity)
-    {
+    public PowerPlant(String name, int id, double x, double y, AnimatedSprite animatedSprite, double emissionRate, double cost, double capacity) {
         super(name, id, x, y, animatedSprite);
         this.emissionRate = new SimpleDoubleProperty(emissionRate);
         this.cost = new SimpleDoubleProperty(cost);
@@ -25,8 +23,7 @@ public class PowerPlant extends Structure implements Comparable<PowerPlant>
         this.currentOutput = new SimpleDoubleProperty(0.0);
     }
 
-    public PowerPlant(PowerPlant powerPlant)
-    {
+    public PowerPlant(PowerPlant powerPlant) {
         super(powerPlant.getName(), StructureUtil.getNextStructureId(), powerPlant.getAnimatedSprite());
 
         this.emissionRate = new SimpleDoubleProperty(powerPlant.getEmissionRate());
@@ -35,78 +32,63 @@ public class PowerPlant extends Structure implements Comparable<PowerPlant>
         this.currentOutput = new SimpleDoubleProperty(powerPlant.getCurrentOutput());
     }
 
-    public int compareTo(PowerPlant powerPlant)
-    {
-        return powerPlant.getCost() < cost.doubleValue()? 1 : powerPlant.getCost() > cost.doubleValue()? -1 : 0;
+    public int compareTo(PowerPlant powerPlant) {
+        return powerPlant.getCost() < cost.doubleValue() ? 1 : powerPlant.getCost() > cost.doubleValue() ? -1 : 0;
     }
 
-    public double getEmissionRate()
-    {
+    public double getEmissionRate() {
         return emissionRate.get();
     }
 
-    public DoubleProperty emissionRateProperty()
-    {
-        return emissionRate;
-    }
-
-    public void setEmissionRate(double emissionRate)
-    {
+    public void setEmissionRate(double emissionRate) {
         this.emissionRate.set(emissionRate);
     }
 
-    public double getCapacity()
-    {
+    public DoubleProperty emissionRateProperty() {
+        return emissionRate;
+    }
+
+    public double getCapacity() {
         return capacity.get();
     }
 
-    public DoubleProperty capacityProperty()
-    {
-        return capacity;
-    }
-
-    public void setCapacity(double capacity)
-    {
+    public void setCapacity(double capacity) {
         this.capacity.set(capacity);
     }
 
-    public double getCost()
-    {
+    public DoubleProperty capacityProperty() {
+        return capacity;
+    }
+
+    public double getCost() {
         return cost.get();
     }
 
-    public DoubleProperty costProperty()
-    {
-        return cost;
-    }
-
-    public void setCost(double cost)
-    {
+    public void setCost(double cost) {
         this.cost.set(cost);
     }
 
-    public double getCurrentOutput()
-    {
+    public DoubleProperty costProperty() {
+        return cost;
+    }
+
+    public double getCurrentOutput() {
         return currentOutput.get();
     }
 
-    public DoubleProperty currentOutputProperty()
-    {
-        return currentOutput;
-    }
-
-    public void setCurrentOutput(double currentOutput)
-    {
+    public void setCurrentOutput(double currentOutput) {
         this.currentOutput.set(currentOutput);
     }
 
-    public ProductionState getProductionState()
-    {
+    public DoubleProperty currentOutputProperty() {
+        return currentOutput;
+    }
+
+    public ProductionState getProductionState() {
         return productionState;
     }
 
-    public void setProductionState(ProductionState productionState)
-    {
+    public void setProductionState(ProductionState productionState) {
         this.productionState = productionState;
     }
 }

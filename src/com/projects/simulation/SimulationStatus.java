@@ -8,8 +8,7 @@ import java.util.List;
 /**
  * Created by Dan on 6/29/2015.
  */
-public class SimulationStatus
-{
+public class SimulationStatus {
     public WorldTimer worldTimer;
     public List<PowerPlant> powerPlants;
     public double price;

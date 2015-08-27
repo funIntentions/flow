@@ -10,8 +10,7 @@ import java.time.LocalTime;
 /**
  * Created by Dan on 7/3/2015.
  */
-public class TimeSpan
-{
+public class TimeSpan {
     protected ObjectProperty<LocalTime> from;
     protected ObjectProperty<LocalTime> to;
     protected BooleanProperty monday;
@@ -22,8 +21,7 @@ public class TimeSpan
     protected BooleanProperty saturday;
     protected BooleanProperty sunday;
 
-    public TimeSpan(LocalTime from, LocalTime to)
-    {
+    public TimeSpan(LocalTime from, LocalTime to) {
         this.from = new SimpleObjectProperty<>(from);
         this.to = new SimpleObjectProperty<>(to);
         monday = new SimpleBooleanProperty(true);
@@ -35,10 +33,8 @@ public class TimeSpan
         sunday = new SimpleBooleanProperty(true);
     }
 
-    public boolean isActiveForDay(int day)
-    {
-        switch(day)
-        {
+    public boolean isActiveForDay(int day) {
+        switch (day) {
             case 0:
                 return monday.get();
             case 1:
@@ -58,103 +54,83 @@ public class TimeSpan
         }
     }
 
-    public LocalTime getFrom()
-    {
+    public LocalTime getFrom() {
         return from.get();
     }
 
-    public ObjectProperty<LocalTime> fromProperty()
-    {
-        return from;
-    }
-
-    public void setFrom(LocalTime from)
-    {
+    public void setFrom(LocalTime from) {
         this.from.set(from);
     }
 
-    public LocalTime getTo()
-    {
+    public ObjectProperty<LocalTime> fromProperty() {
+        return from;
+    }
+
+    public LocalTime getTo() {
         return to.get();
     }
 
-    public ObjectProperty<LocalTime> toProperty()
-    {
-        return to;
-    }
-
-    public void setTo(LocalTime to)
-    {
+    public void setTo(LocalTime to) {
         this.to.set(to);
     }
 
-    public boolean getMonday()
-    {
+    public ObjectProperty<LocalTime> toProperty() {
+        return to;
+    }
+
+    public boolean getMonday() {
         return monday.get();
     }
 
-    public BooleanProperty mondayProperty()
-    {
+    public BooleanProperty mondayProperty() {
         return monday;
     }
 
-    public boolean getTuesday()
-    {
+    public boolean getTuesday() {
         return tuesday.get();
     }
 
-    public BooleanProperty tuesdayProperty()
-    {
+    public BooleanProperty tuesdayProperty() {
         return tuesday;
     }
 
-    public boolean getWednesday()
-    {
+    public boolean getWednesday() {
         return wednesday.get();
     }
 
-    public BooleanProperty wednesdayProperty()
-    {
+    public BooleanProperty wednesdayProperty() {
         return wednesday;
     }
 
-    public boolean getThursday()
-    {
+    public boolean getThursday() {
         return thursday.get();
     }
 
-    public BooleanProperty thursdayProperty()
-    {
+    public BooleanProperty thursdayProperty() {
         return thursday;
     }
 
-    public boolean getFriday()
-    {
+    public boolean getFriday() {
         return friday.get();
     }
 
-    public BooleanProperty fridayProperty()
-    {
+    public BooleanProperty fridayProperty() {
         return friday;
     }
 
-    public boolean getSaturday()
-    {
+    public boolean getSaturday() {
         return saturday.get();
     }
 
-    public BooleanProperty saturdayProperty()
-    {
+    public BooleanProperty saturdayProperty() {
         return saturday;
     }
 
-    public boolean getSunday()
-    {
+    public boolean getSunday() {
         return sunday.get();
     }
 
-    public BooleanProperty sundayProperty()
-    {
+    public BooleanProperty sundayProperty() {
         return sunday;
     }
 }

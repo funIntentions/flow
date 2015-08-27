@@ -16,8 +16,7 @@ import java.util.HashMap;
 /**
  * Created by Dan on 7/30/2015.
  */
-public class PowerPlantEditDialogController
-{
+public class PowerPlantEditDialogController {
     @FXML
     private ComboBox<AnimatedSprite> powerPlantSpriteComboBox;
 
@@ -38,8 +37,7 @@ public class PowerPlantEditDialogController
     private boolean okClicked = false;
 
     @FXML
-    private void initialize()
-    {
+    private void initialize() {
         powerPlantSpriteComboBox.setCellFactory(new Callback<ListView<AnimatedSprite>, ListCell<AnimatedSprite>>() {
             @Override
             public ListCell<AnimatedSprite> call(ListView<AnimatedSprite> p) {
@@ -68,8 +66,7 @@ public class PowerPlantEditDialogController
         powerPlantSpriteComboBox.setButtonCell(powerPlantSpriteComboBox.getCellFactory().call(null));
     }
 
-    public void setPowerPlant(PowerPlant powerPlant)
-    {
+    public void setPowerPlant(PowerPlant powerPlant) {
         this.powerPlant = powerPlant;
         powerPlantNameField.setText(powerPlant.getName());
         emissionRateField.setText(String.valueOf(powerPlant.getEmissionRate()));
@@ -77,8 +74,7 @@ public class PowerPlantEditDialogController
         capacityField.setText(String.valueOf(powerPlant.getCapacity()));
     }
 
-    public void setSprites(HashMap<Integer, AnimatedSprite> sprites)
-    {
+    public void setSprites(HashMap<Integer, AnimatedSprite> sprites) {
         powerPlantSpriteComboBox.setItems(FXCollections.observableArrayList(sprites.values()));
         powerPlantSpriteComboBox.getSelectionModel().select(sprites.get(powerPlant.getAnimatedSprite().getId()));
     }
@@ -88,8 +84,7 @@ public class PowerPlantEditDialogController
      *
      * @param dialogStage
      */
-    public void setDialogStage(Stage dialogStage)
-    {
+    public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
 
         dialogStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -112,10 +107,8 @@ public class PowerPlantEditDialogController
      * Called when the user clicks ok.
      */
     @FXML
-    private void handleOk()
-    {
-        if (isInputValid())
-        {
+    private void handleOk() {
+        if (isInputValid()) {
             powerPlant.setName(powerPlantNameField.getText());
             powerPlant.setEmissionRate(Double.valueOf(emissionRateField.getText()));
             powerPlant.setCost(Double.valueOf(costField.getText()));
@@ -136,17 +129,14 @@ public class PowerPlantEditDialogController
      *
      * @return true if the input is valid
      */
-    private boolean isInputValid()
-    {
+    private boolean isInputValid() {
         String errorMessage = "";
 
-        if (powerPlantNameField.getText() == null || powerPlantNameField.getText().length() == 0)
-        {
+        if (powerPlantNameField.getText() == null || powerPlantNameField.getText().length() == 0) {
             errorMessage += "No valid power plant name!\n";
         }
 
-        if (emissionRateField.getText() == null || emissionRateField.getText().length() == 0)
-        {
+        if (emissionRateField.getText() == null || emissionRateField.getText().length() == 0) {
             errorMessage += "No valid emission rate!\n";
 
         } else {
@@ -158,8 +148,7 @@ public class PowerPlantEditDialogController
         }
 
 
-        if (costField.getText() == null || costField.getText().length() == 0)
-        {
+        if (costField.getText() == null || costField.getText().length() == 0) {
             errorMessage += "No valid cost!\n";
 
         } else {
@@ -171,8 +160,7 @@ public class PowerPlantEditDialogController
         }
 
 
-        if (capacityField.getText() == null || capacityField.getText().length() == 0)
-        {
+        if (capacityField.getText() == null || capacityField.getText().length() == 0) {
             errorMessage += "No valid capacity!\n";
         } else {
             try {

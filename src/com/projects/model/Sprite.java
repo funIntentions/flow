@@ -6,63 +6,52 @@ import javafx.scene.image.Image;
 /**
  * Created by Dan on 8/17/2015.
  */
-public class Sprite
-{
+public class Sprite {
     protected double xPosition;
     protected double yPosition;
     protected Image image;
 
-    public Sprite(Sprite sprite)
-    {
+    public Sprite(Sprite sprite) {
         this.image = sprite.getImage();
         this.xPosition = sprite.getXPosition();
         this.yPosition = sprite.getYPosition();
     }
 
-    public Sprite(Image image, double x, double y)
-    {
+    public Sprite(Image image, double x, double y) {
         this.image = image;
         this.xPosition = x;
         this.yPosition = y;
     }
 
-    public Rectangle2D getBoundary()
-    {
+    public Rectangle2D getBoundary() {
         return new Rectangle2D(xPosition, yPosition, image.getWidth(), image.getHeight());
     }
 
-    public boolean intersects(Rectangle2D boundary)
-    {
-        return boundary.intersects( this.getBoundary() );
+    public boolean intersects(Rectangle2D boundary) {
+        return boundary.intersects(this.getBoundary());
     }
 
-    public double getXPosition()
-    {
+    public double getXPosition() {
         return xPosition;
     }
 
-    public void setXPosition(double xPosition)
-    {
+    public void setXPosition(double xPosition) {
         this.xPosition = xPosition;
     }
 
-    public double getYPosition()
-    {
+    public double getYPosition() {
         return yPosition;
     }
 
-    public void setYPosition(double yPosition)
-    {
+    public void setYPosition(double yPosition) {
         this.yPosition = yPosition;
     }
 
-    public Image getImage()
-    {
+    public Image getImage() {
         return image;
     }
 
-    public void setImage(Image image)
-    {
+    public void setImage(Image image) {
         this.image = image;
     }
 }

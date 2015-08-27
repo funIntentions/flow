@@ -5,8 +5,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Dan on 6/8/2015.
  */
-public class Constants
-{
+public class Constants {
     public static final String SMART_GRID_FILE = "grid";
     public static final String STRATEGIES_FILE_PATH = "./strategies/";
     public static final String TEMPLATE_FILE_PATH = "/data/SmartGridTemplate.xml";

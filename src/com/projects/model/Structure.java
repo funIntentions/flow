@@ -8,21 +8,18 @@ import javafx.beans.property.StringProperty;
 /**
  * Created by Dan on 7/27/2015.
  */
-public class Structure
-{
+public class Structure {
     protected StringProperty name;
     protected IntegerProperty id;
     protected AnimatedSprite animatedSprite;
 
-    public Structure(String name, int id, AnimatedSprite animatedSprite)
-    {
+    public Structure(String name, int id, AnimatedSprite animatedSprite) {
         this.name = new SimpleStringProperty(name);
         this.id = new SimpleIntegerProperty(id);
         this.animatedSprite = new AnimatedSprite(animatedSprite);
     }
 
-    public Structure(String name, int id, double x, double y, AnimatedSprite animatedSprite)
-    {
+    public Structure(String name, int id, double x, double y, AnimatedSprite animatedSprite) {
         this.name = new SimpleStringProperty(name);
         this.id = new SimpleIntegerProperty(id);
         this.animatedSprite = new AnimatedSprite(animatedSprite);
@@ -30,49 +27,40 @@ public class Structure
         this.animatedSprite.setYPosition(y);
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name.get();
     }
 
-    public StringProperty nameProperty()
-    {
-        return name;
-    }
-
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name.set(name);
     }
 
-    public int getId()
-    {
+    public StringProperty nameProperty() {
+        return name;
+    }
+
+    public int getId() {
         return id.get();
     }
 
-    public IntegerProperty idProperty()
-    {
-        return id;
-    }
-
-    public void setId(int id)
-    {
+    public void setId(int id) {
         this.id.set(id);
     }
 
-    public AnimatedSprite getAnimatedSprite()
-    {
+    public IntegerProperty idProperty() {
+        return id;
+    }
+
+    public AnimatedSprite getAnimatedSprite() {
         return animatedSprite;
     }
 
-    public void setAnimatedSprite(AnimatedSprite animatedSprite)
-    {
+    public void setAnimatedSprite(AnimatedSprite animatedSprite) {
         this.animatedSprite = animatedSprite;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return name.get();
     }
 }

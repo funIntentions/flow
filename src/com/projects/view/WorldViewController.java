@@ -29,14 +29,12 @@ import java.util.List;
 /**
  * Created by Dan on 8/17/2015.
  */
-public class WorldViewController
-{
+public class WorldViewController {
+    private final int selectionRange = 14;
     @FXML
     private Canvas worldCanvas;
-
     private GraphicsContext gc;
     private AnimationTimer animationTimer;
-    private final int selectionRange = 14;
     private Sprite selectionSprite;// = new Sprite(new Image(Constants.SELECTION_IMAGE), 0, 0);
     private boolean selectionMade = false;
     private boolean mouseDown = false;
@@ -44,10 +42,10 @@ public class WorldViewController
     private Structure selected = null;
     private Main main;
 
-    private Color highUsage = new Color(213f/255f, 43f/255f, 43f/255f, 1);
-    private Color mediumUsage = new Color(213f/255f, 142f/255f, 61f/255f, 1);
-    private Color averageUsage = new Color(204f/255f, 213f/255f, 87f/255f, 1);
-    private Color lowUsage = new Color(63f/255f, 57f/255f, 57f/255f, 1);
+    private Color highUsage = new Color(213f / 255f, 43f / 255f, 43f / 255f, 1);
+    private Color mediumUsage = new Color(213f / 255f, 142f / 255f, 61f / 255f, 1);
+    private Color averageUsage = new Color(204f / 255f, 213f / 255f, 87f / 255f, 1);
+    private Color lowUsage = new Color(63f / 255f, 57f / 255f, 57f / 255f, 1);
     private Label highUsageLabel = new Label("high usage");
     private Label mediumUsageLabel = new Label("medium usage");
     private Label averageUsageLabel = new Label("average usage");
@@ -59,17 +57,13 @@ public class WorldViewController
     private int legendYSpacing = 20;
 
     @FXML
-    private void initialize()
-    {
-        try
-        {
+    private void initialize() {
+        try {
 
             BufferedImage bufferedImage = ImageIO.read(new File(Utils.getWorkingDir() + "/images/Selection.png"));
             Image image = SwingFXUtils.toFXImage(bufferedImage, null);
             selectionSprite = new Sprite(image, 0, 0);
-        }
-        catch (IOException exception)
-        {
+        } catch (IOException exception) {
             exception.printStackTrace();
         }
 
@@ -77,57 +71,46 @@ public class WorldViewController
 
         final long start = System.nanoTime();
 
-        animationTimer = new AnimationTimer()
-        {
+        animationTimer = new AnimationTimer() {
             @Override
-            public void handle(long now)
-            {
+            public void handle(long now) {
                 double time = (now - start) / 1000000000.0;
 
                 gc.clearRect(0, 0, worldCanvas.getWidth(), worldCanvas.getHeight());
                 List<Structure> worldStructures = main != null ? main.getWorldStructureData() : new ArrayList<>();
 
-                if (selectionMade)
-                {
+                if (selectionMade) {
                     gc.drawImage(selectionSprite.getImage(), selectionSprite.getXPosition(), selectionSprite.getYPosition());
                 }
 
-                for (Structure structure : worldStructures)
-                {
-                    if (structure instanceof Building)
-                    {
-                        Building building = (Building)structure;
+                for (Structure structure : worldStructures) {
+                    if (structure instanceof Building) {
+                        Building building = (Building) structure;
 
-                        switch (building.getDemandState())
-                        {
-                            case LOW:
-                            {
+                        switch (building.getDemandState()) {
+                            case LOW: {
                                 building.getAnimatedSprite().setFrame(0);
-                            } break;
-                            case AVERAGE:
-                            {
+                            }
+                            break;
+                            case AVERAGE: {
                                 building.getAnimatedSprite().setFrame(1);
-                            } break;
-                            case MEDIUM:
-                            {
+                            }
+                            break;
+                            case MEDIUM: {
                                 building.getAnimatedSprite().setFrame(2);
-                            } break;
-                            case HIGH:
-                            {
+                            }
+                            break;
+                            case HIGH: {
                                 building.getAnimatedSprite().setFrame(3);
-                            } break;
+                            }
+                            break;
                         }
-                    }
-                    else
-                    {
-                        PowerPlant powerPlant = (PowerPlant)structure;
+                    } else {
+                        PowerPlant powerPlant = (PowerPlant) structure;
 
-                        if (powerPlant.getProductionState() == ProductionState.PRODUCING)
-                        {
+                        if (powerPlant.getProductionState() == ProductionState.PRODUCING) {
                             powerPlant.getAnimatedSprite().animate(time);
-                        }
-                        else
-                        {
+                        } else {
                             if (powerPlant.getAnimatedSprite().getAnimation().getFrame() != 0)
                                 powerPlant.getAnimatedSprite().animate(time);
                         }
@@ -136,8 +119,7 @@ public class WorldViewController
                     Sprite structureSprite = structure.getAnimatedSprite();
                     gc.drawImage(structureSprite.getImage(), structureSprite.getXPosition(), structureSprite.getYPosition());
 
-                    if (showLegend)
-                    {
+                    if (showLegend) {
                         float yOffset = legendYOffset;
 
                         gc.setFill(highUsage);
@@ -178,14 +160,12 @@ public class WorldViewController
         selectionMade = false;
     }
 
-    public void clearSelection()
-    {
+    public void clearSelection() {
         selectionMade = false;
         selected = null;
     }
 
-    private void setSelection(Structure structure)
-    {
+    private void setSelection(Structure structure) {
         selectionMade = true;
         selectionSprite.setXPosition((structure.getAnimatedSprite().getXPosition() + structure.getAnimatedSprite().getImage().getWidth() / 2) - selectionSprite.getImage().getWidth() / 2);
         selectionSprite.setYPosition((structure.getAnimatedSprite().getYPosition() + structure.getAnimatedSprite().getImage().getHeight() / 2) - selectionSprite.getImage().getHeight() / 2);
@@ -193,9 +173,8 @@ public class WorldViewController
     }
 
     @FXML
-    private void handleMousePressed(MouseEvent mouseEvent)
-    {
-        Rectangle2D selectionRect = new Rectangle2D(mouseEvent.getX() - selectionRange/2, mouseEvent.getY() - selectionRange/2, selectionRange, selectionRange);
+    private void handleMousePressed(MouseEvent mouseEvent) {
+        Rectangle2D selectionRect = new Rectangle2D(mouseEvent.getX() - selectionRange / 2, mouseEvent.getY() - selectionRange / 2, selectionRange, selectionRange);
         mouseDown = true;
 
         if (selected == null || !selected.getAnimatedSprite().intersects(selectionRect)) // prioritize keeping the current selection
@@ -203,10 +182,8 @@ public class WorldViewController
             clearSelection();
             List<Structure> worldStructures = main.getWorldStructureData();
 
-            for (Structure structure : worldStructures)
-            {
-                if (structure.getAnimatedSprite().intersects(selectionRect))
-                {
+            for (Structure structure : worldStructures) {
+                if (structure.getAnimatedSprite().intersects(selectionRect)) {
                     setSelection(structure);
                     main.selectedStructureProperty().set(structure);
                     break;
@@ -216,39 +193,29 @@ public class WorldViewController
     }
 
     @FXML
-    private void handleMouseDragged(MouseEvent mouseEvent)
-    {
-        if (mouseDown && selected != null)
-        {
-            selected.getAnimatedSprite().setXPosition(mouseEvent.getX() - selected.getAnimatedSprite().getImage().getWidth()/2);
-            selected.getAnimatedSprite().setYPosition(mouseEvent.getY() - selected.getAnimatedSprite().getImage().getHeight()/2);
+    private void handleMouseDragged(MouseEvent mouseEvent) {
+        if (mouseDown && selected != null) {
+            selected.getAnimatedSprite().setXPosition(mouseEvent.getX() - selected.getAnimatedSprite().getImage().getWidth() / 2);
+            selected.getAnimatedSprite().setYPosition(mouseEvent.getY() - selected.getAnimatedSprite().getImage().getHeight() / 2);
             selectionSprite.setXPosition((selected.getAnimatedSprite().getXPosition() + selected.getAnimatedSprite().getImage().getWidth() / 2) - selectionSprite.getImage().getWidth() / 2);
             selectionSprite.setYPosition((selected.getAnimatedSprite().getYPosition() + selected.getAnimatedSprite().getImage().getHeight() / 2) - selectionSprite.getImage().getHeight() / 2);
         }
     }
 
     @FXML
-    private void handleMouseReleased(MouseEvent mouseEvent)
-    {
+    private void handleMouseReleased(MouseEvent mouseEvent) {
         mouseDown = false;
 
-        if (selected != null)
-        {
-            if (selected.getAnimatedSprite().getXPosition() < 0)
-            {
+        if (selected != null) {
+            if (selected.getAnimatedSprite().getXPosition() < 0) {
                 selected.getAnimatedSprite().setXPosition(0);
-            }
-            else if (selected.getAnimatedSprite().getXPosition() > worldCanvas.getWidth() - Constants.IMAGE_SIZE)
-            {
+            } else if (selected.getAnimatedSprite().getXPosition() > worldCanvas.getWidth() - Constants.IMAGE_SIZE) {
                 selected.getAnimatedSprite().setXPosition(worldCanvas.getWidth() - Constants.IMAGE_SIZE);
             }
 
-            if (selected.getAnimatedSprite().getYPosition() < 0)
-            {
+            if (selected.getAnimatedSprite().getYPosition() < 0) {
                 selected.getAnimatedSprite().setYPosition(0);
-            }
-            else if (selected.getAnimatedSprite().getYPosition() > worldCanvas.getHeight() - Constants.IMAGE_SIZE)
-            {
+            } else if (selected.getAnimatedSprite().getYPosition() > worldCanvas.getHeight() - Constants.IMAGE_SIZE) {
                 selected.getAnimatedSprite().setYPosition(worldCanvas.getHeight() - Constants.IMAGE_SIZE);
             }
 
@@ -257,25 +224,19 @@ public class WorldViewController
         }
     }
 
-    public void setMain(Main main)
-    {
+    public void setMain(Main main) {
         this.main = main;
 
         main.selectedStructureProperty().addListener((observable, oldValue, newValue) ->
         {
-            if (newValue == null)
-            {
+            if (newValue == null) {
                 clearSelection();
-            }
-            else if (selected == null || selected.getId() != newValue.getId())
-            {
+            } else if (selected == null || selected.getId() != newValue.getId()) {
                 clearSelection();
                 List<Structure> worldStructures = main.getWorldStructureData();
 
-                for (Structure structure : worldStructures)
-                {
-                    if (structure.getId() == newValue.getId())
-                    {
+                for (Structure structure : worldStructures) {
+                    if (structure.getId() == newValue.getId()) {
                         setSelection(structure);
                     }
                 }
@@ -283,23 +244,19 @@ public class WorldViewController
         });
     }
 
-    public boolean isShowLegend()
-    {
+    public boolean isShowLegend() {
         return showLegend;
     }
 
-    public void setShowLegend(boolean showLegend)
-    {
+    public void setShowLegend(boolean showLegend) {
         this.showLegend = showLegend;
     }
 
-    public double getWidth()
-    {
-       return worldCanvas.getWidth();
+    public double getWidth() {
+        return worldCanvas.getWidth();
     }
 
-    public double getHeight()
-    {
+    public double getHeight() {
         return worldCanvas.getHeight();
     }
 }

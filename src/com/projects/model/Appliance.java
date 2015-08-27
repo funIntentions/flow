@@ -10,14 +10,12 @@ import java.util.List;
 /**
  * Created by Dan on 6/26/2015.
  */
-public class Appliance extends Device
-{
+public class Appliance extends Device {
     private DoubleProperty standbyConsumption;
     private DoubleProperty usageConsumption;
     private ObservableList<TimeSpan> activeTimeSpans;
 
-    public Appliance(String name, int id, Double standbyConsumption, Double usageConsumption, List<TimeSpan> activeTimeSpans)
-    {
+    public Appliance(String name, int id, Double standbyConsumption, Double usageConsumption, List<TimeSpan> activeTimeSpans) {
         super(name, id);
 
         this.standbyConsumption = new SimpleDoubleProperty(standbyConsumption);
@@ -25,14 +23,11 @@ public class Appliance extends Device
         this.activeTimeSpans = FXCollections.observableArrayList(activeTimeSpans);
     }
 
-    public boolean isOn(int day, long time)
-    {
-        for (TimeSpan deviceUsage : activeTimeSpans)
-        {
+    public boolean isOn(int day, long time) {
+        for (TimeSpan deviceUsage : activeTimeSpans) {
             if (deviceUsage.isActiveForDay(day) &&
                     (deviceUsage.getFrom().toSecondOfDay() <= time &&
-                    deviceUsage.getTo().toSecondOfDay() >= time))
-            {
+                            deviceUsage.getTo().toSecondOfDay() >= time)) {
                 return true;
             }
         }
@@ -40,43 +35,35 @@ public class Appliance extends Device
         return false;
     }
 
-    public double getStandbyConsumption()
-    {
+    public double getStandbyConsumption() {
         return standbyConsumption.get();
     }
 
-    public DoubleProperty standbyConsumptionProperty()
-    {
-        return standbyConsumption;
-    }
-
-    public void setStandbyConsumption(double standbyConsumption)
-    {
+    public void setStandbyConsumption(double standbyConsumption) {
         this.standbyConsumption.set(standbyConsumption);
     }
 
-    public double getUsageConsumption()
-    {
+    public DoubleProperty standbyConsumptionProperty() {
+        return standbyConsumption;
+    }
+
+    public double getUsageConsumption() {
         return usageConsumption.get();
     }
 
-    public DoubleProperty usageConsumptionProperty()
-    {
-        return usageConsumption;
-    }
-
-    public void setUsageConsumption(double usageConsumption)
-    {
+    public void setUsageConsumption(double usageConsumption) {
         this.usageConsumption.set(usageConsumption);
     }
 
-    public ObservableList<TimeSpan> getActiveTimeSpans()
-    {
+    public DoubleProperty usageConsumptionProperty() {
+        return usageConsumption;
+    }
+
+    public ObservableList<TimeSpan> getActiveTimeSpans() {
         return activeTimeSpans;
     }
 
-    public void setActiveTimeSpans(ObservableList<TimeSpan> activeTimeSpans)
-    {
+    public void setActiveTimeSpans(ObservableList<TimeSpan> activeTimeSpans) {
         this.activeTimeSpans = activeTimeSpans;
     }
 }

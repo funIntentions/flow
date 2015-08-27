@@ -13,26 +13,22 @@ import java.io.File;
 /**
  * Created by Dan on 7/30/2015.
  */
-public class RootLayoutController
-{
+public class RootLayoutController {
     @FXML
     private RadioMenuItem showLegendRadioMenuItem;
 
     private Main main;
 
-    public RootLayoutController()
-    {
+    public RootLayoutController() {
 
     }
 
-    public void setMain(Main main)
-    {
+    public void setMain(Main main) {
         this.main = main;
     }
 
     @FXML
-    private void initialize()
-    {
+    private void initialize() {
         showLegendRadioMenuItem.setSelected(true);
         showLegendRadioMenuItem.setOnAction((new EventHandler<ActionEvent>() {
             @Override
@@ -43,14 +39,12 @@ public class RootLayoutController
     }
 
     @FXML
-    private void handleNew()
-    {
+    private void handleNew() {
         main.reset();
     }
 
     @FXML
-    private void handleOpen()
-    {
+    private void handleOpen() {
         FileChooser fileChooser = new FileChooser();
 
         // Set extension filter
@@ -60,31 +54,25 @@ public class RootLayoutController
         // Show save file dialog
         File file = fileChooser.showOpenDialog(main.getPrimaryStage());
 
-        if (file != null)
-        {
+        if (file != null) {
             main.reset();
             main.readSimulation(file);
         }
     }
 
     @FXML
-    private void handleSave()
-    {
+    private void handleSave() {
         File simulationFile = main.getSimulationFilePath();
 
-        if (simulationFile != null)
-        {
+        if (simulationFile != null) {
             main.saveSimulation(simulationFile);
-        }
-        else
-        {
+        } else {
             handleSaveAs();
         }
     }
 
     @FXML
-    private void handleSaveAs()
-    {
+    private void handleSaveAs() {
         FileChooser fileChooser = new FileChooser();
 
         FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
@@ -92,10 +80,8 @@ public class RootLayoutController
 
         File file = fileChooser.showSaveDialog(main.getPrimaryStage());
 
-        if (file != null)
-        {
-            if (!file.getPath().endsWith(".xml"))
-            {
+        if (file != null) {
+            if (!file.getPath().endsWith(".xml")) {
                 file = new File(file.getPath() + ".xml");
             }
 
@@ -120,8 +106,7 @@ public class RootLayoutController
      * Closes the application.
      */
     @FXML
-    private void handleClose()
-    {
+    private void handleClose() {
         System.exit(0);
     }
 }

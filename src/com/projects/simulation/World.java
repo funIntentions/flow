@@ -18,19 +18,16 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 /**
-* Created by Dan on 5/27/2015.
-*/
-public class World
-{
-    private HashMap<Integer, Structure> structures;
+ * Created by Dan on 5/27/2015.
+ */
+public class World {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    private final Runnable simulationTick = new Runnable()
-    {
-        public void run()
-        {
+    private final Runnable simulationTick = new Runnable() {
+        public void run() {
             tick();
         }
     };
+    private HashMap<Integer, Structure> structures;
     private ScheduledFuture<?> simulationHandle;
 
     private boolean running;
@@ -42,8 +39,7 @@ public class World
     private SimulationStatus simulationStatus;
     private Main main;
 
-    public World()
-    {
+    public World() {
         structures = new HashMap<Integer, Structure>();
 
         running = false;
@@ -55,33 +51,27 @@ public class World
         simulationStatus = new SimulationStatus();
     }
 
-    public void updateStructure(Structure structure)
-    {
+    public void updateStructure(Structure structure) {
         structures.put(structure.getId(), structure);
 
-        if (structure instanceof Building)
-        {
-            demandManager.syncStructures((Building)structure);
+        if (structure instanceof Building) {
+            demandManager.syncStructures((Building) structure);
         }
 
-        if (structure instanceof Building)
-        {
-            storageManager.syncStructures((Building)structure);
+        if (structure instanceof Building) {
+            storageManager.syncStructures((Building) structure);
         }
 
-        if (supplyManager.syncStructures(structure))
-        {
+        if (supplyManager.syncStructures(structure)) {
             statsManager.updatePriceAndEmissionsStats(supplyManager);
             main.getProductionStatisticsController().setEmissionsForDemandData(statsManager.getEmissionsForDemand());
             main.getProductionStatisticsController().setPriceForDemandData(statsManager.getPriceForDemand());
         }
     }
 
-    public void removeStructure(Integer id)
-    {
+    public void removeStructure(Integer id) {
         demandManager.removeStructure(structures.get(id));
-        if (supplyManager.removeStructure(structures.get(id)))
-        {
+        if (supplyManager.removeStructure(structures.get(id))) {
             statsManager.updatePriceAndEmissionsStats(supplyManager);
             main.getProductionStatisticsController().setEmissionsForDemandData(statsManager.getEmissionsForDemand());
             main.getProductionStatisticsController().setPriceForDemandData(statsManager.getPriceForDemand());
@@ -90,20 +80,16 @@ public class World
         structures.remove(id);
     }
 
-    public void setStartDate(LocalDate startDate)
-    {
+    public void setStartDate(LocalDate startDate) {
         worldTimer.setStartDate(startDate);
     }
 
-    public void setEndDate(LocalDate endDate)
-    {
+    public void setEndDate(LocalDate endDate) {
         worldTimer.setEndDate(endDate);
     }
 
-    public void runSimulation()
-    {
-        if (!running && !worldTimer.isTimeLimitReached())
-        {
+    public void runSimulation() {
+        if (!running && !worldTimer.isTimeLimitReached()) {
             demandManager.calculateDemandStates(worldTimer.getCurrentDate().getDayOfWeek().getValue() - 1);
             demandManager.calculateDemandProfiles(worldTimer.getCurrentDate().getDayOfWeek().getValue() - 1, storageManager);
             updateStatus();
@@ -114,10 +100,8 @@ public class World
         }
     }
 
-    public void pauseSimulation()
-    {
-        if (running)
-        {
+    public void pauseSimulation() {
+        if (running) {
             simulationHandle.cancel(true);
             running = false;
 
@@ -125,8 +109,7 @@ public class World
         }
     }
 
-    public void resetSimulation()
-    {
+    public void resetSimulation() {
         pauseSimulation();
         worldTimer.reset();
         demandManager.reset();
@@ -137,20 +120,16 @@ public class World
         main.simulationStateProperty().setValue(SimulationState.RESET);
     }
 
-    public void changeUpdateRate(WorldTimer.UpdateRate updateRate)
-    {
+    public void changeUpdateRate(WorldTimer.UpdateRate updateRate) {
         worldTimer.setUpdateRate(updateRate);
     }
 
-    private void tick()
-    {
+    private void tick() {
         worldTimer.tick(Constants.FIXED_SIMULATION_RATE_SECONDS);
 
-        Platform.runLater(new Runnable()
-        {
+        Platform.runLater(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 main.currentTimeProperty().setValue(LocalTime.ofSecondOfDay((int) (worldTimer.getTotalTimeInSeconds() % TimeUnit.DAYS.toSeconds(1))));
                 main.currentDateProperty().setValue(worldTimer.getCurrentDate());
             }
@@ -162,8 +141,7 @@ public class World
 
         updateStatus();
 
-        if (demandManager.isDailyDemandProfileReady())
-        {
+        if (demandManager.isDailyDemandProfileReady()) {
             statsManager.resetDailyTrends();
             statsManager.logDailyTrends(demandManager.getDemandProfileForToday());
             demandManager.calculateDaysExpenses(statsManager.getDailyPriceTrends());
@@ -180,14 +158,11 @@ public class World
             }
         }
 
-        if (worldTimer.isTimeLimitReached())
-        {
+        if (worldTimer.isTimeLimitReached()) {
             pauseSimulation();
-            Platform.runLater(new Runnable()
-            {
+            Platform.runLater(new Runnable() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     main.getStructureDetailsPaneController().displayResults(demandManager.getStructures(),
                             demandManager.getStructureExpenses(),
                             demandManager.getStructureEnvironmentalImpact());
@@ -201,8 +176,7 @@ public class World
         }
     }
 
-    private void updateStatus()
-    {
+    private void updateStatus() {
         simulationStatus.worldTimer = worldTimer;
         simulationStatus.powerPlants = supplyManager.getPowerPlants();
         simulationStatus.price = supplyManager.getPrice();
@@ -211,13 +185,11 @@ public class World
         simulationStatus.emissions = supplyManager.getEmissions();
     }
 
-    public HashMap<Integer, Structure> getStructures()
-    {
+    public HashMap<Integer, Structure> getStructures() {
         return structures;
     }
 
-    public void setMain(Main main)
-    {
+    public void setMain(Main main) {
         this.main = main;
         demandManager.setMain(main);
         storageManager.setMain(main);
@@ -239,27 +211,17 @@ public class World
             setEndDate(newValue);
         });
 
-        main.getWorldStructureData().addListener(new ListChangeListener<Structure>()
-        {
+        main.getWorldStructureData().addListener(new ListChangeListener<Structure>() {
             @Override
-            public void onChanged(Change<? extends Structure> c)
-            {
-                while (c.next())
-                {
-                    if (c.wasPermutated())
-                    {
-                    }
-                    else if (c.wasUpdated())
-                    {
-                    }
-                    else
-                    {
-                        for (Structure removed : c.getRemoved())
-                        {
+            public void onChanged(Change<? extends Structure> c) {
+                while (c.next()) {
+                    if (c.wasPermutated()) {
+                    } else if (c.wasUpdated()) {
+                    } else {
+                        for (Structure removed : c.getRemoved()) {
                             removeStructure(removed.getId());
                         }
-                        for (Structure added : c.getAddedSubList())
-                        {
+                        for (Structure added : c.getAddedSubList()) {
                             updateStructure(added);
                         }
                     }

@@ -15,8 +15,7 @@ import java.util.List;
 /**
  * Created by Dan on 7/31/2015.
  */
-public class DailyStatisticsController
-{
+public class DailyStatisticsController {
     @FXML
     private LineChart<String, Float> demandStatsChart;
 
@@ -38,8 +37,7 @@ public class DailyStatisticsController
     private Main main;
 
     @FXML
-    private void initialize()
-    {
+    private void initialize() {
         datePickerForSelectedDate.setValue(LocalDate.now());
         datePickerForSelectedDate.setOnAction(event ->
         {
@@ -49,25 +47,18 @@ public class DailyStatisticsController
         });
 
         final Callback<DatePicker, DateCell> dayCellFactory =
-                new Callback<DatePicker, DateCell>()
-                {
+                new Callback<DatePicker, DateCell>() {
                     @Override
-                    public DateCell call(final DatePicker datePicker)
-                    {
-                        return new DateCell()
-                        {
+                    public DateCell call(final DatePicker datePicker) {
+                        return new DateCell() {
                             @Override
-                            public void updateItem(LocalDate item, boolean empty)
-                            {
+                            public void updateItem(LocalDate item, boolean empty) {
                                 super.updateItem(item, empty);
 
-                                if (item.isBefore(main.getStartDate()))
-                                {
+                                if (item.isBefore(main.getStartDate())) {
                                     setDisable(true);
                                     setStyle("-fx-background-color: #ffc0cb;");
-                                }
-                                else if (item.isAfter(main.getEndDate().minusDays(1)))
-                                {
+                                } else if (item.isAfter(main.getEndDate().minusDays(1))) {
                                     setDisable(true);
                                     setStyle("-fx-background-color: #ffc0cb;");
                                 }
@@ -92,71 +83,58 @@ public class DailyStatisticsController
 
     }
 
-    public void setDemandChartData(List<Float> demand)
-    {
+    public void setDemandChartData(List<Float> demand) {
         clearDemandChart();
 
-        for (int i = 0; i < demand.size(); i+=30)
-        {
+        for (int i = 0; i < demand.size(); i += 30) {
             demandSeries.getData().add(new XYChart.Data<>(String.valueOf(i), demand.get(i)));
         }
     }
 
-    public void setPriceChartData(List<Float> price)
-    {
+    public void setPriceChartData(List<Float> price) {
         clearPriceChart();
 
-        for (int i = 0; i < price.size(); i+=30)
-        {
+        for (int i = 0; i < price.size(); i += 30) {
             priceSeries.getData().add(new XYChart.Data<>(String.valueOf(i), price.get(i)));
         }
     }
 
-    public void setEmissionsChartData(List<Float> emissions)
-    {
+    public void setEmissionsChartData(List<Float> emissions) {
         clearEmissionChart();
 
-        for (int i = 0; i < emissions.size(); i+=30)
-        {
+        for (int i = 0; i < emissions.size(); i += 30) {
             emissionSeries.getData().add(new XYChart.Data<>(String.valueOf(i), emissions.get(i)));
         }
     }
 
-    public void clearDemandChart()
-    {
+    public void clearDemandChart() {
         demandSeries.getData().clear();
     }
 
-    public void clearPriceChart()
-    {
+    public void clearPriceChart() {
         priceSeries.getData().clear();
     }
 
-    public void clearEmissionChart()
-    {
+    public void clearEmissionChart() {
         emissionSeries.getData().clear();
     }
 
-    public void setMain(Main main)
-    {
+    public void setMain(Main main) {
         this.main = main;
 
         main.simulationStateProperty().addListener((observable, oldValue, newValue) ->
         {
-            switch (newValue)
-            {
-                case RESET:
-                {
+            switch (newValue) {
+                case RESET: {
                     clearDemandChart();
                     clearPriceChart();
                     clearEmissionChart();
                 }
-                case RUNNING:
-                {
+                case RUNNING: {
                     datePickerForSelectedDate.setDisable(true);
-                } break;
-                case FINISHED:
-                {
+                }
+                break;
+                case FINISHED: {
                     datePickerForSelectedDate.setDisable(false);
                     datePickerForSelectedDate.setValue(main.getStartDate());
                 }

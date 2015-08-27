@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -24,13 +23,11 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Dan on 7/28/2015.
  */
-public class StructureEditDialogController
-{
+public class StructureEditDialogController {
 
     @FXML
     private ComboBox<AnimatedSprite> structureSpriteComboBox;
@@ -134,8 +131,7 @@ public class StructureEditDialogController
      * after the fxml file has been loaded.
      */
     @FXML
-    private void initialize()
-    {
+    private void initialize() {
         usageTable.setEditable(true);
         appliancePropertyTab.setDisable(false);
         energyStoragePropertyTab.setDisable(true);
@@ -166,7 +162,7 @@ public class StructureEditDialogController
         usageFromColumn.setOnEditCommit((TableColumn.CellEditEvent<TimeSpan, LocalTime> t) ->
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setFrom(t.getNewValue()));
 
-        usageToColumn.setCellFactory(TextFieldTableCell.<TimeSpan,LocalTime>forTableColumn(localTimeStringConverter));
+        usageToColumn.setCellFactory(TextFieldTableCell.<TimeSpan, LocalTime>forTableColumn(localTimeStringConverter));
         usageToColumn.setOnEditCommit((TableColumn.CellEditEvent<TimeSpan, LocalTime> t) ->
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setTo(t.getNewValue()));
 
@@ -178,20 +174,18 @@ public class StructureEditDialogController
         saturdayColumn.setCellFactory(CheckBoxTableCell.forTableColumn(saturdayColumn));
         sundayColumn.setCellFactory(CheckBoxTableCell.forTableColumn(sundayColumn));
 
-        appliances = FXCollections.observableArrayList(appliance -> new Observable[] {appliance.nameProperty()});
+        appliances = FXCollections.observableArrayList(appliance -> new Observable[]{appliance.nameProperty()});
         applianceList.setItems(appliances);
 
-        energyStorageDevices = FXCollections.observableArrayList(energyStorage -> new Observable[] {energyStorage.nameProperty()});
+        energyStorageDevices = FXCollections.observableArrayList(energyStorage -> new Observable[]{energyStorage.nameProperty()});
         energyStorageList.setItems(energyStorageDevices);
 
-        structureSpriteComboBox.setCellFactory(new Callback<ListView<AnimatedSprite>, ListCell<AnimatedSprite>>()
-        {
+        structureSpriteComboBox.setCellFactory(new Callback<ListView<AnimatedSprite>, ListCell<AnimatedSprite>>() {
             @Override
-            public ListCell<AnimatedSprite> call(ListView<AnimatedSprite> p)
-            {
-                return new ListCell<AnimatedSprite>()
-                {
+            public ListCell<AnimatedSprite> call(ListView<AnimatedSprite> p) {
+                return new ListCell<AnimatedSprite>() {
                     private ImageView imageView = new ImageView();
+
                     {
                         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
                     }
@@ -200,12 +194,9 @@ public class StructureEditDialogController
                     protected void updateItem(AnimatedSprite item, boolean empty) {
                         super.updateItem(item, empty);
 
-                        if (item == null || empty)
-                        {
+                        if (item == null || empty) {
                             setGraphic(null);
-                        }
-                        else
-                        {
+                        } else {
                             imageView.setImage(item.getAnimation().getFrames().get(0));
                             setGraphic(imageView);
                         }
@@ -218,8 +209,7 @@ public class StructureEditDialogController
         storageStrategies = new HashMap<>();
     }
 
-    public void setStructure(Building structure)
-    {
+    public void setStructure(Building structure) {
         this.structure = structure;
         structureNameField.setText(structure.getName());
         appliances.clear();
@@ -240,8 +230,7 @@ public class StructureEditDialogController
      *
      * @param dialogStage
      */
-    public void setDialogStage(Stage dialogStage)
-    {
+    public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
         dialogStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
@@ -250,33 +239,27 @@ public class StructureEditDialogController
         });
     }
 
-    public void setMain (Main main)
-    {
+    public void setMain(Main main) {
         this.main = main;
     }
 
-    public void setStructureSprites(HashMap<Integer, AnimatedSprite> sprites)
-    {
+    public void setStructureSprites(HashMap<Integer, AnimatedSprite> sprites) {
         structureSpriteComboBox.setItems(FXCollections.observableArrayList(sprites.values()));
         structureSpriteComboBox.getSelectionModel().select(sprites.get(structure.getAnimatedSprite().getId()));
     }
 
-    public void setStorageStrategies(HashMap<String, String> storageStrategies)
-    {
+    public void setStorageStrategies(HashMap<String, String> storageStrategies) {
         this.storageStrategies = storageStrategies;
         energyStorageStrategy.setItems(FXCollections.observableArrayList(storageStrategies.keySet()));
         energyStorageStrategy.getSelectionModel().select(0);
     }
 
-    private void showApplianceProperties(Appliance lastSelected, Appliance applianceSelected)
-    {
-        if (lastSelected != null)
-        {
-             updateAppliance(lastSelected);
+    private void showApplianceProperties(Appliance lastSelected, Appliance applianceSelected) {
+        if (lastSelected != null) {
+            updateAppliance(lastSelected);
         }
 
-        if (applianceSelected != null)
-        {
+        if (applianceSelected != null) {
             applianceNameField.setText(applianceSelected.getName());
             applianceStandbyConsumptionField.setText(String.valueOf(applianceSelected.getStandbyConsumption()));
             applianceUsageConsumptionField.setText(String.valueOf(applianceSelected.getUsageConsumption()));
@@ -284,15 +267,12 @@ public class StructureEditDialogController
         }
     }
 
-    private void showEnergyStorageProperties(EnergyStorage lastSelected, EnergyStorage selected)
-    {
-        if (lastSelected != null)
-        {
+    private void showEnergyStorageProperties(EnergyStorage lastSelected, EnergyStorage selected) {
+        if (lastSelected != null) {
             updateEnergyStorage(lastSelected);
         }
 
-        if (selected != null)
-        {
+        if (selected != null) {
             String strategyName = Utils.getStrategyName(selected.getStorageStrategy());
 
             energyStorageNameField.setText(selected.getName());
@@ -302,8 +282,7 @@ public class StructureEditDialogController
         }
     }
 
-    private void switchPropertyTab(Tab oldValue)
-    {
+    private void switchPropertyTab(Tab oldValue) {
         Tab previousPropertyTab = devicePropertyTabPane.getSelectionModel().getSelectedItem();
         previousPropertyTab.setDisable(true);
 
@@ -316,18 +295,14 @@ public class StructureEditDialogController
         newPropertyTab.setDisable(false);
     }
 
-    private boolean updateTabsDevices(Tab tab)
-    {
+    private boolean updateTabsDevices(Tab tab) {
         boolean valid = true;
 
-        if (tab == applianceTab)
-        {
+        if (tab == applianceTab) {
             Appliance appliance = applianceList.getSelectionModel().getSelectedItem();
             if (appliance != null)
                 valid = updateAppliance(appliance);
-        }
-        else if (tab == energyStorageTab)
-        {
+        } else if (tab == energyStorageTab) {
             EnergyStorage energyStorage = energyStorageList.getSelectionModel().getSelectedItem();
             if (energyStorage != null)
                 valid = updateEnergyStorage(energyStorage);
@@ -336,16 +311,12 @@ public class StructureEditDialogController
         return valid;
     }
 
-    private boolean updateAppliance(Appliance previouslySelectedDevice)
-    {
+    private boolean updateAppliance(Appliance previouslySelectedDevice) {
         String errorMessage = "";
 
-        if (applianceNameField.getText() == null || applianceNameField.getText().length() == 0)
-        {
+        if (applianceNameField.getText() == null || applianceNameField.getText().length() == 0) {
             errorMessage += "No valid appliance name!\n";
-        }
-        else
-        {
+        } else {
             previouslySelectedDevice.setName(applianceNameField.getText());
         }
 
@@ -377,8 +348,7 @@ public class StructureEditDialogController
 
         if (errorMessage.length() == 0)
             return true;
-        else
-        {
+        else {
             // Show the error message.
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.initOwner(dialogStage);
@@ -391,16 +361,12 @@ public class StructureEditDialogController
         }
     }
 
-    private boolean updateEnergyStorage(EnergyStorage energyStorage)
-    {
+    private boolean updateEnergyStorage(EnergyStorage energyStorage) {
         String errorMessage = "";
 
-        if (energyStorageNameField.getText() == null || energyStorageNameField.getText().length() == 0)
-        {
+        if (energyStorageNameField.getText() == null || energyStorageNameField.getText().length() == 0) {
             errorMessage += "No valid energy storage name!\n";
-        }
-        else
-        {
+        } else {
             energyStorage.setName(energyStorageNameField.getText());
         }
 
@@ -432,8 +398,7 @@ public class StructureEditDialogController
 
         if (errorMessage.length() == 0)
             return true;
-        else
-        {
+        else {
             // Show the error message.
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.initOwner(dialogStage);
@@ -456,55 +421,44 @@ public class StructureEditDialogController
     }
 
     @FXML
-    private void handleManuallyEditLoadProfile()
-    {
+    private void handleManuallyEditLoadProfile() {
         main.showLoadProfileEditDialog(structure);
     }
 
     @FXML
-    private void handleUseCustomLoadProfile()
-    {
+    private void handleUseCustomLoadProfile() {
         structure.setUsingCustomLoadProfile(useCustomLoadProfileCheckBox.isSelected());
         structure.calculateLoadProfile();
 
-        if (useCustomLoadProfileCheckBox.isSelected())
-        {
+        if (useCustomLoadProfileCheckBox.isSelected()) {
             manuallyEditLoadProfileButton.setDisable(false);
 
-        }
-        else
-        {
+        } else {
             manuallyEditLoadProfileButton.setDisable(true);
         }
     }
 
     @FXML
-    private void handleCreateNewAppliance()
-    {
+    private void handleCreateNewAppliance() {
         Appliance appliance = new Appliance("Appliance", DeviceUtil.getNextDeviceId(), 0.0, 0.0, new ArrayList<>());
         appliances.add(appliance);
     }
 
     @FXML
-    private void handleCreateNewEnergyStorageDevice()
-    {
+    private void handleCreateNewEnergyStorageDevice() {
         EnergyStorage energyStorage = new EnergyStorage("Energy Storage", DeviceUtil.getNextDeviceId(), 0.0, 0.0, 0.0, energyStorageStrategy.getSelectionModel().getSelectedItem());
         energyStorageDevices.add(energyStorage);
     }
 
     @FXML
-    private void handleRemoveDevice()
-    {
+    private void handleRemoveDevice() {
         Tab selectedTab = deviceTabPane.getSelectionModel().getSelectedItem();
 
-        if (selectedTab == applianceTab)
-        {
+        if (selectedTab == applianceTab) {
             int index = applianceList.getSelectionModel().getSelectedIndex();
             if (index >= 0)
                 appliances.remove(index);
-        }
-        else if (selectedTab == energyStorageTab && energyStorageList.getItems().size() > 0)
-        {
+        } else if (selectedTab == energyStorageTab && energyStorageList.getItems().size() > 0) {
             int index = energyStorageList.getSelectionModel().getSelectedIndex();
             if (index >= 0)
                 energyStorageDevices.remove(index);
@@ -512,18 +466,14 @@ public class StructureEditDialogController
     }
 
     @FXML
-    private void handleCreateTimeSpan()
-    {
+    private void handleCreateTimeSpan() {
         Appliance appliance = applianceList.getSelectionModel().getSelectedItem();
 
-        if (appliance != null)
-        {
+        if (appliance != null) {
             TimeSpan timeSpan = new TimeSpan(LocalTime.ofSecondOfDay(0), LocalTime.ofSecondOfDay(0));
             usageTable.getItems().add(timeSpan);
             structure.calculateLoadProfile();
-        }
-        else
-        {
+        } else {
             // Show the error message.
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.initOwner(dialogStage);
@@ -536,11 +486,9 @@ public class StructureEditDialogController
     }
 
     @FXML
-    private void handleRemoveTimeSpan()
-    {
+    private void handleRemoveTimeSpan() {
         int index = usageTable.getSelectionModel().getSelectedIndex();
-        if (index >= 0)
-        {
+        if (index >= 0) {
             usageTable.getItems().remove(index);
             structure.calculateLoadProfile();
         }
@@ -550,10 +498,8 @@ public class StructureEditDialogController
      * Called when the user clicks ok.
      */
     @FXML
-    private void handleClose()
-    {
-        if (updateTabsDevices(deviceTabPane.getSelectionModel().getSelectedItem()) && isInputValid())
-        {
+    private void handleClose() {
+        if (updateTabsDevices(deviceTabPane.getSelectionModel().getSelectedItem()) && isInputValid()) {
             structure.setName(structureNameField.getText());
             structure.setAppliances(appliances);
             structure.setEnergyStorageDevices(energyStorageDevices);
@@ -574,12 +520,10 @@ public class StructureEditDialogController
      *
      * @return true if the input is valid
      */
-    private boolean isInputValid()
-    {
+    private boolean isInputValid() {
         String errorMessage = "";
 
-        if (structureNameField.getText() == null || structureNameField.getText().length() == 0)
-        {
+        if (structureNameField.getText() == null || structureNameField.getText().length() == 0) {
             errorMessage += "No valid structure name!\n";
         }
 

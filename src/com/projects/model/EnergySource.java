@@ -6,14 +6,12 @@ import javafx.beans.property.SimpleDoubleProperty;
 /**
  * Created by Dan on 6/26/2015.
  */
-public class EnergySource extends Device
-{
+public class EnergySource extends Device {
     private DoubleProperty ratedDCVoltage;
     private DoubleProperty ratedACVoltage;
     private DoubleProperty current;
 
-    public EnergySource(String name, int id, double ratedACVoltage, double ratedDCVoltage, double current)
-    {
+    public EnergySource(String name, int id, double ratedACVoltage, double ratedDCVoltage, double current) {
         super(name, id);
 
         this.ratedACVoltage = new SimpleDoubleProperty(ratedACVoltage);
@@ -21,48 +19,39 @@ public class EnergySource extends Device
         this.current = new SimpleDoubleProperty(current);
     }
 
-    public double getRatedDCVoltage()
-    {
+    public double getRatedDCVoltage() {
         return ratedDCVoltage.get();
     }
 
-    public DoubleProperty ratedDCVoltageProperty()
-    {
-        return ratedDCVoltage;
-    }
-
-    public void setRatedDCVoltage(double ratedDCVoltage)
-    {
+    public void setRatedDCVoltage(double ratedDCVoltage) {
         this.ratedDCVoltage.set(ratedDCVoltage);
     }
 
-    public double getRatedACVoltage()
-    {
+    public DoubleProperty ratedDCVoltageProperty() {
+        return ratedDCVoltage;
+    }
+
+    public double getRatedACVoltage() {
         return ratedACVoltage.get();
     }
 
-    public DoubleProperty ratedACVoltageProperty()
-    {
-        return ratedACVoltage;
-    }
-
-    public void setRatedACVoltage(double ratedACVoltage)
-    {
+    public void setRatedACVoltage(double ratedACVoltage) {
         this.ratedACVoltage.set(ratedACVoltage);
     }
 
-    public double getCurrent()
-    {
+    public DoubleProperty ratedACVoltageProperty() {
+        return ratedACVoltage;
+    }
+
+    public double getCurrent() {
         return current.get();
     }
 
-    public DoubleProperty currentProperty()
-    {
-        return current;
+    public void setCurrent(double current) {
+        this.current.set(current);
     }
 
-    public void setCurrent(double current)
-    {
-        this.current.set(current);
+    public DoubleProperty currentProperty() {
+        return current;
     }
 }

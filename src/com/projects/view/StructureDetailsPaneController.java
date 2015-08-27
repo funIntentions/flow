@@ -25,36 +25,21 @@ import java.util.List;
 /**
  * Created by Dan on 7/30/2015.
  */
-public class StructureDetailsPaneController
-{
-
-    private class StructureResults
-    {
-        public ObjectProperty<Structure> structureProperty = new SimpleObjectProperty<>();
-        public FloatProperty expensesProperty = new SimpleFloatProperty();
-        public FloatProperty environmentalImpactProperty = new SimpleFloatProperty();
-    }
+public class StructureDetailsPaneController {
 
     @FXML
     private TableView<StructureResults> structureRankingTable;
-
     @FXML
     private TableColumn<StructureResults, String> structureNameColumn;
-
     @FXML
     private TableColumn<StructureResults, Float> structureExpensesColumn;
-
     @FXML
     private TableColumn<StructureResults, Float> structureEnvironmentalImpactColumn;
-
     @FXML
     private LineChart<String, Float> loadProfileChart;
-
     @FXML
     private TabPane daysOfTheWeekTabPane;
-
     private ObservableList<StructureResults> structureResultsList;
-
     private XYChart.Series<String, Float> series = new XYChart.Series<>();
     private List<ObservableList<Float>> loadProfilesForWeek = new ArrayList<>();
     private Main main;
@@ -64,8 +49,7 @@ public class StructureDetailsPaneController
      * after the fxml file has been loaded.
      */
     @FXML
-    private void initialize()
-    {
+    private void initialize() {
 
         structureNameColumn.setCellValueFactory(cellData -> cellData.getValue().structureProperty.get().nameProperty());
         structureExpensesColumn.setCellValueFactory(cellData -> cellData.getValue().expensesProperty.asObject());
@@ -86,11 +70,9 @@ public class StructureDetailsPaneController
 
     }
 
-    public void displayResults(List<Building> structureList, HashMap<Integer, Float> expenses, HashMap<Integer, Float> environmentalImpact)
-    {
+    public void displayResults(List<Building> structureList, HashMap<Integer, Float> expenses, HashMap<Integer, Float> environmentalImpact) {
         structureResultsList.clear();
-        for (Structure structure : structureList)
-        {
+        for (Structure structure : structureList) {
             StructureResults structureResults = new StructureResults();
             structureResults.structureProperty.set(structure);
             structureResults.expensesProperty.set(expenses.get(structure.getId()));
@@ -100,21 +82,18 @@ public class StructureDetailsPaneController
         }
     }
 
-    public void clearComparisions()
-    {
+    public void clearComparisions() {
         structureResultsList.clear();
     }
 
-    private void switchChartData()
-    {
+    private void switchChartData() {
         int day = daysOfTheWeekTabPane.getSelectionModel().getSelectedIndex();
 
-        List<Float> loadProfile = loadProfilesForWeek != null && loadProfilesForWeek.size() > 0 ? loadProfilesForWeek.get(day): new ArrayList<>();
+        List<Float> loadProfile = loadProfilesForWeek != null && loadProfilesForWeek.size() > 0 ? loadProfilesForWeek.get(day) : new ArrayList<>();
 
         series.getData().clear();
 
-        for (int i = 0; i < loadProfile.size(); i+=30)
-        {
+        for (int i = 0; i < loadProfile.size(); i += 30) {
             series.getData().add(new XYChart.Data<>(String.valueOf(i), loadProfile.get(i)));
         }
     }
@@ -125,8 +104,7 @@ public class StructureDetailsPaneController
      * @param structure
      * @param loadProfilesForWeek
      */
-    public void setStructureData(Structure structure, List<ObservableList<Float>> loadProfilesForWeek)
-    {
+    public void setStructureData(Structure structure, List<ObservableList<Float>> loadProfilesForWeek) {
         this.loadProfilesForWeek = loadProfilesForWeek;
 
         if (structure != null)
@@ -137,26 +115,21 @@ public class StructureDetailsPaneController
         switchChartData();
     }
 
-    public void clearLoadProfileDetails()
-    {
+    public void clearLoadProfileDetails() {
         loadProfilesForWeek.clear();
         switchChartData();
     }
 
-    public void setMain(Main main)
-    {
+    public void setMain(Main main) {
         this.main = main;
 
         main.selectedStructureProperty().addListener((observable, oldValue, newValue) ->
         {
             structureRankingTable.getSelectionModel().clearSelection();
 
-            if (newValue != null)
-            {
-                for (StructureResults results : structureResultsList)
-                {
-                    if (results.structureProperty.get().getId() == newValue.getId())
-                    {
+            if (newValue != null) {
+                for (StructureResults results : structureResultsList) {
+                    if (results.structureProperty.get().getId() == newValue.getId()) {
                         structureRankingTable.getSelectionModel().select(results);
                         break;
                     }
@@ -167,10 +140,15 @@ public class StructureDetailsPaneController
 
         main.simulationStateProperty().addListener((observable, oldValue, newValue) ->
         {
-            if (newValue == SimulationState.RESET)
-            {
+            if (newValue == SimulationState.RESET) {
                 clearComparisions();
             }
         });
+    }
+
+    private class StructureResults {
+        public ObjectProperty<Structure> structureProperty = new SimpleObjectProperty<>();
+        public FloatProperty expensesProperty = new SimpleFloatProperty();
+        public FloatProperty environmentalImpactProperty = new SimpleFloatProperty();
     }
 }

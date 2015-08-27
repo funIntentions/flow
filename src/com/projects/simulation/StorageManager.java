@@ -17,7 +17,6 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.luaj.vm2.lib.jse.JsePlatform;
 
-import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -28,51 +27,42 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Dan on 7/17/2015.
  */
-public class StorageManager
-{
+public class StorageManager {
     private Main main;
     private List<Building> structures;
     private HashMap<Integer, List<Float>> deviceStorageProfiles;
     private Boolean errorEncountered = false;
 
-    public StorageManager()
-    {
+    public StorageManager() {
         structures = new ArrayList<Building>();
         deviceStorageProfiles = new HashMap<Integer, List<Float>>();
     }
 
-    public void setMain(Main main)
-    {
+    public void setMain(Main main) {
         this.main = main;
     }
 
-    public void reset()
-    {
+    public void reset() {
         errorEncountered = false;
 
-        for (List<Float> profile : deviceStorageProfiles.values())
-        {
+        for (List<Float> profile : deviceStorageProfiles.values()) {
             profile.clear();
         }
 
-        for (Building structure : structures)
-        {
-            List<EnergyStorage> storageDevices = (List)structure.getEnergyStorageDevices();
+        for (Building structure : structures) {
+            List<EnergyStorage> storageDevices = (List) structure.getEnergyStorageDevices();
 
-            for (EnergyStorage storage : storageDevices)
-            {
+            for (EnergyStorage storage : storageDevices) {
                 storage.setStoredEnergy(0);
             }
         }
     }
 
-    public float getStructuresStorageDemandAtTime(Building structure, int time)
-    {
-        List<EnergyStorage> storageDevices = (List)structure.getEnergyStorageDevices();
+    public float getStructuresStorageDemandAtTime(Building structure, int time) {
+        List<EnergyStorage> storageDevices = (List) structure.getEnergyStorageDevices();
         float demand = 0;
 
-        for (EnergyStorage storage : storageDevices)
-        {
+        for (EnergyStorage storage : storageDevices) {
             List<Float> storageProfile = deviceStorageProfiles.get(storage.getId());
 
             if (storageProfile.size() > 0)
@@ -82,22 +72,17 @@ public class StorageManager
         return demand;
     }
 
-    public void updateStorageStrategies(int day, DemandManager demandManager, StatsManager statsManager)
-    {
-        for (Building structure : structures)
-        {
-            List<EnergyStorage> energyStorageDevices = (List)structure.getEnergyStorageDevices();
+    public void updateStorageStrategies(int day, DemandManager demandManager, StatsManager statsManager) {
+        for (Building structure : structures) {
+            List<EnergyStorage> energyStorageDevices = (List) structure.getEnergyStorageDevices();
 
-            for (EnergyStorage storage : energyStorageDevices)
-            {
+            for (EnergyStorage storage : energyStorageDevices) {
                 // Initialize if empty
                 List<Float> storageProfile = deviceStorageProfiles.get(storage.getId());
-                if (storageProfile == null || storageProfile.size() == 0)
-                {
+                if (storageProfile == null || storageProfile.size() == 0) {
                     storageProfile = new ArrayList<>();
 
-                    for (int time = 0; time < TimeUnit.DAYS.toMinutes(1); ++time)
-                    {
+                    for (int time = 0; time < TimeUnit.DAYS.toMinutes(1); ++time) {
                         storageProfile.add(0f);
                     }
                 }
@@ -108,23 +93,7 @@ public class StorageManager
         }
     }
 
-    private class StorageProfileWrapper
-    {
-        public final List<Float> storageProfile = new ArrayList<>();
-
-        public void set(int index, float value)
-        {
-            storageProfile.set(index, value);
-        }
-
-        public void add(float item)
-        {
-            storageProfile.add(item);
-        }
-    }
-
-    public void runLuaStrategyScript(String script, EnergyStorage storageDevice, List<Float> loadProfile, List<Float> oldStorageProfile)
-    {
+    public void runLuaStrategyScript(String script, EnergyStorage storageDevice, List<Float> loadProfile, List<Float> oldStorageProfile) {
 
         StorageProfileWrapper newStorageProfileWrapper = new StorageProfileWrapper();
 
@@ -145,23 +114,16 @@ public class StorageManager
 
             LuaValue strategize = luaGlobals.get("strategize");
 
-            if (!strategize.isnil())
-            {
+            if (!strategize.isnil()) {
                 strategize.invoke(varargs);
-            }
-            else
-            {
+            } else {
                 System.out.println("Lua function not found");
             }
-        }
-        catch (LuaError error)
-        {
+        } catch (LuaError error) {
             errorEncountered = true;
-            Platform.runLater(new Runnable()
-            {
+            Platform.runLater(new Runnable() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     displayLuaExceptionDialog(error, script);
                 }
             });
@@ -172,8 +134,7 @@ public class StorageManager
         deviceStorageProfiles.put(storageDevice.getId(), newStorageProfile);
     }
 
-    private void displayLuaExceptionDialog(LuaError error, String script)
-    {
+    private void displayLuaExceptionDialog(LuaError error, String script) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Exception");
         alert.setHeaderText("Error in Script");
@@ -207,12 +168,9 @@ public class StorageManager
         alert.showAndWait();
     }
 
-    public boolean removeStructure(Structure structureToRemove)
-    {
-        for (Structure structure : structures)
-        {
-            if (structure.getId() == structureToRemove.getId())
-            {
+    public boolean removeStructure(Structure structureToRemove) {
+        for (Structure structure : structures) {
+            if (structure.getId() == structureToRemove.getId()) {
                 structures.remove(structure);
                 return true;
             }
@@ -221,72 +179,55 @@ public class StorageManager
         return false;
     }
 
-    public void removeAllStructures()
-    {
+    public void removeAllStructures() {
         structures.clear();
         deviceStorageProfiles.clear();
     }
 
-    public void addStructureStorageDevices(Building structure)
-    {
-        List<EnergyStorage> storageDevices = (List)structure.getEnergyStorageDevices();
+    public void addStructureStorageDevices(Building structure) {
+        List<EnergyStorage> storageDevices = (List) structure.getEnergyStorageDevices();
 
-        for (EnergyStorage storage : storageDevices)
-        {
+        for (EnergyStorage storage : storageDevices) {
             deviceStorageProfiles.put(storage.getId(), new ArrayList<Float>());
         }
     }
 
-    public void removeStructureStorageDevices(Building structure)
-    {
-        List<EnergyStorage> storageDevices = (List)structure.getEnergyStorageDevices();
+    public void removeStructureStorageDevices(Building structure) {
+        List<EnergyStorage> storageDevices = (List) structure.getEnergyStorageDevices();
 
-        for (EnergyStorage storage : storageDevices)
-        {
+        for (EnergyStorage storage : storageDevices) {
             deviceStorageProfiles.remove(storage.getId());
         }
     }
 
-    public HashMap<Integer, List<Float>> getDeviceStorageProfiles()
-    {
+    public HashMap<Integer, List<Float>> getDeviceStorageProfiles() {
         return deviceStorageProfiles;
     }
 
-    public boolean syncStructures(Building changedStructure)
-    {
+    public boolean syncStructures(Building changedStructure) {
         int structureIndex = -1;
 
-        for (int i = 0; i < structures.size(); ++i)
-        {
-            if (changedStructure.getId() == structures.get(i).getId())
-            {
+        for (int i = 0; i < structures.size(); ++i) {
+            if (changedStructure.getId() == structures.get(i).getId()) {
                 structureIndex = i;
             }
         }
 
         int storageDeviceCount = changedStructure.getEnergyStorageDevices().size();
 
-        if (structureIndex < 0 && storageDeviceCount > 0)
-        {
+        if (structureIndex < 0 && storageDeviceCount > 0) {
             addStructureStorageDevices(changedStructure);
             structures.add(changedStructure);
-        }
-        else if (structureIndex >=0)
-        {
-            if (storageDeviceCount > 0)
-            {
+        } else if (structureIndex >= 0) {
+            if (storageDeviceCount > 0) {
                 removeStructureStorageDevices(changedStructure);
                 addStructureStorageDevices(changedStructure);
                 structures.set(structureIndex, changedStructure);
-            }
-            else
-            {
+            } else {
                 removeStructureStorageDevices(changedStructure);
                 structures.remove(structureIndex);
             }
-        }
-        else
-        {
+        } else {
             return false;
         }
 
@@ -295,6 +236,18 @@ public class StorageManager
 
     public Boolean errorEncountered() {
         return errorEncountered;
+    }
+
+    private class StorageProfileWrapper {
+        public final List<Float> storageProfile = new ArrayList<>();
+
+        public void set(int index, float value) {
+            storageProfile.set(index, value);
+        }
+
+        public void add(float item) {
+            storageProfile.add(item);
+        }
     }
 }
 

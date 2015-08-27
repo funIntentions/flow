@@ -26,8 +26,7 @@ import java.util.List;
 /**
  * Created by Dan on 8/21/2015.
  */
-public class LoadProfileEditDialogController
-{
+public class LoadProfileEditDialogController {
     @FXML
     private LineChart<String, Float> loadProfileChart;
 
@@ -72,8 +71,7 @@ public class LoadProfileEditDialogController
     private Stage dialogStage = null;
 
     @FXML
-    private void initialize()
-    {
+    private void initialize() {
         usageTable.setEditable(true);
         loadProfileChart.getData().add(series);
 
@@ -105,7 +103,7 @@ public class LoadProfileEditDialogController
             (t.getTableView().getItems().get(t.getTablePosition().getRow())).setFrom(t.getNewValue());
         });
 
-        usageToColumn.setCellFactory(TextFieldTableCell.<UsageTimeSpan,LocalTime>forTableColumn(localTimeStringConverter));
+        usageToColumn.setCellFactory(TextFieldTableCell.<UsageTimeSpan, LocalTime>forTableColumn(localTimeStringConverter));
         usageToColumn.setOnEditCommit((TableColumn.CellEditEvent<UsageTimeSpan, LocalTime> t) ->
         {
             (t.getTableView().getItems().get(t.getTablePosition().getRow())).setTo(t.getNewValue());
@@ -123,23 +121,20 @@ public class LoadProfileEditDialogController
                 (observable, oldValue, newValue) -> updateChartData());
     }
 
-    public void setBuilding(Building building)
-    {
+    public void setBuilding(Building building) {
         this.building = building;
         usageTable.setItems(building.getManualLoadProfileData());
         initChartData();
 
         building.getManualLoadProfileData().addListener(new ListChangeListener<UsageTimeSpan>() {
             @Override
-            public void onChanged(Change<? extends UsageTimeSpan> c)
-            {
+            public void onChanged(Change<? extends UsageTimeSpan> c) {
                 updateChartData();
             }
         });
     }
 
-    public void setDialogStage(Stage dialogStage)
-    {
+    public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
 
         dialogStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -149,32 +144,28 @@ public class LoadProfileEditDialogController
         });
     }
 
-    private void initChartData()
-    {
+    private void initChartData() {
         building.calculateLoadProfile();
         int day = daysOfTheWeekTabPane.getSelectionModel().getSelectedIndex();
 
-        List<Float> loadProfile = building.getLoadProfilesForWeek() != null && building.getLoadProfilesForWeek().size() > 0 ? building.getLoadProfilesForWeek().get(day): new ArrayList<>();
+        List<Float> loadProfile = building.getLoadProfilesForWeek() != null && building.getLoadProfilesForWeek().size() > 0 ? building.getLoadProfilesForWeek().get(day) : new ArrayList<>();
 
         loadProfileChart.setAnimated(false);
         series.getData().clear();
         loadProfileChart.setAnimated(true);
 
-        for (int i = 0; i < Constants.MINUTES_IN_DAY; i+=30)
-        {
-            series.getData().add(new XYChart.Data<>(String.valueOf(i/30), loadProfile.get(i)));
+        for (int i = 0; i < Constants.MINUTES_IN_DAY; i += 30) {
+            series.getData().add(new XYChart.Data<>(String.valueOf(i / 30), loadProfile.get(i)));
         }
     }
 
-    private void updateChartData()
-    {
+    private void updateChartData() {
         building.calculateLoadProfile();
         int day = daysOfTheWeekTabPane.getSelectionModel().getSelectedIndex();
 
-        List<Float> loadProfile = building.getLoadProfilesForWeek() != null && building.getLoadProfilesForWeek().size() > 0 ? building.getLoadProfilesForWeek().get(day): new ArrayList<>();
+        List<Float> loadProfile = building.getLoadProfilesForWeek() != null && building.getLoadProfilesForWeek().size() > 0 ? building.getLoadProfilesForWeek().get(day) : new ArrayList<>();
 
-        for (int i = 0; i < series.getData().size(); ++i)
-        {
+        for (int i = 0; i < series.getData().size(); ++i) {
             XYChart.Data<String, Float> data = series.getData().get(i);
 
             if (data.getYValue().floatValue() != loadProfile.get(i * 30).floatValue())
@@ -183,21 +174,36 @@ public class LoadProfileEditDialogController
     }
 
     @FXML
-    private void handleCreateTimeSpan()
-    {
+    private void handleCreateTimeSpan() {
         UsageTimeSpan timeSpan = new UsageTimeSpan(0, LocalTime.ofSecondOfDay(0), LocalTime.ofSecondOfDay(0));
 
-        timeSpan.usageProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
-        timeSpan.fromProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
+        timeSpan.usageProperty().addListener((observable, oldValue, newValue) -> {
+            updateChartData();
+        });
+        timeSpan.fromProperty().addListener((observable, oldValue, newValue) -> {
+            updateChartData();
+        });
         timeSpan.toProperty().addListener((observable, oldValue, newValue) -> {
             updateChartData();
         });
-        timeSpan.mondayProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
-        timeSpan.tuesdayProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
-        timeSpan.wednesdayProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
-        timeSpan.thursdayProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
-        timeSpan.fridayProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
-        timeSpan.saturdayProperty().addListener((observable, oldValue, newValue) -> {updateChartData();});
+        timeSpan.mondayProperty().addListener((observable, oldValue, newValue) -> {
+            updateChartData();
+        });
+        timeSpan.tuesdayProperty().addListener((observable, oldValue, newValue) -> {
+            updateChartData();
+        });
+        timeSpan.wednesdayProperty().addListener((observable, oldValue, newValue) -> {
+            updateChartData();
+        });
+        timeSpan.thursdayProperty().addListener((observable, oldValue, newValue) -> {
+            updateChartData();
+        });
+        timeSpan.fridayProperty().addListener((observable, oldValue, newValue) -> {
+            updateChartData();
+        });
+        timeSpan.saturdayProperty().addListener((observable, oldValue, newValue) -> {
+            updateChartData();
+        });
         timeSpan.sundayProperty().addListener((observable, oldValue, newValue) -> {
             updateChartData();
         });
@@ -207,19 +213,16 @@ public class LoadProfileEditDialogController
     }
 
     @FXML
-    private void handleRemoveTimeSpan()
-    {
+    private void handleRemoveTimeSpan() {
         int index = usageTable.getSelectionModel().getSelectedIndex();
-        if (index >= 0)
-        {
+        if (index >= 0) {
             usageTable.getItems().remove(index);
             building.calculateLoadProfile();
         }
     }
 
     @FXML
-    private void handleClose()
-    {
+    private void handleClose() {
         dialogStage.close();
     }
 }

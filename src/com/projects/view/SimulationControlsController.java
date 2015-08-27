@@ -12,8 +12,7 @@ import java.time.LocalDate;
 /**
  * Created by Dan on 7/31/2015.
  */
-public class SimulationControlsController
-{
+public class SimulationControlsController {
     @FXML
     private Label timeLabel;
 
@@ -39,13 +38,13 @@ public class SimulationControlsController
     private Button resetButton;
 
     private Main main;
+
     /**
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
      */
     @FXML
-    private void initialize()
-    {
+    private void initialize() {
         updateRate.setItems(FXCollections.observableArrayList(WorldTimer.UpdateRate.values()));
         updateRate.setValue(WorldTimer.UpdateRate.DAYS);
         updateRate.setOnAction((event) ->
@@ -66,20 +65,15 @@ public class SimulationControlsController
         });
 
         final Callback<DatePicker, DateCell> startDayCellFactory =
-                new Callback<DatePicker, DateCell>()
-                {
+                new Callback<DatePicker, DateCell>() {
                     @Override
-                    public DateCell call(final DatePicker datePicker)
-                    {
-                        return new DateCell()
-                        {
+                    public DateCell call(final DatePicker datePicker) {
+                        return new DateCell() {
                             @Override
-                            public void updateItem(LocalDate item, boolean empty)
-                            {
+                            public void updateItem(LocalDate item, boolean empty) {
                                 super.updateItem(item, empty);
 
-                                if (item.isBefore(datePickerForStartDate.getValue().plusDays(1)))
-                                {
+                                if (item.isBefore(datePickerForStartDate.getValue().plusDays(1))) {
                                     setDisable(true);
                                     setStyle("-fx-background-color: #ffc0cb;");
                                 }
@@ -91,20 +85,15 @@ public class SimulationControlsController
         datePickerForEndDate.setDayCellFactory(startDayCellFactory);
 
         final Callback<DatePicker, DateCell> endDayCellFactory =
-                new Callback<DatePicker, DateCell>()
-                {
+                new Callback<DatePicker, DateCell>() {
                     @Override
-                    public DateCell call(final DatePicker datePicker)
-                    {
-                        return new DateCell()
-                        {
+                    public DateCell call(final DatePicker datePicker) {
+                        return new DateCell() {
                             @Override
-                            public void updateItem(LocalDate item, boolean empty)
-                            {
+                            public void updateItem(LocalDate item, boolean empty) {
                                 super.updateItem(item, empty);
 
-                                if (item.isAfter(datePickerForEndDate.getValue().minusDays(1)))
-                                {
+                                if (item.isAfter(datePickerForEndDate.getValue().minusDays(1))) {
                                     setDisable(true);
                                     setStyle("-fx-background-color: #ffc0cb;");
                                 }
@@ -117,25 +106,21 @@ public class SimulationControlsController
     }
 
     @FXML
-    private void handleRun()
-    {
+    private void handleRun() {
         main.getWorld().runSimulation();
     }
 
     @FXML
-    private void handlePause()
-    {
+    private void handlePause() {
         main.getWorld().pauseSimulation();
     }
 
     @FXML
-    private void handleReset()
-    {
+    private void handleReset() {
         main.getWorld().resetSimulation();
     }
 
-    public void setMain(Main main)
-    {
+    public void setMain(Main main) {
         this.main = main;
 
         main.currentDateProperty().addListener((observable, oldValue, newValue) ->
@@ -150,35 +135,34 @@ public class SimulationControlsController
 
         main.simulationStateProperty().addListener((observable, oldValue, newValue) ->
         {
-            switch (newValue)
-            {
-                case RUNNING:
-                {
+            switch (newValue) {
+                case RUNNING: {
                     runButton.setDisable(true);
                     pauseButton.setDisable(false);
                     resetButton.setDisable(false);
                     datePickerForEndDate.setDisable(true);
                     datePickerForStartDate.setDisable(true);
                     updateRate.setDisable(true);
-                } break;
-                case PAUSED:
-                {
+                }
+                break;
+                case PAUSED: {
                     runButton.setDisable(false);
-                } break;
-                case RESET:
-                {
+                }
+                break;
+                case RESET: {
                     runButton.setDisable(false);
                     pauseButton.setDisable(true);
                     resetButton.setDisable(true);
                     datePickerForEndDate.setDisable(false);
                     datePickerForStartDate.setDisable(false);
                     updateRate.setDisable(false);
-                } break;
-                case FINISHED:
-                {
+                }
+                break;
+                case FINISHED: {
                     runButton.setDisable(true);
                     pauseButton.setDisable(true);
-                } break;
+                }
+                break;
             }
         });
     }

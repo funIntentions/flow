@@ -10,8 +10,7 @@ import java.util.List;
 /**
  * Created by Dan on 7/31/2015.
  */
-public class ProductionStatisticsController
-{
+public class ProductionStatisticsController {
     @FXML
     private LineChart<String, Float> priceForDemandChart;
 
@@ -26,9 +25,8 @@ public class ProductionStatisticsController
     private int length = 100;
 
     @FXML
-    private void initialize()
-    {
-        priceForDemandSeries= new XYChart.Series<>();
+    private void initialize() {
+        priceForDemandSeries = new XYChart.Series<>();
         priceForDemandSeries.setName("Price");
         priceForDemandChart.getData().add(priceForDemandSeries);
 
@@ -37,13 +35,11 @@ public class ProductionStatisticsController
         emissionsForDemandChart.getData().add(emissionsForDemandSeries);
     }
 
-    public void setPriceForDemandData(List<Float> prices)
-    {
+    public void setPriceForDemandData(List<Float> prices) {
         priceForDemandSeries.getData().clear();
         int increments = prices.size() / length;
 
-        for (int index = 0; index < length; ++index)
-        {
+        for (int index = 0; index < length; ++index) {
             int demand = index * increments;
             if (demand > prices.size())
                 demand = prices.size() - 1;
@@ -52,13 +48,11 @@ public class ProductionStatisticsController
         }
     }
 
-    public void setEmissionsForDemandData(List<Float> emissions)
-    {
+    public void setEmissionsForDemandData(List<Float> emissions) {
         emissionsForDemandSeries.getData().clear();
         int increments = emissions.size() / length;
 
-        for (int  index = 0; index < length; ++index)
-        {
+        for (int index = 0; index < length; ++index) {
             int demand = index * increments;
             if (demand > emissions.size())
                 demand = emissions.size() - 1;
@@ -67,18 +61,15 @@ public class ProductionStatisticsController
         }
     }
 
-    public void clearPriceForDemandChart()
-    {
+    public void clearPriceForDemandChart() {
         priceForDemandSeries.getData().clear();
     }
 
-    public void clearEmissionForDemandChart()
-    {
+    public void clearEmissionForDemandChart() {
         emissionsForDemandSeries.getData().clear();
     }
 
-    public void setMain(Main main)
-    {
+    public void setMain(Main main) {
         this.main = main;
     }
 }

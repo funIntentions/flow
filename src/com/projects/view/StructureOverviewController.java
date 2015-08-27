@@ -8,8 +8,6 @@ import com.projects.model.PowerPlant;
 import com.projects.model.Structure;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
@@ -19,8 +17,7 @@ import java.util.Random;
 /**
  * Created by Dan on 7/27/2015.
  */
-public class StructureOverviewController
-{
+public class StructureOverviewController {
     @FXML
     private VBox leftPane;
 
@@ -71,32 +68,26 @@ public class StructureOverviewController
 
     private Main main;
 
-    public StructureOverviewController()
-    {
+    public StructureOverviewController() {
     }
 
-    private void selectTemplateStructure()
-    {
+    private void selectTemplateStructure() {
         Structure structure = templateStructureList.getSelectionModel().getSelectedItem();
-        if (structure != null)
-        {
+        if (structure != null) {
             main.selectedTemplateStructureProperty().set(structure);
             main.selectedStructureProperty().set(structure);
         }
     }
 
-    private void selectWorldStructure()
-    {
+    private void selectWorldStructure() {
         Structure structure = worldStructureList.getSelectionModel().getSelectedItem();
-        if (structure != null)
-        {
+        if (structure != null) {
             main.selectedWorldStructureProperty().set(structure);
             main.selectedStructureProperty().set(structure);
         }
     }
 
-    private void alertNoTemplateStructureSelected()
-    {
+    private void alertNoTemplateStructureSelected() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.initOwner(main.getPrimaryStage());
         alert.setTitle("No Selection");
@@ -106,8 +97,7 @@ public class StructureOverviewController
         alert.showAndWait();
     }
 
-    private void alertNoWorldStructureSelected()
-    {
+    private void alertNoWorldStructureSelected() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.initOwner(main.getPrimaryStage());
         alert.setTitle("No Selection");
@@ -118,145 +108,112 @@ public class StructureOverviewController
     }
 
     @FXML
-    private void handleWorldRemoveStructure()
-    {
+    private void handleWorldRemoveStructure() {
         int selectedIndex = worldStructureList.getSelectionModel().getSelectedIndex();
 
-        if (selectedIndex >= 0)
-        {
+        if (selectedIndex >= 0) {
             worldStructureList.getItems().remove(selectedIndex);
             main.selectedStructureProperty().set(worldStructureList.getSelectionModel().getSelectedItem());
-        }
-        else
+        } else
             alertNoWorldStructureSelected();
     }
 
     @FXML
-    private void handleTemplateRemoveStructure()
-    {
+    private void handleTemplateRemoveStructure() {
         int selectedIndex = templateStructureList.getSelectionModel().getSelectedIndex();
 
-        if (selectedIndex >= 0)
-        {
+        if (selectedIndex >= 0) {
             templateStructureList.getItems().remove(selectedIndex);
             main.selectedStructureProperty().set(templateStructureList.getSelectionModel().getSelectedItem());
-        }
-        else
+        } else
             alertNoTemplateStructureSelected();
     }
 
     @FXML
-    private void handleTemplateAddStructure()
-    {
+    private void handleTemplateAddStructure() {
         Structure selectedStructure = templateStructureList.getSelectionModel().getSelectedItem();
 
-        if (selectedStructure != null)
-        {
+        if (selectedStructure != null) {
             Structure structure;
 
-            if (selectedStructure instanceof PowerPlant)
+            if (selectedStructure instanceof PowerPlant) {
+                structure = new PowerPlant((PowerPlant) selectedStructure);
+            } else //if (selectedStructure instanceof Building)
             {
-                structure = new PowerPlant((PowerPlant)selectedStructure);
-            }
-            else //if (selectedStructure instanceof Building)
-            {
-                structure = new Building((Building)selectedStructure);
+                structure = new Building((Building) selectedStructure);
             } // TODO: add Composite Unit Structures or modify single unit structures so that they do the same
 
             worldStructureList.getItems().add(structure);
             main.selectedStructureProperty().set(structure);
-        }
-        else
+        } else
             alertNoTemplateStructureSelected();
     }
 
     @FXML
-    private void handleWorldAddStructure()
-    {
+    private void handleWorldAddStructure() {
         Structure selectedStructure = worldStructureList.getSelectionModel().getSelectedItem();
 
-        if (selectedStructure != null)
-        {
+        if (selectedStructure != null) {
             Structure structure;
 
-            if (selectedStructure instanceof PowerPlant)
-            {
-                structure = new PowerPlant((PowerPlant)selectedStructure);
-            }
-            else
-            {
-                structure = new Building((Building)selectedStructure);
+            if (selectedStructure instanceof PowerPlant) {
+                structure = new PowerPlant((PowerPlant) selectedStructure);
+            } else {
+                structure = new Building((Building) selectedStructure);
             }
 
             templateStructureList.getItems().add(structure);
             main.selectedStructureProperty().set(structure);
-        }
-        else
+        } else
             alertNoWorldStructureSelected();
     }
 
     @FXML
-    private void handleWorldEditStructure()
-    {
+    private void handleWorldEditStructure() {
         Structure structure = worldStructureList.getSelectionModel().getSelectedItem();
 
-        if (structure != null)
-        {
-            if (structure instanceof PowerPlant)
-            {
-                main.showPowerPlantEditDialog((PowerPlant)structure);
-            }
-            else
-            {
+        if (structure != null) {
+            if (structure instanceof PowerPlant) {
+                main.showPowerPlantEditDialog((PowerPlant) structure);
+            } else {
                 main.showBuildingEditDialog((Building) structure);
             }
-        }
-        else
+        } else
             alertNoWorldStructureSelected();
     }
 
     @FXML
-    private void handleTemplateEditStructure()
-    {
+    private void handleTemplateEditStructure() {
         Structure structure = templateStructureList.getSelectionModel().getSelectedItem();
 
-        if (structure != null)
-        {
-            if (structure instanceof PowerPlant)
-            {
-                main.showPowerPlantEditDialog((PowerPlant)structure);
-            }
-            else
-            {
+        if (structure != null) {
+            if (structure instanceof PowerPlant) {
+                main.showPowerPlantEditDialog((PowerPlant) structure);
+            } else {
                 main.showBuildingEditDialog((Building) structure);
             }
 
             triggerTemplateListUpdate(structure);
-        }
-        else
+        } else
             alertNoTemplateStructureSelected();
     }
 
-    private void triggerTemplateListUpdate(Structure structure)
-    {
+    private void triggerTemplateListUpdate(Structure structure) {
         int index = templateStructureList.getSelectionModel().getSelectedIndex();
         if (index >= 0)
             main.getTemplateStructureData().set(index, structure);
     }
 
-    private int getRandomStructureXPosition()
-    {
-        return new Random().nextInt((int)Math.floor(main.getWorldViewController().getWidth() - Constants.IMAGE_SIZE));
+    private int getRandomStructureXPosition() {
+        return new Random().nextInt((int) Math.floor(main.getWorldViewController().getWidth() - Constants.IMAGE_SIZE));
     }
 
-    private int getRandomStructureYPosition()
-    {
-        return new Random().nextInt((int)Math.floor(main.getWorldViewController().getHeight() - Constants.IMAGE_SIZE));
+    private int getRandomStructureYPosition() {
+        return new Random().nextInt((int) Math.floor(main.getWorldViewController().getHeight() - Constants.IMAGE_SIZE));
     }
 
     @FXML
-    private void handleWorldCreateBuildingStructure()
-    {
+    private void handleWorldCreateBuildingStructure() {
         Building structure = new Building("New Building",
                 StructureUtil.getNextStructureId(),
                 getRandomStructureXPosition(),
@@ -273,8 +230,7 @@ public class StructureOverviewController
     }
 
     @FXML
-    private void handleWorldCreatePowerPlantStructure()
-    {
+    private void handleWorldCreatePowerPlantStructure() {
         PowerPlant powerPlant = new PowerPlant("New Power Plant",
                 StructureUtil.getNextStructureId(),
                 getRandomStructureXPosition(),
@@ -287,8 +243,7 @@ public class StructureOverviewController
     }
 
     @FXML
-    private void handleTemplateCreateBuildingStructure()
-    {
+    private void handleTemplateCreateBuildingStructure() {
         Building structure = new Building("New Building",
                 StructureUtil.getNextStructureId(),
                 getRandomStructureXPosition(),
@@ -305,8 +260,7 @@ public class StructureOverviewController
     }
 
     @FXML
-    private void handleTemplateCreatePowerPlantStructure()
-    {
+    private void handleTemplateCreatePowerPlantStructure() {
         PowerPlant powerPlant = new PowerPlant("New Power Plant",
                 StructureUtil.getNextStructureId(),
                 getRandomStructureXPosition(),
@@ -319,40 +273,33 @@ public class StructureOverviewController
     }
 
     @FXML
-    private void initialize()
-    {
+    private void initialize() {
         templateStructureList.setOnMouseClicked((event) -> selectTemplateStructure());
         worldStructureList.setOnMouseClicked((event) -> selectWorldStructure());
         SplitPane.setResizableWithParent(leftPane.getParent(), false);
     }
 
-    public void showStructureDetailsPane(Pane structureDetails)
-    {
+    public void showStructureDetailsPane(Pane structureDetails) {
         structureDetailsTab.setContent(structureDetails);
     }
 
-    public void showSimulationControlsPane(Pane simulationControls)
-    {
+    public void showSimulationControlsPane(Pane simulationControls) {
         simulationControlsTitledPane.setContent(simulationControls);
     }
 
-    public void showWorldViewPane(Pane worldView)
-    {
+    public void showWorldViewPane(Pane worldView) {
         worldViewTab.setContent(worldView);
     }
 
-    public void showDailyStatisticsPane(Pane dailyStatistics)
-    {
+    public void showDailyStatisticsPane(Pane dailyStatistics) {
         dailyStatsTab.setContent(dailyStatistics);
     }
 
-    public void showProductionStatisticsPane(Pane productionStatistics)
-    {
+    public void showProductionStatisticsPane(Pane productionStatistics) {
         productionStatsTab.setContent(productionStatistics);
     }
 
-    public void setMain(Main main)
-    {
+    public void setMain(Main main) {
         this.main = main;
 
         templateStructureList.setItems(main.getTemplateStructureData());
@@ -363,23 +310,18 @@ public class StructureOverviewController
             templateStructureList.getSelectionModel().clearSelection();
             worldStructureList.getSelectionModel().clearSelection();
 
-            if (templateStructureList.getItems().contains(newValue))
-            {
+            if (templateStructureList.getItems().contains(newValue)) {
                 templateStructureList.getSelectionModel().select(newValue);
 
-            }
-            else if (worldStructureList.getItems().contains(newValue))
-            {
+            } else if (worldStructureList.getItems().contains(newValue)) {
                 worldStructureList.getSelectionModel().select(newValue);
             }
         });
 
         main.simulationStateProperty().addListener((observable, oldValue, newValue) ->
         {
-            switch (newValue)
-            {
-                case RUNNING:
-                {
+            switch (newValue) {
+                case RUNNING: {
                     worldEditButton.setDisable(true);
                     worldAddButton.setDisable(true);
                     worldRemoveButton.setDisable(true);
@@ -388,10 +330,10 @@ public class StructureOverviewController
                     templateAddButton.setDisable(true);
                     templateRemoveButton.setDisable(true);
                     templateCreateButton.setDisable(true);
-                } break;
+                }
+                break;
                 case RESET:
-                case FINISHED:
-                {
+                case FINISHED: {
                     worldEditButton.setDisable(false);
                     worldAddButton.setDisable(false);
                     worldRemoveButton.setDisable(false);
@@ -400,7 +342,8 @@ public class StructureOverviewController
                     templateAddButton.setDisable(false);
                     templateRemoveButton.setDisable(false);
                     templateCreateButton.setDisable(false);
-                } break;
+                }
+                break;
             }
         });
     }

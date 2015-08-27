@@ -15,7 +15,6 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -44,7 +43,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.prefs.Preferences;
-
 
 
 public class Main extends Application {
@@ -77,18 +75,14 @@ public class Main extends Application {
     private HashMap<Integer, AnimatedSprite> powerPlantSprites;
     private World world;
 
-    public Main()
-    {
+    public Main() {
         List<Image> images = new ArrayList<>();
-        try
-        {
+        try {
 
             BufferedImage bufferedImage = ImageIO.read(new File(Utils.getWorkingDir() + "/images/Selection.png"));
             Image image = SwingFXUtils.toFXImage(bufferedImage, null);
             images.add(image);
-        }
-        catch (IOException exception)
-        {
+        } catch (IOException exception) {
             exception.printStackTrace();
         }
 
@@ -103,182 +97,159 @@ public class Main extends Application {
         world = new World();
     }
 
-    private void readStorageStrategies()
-    {
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    private void readStorageStrategies() {
         storageStrategyScripts.clear();
         File[] strategyScriptFiles = new File(Constants.STRATEGIES_FILE_PATH).listFiles();
 
-        if (strategyScriptFiles != null)
-        {
-            for (File file : strategyScriptFiles)
-            {
+        if (strategyScriptFiles != null) {
+            for (File file : strategyScriptFiles) {
                 storageStrategyScripts.put(Utils.getStrategyName(file.getName()), file.getName());
             }
         }
     }
 
-    public ObservableList<Structure> getWorldStructureData()
-    {
+    public ObservableList<Structure> getWorldStructureData() {
         return worldStructureData;
     }
-    public ObservableList<Structure> getTemplateStructureData()
-    {
+
+    public ObservableList<Structure> getTemplateStructureData() {
         return templateStructureData;
     }
-    public ObjectProperty<Structure> selectedTemplateStructureProperty()
-    {
+
+    public ObjectProperty<Structure> selectedTemplateStructureProperty() {
         return selectedTemplateStructure;
     }
-    public ObjectProperty<Structure> selectedWorldStructureProperty()
-    {
+
+    public ObjectProperty<Structure> selectedWorldStructureProperty() {
         return selectedWorldStructure;
     }
-    public ObjectProperty<Structure> selectedStructureProperty()
-    {
+
+    public ObjectProperty<Structure> selectedStructureProperty() {
         return selectedStructure;
     }
-    public HashMap<Integer, AnimatedSprite> getPowerPlantSprites()
-    {
+
+    public HashMap<Integer, AnimatedSprite> getPowerPlantSprites() {
         return powerPlantSprites;
     }
-    public HashMap<Integer, AnimatedSprite> getBuildingSprites()
-    {
+
+    public HashMap<Integer, AnimatedSprite> getBuildingSprites() {
         return buildingSprites;
     }
 
-    public ObjectProperty<SimulationState> simulationStateProperty()
-    {
+    public ObjectProperty<SimulationState> simulationStateProperty() {
         return simulationState;
     }
 
-    public void setPrimaryStage(Stage primaryStage)
-    {
-        this.primaryStage = primaryStage;
-    }
-
-    public LocalTime getCurrentTime()
-    {
+    public LocalTime getCurrentTime() {
         return currentTime.get();
     }
 
-    public ObjectProperty<LocalTime> currentTimeProperty()
-    {
-        return currentTime;
-    }
-
-    public void setCurrentTime(LocalTime currentTime)
-    {
+    public void setCurrentTime(LocalTime currentTime) {
         this.currentTime.set(currentTime);
     }
 
-    public LocalDate getCurrentDate()
-    {
+    public ObjectProperty<LocalTime> currentTimeProperty() {
+        return currentTime;
+    }
+
+    public LocalDate getCurrentDate() {
         return currentDate.get();
     }
 
-    public ObjectProperty<LocalDate> currentDateProperty()
-    {
-        return currentDate;
-    }
-
-    public void setCurrentDate(LocalDate currentDate)
-    {
+    public void setCurrentDate(LocalDate currentDate) {
         this.currentDate.set(currentDate);
     }
 
-    public LocalDate getEndDate()
-    {
+    public ObjectProperty<LocalDate> currentDateProperty() {
+        return currentDate;
+    }
+
+    public LocalDate getEndDate() {
         return endDate.get();
     }
 
-    public ObjectProperty<LocalDate> endDateProperty()
-    {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate)
-    {
+    public void setEndDate(LocalDate endDate) {
         this.endDate.set(endDate);
     }
 
-    public LocalDate getStartDate()
-    {
+    public ObjectProperty<LocalDate> endDateProperty() {
+        return endDate;
+    }
+
+    public LocalDate getStartDate() {
         return startDate.get();
     }
 
-    public ObjectProperty<LocalDate> startDateProperty()
-    {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate)
-    {
+    public void setStartDate(LocalDate startDate) {
         this.startDate.set(startDate);
     }
 
-    public int getDailyStatsDay()
-    {
+    public ObjectProperty<LocalDate> startDateProperty() {
+        return startDate;
+    }
+
+    public int getDailyStatsDay() {
         return dailyStatsDay.get();
     }
 
-    public IntegerProperty dailyStatsDayProperty()
-    {
-        return dailyStatsDay;
-    }
-
-    public void setDailyStatsDay(int dailyStatsDay)
-    {
+    public void setDailyStatsDay(int dailyStatsDay) {
         this.dailyStatsDay.set(dailyStatsDay);
     }
 
-    public WorldTimer.UpdateRate getUpdateRate()
-    {
+    public IntegerProperty dailyStatsDayProperty() {
+        return dailyStatsDay;
+    }
+
+    public WorldTimer.UpdateRate getUpdateRate() {
         return updateRate.get();
     }
-    public ObjectProperty<WorldTimer.UpdateRate> updateRateProperty()
-    {
-        return updateRate;
-    }
-    public void setUpdateRate(WorldTimer.UpdateRate updateRate)
-    {
+
+    public void setUpdateRate(WorldTimer.UpdateRate updateRate) {
         this.updateRate.set(updateRate);
     }
 
-    public World getWorld()
-    {
+    public ObjectProperty<WorldTimer.UpdateRate> updateRateProperty() {
+        return updateRate;
+    }
+
+    public World getWorld() {
         return world;
     }
+
     public StructureDetailsPaneController getStructureDetailsPaneController() {
         return structureDetailsPaneController;
     }
+
     public SimulationControlsController getSimulationControlsController() {
         return simulationControlsController;
     }
-    public DailyStatisticsController getDailyStatisticsController()
-    {
+
+    public DailyStatisticsController getDailyStatisticsController() {
         return dailyStatisticsController;
     }
-    public ProductionStatisticsController getProductionStatisticsController()
-    {
+
+    public ProductionStatisticsController getProductionStatisticsController() {
         return productionStatisticsController;
     }
-    public WorldViewController getWorldViewController()
-    {
+
+    public WorldViewController getWorldViewController() {
         return worldViewController;
     }
-    public StructureOverviewController getStructureOverviewController()
-    {
+
+    public StructureOverviewController getStructureOverviewController() {
         return structureOverviewController;
     }
 
-    public void toggleLegendShowing()
-    {
+    public void toggleLegendShowing() {
         worldViewController.setShowLegend(!worldViewController.isShowLegend());
     }
 
     @Override
-    public void start(Stage primaryStage)
-    {
+    public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Working Title");
 
@@ -288,8 +259,7 @@ public class Main extends Application {
         world.resetSimulation();
     }
 
-    public void reset()
-    {
+    public void reset() {
         worldStructureData.clear();
         templateStructureData.clear();
         dailyStatisticsController.clearDemandChart();
@@ -329,14 +299,12 @@ public class Main extends Application {
 
         // load last opened simulation
         File file = getSimulationFilePath();
-        if (file != null)
-        {
+        if (file != null) {
             readSimulation(file);
         }
     }
 
-    private Pane initStructureDetailsPane()
-    {
+    private Pane initStructureDetailsPane() {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/StructureDetailsPane.fxml"));
@@ -352,8 +320,7 @@ public class Main extends Application {
         return null;
     }
 
-    private Pane initSimulationControlsPane()
-    {
+    private Pane initSimulationControlsPane() {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/SimulationControls.fxml"));
@@ -369,12 +336,11 @@ public class Main extends Application {
         return null;
     }
 
-    private Pane initDailyStatisticsPane()
-    {
+    private Pane initDailyStatisticsPane() {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/DailyStatistics.fxml"));
-            Pane dailyStatistics =  loader.load();
+            Pane dailyStatistics = loader.load();
 
             dailyStatisticsController = loader.getController();
             dailyStatisticsController.setMain(this);
@@ -386,10 +352,8 @@ public class Main extends Application {
         return null;
     }
 
-    private Pane initProductionStatisticsPane()
-    {
-        try
-        {
+    private Pane initProductionStatisticsPane() {
+        try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/ProductionStatistics.fxml"));
             Pane productionStatistics = loader.load();
@@ -397,19 +361,15 @@ public class Main extends Application {
             productionStatisticsController = loader.getController();
             productionStatisticsController.setMain(this);
             return productionStatistics;
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
         return null;
     }
 
-    private Pane initWorldViewPane()
-    {
-        try
-        {
+    private Pane initWorldViewPane() {
+        try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/WorldView.fxml"));
             Pane worldViewPane = loader.load();
@@ -417,9 +377,7 @@ public class Main extends Application {
             worldViewController = loader.getController();
             worldViewController.setMain(this);
             return worldViewPane;
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -429,10 +387,8 @@ public class Main extends Application {
     /**
      * Shows the person overview inside the root layout.
      */
-    public Pane initStructureOverview()
-    {
-        try
-        {
+    public Pane initStructureOverview() {
+        try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/StructureOverview.fxml"));
@@ -446,9 +402,7 @@ public class Main extends Application {
             structureOverviewController.showProductionStatisticsPane(initProductionStatisticsPane());
             structureOverviewController.showWorldViewPane(initWorldViewPane());
             return personOverview;
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -463,10 +417,8 @@ public class Main extends Application {
      * @param structure the structure object to be edited
      * @return true if the user clicked OK, false otherwise.
      */
-    public boolean showBuildingEditDialog(Building structure)
-    {
-        try
-        {
+    public boolean showBuildingEditDialog(Building structure) {
+        try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/StructureEditDialog.fxml"));
@@ -495,18 +447,14 @@ public class Main extends Application {
             structureDetailsPaneController.setStructureData(structure, structure.getLoadProfilesForWeek());
 
             return controller.isOkClicked();
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
     }
 
-    public boolean showLoadProfileEditDialog(Building structure)
-    {
-        try
-        {
+    public boolean showLoadProfileEditDialog(Building structure) {
+        try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/LoadProfileEditDialog.fxml"));
@@ -529,9 +477,7 @@ public class Main extends Application {
             dialogStage.showAndWait();
 
             return true;
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
@@ -545,8 +491,7 @@ public class Main extends Application {
      * @param powerPlant the structure object to be edited
      * @return true if the user clicked OK, false otherwise.
      */
-    public boolean showPowerPlantEditDialog(PowerPlant powerPlant)
-    {
+    public boolean showPowerPlantEditDialog(PowerPlant powerPlant) {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
@@ -579,10 +524,15 @@ public class Main extends Application {
 
     /**
      * Returns the main stage.
+     *
      * @return
      */
     public Stage getPrimaryStage() {
         return primaryStage;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 
     /**
@@ -592,8 +542,7 @@ public class Main extends Application {
      *
      * @return
      */
-    public File getSimulationFilePath()
-    {
+    public File getSimulationFilePath() {
         Preferences prefs = Preferences.userNodeForPackage(Main.class);
         String filePath = prefs.get("filePath", null);
         if (filePath != null) {
@@ -609,8 +558,7 @@ public class Main extends Application {
      *
      * @param file the file or null to remove the path
      */
-    public void setSimulationFilePath(File file)
-    {
+    public void setSimulationFilePath(File file) {
         Preferences prefs = Preferences.userNodeForPackage(Main.class);
         if (file != null) {
             prefs.put("filePath", file.getPath());
@@ -625,12 +573,10 @@ public class Main extends Application {
         }
     }
 
-    public void readSpriteData()
-    {
+    public void readSpriteData() {
         File file = new File(Utils.getWorkingDir() + Constants.SPRITES_FILE_PATH);
 
-        try
-        {
+        try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
             Document doc = docBuilder.parse(file);
@@ -640,19 +586,15 @@ public class Main extends Application {
             structureNodes = doc.getElementsByTagName("powerPlantSprites");
             List<AnimatedSprite> powerPlant = readSprites(structureNodes);
 
-            for (AnimatedSprite animatedSprite : building)
-            {
+            for (AnimatedSprite animatedSprite : building) {
                 buildingSprites.put(animatedSprite.getId(), animatedSprite);
             }
 
-            for (AnimatedSprite animatedSprite : powerPlant)
-            {
+            for (AnimatedSprite animatedSprite : powerPlant) {
                 powerPlantSprites.put(animatedSprite.getId(), animatedSprite);
             }
 
-        }
-        catch (Exception exception)
-        {
+        } catch (Exception exception) {
             exception.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -663,8 +605,7 @@ public class Main extends Application {
         }
     }
 
-    public List<AnimatedSprite> readSprites(NodeList spritesList)
-    {
+    public List<AnimatedSprite> readSprites(NodeList spritesList) {
         List<AnimatedSprite> spriteList = new ArrayList<>();
         Node spritesNode = spritesList.item(0);
 
@@ -684,9 +625,8 @@ public class Main extends Application {
         return spriteList;
     }
 
-    public AnimatedSprite readSprite(Node spriteNode)
-    {
-        Element structureElement = (Element)spriteNode;
+    public AnimatedSprite readSprite(Node spriteNode) {
+        Element structureElement = (Element) spriteNode;
 
         String name = getElementStringFromTag(structureElement, "name");
         Integer id = Integer.valueOf(getElementStringFromTag(structureElement, "id"));
@@ -698,27 +638,21 @@ public class Main extends Application {
         BufferedImage bufferedImage;
         Image image;
 
-        try
-        {
-            for (int i = 0; i < numberOfImages; ++i)
-            {
+        try {
+            for (int i = 0; i < numberOfImages; ++i) {
                 bufferedImage = ImageIO.read(new File(workingDir + "/images/" + name + "_" + i + ".png"));
                 image = SwingFXUtils.toFXImage(bufferedImage, null);
                 images.add(image);
             }
-        }
-        catch (IOException exception)
-        {
+        } catch (IOException exception) {
             exception.printStackTrace();
         }
 
         return new AnimatedSprite(id, images, 0, 0, duration);
     }
 
-    public void readSimulation(File file)
-    {
-        try
-        {
+    public void readSimulation(File file) {
+        try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
             Document doc = docBuilder.parse(file);
@@ -732,9 +666,7 @@ public class Main extends Application {
             worldStructureData.addAll(worldStructures);
 
             setSimulationFilePath(file);
-        }
-        catch (Exception exception)
-        {
+        } catch (Exception exception) {
             exception.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -745,23 +677,19 @@ public class Main extends Application {
         }
     }
 
-    public List<Structure> readStructures(NodeList structuresList)
-    {
+    public List<Structure> readStructures(NodeList structuresList) {
         List<Structure> structureList = new ArrayList<Structure>();
         Node structuresNode = structuresList.item(0);
 
-        if (structuresNode.getNodeType() == Node.ELEMENT_NODE)
-        {
-            Element structuresElement = (Element)structuresNode;
+        if (structuresNode.getNodeType() == Node.ELEMENT_NODE) {
+            Element structuresElement = (Element) structuresNode;
             NodeList structures = structuresElement.getElementsByTagName("simpleStructure");
             int length = structures.getLength();
 
-            for (int i = 0; i < length; ++i)
-            {
+            for (int i = 0; i < length; ++i) {
                 Node structureNode = structures.item(i);
-                if (structureNode.getNodeType() == Node.ELEMENT_NODE)
-                {
-                   structureList.add(readBuilding(structureNode));
+                if (structureNode.getNodeType() == Node.ELEMENT_NODE) {
+                    structureList.add(readBuilding(structureNode));
                 }
             }
 
@@ -769,11 +697,9 @@ public class Main extends Application {
 
             length = structures.getLength();
 
-            for (int i = 0; i < length; ++i)
-            {
+            for (int i = 0; i < length; ++i) {
                 Node structureNode = structures.item(i);
-                if (structureNode.getNodeType() == Node.ELEMENT_NODE)
-                {
+                if (structureNode.getNodeType() == Node.ELEMENT_NODE) {
                     structureList.add(readPowerPlant(structureNode));
                 }
             }
@@ -783,9 +709,8 @@ public class Main extends Application {
         return structureList;
     }
 
-    public Structure readBuilding(Node structureNode)
-    {
-        Element structureElement = (Element)structureNode;
+    public Structure readBuilding(Node structureNode) {
+        Element structureElement = (Element) structureNode;
 
         String name = getElementStringFromTag(structureElement, "name");
         Double x = Double.valueOf(getElementStringFromTag(structureElement, "x"));
@@ -814,9 +739,8 @@ public class Main extends Application {
                 usingCustomLoadProfiles);
     }
 
-    public Structure readPowerPlant(Node structureNode)
-    {
-        Element structureElement = (Element)structureNode;
+    public Structure readPowerPlant(Node structureNode) {
+        Element structureElement = (Element) structureNode;
 
         String name = getElementStringFromTag(structureElement, "name");
         Double x = Double.valueOf(getElementStringFromTag(structureElement, "x"));
@@ -829,31 +753,26 @@ public class Main extends Application {
         return new PowerPlant(name, StructureUtil.getNextStructureId(), x, y, powerPlantSprites.get(sprite), emissionRate, cost, capacity);
     }
 
-    private String getElementStringFromTag(Element parent, String tag)
-    {
+    private String getElementStringFromTag(Element parent, String tag) {
         NodeList nodeList = parent.getElementsByTagName(tag);
-        Element element = (Element)nodeList.item(0);
+        Element element = (Element) nodeList.item(0);
         NodeList childNodes = element.getChildNodes();
         return childNodes.item(0).getNodeValue();
     }
 
-    public List<TimeSpan> readTimeSpans(NodeList timeSpansList)
-    {
+    public List<TimeSpan> readTimeSpans(NodeList timeSpansList) {
         List<TimeSpan> timeSpanList = new ArrayList<TimeSpan>();
         Node propertiesNode = timeSpansList.item(0);
 
-        if (propertiesNode.getNodeType() == Node.ELEMENT_NODE)
-        {
-            Element propertiesElement = (Element)propertiesNode;
+        if (propertiesNode.getNodeType() == Node.ELEMENT_NODE) {
+            Element propertiesElement = (Element) propertiesNode;
             NodeList properties = propertiesElement.getElementsByTagName("timeSpan");
             int length = properties.getLength();
 
-            for (int i = 0; i < length; ++i)
-            {
+            for (int i = 0; i < length; ++i) {
                 Node propertyNode = properties.item(i);
-                if (propertyNode.getNodeType() == Node.ELEMENT_NODE)
-                {
-                    Element propertyElement = (Element)propertyNode;
+                if (propertyNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element propertyElement = (Element) propertyNode;
 
                     Integer from = Integer.parseInt(getElementStringFromTag(propertyElement, "from"));
                     Integer to = Integer.parseInt(getElementStringFromTag(propertyElement, "to"));
@@ -868,23 +787,19 @@ public class Main extends Application {
         return timeSpanList;
     }
 
-    public List<UsageTimeSpan> readUsageTimeSpans(NodeList timeSpansList)
-    {
+    public List<UsageTimeSpan> readUsageTimeSpans(NodeList timeSpansList) {
         List<UsageTimeSpan> timeSpanList = new ArrayList<>();
         Node propertiesNode = timeSpansList.item(0);
 
-        if (propertiesNode.getNodeType() == Node.ELEMENT_NODE)
-        {
-            Element propertiesElement = (Element)propertiesNode;
+        if (propertiesNode.getNodeType() == Node.ELEMENT_NODE) {
+            Element propertiesElement = (Element) propertiesNode;
             NodeList properties = propertiesElement.getElementsByTagName("usageTimeSpan");
             int length = properties.getLength();
 
-            for (int i = 0; i < length; ++i)
-            {
+            for (int i = 0; i < length; ++i) {
                 Node propertyNode = properties.item(i);
-                if (propertyNode.getNodeType() == Node.ELEMENT_NODE)
-                {
-                    Element propertyElement = (Element)propertyNode;
+                if (propertyNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element propertyElement = (Element) propertyNode;
 
                     Double usage = Double.parseDouble(getElementStringFromTag(propertyElement, "usage"));
                     Integer from = Integer.parseInt(getElementStringFromTag(propertyElement, "from"));
@@ -900,23 +815,19 @@ public class Main extends Application {
         return timeSpanList;
     }
 
-    public List<Appliance> readAppliances(NodeList devicesList)
-    {
+    public List<Appliance> readAppliances(NodeList devicesList) {
         List<Appliance> deviceList = new ArrayList<>();
         Node devicesNode = devicesList.item(0);
 
-        if (devicesNode.getNodeType() == Node.ELEMENT_NODE)
-        {
-            Element devicesElement = (Element)devicesNode;
+        if (devicesNode.getNodeType() == Node.ELEMENT_NODE) {
+            Element devicesElement = (Element) devicesNode;
             NodeList devices = devicesElement.getElementsByTagName("appliance");
             int length = devices.getLength();
 
-            for (int i = 0; i < length; ++i)
-            {
+            for (int i = 0; i < length; ++i) {
                 Node deviceNode = devices.item(i);
-                if (deviceNode.getNodeType() == Node.ELEMENT_NODE)
-                {
-                    Element deviceElement = (Element)deviceNode;
+                if (deviceNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element deviceElement = (Element) deviceNode;
 
                     String name = getElementStringFromTag(deviceElement, "name");
                     Double standbyConsumption = Double.parseDouble(getElementStringFromTag(deviceElement, "standbyConsumption"));
@@ -935,23 +846,19 @@ public class Main extends Application {
         return deviceList;
     }
 
-    public List<EnergySource> readEnergySources(NodeList devicesList)
-    {
+    public List<EnergySource> readEnergySources(NodeList devicesList) {
         List<EnergySource> deviceList = new ArrayList<>();
         Node devicesNode = devicesList.item(0);
 
-        if (devicesNode.getNodeType() == Node.ELEMENT_NODE)
-        {
-            Element devicesElement = (Element)devicesNode;
+        if (devicesNode.getNodeType() == Node.ELEMENT_NODE) {
+            Element devicesElement = (Element) devicesNode;
             NodeList devices = devicesElement.getElementsByTagName("energySource");
             int length = devices.getLength();
 
-            for (int i = 0; i < length; ++i)
-            {
+            for (int i = 0; i < length; ++i) {
                 Node deviceNode = devices.item(i);
-                if (deviceNode.getNodeType() == Node.ELEMENT_NODE)
-                {
-                    Element deviceElement = (Element)deviceNode;
+                if (deviceNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element deviceElement = (Element) deviceNode;
 
                     String name = getElementStringFromTag(deviceElement, "name");
 
@@ -965,23 +872,19 @@ public class Main extends Application {
         return deviceList;
     }
 
-    public List<EnergyStorage> readEnergyStorageDevices(NodeList devicesList)
-    {
+    public List<EnergyStorage> readEnergyStorageDevices(NodeList devicesList) {
         List<EnergyStorage> deviceList = new ArrayList<>();
         Node devicesNode = devicesList.item(0);
 
-        if (devicesNode.getNodeType() == Node.ELEMENT_NODE)
-        {
-            Element devicesElement = (Element)devicesNode;
+        if (devicesNode.getNodeType() == Node.ELEMENT_NODE) {
+            Element devicesElement = (Element) devicesNode;
             NodeList devices = devicesElement.getElementsByTagName("energyStorage");
             int length = devices.getLength();
 
-            for (int i = 0; i < length; ++i)
-            {
+            for (int i = 0; i < length; ++i) {
                 Node deviceNode = devices.item(i);
-                if (deviceNode.getNodeType() == Node.ELEMENT_NODE)
-                {
-                    Element deviceElement = (Element)deviceNode;
+                if (deviceNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element deviceElement = (Element) deviceNode;
 
                     String name = getElementStringFromTag(deviceElement, "name");
                     Double chargeDischargeRate = Double.parseDouble(getElementStringFromTag(deviceElement, "chargingRate"));
@@ -998,14 +901,12 @@ public class Main extends Application {
         return deviceList;
     }
 
-    public void saveSimulation(File file)
-    {
+    public void saveSimulation(File file) {
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder;
         Document doc;
 
-        try
-        {
+        try {
             documentBuilder = documentBuilderFactory.newDocumentBuilder();
             doc = documentBuilder.newDocument();
 
@@ -1013,15 +914,13 @@ public class Main extends Application {
             doc.appendChild(mainRootElement);
 
             Element template = doc.createElement("templateStructures");
-            for (Structure structure : templateStructureData)
-            {
+            for (Structure structure : templateStructureData) {
                 template.appendChild(getStructureNode(doc, structure));
             }
             mainRootElement.appendChild(template);
 
             Element world = doc.createElement("worldStructures");
-            for (Structure structure : worldStructureData)
-            {
+            for (Structure structure : worldStructureData) {
                 world.appendChild(getStructureNode(doc, structure));
             }
             mainRootElement.appendChild(world);
@@ -1034,9 +933,7 @@ public class Main extends Application {
             transformer.transform(source, outputFile);
 
             setSimulationFilePath(file);
-        }
-        catch (Exception exception)
-        {
+        } catch (Exception exception) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Could not save data");
@@ -1046,16 +943,14 @@ public class Main extends Application {
         }
     }
 
-    private Node getStructureNode(Document doc, Structure structure)
-    {
+    private Node getStructureNode(Document doc, Structure structure) {
         if (structure instanceof PowerPlant)
-            return getPowerPlantStructureNode(doc, (PowerPlant)structure);
+            return getPowerPlantStructureNode(doc, (PowerPlant) structure);
         else
             return getBuildingNode(doc, (Building) structure);
     }
 
-    private Node getPowerPlantStructureNode(Document doc, PowerPlant powerPlant)
-    {
+    private Node getPowerPlantStructureNode(Document doc, PowerPlant powerPlant) {
         Element structureNode = doc.createElement("powerPlant");
 
         structureNode.appendChild(getElement(doc, "name", powerPlant.getName()));
@@ -1069,8 +964,7 @@ public class Main extends Application {
         return structureNode;
     }
 
-    private Node getBuildingNode(Document doc, Building structure)
-    {
+    private Node getBuildingNode(Document doc, Building structure) {
         Element structureNode = doc.createElement("simpleStructure");
 
         structureNode.appendChild(getElement(doc, "name", structure.getName()));
@@ -1081,32 +975,28 @@ public class Main extends Application {
 
         Element appliances = doc.createElement("appliances");
         List<Appliance> applianceList = structure.getAppliances();
-        for (Appliance appliance : applianceList)
-        {
+        for (Appliance appliance : applianceList) {
             appliances.appendChild(getApplianceNode(doc, appliance));
         }
         structureNode.appendChild(appliances);
 
         Element energySources = doc.createElement("energySources");
         List<EnergySource> energySourceList = structure.getEnergySources();
-        for (EnergySource energySource : energySourceList)
-        {
+        for (EnergySource energySource : energySourceList) {
             energySources.appendChild(getEnergySourceNode(doc, energySource));
         }
         structureNode.appendChild(energySources);
 
         Element energyStorageDevices = doc.createElement("energyStorageDevices");
         List<EnergyStorage> energyStorageList = structure.getEnergyStorageDevices();
-        for (EnergyStorage energyStorage : energyStorageList)
-        {
+        for (EnergyStorage energyStorage : energyStorageList) {
             energyStorageDevices.appendChild(getEnergyStorageNode(doc, energyStorage));
         }
         structureNode.appendChild(energyStorageDevices);
 
         Element usageTimeSpanMembers = doc.createElement("usageTimeSpans");
         List<UsageTimeSpan> usageTimeSpans = structure.getManualLoadProfileData();
-        for (UsageTimeSpan usageTimeSpan : usageTimeSpans)
-        {
+        for (UsageTimeSpan usageTimeSpan : usageTimeSpans) {
             usageTimeSpanMembers.appendChild(getUsageTimeSpanNode(doc, usageTimeSpan));
         }
         structureNode.appendChild(usageTimeSpanMembers);
@@ -1114,8 +1004,7 @@ public class Main extends Application {
         return structureNode;
     }
 
-    private Node getApplianceNode(Document doc, Appliance appliance)
-    {
+    private Node getApplianceNode(Document doc, Appliance appliance) {
         Element deviceNode = doc.createElement("appliance");
 
         deviceNode.appendChild(getElement(doc, "name", appliance.getName()));
@@ -1124,8 +1013,7 @@ public class Main extends Application {
 
         Element timeSpanMembers = doc.createElement("timeSpans");
         List<TimeSpan> timeSpans = appliance.getActiveTimeSpans();
-        for (TimeSpan timeSpan : timeSpans)
-        {
+        for (TimeSpan timeSpan : timeSpans) {
             timeSpanMembers.appendChild(getTimeSpanNode(doc, timeSpan));
         }
         deviceNode.appendChild(timeSpanMembers);
@@ -1133,8 +1021,7 @@ public class Main extends Application {
         return deviceNode;
     }
 
-    private Node getEnergySourceNode(Document doc, EnergySource energySource)
-    {
+    private Node getEnergySourceNode(Document doc, EnergySource energySource) {
         Element deviceNode = doc.createElement("energySource");
 
         deviceNode.appendChild(getElement(doc, "name", energySource.getName()));
@@ -1142,8 +1029,7 @@ public class Main extends Application {
         return deviceNode;
     }
 
-    private Node getEnergyStorageNode(Document doc, EnergyStorage energyStorage)
-    {
+    private Node getEnergyStorageNode(Document doc, EnergyStorage energyStorage) {
         Element deviceNode = doc.createElement("energyStorage");
 
         deviceNode.appendChild(getElement(doc, "name", energyStorage.getName()));
@@ -1154,15 +1040,13 @@ public class Main extends Application {
         return deviceNode;
     }
 
-    private Element getElement(Document doc, String elementName, String value)
-    {
+    private Element getElement(Document doc, String elementName, String value) {
         Element node = doc.createElement(elementName);
         node.appendChild(doc.createTextNode(value));
         return node;
     }
 
-    private Node getTimeSpanNode(Document doc, TimeSpan timeSpan)
-    {
+    private Node getTimeSpanNode(Document doc, TimeSpan timeSpan) {
         Element timeSpanNode = doc.createElement("timeSpan");
         timeSpanNode.appendChild(getElement(doc, "from", String.valueOf(timeSpan.getFrom().toSecondOfDay())));
         timeSpanNode.appendChild(getElement(doc, "to", String.valueOf(timeSpan.getTo().toSecondOfDay())));
@@ -1170,17 +1054,12 @@ public class Main extends Application {
         return timeSpanNode;
     }
 
-    private Node getUsageTimeSpanNode(Document doc, UsageTimeSpan usageTimeSpan)
-    {
+    private Node getUsageTimeSpanNode(Document doc, UsageTimeSpan usageTimeSpan) {
         Element usageTimeSpanNode = doc.createElement("usageTimeSpan");
         usageTimeSpanNode.appendChild(getElement(doc, "usage", String.valueOf(usageTimeSpan.getUsage())));
         usageTimeSpanNode.appendChild(getElement(doc, "from", String.valueOf(usageTimeSpan.getFrom().toSecondOfDay())));
         usageTimeSpanNode.appendChild(getElement(doc, "to", String.valueOf(usageTimeSpan.getTo().toSecondOfDay())));
 
         return usageTimeSpanNode;
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

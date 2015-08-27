@@ -8,15 +8,13 @@ import javafx.beans.property.StringProperty;
 /**
  * Created by Dan on 6/26/2015.
  */
-public class EnergyStorage extends Device
-{
+public class EnergyStorage extends Device {
     private DoubleProperty chargingRate;
     private DoubleProperty storageCapacity;
     private DoubleProperty storedEnergy;
     private StringProperty storageStrategy;
 
-    public EnergyStorage(String name, int id, double chargingRate, double storageCapacity, double storedEnergy, String storageStrategy)
-    {
+    public EnergyStorage(String name, int id, double chargingRate, double storageCapacity, double storedEnergy, String storageStrategy) {
         super(name, id);
 
         this.chargingRate = new SimpleDoubleProperty(chargingRate);
@@ -25,63 +23,51 @@ public class EnergyStorage extends Device
         this.storageStrategy = new SimpleStringProperty(storageStrategy);
     }
 
-    public double getChargingRate()
-    {
+    public double getChargingRate() {
         return chargingRate.get();
     }
 
-    public DoubleProperty chargingRateProperty()
-    {
-        return chargingRate;
-    }
-
-    public void setChargingRate(double chargingRate)
-    {
+    public void setChargingRate(double chargingRate) {
         this.chargingRate.set(chargingRate);
     }
 
-    public String getStorageStrategy()
-    {
+    public DoubleProperty chargingRateProperty() {
+        return chargingRate;
+    }
+
+    public String getStorageStrategy() {
         return storageStrategy.get();
     }
 
-    public StringProperty storageStrategyProperty()
-    {
-        return storageStrategy;
-    }
-
-    public void setStorageStrategy(String storageStrategy)
-    {
+    public void setStorageStrategy(String storageStrategy) {
         this.storageStrategy.set(storageStrategy);
     }
 
-    public double getStoredEnergy()
-    {
+    public StringProperty storageStrategyProperty() {
+        return storageStrategy;
+    }
+
+    public double getStoredEnergy() {
         return storedEnergy.get();
     }
 
-    public DoubleProperty storedEnergyProperty()
-    {
-        return storedEnergy;
-    }
-
-    public void setStoredEnergy(double storedEnergy)
-    {
+    public void setStoredEnergy(double storedEnergy) {
         this.storedEnergy.set(storedEnergy);
     }
 
-    public double getStorageCapacity()
-    {
+    public DoubleProperty storedEnergyProperty() {
+        return storedEnergy;
+    }
+
+    public double getStorageCapacity() {
         return storageCapacity.get();
     }
 
-    public DoubleProperty storageCapacityProperty()
-    {
-        return storageCapacity;
+    public void setStorageCapacity(double storageCapacity) {
+        this.storageCapacity.set(storageCapacity);
     }
 
-    public void setStorageCapacity(double storageCapacity)
-    {
-        this.storageCapacity.set(storageCapacity);
+    public DoubleProperty storageCapacityProperty() {
+        return storageCapacity;
     }
 }
