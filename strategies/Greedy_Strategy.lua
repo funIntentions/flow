@@ -8,7 +8,7 @@
 
 function strategize(storageDevice, loadProfile, oldStorageProfile, newStorageProfile)
 
-    local transferCapacity = storageDevice:getChargingRate()/60.0
+    local transferCapacity = storageDevice:getChargingRate()
     local length = loadProfile:size() - 1;
     local charging, discharging = 1, 2
     local state = charging;

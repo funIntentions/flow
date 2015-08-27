@@ -1,7 +1,9 @@
 package com.projects.view;
 
+import com.projects.helper.Utils;
 import com.projects.model.AnimatedSprite;
 import com.projects.model.PowerPlant;
+import com.projects.model.UsageTimeSpan;
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -71,7 +73,7 @@ public class PowerPlantEditDialogController {
         powerPlantNameField.setText(powerPlant.getName());
         emissionRateField.setText(String.valueOf(powerPlant.getEmissionRate()));
         costField.setText(String.valueOf(powerPlant.getCost()));
-        capacityField.setText(String.valueOf(powerPlant.getCapacity()));
+        capacityField.setText(String.valueOf(Utils.wattsToKilowatts(powerPlant.getCapacity())));
     }
 
     public void setSprites(HashMap<Integer, AnimatedSprite> sprites) {
@@ -112,7 +114,7 @@ public class PowerPlantEditDialogController {
             powerPlant.setName(powerPlantNameField.getText());
             powerPlant.setEmissionRate(Double.valueOf(emissionRateField.getText()));
             powerPlant.setCost(Double.valueOf(costField.getText()));
-            powerPlant.setCapacity(Double.valueOf(capacityField.getText()));
+            powerPlant.setCapacity(Utils.kilowattsToWatts(Double.valueOf(capacityField.getText())));
 
             AnimatedSprite animatedSprite = new AnimatedSprite(powerPlantSpriteComboBox.getValue());
             animatedSprite.setXPosition(powerPlant.getAnimatedSprite().getXPosition());

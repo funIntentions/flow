@@ -8,15 +8,15 @@
 
 function strategize(storageDevice, loadProfile, oldStorageProfile, newStorageProfile)
 
-    local transferCapacity = storageDevice:getChargingRate()/60.0
+    local transferCapacity = storageDevice:getChargingRate()
     local averageDemand = 0;
     local length = loadProfile:size() - 1;
 
     for time = 0, length do
-        averageDemand = averageDemand + loadProfile:get(time);
+        averageDemand = averageDemand + loadProfile:get(time)
     end
 
-    averageDemand = averageDemand/loadProfile:size();
+    averageDemand = averageDemand/loadProfile:size()
 
     for time = 0, length do
 

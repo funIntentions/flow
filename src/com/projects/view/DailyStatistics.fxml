@@ -45,7 +45,7 @@
                             <children>
                                 <LineChart fx:id="emissionStatsChart" animated="false" createSymbols="false" prefHeight="400.0" prefWidth="500.0" title="Emissions" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <xAxis>
-                                        <CategoryAxis label="Time (Minutes)" side="BOTTOM" />
+                                        <CategoryAxis label="Time (Hours)" side="BOTTOM" />
                                     </xAxis>
                                     <yAxis>
                                         <NumberAxis label="g/kWh" side="LEFT" />
@@ -61,7 +61,7 @@
                             <children>
                                 <LineChart fx:id="demandStatsChart" animated="false" createSymbols="false" prefHeight="400.0" prefWidth="500.0" title="Demand" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <xAxis>
-                                        <CategoryAxis label="Time (Minutes)" side="BOTTOM" />
+                                        <CategoryAxis label="Time (Hours)" side="BOTTOM" />
                                     </xAxis>
                                     <yAxis>
                                         <NumberAxis label="Demand (Kilowatts)" side="LEFT" />

@@ -19,22 +19,22 @@ import java.util.List;
  */
 public class DailyStatisticsController {
     @FXML
-    private LineChart<String, Float> demandStatsChart;
+    private LineChart<String, Double> demandStatsChart;
 
     @FXML
-    private LineChart<String, Float> priceStatsChart;
+    private LineChart<String, Double> priceStatsChart;
 
     @FXML
-    private LineChart<String, Float> emissionStatsChart;
+    private LineChart<String, Double> emissionStatsChart;
 
     @FXML
     private DatePicker datePickerForSelectedDate;
 
-    private XYChart.Series<String, Float> demandSeries;
+    private XYChart.Series<String, Double> demandSeries;
 
-    private XYChart.Series<String, Float> priceSeries;
+    private XYChart.Series<String, Double> priceSeries;
 
-    private XYChart.Series<String, Float> emissionSeries;
+    private XYChart.Series<String, Double> emissionSeries;
 
     private Main main;
 
@@ -101,7 +101,7 @@ public class DailyStatisticsController {
 
         for (int i = 0; i < price.size(); i += minuteInterval) {
             float hour = (i/minuteInterval)/2f;
-            priceSeries.getData().add(new XYChart.Data<>(String.valueOf(hour), price.get(i)));
+            priceSeries.getData().add(new XYChart.Data<>(String.valueOf(hour), (double)price.get(i)));
         }
     }
 
@@ -110,7 +110,7 @@ public class DailyStatisticsController {
 
         for (int i = 0; i < emissions.size(); i += minuteInterval) {
             float hour = (i/minuteInterval)/2f;
-            emissionSeries.getData().add(new XYChart.Data<>(String.valueOf(hour), emissions.get(i)));
+            emissionSeries.getData().add(new XYChart.Data<>(String.valueOf(hour), (double)emissions.get(i)));
         }
     }
 

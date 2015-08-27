@@ -108,7 +108,7 @@ public class StructureEditDialogController {
     private TextField energyStorageCapacity;
 
     @FXML
-    private ComboBox<String> energyStorageStrategy;
+    private ComboBox<String> energyStorageStrategyComboBox;
 
     @FXML
     private Button manuallyEditLoadProfileButton;
@@ -246,8 +246,8 @@ public class StructureEditDialogController {
 
     public void setStorageStrategies(HashMap<String, String> storageStrategies) {
         this.storageStrategies = storageStrategies;
-        energyStorageStrategy.setItems(FXCollections.observableArrayList(storageStrategies.keySet()));
-        energyStorageStrategy.getSelectionModel().select(0);
+        energyStorageStrategyComboBox.setItems(FXCollections.observableArrayList(storageStrategies.keySet()));
+        energyStorageStrategyComboBox.getSelectionModel().select(0);
     }
 
     private void showApplianceProperties(Appliance lastSelected, Appliance applianceSelected) {
@@ -272,9 +272,9 @@ public class StructureEditDialogController {
             String strategyName = Utils.getStrategyName(selected.getStorageStrategy());
 
             energyStorageNameField.setText(selected.getName());
-            energyStorageChargeDischargeRate.setText(String.valueOf(selected.getChargingRate()));
-            energyStorageCapacity.setText(String.valueOf(selected.getStorageCapacity()));
-            energyStorageStrategy.getSelectionModel().select(strategyName);
+            energyStorageChargeDischargeRate.setText(String.valueOf(Utils.wattsToKilowatts(selected.getChargingRate())));
+            energyStorageCapacity.setText(String.valueOf(Utils.wattsToKilowatts(selected.getStorageCapacity())));
+            energyStorageStrategyComboBox.getSelectionModel().select(strategyName);
         }
     }
 
@@ -371,7 +371,7 @@ public class StructureEditDialogController {
         } else {
             // try to parse the postal code into an int.
             try {
-                double chargingRate = Double.parseDouble(energyStorageChargeDischargeRate.getText());
+                double chargingRate = Utils.kilowattsToWatts(Double.parseDouble(energyStorageChargeDischargeRate.getText()));
                 energyStorage.setChargingRate(chargingRate);
             } catch (NumberFormatException e) {
                 errorMessage += "No valid charging rate (must be an double)!\n";
@@ -383,14 +383,14 @@ public class StructureEditDialogController {
         } else {
             // try to parse the postal code into an int.
             try {
-                double storageCapacity = Double.parseDouble(energyStorageCapacity.getText());
+                double storageCapacity = Utils.kilowattsToWatts(Double.parseDouble(energyStorageCapacity.getText()));
                 energyStorage.setStorageCapacity(storageCapacity);
             } catch (NumberFormatException e) {
                 errorMessage += "No valid storage capacity (must be an double)!\n";
             }
         }
 
-        energyStorage.setStorageStrategy(storageStrategies.get(energyStorageStrategy.getSelectionModel().getSelectedItem()));
+        energyStorage.setStorageStrategy(storageStrategies.get(energyStorageStrategyComboBox.getSelectionModel().getSelectedItem()));
 
         if (errorMessage.length() == 0)
             return true;
@@ -442,7 +442,7 @@ public class StructureEditDialogController {
 
     @FXML
     private void handleCreateNewEnergyStorageDevice() {
-        EnergyStorage energyStorage = new EnergyStorage("Energy Storage", DeviceUtil.getNextDeviceId(), 0.0, 0.0, 0.0, energyStorageStrategy.getSelectionModel().getSelectedItem());
+        EnergyStorage energyStorage = new EnergyStorage("Energy Storage", DeviceUtil.getNextDeviceId(), 0.0, 0.0, 0.0, energyStorageStrategyComboBox.getSelectionModel().getSelectedItem());
         energyStorageDevices.add(energyStorage);
     }
 

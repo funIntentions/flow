@@ -61,7 +61,11 @@ public class Utils {
         return name;
     }
 
-    public static float  wattsToKilowatts(float watts) {
+    public static double  wattsToKilowatts(double watts) {
         return watts/1000f;
+    }
+
+    public static double  kilowattsToWatts(double kilowatts) {
+        return kilowatts*1000f;
     }
 }
