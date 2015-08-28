@@ -69,7 +69,7 @@ public class StructureDetailsPaneController {
 
         structureRankingTable.setOnMouseClicked((event) -> main.selectedStructureProperty().set(structureRankingTable.getSelectionModel().getSelectedItem().structureProperty.get()));
 
-        series.setName("No Selection");
+        series.setName("No Building Selected");
         loadProfileChart.getData().add(series);
 
         daysOfTheWeekTabPane.getSelectionModel().selectedItemProperty().addListener(
@@ -116,10 +116,10 @@ public class StructureDetailsPaneController {
     public void setStructureData(Structure structure, List<ObservableList<Float>> loadProfilesForWeek) {
         this.loadProfilesForWeek = loadProfilesForWeek;
 
-        if (structure != null)
+        if (structure instanceof Building)
             series.setName(structure.getName());
         else
-            series.setName("No Selection");
+            series.setName("No Building Selected");
 
         switchChartData();
     }
