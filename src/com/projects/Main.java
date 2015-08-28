@@ -887,11 +887,11 @@ public class Main extends Application {
                     Element deviceElement = (Element) deviceNode;
 
                     String name = getElementStringFromTag(deviceElement, "name");
-                    Double chargeDischargeRate = Double.parseDouble(getElementStringFromTag(deviceElement, "transferCapacity"));
+                    Double transferCapacity = Double.parseDouble(getElementStringFromTag(deviceElement, "transferCapacity"));
                     Double storageCapacity = Double.parseDouble(getElementStringFromTag(deviceElement, "storageCapacity"));
                     String storageStrategy = getElementStringFromTag(deviceElement, "storageStrategy");
 
-                    EnergyStorage energyStorage = new EnergyStorage(name, DeviceUtil.getNextDeviceId(), chargeDischargeRate, storageCapacity, 0, storageStrategy);
+                    EnergyStorage energyStorage = new EnergyStorage(name, DeviceUtil.getNextDeviceId(), transferCapacity, storageCapacity, 0, storageStrategy);
 
                     deviceList.add(energyStorage);
                 }
@@ -1033,7 +1033,7 @@ public class Main extends Application {
         Element deviceNode = doc.createElement("energyStorage");
 
         deviceNode.appendChild(getElement(doc, "name", energyStorage.getName()));
-        deviceNode.appendChild(getElement(doc, "chargingRate", String.valueOf(energyStorage.getTransferCapacity())));
+        deviceNode.appendChild(getElement(doc, "transferCapacity", String.valueOf(energyStorage.getTransferCapacity())));
         deviceNode.appendChild(getElement(doc, "storageCapacity", String.valueOf(energyStorage.getStorageCapacity())));
         deviceNode.appendChild(getElement(doc, "storageStrategy", String.valueOf(energyStorage.getStorageStrategy())));
 

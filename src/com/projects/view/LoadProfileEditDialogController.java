@@ -158,8 +158,15 @@ public class LoadProfileEditDialogController {
             XYChart.Data<String, Float> data = series.getData().get(i);
 
             float hour = i/2f;
-            if (data.getYValue().floatValue() != loadProfile.get(i * minuteInterval).floatValue())
-                series.getData().set(i, new XYChart.Data<>(String.valueOf(hour), loadProfile.get(i * minuteInterval)));
+            if (data.getYValue().floatValue() != loadProfile.get(i * minuteInterval).floatValue()) {
+                if (i == series.getData().size() - 1) {
+                    loadProfileChart.setAnimated(false);
+                    series.getData().set(i, new XYChart.Data<>(String.valueOf(hour), loadProfile.get(i * minuteInterval)));
+                    loadProfileChart.setAnimated(true);
+                }
+                else
+                    series.getData().set(i, new XYChart.Data<>(String.valueOf(hour), loadProfile.get(i * minuteInterval)));
+            }
         }
     }
 
