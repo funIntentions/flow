@@ -157,7 +157,7 @@ public class LoadProfileEditDialogController {
         for (int i = 0; i < series.getData().size(); ++i) {
             XYChart.Data<String, Float> data = series.getData().get(i);
 
-            float hour = (i*minuteInterval)/2f;
+            float hour = i/2f;
             if (data.getYValue().floatValue() != loadProfile.get(i * minuteInterval).floatValue())
                 series.getData().set(i, new XYChart.Data<>(String.valueOf(hour), loadProfile.get(i * minuteInterval)));
         }
