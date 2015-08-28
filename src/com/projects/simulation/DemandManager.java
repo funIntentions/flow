@@ -167,13 +167,19 @@ public class DemandManager {
         }
     }
 
-
+    /**
+     * Resets the day so that the demand manager is ready for the next.
+     */
     public void resetDay() {
         demandProfileForToday.clear();
         dailyDemandProfileReady = false;
         processOverflowBuffer();
     }
 
+    /**
+     * If the timer ticked past midnight before the rest of the simulation could prepare for the next day, that extra time is kept in the time overflow buffer.
+     * Here that time is processed so that the simulation can catch up.
+     */
     private void processOverflowBuffer() {
         for (int time = 0; time < timeOverflow; ++time) {
             electricityDemand = 0;
@@ -188,6 +194,11 @@ public class DemandManager {
         timeOverflow = 0;
     }
 
+    /**
+     * Calculated the demand at this moment in time base on the demand profiles of the buildings.
+     * @param timeElapsedInSeconds the difference in seconds since the last update
+     * @param totalTimeElapsedInSeconds the total number of seconds that have elapsed in the simulation
+     */
     public void calculateDemand(double timeElapsedInSeconds, double totalTimeElapsedInSeconds) {
         int previousElapsedSecondsThisDay = (int) (Math.floor(totalTimeElapsedInSeconds - timeElapsedInSeconds) % TimeUnit.DAYS.toSeconds(1));
         int previousElapsedMinutesThisDay = (int) TimeUnit.SECONDS.toMinutes(previousElapsedSecondsThisDay);
@@ -217,6 +228,10 @@ public class DemandManager {
             dailyDemandProfileReady = true;
     }
 
+    /**
+     * Updates the states of buildings based on their energy demands.
+     * @param minutesElapsedToday number of minutes elapsed today
+     */
     private void updateDemandStates(int minutesElapsedToday) {
         for (Building structure : structures) {
             List<Float> demandProfile = structureDemandProfiles.get(structure.getId());
@@ -234,12 +249,18 @@ public class DemandManager {
         }
     }
 
+    /**
+     * Resets all the buildings to their default state, low consumption.
+     */
     public void resetDemandStates() {
         for (Building building : structures) {
             building.setDemandState(DemandState.LOW);
         }
     }
 
+    /**
+     * Resets the demand manager so that it's all ready for the simulation to run from the beginning again.
+     */
     public void reset() {
         totalUsageInkWh = 0;
         structureExpenses.clear();
@@ -248,6 +269,11 @@ public class DemandManager {
         resetDay();
     }
 
+    /**
+     * Removes a structure from the buildings being managed.
+     * @param structureToRemove the structure to remove
+     * @return true if the structure was found, false otherwise
+     */
     public boolean removeStructure(Structure structureToRemove) {
         for (Structure structure : structures) {
             if (structure.getId() == structureToRemove.getId()) {
@@ -259,6 +285,11 @@ public class DemandManager {
         return false;
     }
 
+    /**
+     * Either adds, removes, or updates a building that this manager should know about
+     * @param changedStructure the building in question
+     * @return true if the structure was or is being managed by this manager, false if it never was and isn't now
+     */
     public boolean syncStructures(Building changedStructure) {
         int structureIndex = -1;
 
