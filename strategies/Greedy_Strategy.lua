@@ -12,7 +12,7 @@
 -- simulationStatus - data that describes the current state of the simulation
 --
 -- output:
--- newStorageProfile - describes when the storage device will be storing or releasing energy and the amount of energy transfer in that moment
+-- newStorageProfile - describes when the storage device will be storing or releasing energy and the amount of energy transferred in that moment
 --]]
 function strategize(storageDevice, building, simulationStatus, newStorageProfile)
 
@@ -20,8 +20,8 @@ function strategize(storageDevice, building, simulationStatus, newStorageProfile
     local loadProfile = building:getLoadProfilesForWeek():get(simulationStatus.dayOfTheWeek)
     -- kilowatts of energy that can be transfered per minute
     local transferCapacity = storageDevice:getTransferCapacity()
-    -- The length needed for the storage profile. This is the number of minutes in the day.
-    local minutesOfDay = loadProfile:size() - 1
+    -- The length needed for the storage profile. This is the number of minutes in the day -1 because the storage profile is zero indexed.
+    local minutesOfDay = 1439
     -- possible states that a storage device running this strategy can be in
     local charging, discharging = 1, 2
 

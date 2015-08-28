@@ -116,9 +116,15 @@ public class StorageManager {
 
             if (!strategize.isnil()) {
                 strategize.invoke(varargs);
+                if (newStorageProfileWrapper.storageProfile.size() != Constants.MINUTES_IN_DAY) {
+                    errorEncountered = true;
+                    Platform.runLater(()-> alertProblemWithStrategy("Storage Profile Wrong Size", "The storage strategy must produce a storage profile that has transfer amounts for every minute of the day (must have a length of 1440)."));
+                }
             } else {
-                System.out.println("Lua function not found");
+                errorEncountered = true;
+                Platform.runLater(() -> alertProblemWithStrategy("Lua strategize Function Not Found", "Please make sure the strategize function is properly defined: function strategize(storageDevice, building, simulationStatus, newStorageProfile)"));
             }
+
         } catch (LuaError error) {
             errorEncountered = true;
             Platform.runLater(() -> displayLuaExceptionDialog(error, storageDevice.getStorageStrategy()));
@@ -127,6 +133,16 @@ public class StorageManager {
         List<Float> newStorageProfile = newStorageProfileWrapper.storageProfile;
 
         deviceStorageProfiles.put(storageDevice.getId(), newStorageProfile);
+    }
+
+    private void alertProblemWithStrategy(String header, String problem) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.initOwner(main.getPrimaryStage());
+        alert.setTitle("Problem with Strategy");
+        alert.setHeaderText(header);
+        alert.setContentText(problem);
+
+        alert.showAndWait();
     }
 
     private void displayLuaExceptionDialog(LuaError error, String script) {
