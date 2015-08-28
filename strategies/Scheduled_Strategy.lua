@@ -12,7 +12,7 @@ function strategize(storageDevice, building, simulationStatus, newStorageProfile
     local chargeTimes = {{from = 0, to = 1}, {from = 10, to = 11}, {from = 14, to = 15} }
     local dischargeTimes = {{from = 6.5, to = 7.5}, {from = 12, to = 13}, {from = 18, to = 19}}
 
-    local transferCapacity = storageDevice:getChargingRate()
+    local transferCapacity = storageDevice:getTransferCapacity()
     local length = loadProfile:size() - 1
 
     for time = 0, length do

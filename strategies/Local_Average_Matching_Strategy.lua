@@ -10,7 +10,7 @@ function strategize(storageDevice, building, simulationStatus, newStorageProfile
 
     local loadProfile = building:getLoadProfilesForWeek():get(simulationStatus.dayOfTheWeek)
     local oldStorageProfile = simulationStatus.previousStorageProfiles:get(storageDevice:getId())
-    local transferCapacity = storageDevice:getChargingRate()
+    local transferCapacity = storageDevice:getTransferCapacity()
     local averageDemand = 0;
     local length = loadProfile:size() - 1;
 
