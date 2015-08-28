@@ -8,13 +8,21 @@ import javafx.collections.ObservableList;
 import java.util.List;
 
 /**
- * Created by Dan on 6/26/2015.
+ * A device that consumes electricity.
  */
 public class Appliance extends Device {
     private DoubleProperty standbyConsumption;
     private DoubleProperty usageConsumption;
     private ObservableList<TimeSpan> activeTimeSpans;
 
+    /**
+     * Appliance constructor.
+     * @param name appliance's name
+     * @param id unique device identifier
+     * @param standbyConsumption consumption that occurs when the appliance isn't active
+     * @param usageConsumption consumption that occurs when the appliance is active
+     * @param activeTimeSpans times when the appliance will be active
+     */
     public Appliance(String name, int id, Double standbyConsumption, Double usageConsumption, List<TimeSpan> activeTimeSpans) {
         super(name, id);
 
@@ -23,6 +31,12 @@ public class Appliance extends Device {
         this.activeTimeSpans = FXCollections.observableArrayList(activeTimeSpans);
     }
 
+    /**
+     * Checks if this appliance is scheduled to be on at this time of this day
+     * @param day day of the week
+     * @param time time in minutes
+     * @return true if the appliance is active, false otherwise
+     */
     public boolean isOn(int day, long time) {
         for (TimeSpan deviceUsage : activeTimeSpans) {
             if (deviceUsage.isActiveForDay(day) &&

@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 /**
- * Created by Dan on 6/26/2015.
+ * Timer for tracking properties of the simulation including duration, update rate and current date and time.
  */
 public class WorldTimer {
     public static final double SECONDS_IN_MINUTE = 60;
@@ -29,6 +29,32 @@ public class WorldTimer {
         reset();
     }
 
+    /**
+     * Different update rates for the simulation.
+     */
+    public enum UpdateRate {
+        /**
+         * One second in real life is one second in the simulation.
+         */
+        SECONDS,
+        /**
+         * One seconds in real life is one minute in the simulation.
+         */
+        MINUTES,
+        /**
+         * One second in real life is one hour in the simulation.
+         */
+        HOURS,
+        /**
+         * One second in real life is one day in the simulation.
+         */
+        DAYS,
+    }
+
+    /**
+     * Move the time in the simulation forward a tick.
+     * @param deltaTime time in seconds since the last frame
+     */
     public void tick(double deltaTime) {
         modifiedTimeElapsedInSeconds = modifyWithRate(deltaTime);
 
@@ -48,6 +74,11 @@ public class WorldTimer {
         currentDate = LocalDate.of(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfMonth()).plusDays(day);
     }
 
+    /**
+     * Modifies the seconds since the last frame with a multiplier depending on the simulation's update rate.
+     * @param deltaTime time in seconds since the last frame
+     * @return the modified time that has elapsed
+     */
     private double modifyWithRate(double deltaTime) {
         double time = deltaTime;
 
@@ -74,6 +105,9 @@ public class WorldTimer {
         return time;
     }
 
+    /**
+     * Resets the timer so that it's ready for the simulation to run again from the start.
+     */
     public void reset() {
         timeLimitReached = false;
         hourOfDay = 0;
@@ -149,12 +183,5 @@ public class WorldTimer {
 
     public Boolean isTimeLimitReached() {
         return timeLimitReached;
-    }
-
-    public enum UpdateRate {
-        SECONDS,
-        MINUTES,
-        HOURS,
-        DAYS,
     }
 }

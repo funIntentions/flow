@@ -8,14 +8,12 @@ import com.projects.model.*;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import javafx.util.converter.LocalTimeStringConverter;
 
@@ -272,7 +270,7 @@ public class StructureEditDialogController {
             String strategyName = Utils.getStrategyName(selected.getStorageStrategy());
 
             energyStorageNameField.setText(selected.getName());
-            energyStorageChargeDischargeRate.setText(String.valueOf(Utils.wattsToKilowatts(selected.getChargingRate())));
+            energyStorageChargeDischargeRate.setText(String.valueOf(Utils.wattsToKilowatts(selected.getTransferCapacity())));
             energyStorageCapacity.setText(String.valueOf(Utils.wattsToKilowatts(selected.getStorageCapacity())));
             energyStorageStrategyComboBox.getSelectionModel().select(strategyName);
         }
@@ -372,7 +370,7 @@ public class StructureEditDialogController {
             // try to parse the postal code into an int.
             try {
                 double chargingRate = Utils.kilowattsToWatts(Double.parseDouble(energyStorageChargeDischargeRate.getText()));
-                energyStorage.setChargingRate(chargingRate);
+                energyStorage.setTransferCapacity(chargingRate);
             } catch (NumberFormatException e) {
                 errorMessage += "No valid charging rate (must be an double)!\n";
             }

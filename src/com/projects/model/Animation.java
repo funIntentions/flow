@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 import java.util.List;
 
 /**
- * Created by Dan on 8/18/2015.
+ * An Animation that updates at a constant rate.
  */
 public class Animation {
     private List<Image> frames;
@@ -14,20 +14,29 @@ public class Animation {
     private long start = 0;
     private boolean playing = false;
 
+    /**
+     * Animation constructor.
+     * @param frames the images that will makeup the animation
+     * @param duration the animations length in seconds
+     */
     public Animation(List<Image> frames, double duration) {
         this.frames = frames;
         this.duration = duration;
     }
 
-    public boolean isPlaying() {
-        return playing;
-    }
-
+    /**
+     * To be called before calling animate. Setting start to this moment in time is needed so the animation will start with on the first frame.
+     */
     public void start() {
         start = System.nanoTime();
         playing = true;
     }
 
+    /**
+     * Advances the animation based on the difference between start time and the current time.
+     * @param now the current time in nanoseconds
+     * @return the image for the frame that the animation is on after updating
+     */
     public Image animate(double now) {
 
         if (playing) {
@@ -43,6 +52,9 @@ public class Animation {
         }
     }
 
+    /**
+     * Halts the animation, making the animation appear frozen unless animate is called afterward.
+     */
     public void stop() {
         playing = false;
     }
@@ -66,4 +78,9 @@ public class Animation {
     public int getFrame() {
         return frame;
     }
+
+    public boolean isPlaying() {
+        return playing;
+    }
+
 }

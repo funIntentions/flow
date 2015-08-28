@@ -482,7 +482,7 @@
 <energyStorageDevices>
 <energyStorage>
 <name>Home Battery 7kWh</name>
-<chargingRate>420000.0</chargingRate>
+<transferCapacity>420000.0</transferCapacity>
 <storageCapacity>420000.0</storageCapacity>
 <storageStrategy>Local_Average_Matching_Strategy.lua</storageStrategy>
 </energyStorage>
@@ -654,7 +654,7 @@
 <energyStorageDevices>
 <energyStorage>
 <name>Home Battery 7kWh</name>
-<chargingRate>420000.0</chargingRate>
+<transferCapacity>420000.0</transferCapacity>
 <storageCapacity>420000.0</storageCapacity>
 <storageStrategy>Greedy_Strategy.lua</storageStrategy>
 </energyStorage>
@@ -1214,7 +1214,7 @@
 <energyStorageDevices>
 <energyStorage>
 <name>Home Battery 7kWh</name>
-<chargingRate>7000.0</chargingRate>
+<transferCapacity>7000.0</transferCapacity>
 <storageCapacity>420000.0</storageCapacity>
 <storageStrategy>Local_Average_Matching_Strategy.lua</storageStrategy>
 </energyStorage>
@@ -1386,7 +1386,7 @@
 <energyStorageDevices>
 <energyStorage>
 <name>Home Battery 7kWh</name>
-<chargingRate>7000.0</chargingRate>
+<transferCapacity>7000.0</transferCapacity>
 <storageCapacity>420000.0</storageCapacity>
 <storageStrategy>Greedy_Strategy.lua</storageStrategy>
 </energyStorage>

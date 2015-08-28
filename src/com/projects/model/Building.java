@@ -9,7 +9,7 @@ import javafx.collections.ObservableList;
 import java.util.List;
 
 /**
- * Created by Dan on 8/12/2015.
+ * A structure that represents a potential consumer of electricity.
  */
 public class Building extends Structure {
     private ObservableList<Appliance> appliances;
@@ -20,17 +20,34 @@ public class Building extends Structure {
     private boolean usingCustomLoadProfile = false;
     private DemandState demandState = DemandState.LOW;
 
+    /**
+     * Building copy constructor.
+     * @param building the building to be copied
+     */
     public Building(Building building) {
         super(building.getName(), StructureUtil.getNextStructureId(), building.getAnimatedSprite());
 
         this.appliances = building.getAppliances();
-        this.energySources = building.getEnergySources();
         this.energyStorageDevices = building.getEnergyStorageDevices();
+        this.energySources = building.getEnergySources();
         this.loadProfilesForWeek = building.getLoadProfilesForWeek();
         this.manualLoadProfileData = building.getManualLoadProfileData();
         this.usingCustomLoadProfile = building.isUsingCustomLoadProfile();
     }
 
+    /**
+     * Building constructor.
+     * @param name building's name
+     * @param id unique identifier for structure
+     * @param x x coordinate for location in world
+     * @param y y coordinate for location in world
+     * @param animatedSprite defines the building's appearance and any animation
+     * @param appliances appliances that affect the buildings power demands
+     * @param energySources energy sources that can produce electricity for the building
+     * @param energyStorageDevices storage devices that affect the buildings power demands
+     * @param customUsageTimeSpans custom time spans used to define a custom load profile
+     * @param usingCustomLoadProfiles true if the custom usage time spans are being used for the load profile and false if the appliances are used instead
+     */
     public Building(String name, int id, double x, double y, AnimatedSprite animatedSprite, List<Appliance> appliances, List<EnergySource> energySources, List<EnergyStorage> energyStorageDevices, List<UsageTimeSpan> customUsageTimeSpans, Boolean usingCustomLoadProfiles) {
         super(name, id, x, y, animatedSprite);
 
@@ -44,6 +61,12 @@ public class Building extends Structure {
         calculateLoadProfile();
     }
 
+    /**
+     * Used to get how much demand the custom load profile has at a particular day and time.
+     * @param day day of the week
+     * @param time time in minutes
+     * @return the demand in watts at this time, on this day
+     */
     public double getManualUsageAtDateAndTime(int day, double time) {
         double totalUsage = 0;
 
@@ -58,6 +81,9 @@ public class Building extends Structure {
         return totalUsage;
     }
 
+    /**
+     * Generates this buildings load profiles for each day of the week.
+     */
     public void calculateLoadProfile() {
         loadProfilesForWeek.clear();
 

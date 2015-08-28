@@ -6,11 +6,17 @@ import javafx.beans.property.SimpleDoubleProperty;
 import java.time.LocalTime;
 
 /**
- * Created by Dan on 8/21/2015.
+ * TimeSpan that also has a particular electricity usage during it's span.
  */
 public class UsageTimeSpan extends TimeSpan {
     private DoubleProperty usage;
 
+    /**
+     * UsageTimeSpan constructor.
+     * @param usage electricity usage during span
+     * @param from beginning of the time span
+     * @param to end of the time span
+     */
     public UsageTimeSpan(double usage, LocalTime from, LocalTime to) {
         super(from, to);
 

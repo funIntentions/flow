@@ -6,33 +6,42 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * Created by Dan on 6/26/2015.
+ * A device that can help offset peak demand time by storing and releasing electricity.
  */
 public class EnergyStorage extends Device {
-    private DoubleProperty chargingRate;
+    private DoubleProperty transferCapacity;
     private DoubleProperty storageCapacity;
     private DoubleProperty storedEnergy;
     private StringProperty storageStrategy;
 
-    public EnergyStorage(String name, int id, double chargingRate, double storageCapacity, double storedEnergy, String storageStrategy) {
+    /**
+     * Energy Storage constructor.
+     * @param name energy storage device's name
+     * @param id unique identifier for device
+     * @param transferCapacity the rate at which the storage device can store and release energy per minute
+     * @param storageCapacity the watts of energy that can be stored at a moment in time
+     * @param storedEnergy amount of stored energy currently
+     * @param storageStrategy the storage strategy that will govern when and how much energy is stored or released
+     */
+    public EnergyStorage(String name, int id, double transferCapacity, double storageCapacity, double storedEnergy, String storageStrategy) {
         super(name, id);
 
-        this.chargingRate = new SimpleDoubleProperty(chargingRate);
+        this.transferCapacity = new SimpleDoubleProperty(transferCapacity);
         this.storageCapacity = new SimpleDoubleProperty(storageCapacity);
         this.storedEnergy = new SimpleDoubleProperty(storedEnergy);
         this.storageStrategy = new SimpleStringProperty(storageStrategy);
     }
 
-    public double getChargingRate() {
-        return chargingRate.get();
+    public double getTransferCapacity() {
+        return transferCapacity.get();
     }
 
-    public void setChargingRate(double chargingRate) {
-        this.chargingRate.set(chargingRate);
+    public void setTransferCapacity(double transferCapacity) {
+        this.transferCapacity.set(transferCapacity);
     }
 
-    public DoubleProperty chargingRateProperty() {
-        return chargingRate;
+    public DoubleProperty transferCapacityProperty() {
+        return transferCapacity;
     }
 
     public String getStorageStrategy() {

@@ -6,19 +6,33 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * Created by Dan on 7/27/2015.
+ * A structure that can be displayed in the world.
  */
 public class Structure {
     protected StringProperty name;
     protected IntegerProperty id;
     protected AnimatedSprite animatedSprite;
 
+    /**
+     * Structure constructor.
+     * @param name structure's name
+     * @param id unique identifier for structure
+     * @param animatedSprite visual representation of structure and any animation it has
+     */
     public Structure(String name, int id, AnimatedSprite animatedSprite) {
         this.name = new SimpleStringProperty(name);
         this.id = new SimpleIntegerProperty(id);
         this.animatedSprite = new AnimatedSprite(animatedSprite);
     }
 
+    /**
+     * Structure constructor.
+     * @param name structure's name
+     * @param id unique identifier for structure
+     * @param x x coordinate for world position
+     * @param y y coordinate for world position
+     * @param animatedSprite visual representation of structure and any animation it has
+     */
     public Structure(String name, int id, double x, double y, AnimatedSprite animatedSprite) {
         this.name = new SimpleStringProperty(name);
         this.id = new SimpleIntegerProperty(id);

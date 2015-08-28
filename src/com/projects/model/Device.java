@@ -6,12 +6,17 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * Created by Dan on 7/27/2015.
+ * A device that could be found in buildings.
  */
 public class Device {
     protected StringProperty name;
     protected IntegerProperty id;
 
+    /**
+     * Device constructor.
+     * @param name device's name
+     * @param id unique identifier for device
+     */
     public Device(String name, int id) {
         this.name = new SimpleStringProperty(name);
         this.id = new SimpleIntegerProperty(id);

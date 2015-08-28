@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by Dan on 6/24/2015.
+ * Manages the energy demands for all the buildings in the world.
  */
 public class DemandManager {
     private List<Building> structures;
@@ -27,6 +27,9 @@ public class DemandManager {
     private float lowDemand, averageDemand, mediumDemand, highDemand;
     private Main main;
 
+    /**
+     * DemandManager constructor
+     */
     public DemandManager() {
         structureExpenses = new HashMap<>();
         structureEnvironmentalImpact = new HashMap<>();
@@ -36,6 +39,10 @@ public class DemandManager {
         timeOverflow = 0;
     }
 
+    /**
+     * Provides a reference of main and adds a listener to mains selected structure so that it can send the selected structure's load profiles to the structure details pane to display.
+     * @param main reference to main
+     */
     public void setMain(Main main) {
         this.main = main;
 
@@ -48,10 +55,10 @@ public class DemandManager {
         });
     }
 
-    public List<Float> getDemandProfile(Structure structure) {
-        return structureDemandProfiles.get(structure.getId());
-    }
-
+    /**
+     * Calculates the high, medium, mild and low levels of demand for the day that are relative to the maximum demand during the day.
+     * @param day day of the week
+     */
     public void calculateDemandStates(int day) {
         structureDemandProfiles.clear();
         float largestDemandSum = 0, demandSum;
@@ -78,6 +85,11 @@ public class DemandManager {
         highDemand = increment * 4;
     }
 
+    /**
+     * Calculates the demand profiles of each building from the aggregate of their load profile and the storage demand profiles managed in the storage manager.
+     * @param day day of the week
+     * @param storageManager contains the storage demand profiles
+     */
     public void calculateDemandProfiles(int day, StorageManager storageManager) {
         structureDemandProfiles.clear();
 
@@ -103,6 +115,10 @@ public class DemandManager {
         }
     }
 
+    /**
+     * Calculates how much the buildings owe for the electricity that they consumed during the day.
+     * @param pricesForDay price of electricity at every minute of the day
+     */
     public void calculateDaysExpenses(List<Float> pricesForDay) {
         for (Structure structure : structures) {
             List<Float> structuresDemandProfile = structureDemandProfiles.get(structure.getId());
@@ -116,7 +132,7 @@ public class DemandManager {
                 Float demandAtThisTime = structuresDemandProfile.get(time);
                 Float priceAtThisTime = pricesForDay.get(time);
 
-                Float newExpense = (demandAtThisTime / (1000 * TimeUnit.HOURS.toMinutes(1))) * priceAtThisTime; // Convert Watts this minute to kWh TODO: change from watts per minute to kWatts per minute
+                Float newExpense = (demandAtThisTime / (1000 * TimeUnit.HOURS.toMinutes(1))) * priceAtThisTime;
                 totalExpenses += newExpense;
             }
 
@@ -124,6 +140,11 @@ public class DemandManager {
         }
     }
 
+    /**
+     * Calculates how much of an environmental impact the buildings had during the day due to their electricity consumption.
+     * Their environmental impact is a running sum of how much grams of green house gasses they are responsible for.
+     * @param emissionsToday emissions produced per kWh during the day
+     */
     public void calculateDaysEnvironmentalImpact(List<Float> emissionsToday) {
 
         for (Structure structure : structures) {
@@ -138,13 +159,14 @@ public class DemandManager {
                 Float demandAtThisTime = structuresDemandProfile.get(time);
                 Float emissionsAtTheTime = emissionsToday.get(time);
 
-                Float newExpense = (demandAtThisTime / (1000 * TimeUnit.HOURS.toMinutes(1))) * emissionsAtTheTime; // Convert Watts this minute to kWh TODO: change from watts per minute to kWatts per minute
+                Float newExpense = (demandAtThisTime / (1000 * TimeUnit.HOURS.toMinutes(1))) * emissionsAtTheTime;
                 totalEmissions += newExpense;
             }
 
             structureEnvironmentalImpact.put(structure.getId(), totalEmissions);
         }
     }
+
 
     public void resetDay() {
         demandProfileForToday.clear();
@@ -261,6 +283,10 @@ public class DemandManager {
         }
 
         return true;
+    }
+
+    public List<Float> getDemandProfile(Structure structure) {
+        return structureDemandProfiles.get(structure.getId());
     }
 
     public double getTotalUsageInkWh() {

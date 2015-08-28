@@ -8,7 +8,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import java.time.LocalTime;
 
 /**
- * Created by Dan on 7/3/2015.
+ * Represents a span of time on a particular day(s) during the week.
  */
 public class TimeSpan {
     protected ObjectProperty<LocalTime> from;
@@ -21,6 +21,11 @@ public class TimeSpan {
     protected BooleanProperty saturday;
     protected BooleanProperty sunday;
 
+    /**
+     * TimeSpan constructor.
+     * @param from beginning of the time span
+     * @param to end of the time span
+     */
     public TimeSpan(LocalTime from, LocalTime to) {
         this.from = new SimpleObjectProperty<>(from);
         this.to = new SimpleObjectProperty<>(to);
@@ -33,6 +38,11 @@ public class TimeSpan {
         sunday = new SimpleBooleanProperty(true);
     }
 
+    /**
+     * Checks whether this time span will be active for a particular day of the week.
+     * @param day day of the week
+     * @return true if the time span does apply for that day, false otherwise
+     */
     public boolean isActiveForDay(int day) {
         switch (day) {
             case 0:
