@@ -9,6 +9,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
@@ -26,6 +27,12 @@ import java.util.List;
  * Created by Dan on 7/30/2015.
  */
 public class StructureDetailsPaneController {
+
+    private class StructureResults {
+        public ObjectProperty<Structure> structureProperty = new SimpleObjectProperty<>();
+        public FloatProperty expensesProperty = new SimpleFloatProperty();
+        public FloatProperty environmentalImpactProperty = new SimpleFloatProperty();
+    }
 
     @FXML
     private TableView<StructureResults> structureRankingTable;
@@ -146,11 +153,22 @@ public class StructureDetailsPaneController {
                 clearComparisons();
             }
         });
-    }
 
-    private class StructureResults {
-        public ObjectProperty<Structure> structureProperty = new SimpleObjectProperty<>();
-        public FloatProperty expensesProperty = new SimpleFloatProperty();
-        public FloatProperty environmentalImpactProperty = new SimpleFloatProperty();
+        main.getWorldStructureData().addListener((ListChangeListener<Structure>) c -> {
+
+            while (c.next()) {
+                if (c.getRemoved().size() > 0) {
+                    List<StructureResults> resultsToRemove = new ArrayList<>();
+                    for (Structure removed : c.getRemoved()) {
+                        for (StructureResults structureResults : structureRankingTable.getItems()) {
+                            if (removed.getId() == structureResults.structureProperty.get().getId())
+                                resultsToRemove.add(structureResults);
+                        }
+                    }
+                    structureRankingTable.getItems().removeAll(resultsToRemove);
+                }
+            }
+
+        });
     }
 }
