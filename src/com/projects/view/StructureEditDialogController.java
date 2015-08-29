@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by Dan on 7/28/2015.
+ * Controller for Structure Edit Dialog view
  */
 public class StructureEditDialogController {
 
@@ -122,7 +122,6 @@ public class StructureEditDialogController {
     private Stage dialogStage = null;
     private Building structure = null;
     private Main main = null;
-    private boolean okClicked = false;
 
     /**
      * Initializes the controller class. This method is automatically called
@@ -241,17 +240,30 @@ public class StructureEditDialogController {
         this.main = main;
     }
 
+    /**
+     * Provides a collection of potential sprites this building can use.
+     * @param sprites building sprites
+     */
     public void setStructureSprites(HashMap<Integer, AnimatedSprite> sprites) {
         structureSpriteComboBox.setItems(FXCollections.observableArrayList(sprites.values()));
         structureSpriteComboBox.getSelectionModel().select(sprites.get(structure.getAnimatedSprite().getId()));
     }
 
+    /**
+     * Provides a collection of storage strategies that could be assigned to storage devices.
+     * @param storageStrategies storage strategies
+     */
     public void setStorageStrategies(HashMap<String, String> storageStrategies) {
         this.storageStrategies = storageStrategies;
         energyStorageStrategyComboBox.setItems(FXCollections.observableArrayList(storageStrategies.keySet()));
         energyStorageStrategyComboBox.getSelectionModel().select(0);
     }
 
+    /**
+     * Displays the selected appliance's properties while trying to save the previously selected appliance's properties.
+     * @param lastSelected previously selected appliance
+     * @param applianceSelected newly selected appliance
+     */
     private void showApplianceProperties(Appliance lastSelected, Appliance applianceSelected) {
         if (lastSelected != null) {
             updateAppliance(lastSelected);
@@ -265,6 +277,11 @@ public class StructureEditDialogController {
         }
     }
 
+    /**
+     * Displays the selected energy storage device's properties while trying to apply the previously selected storage device's properties that were being edited.
+     * @param lastSelected previously selected storage device
+     * @param selected newly selected storage device
+     */
     private void showEnergyStorageProperties(EnergyStorage lastSelected, EnergyStorage selected) {
         if (lastSelected != null) {
             updateEnergyStorage(lastSelected);
@@ -280,6 +297,10 @@ public class StructureEditDialogController {
         }
     }
 
+    /**
+     * Updates the tab's devices, then makes it disabled while displaying the other tab.
+     * @param oldValue the previously selected tab
+     */
     private void switchPropertyTab(Tab oldValue) {
         Tab previousPropertyTab = devicePropertyTabPane.getSelectionModel().getSelectedItem();
         previousPropertyTab.setDisable(true);
@@ -293,6 +314,11 @@ public class StructureEditDialogController {
         newPropertyTab.setDisable(false);
     }
 
+    /**
+     * Tries to apply the properties being edited in the tab to the device being edited.
+     * @param tab the tab
+     * @return true if the properties being edited were valid and able to be applied
+     */
     private boolean updateTabsDevices(Tab tab) {
         boolean valid = true;
 
@@ -309,6 +335,11 @@ public class StructureEditDialogController {
         return valid;
     }
 
+    /**
+     * Checks if the property input fields hold valid values for an appliance.
+     * @param previouslySelectedDevice the previously selected appliance
+     * @return true if the values are valid
+     */
     private boolean updateAppliance(Appliance previouslySelectedDevice) {
         String errorMessage = "";
 
@@ -359,6 +390,11 @@ public class StructureEditDialogController {
         }
     }
 
+    /**
+     * Checks if the property input fields hold valid values for an energy storage device.
+     * @param energyStorage the previously selected appliance
+     * @return true if the values are valid
+     */
     private boolean updateEnergyStorage(EnergyStorage energyStorage) {
         String errorMessage = "";
 
@@ -410,19 +446,16 @@ public class StructureEditDialogController {
     }
 
     /**
-     * Returns true if the user clicked OK, false otherwise.
-     *
-     * @return
+     * Shows the load profile edit dialog.
      */
-    public boolean isOkClicked() {
-        return okClicked;
-    }
-
     @FXML
     private void handleManuallyEditLoadProfile() {
         main.showLoadProfileEditDialog(structure);
     }
 
+    /**
+     * Toggles the building using its custom manually created load profiles.
+     */
     @FXML
     private void handleUseCustomLoadProfile() {
         structure.setUsingCustomLoadProfile(useCustomLoadProfileCheckBox.isSelected());
@@ -436,18 +469,27 @@ public class StructureEditDialogController {
         }
     }
 
+    /**
+     * Creates a new appliance.
+     */
     @FXML
     private void handleCreateNewAppliance() {
         Appliance appliance = new Appliance("Appliance", DeviceUtil.getNextDeviceId(), 0.0, 0.0, new ArrayList<>());
         appliances.add(appliance);
     }
 
+    /**
+     * Creates a new energy storage device.
+     */
     @FXML
     private void handleCreateNewEnergyStorageDevice() {
         EnergyStorage energyStorage = new EnergyStorage("Energy Storage", DeviceUtil.getNextDeviceId(), 0.0, 0.0, 0.0, energyStorageStrategyComboBox.getSelectionModel().getSelectedItem());
         energyStorageDevices.add(energyStorage);
     }
 
+    /**
+     * Removes the currently selected device.
+     */
     @FXML
     private void handleRemoveDevice() {
         Tab selectedTab = deviceTabPane.getSelectionModel().getSelectedItem();
@@ -463,6 +505,9 @@ public class StructureEditDialogController {
         }
     }
 
+    /**
+     * Creates a new time span for the selected appliance.
+     */
     @FXML
     private void handleCreateTimeSpan() {
         Appliance appliance = applianceList.getSelectionModel().getSelectedItem();
@@ -483,6 +528,9 @@ public class StructureEditDialogController {
         }
     }
 
+    /**
+     * Removes the selected time span from the selected appliance.
+     */
     @FXML
     private void handleRemoveTimeSpan() {
         int index = usageTable.getSelectionModel().getSelectedIndex();
@@ -493,7 +541,7 @@ public class StructureEditDialogController {
     }
 
     /**
-     * Called when the user clicks ok.
+     * Closes the dialog.
      */
     @FXML
     private void handleClose() {
@@ -508,7 +556,6 @@ public class StructureEditDialogController {
             structure.setAnimatedSprite(animatedSprite);
             structure.calculateLoadProfile();
 
-            okClicked = true;
             dialogStage.close();
         }
     }

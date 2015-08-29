@@ -41,7 +41,7 @@ public class Building extends Structure {
         for (EnergyStorage energyStorage : building.getEnergyStorageDevices()) {
             this.energyStorageDevices.add(new EnergyStorage(energyStorage));
         }
-        
+
         for (UsageTimeSpan usageTimeSpan : building.getManualLoadProfileData()) {
             this.manualLoadProfileData.add(new UsageTimeSpan(usageTimeSpan));
         }

@@ -36,7 +36,6 @@ public class PowerPlantEditDialogController {
 
     private Stage dialogStage = null;
     private PowerPlant powerPlant = null;
-    private boolean okClicked = false;
 
     /**
      * Initializes the controller class. This method is automatically called
@@ -124,7 +123,6 @@ public class PowerPlantEditDialogController {
             animatedSprite.setYPosition(powerPlant.getAnimatedSprite().getYPosition());
             powerPlant.setAnimatedSprite(animatedSprite);
 
-            okClicked = true;
             dialogStage.close();
         }
     }
