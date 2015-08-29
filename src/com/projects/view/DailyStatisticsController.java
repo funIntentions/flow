@@ -1,7 +1,6 @@
 package com.projects.view;
 
 import com.projects.Main;
-import com.projects.helper.Constants;
 import com.projects.helper.Utils;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
@@ -93,40 +92,43 @@ public class DailyStatisticsController {
 
     /**
      * Sets the data for the demand versus time chart.
+     *
      * @param demand demand throughout the day
      */
     public void setDemandChartData(List<Float> demand) {
         clearDemandChart();
 
         for (int i = 0; i < demand.size(); i += minuteInterval) {
-            float hour = (i/minuteInterval)/2f;
+            float hour = (i / minuteInterval) / 2f;
             demandSeries.getData().add(new XYChart.Data<>(String.valueOf(hour), Utils.wattsToKilowatts(demand.get(i))));
         }
     }
 
     /**
      * Sets the data for the price versus time chart.
+     *
      * @param price price throughout the day
      */
     public void setPriceChartData(List<Float> price) {
         clearPriceChart();
 
         for (int i = 0; i < price.size(); i += minuteInterval) {
-            float hour = (i/minuteInterval)/2f;
-            priceSeries.getData().add(new XYChart.Data<>(String.valueOf(hour), (double)price.get(i)));
+            float hour = (i / minuteInterval) / 2f;
+            priceSeries.getData().add(new XYChart.Data<>(String.valueOf(hour), (double) price.get(i)));
         }
     }
 
     /**
      * Sets the data for the emission versus time chart.
+     *
      * @param emissions emission rates throughout the day
      */
     public void setEmissionsChartData(List<Float> emissions) {
         clearEmissionChart();
 
         for (int i = 0; i < emissions.size(); i += minuteInterval) {
-            float hour = (i/minuteInterval)/2f;
-            emissionSeries.getData().add(new XYChart.Data<>(String.valueOf(hour), (double)emissions.get(i)));
+            float hour = (i / minuteInterval) / 2f;
+            emissionSeries.getData().add(new XYChart.Data<>(String.valueOf(hour), (double) emissions.get(i)));
         }
     }
 
@@ -144,6 +146,7 @@ public class DailyStatisticsController {
 
     /**
      * Provides a reference to main and allows the controller to listen for events it cares about.
+     *
      * @param main a reference to main.
      */
     public void setMain(Main main) {

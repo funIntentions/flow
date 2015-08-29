@@ -3,7 +3,6 @@ package com.projects.view;
 import com.projects.helper.Utils;
 import com.projects.model.AnimatedSprite;
 import com.projects.model.PowerPlant;
-import com.projects.model.UsageTimeSpan;
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -16,7 +15,7 @@ import javafx.util.Callback;
 import java.util.HashMap;
 
 /**
- *  Controller for the power plant edit dialog view.
+ * Controller for the power plant edit dialog view.
  */
 public class PowerPlantEditDialogController {
     @FXML
@@ -73,6 +72,7 @@ public class PowerPlantEditDialogController {
 
     /**
      * Sets the power plant that is going to have it's properties edited.
+     *
      * @param powerPlant power plant to be edited
      */
     public void setPowerPlant(PowerPlant powerPlant) {
@@ -85,6 +85,7 @@ public class PowerPlantEditDialogController {
 
     /**
      * Provides a collection of potential sprites this power plant can use.
+     *
      * @param sprites power plant sprites
      */
     public void setSprites(HashMap<Integer, AnimatedSprite> sprites) {

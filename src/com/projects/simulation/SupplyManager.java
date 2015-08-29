@@ -101,6 +101,7 @@ public class SupplyManager {
 
     /**
      * Decides whether or not a building should be managed.
+     *
      * @param changedStructure the building in question
      * @return true if it
      */

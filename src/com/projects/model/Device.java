@@ -14,8 +14,9 @@ public class Device {
 
     /**
      * Device constructor.
+     *
      * @param name device's name
-     * @param id unique identifier for device
+     * @param id   unique identifier for device
      */
     public Device(String name, int id) {
         this.name = new SimpleStringProperty(name);

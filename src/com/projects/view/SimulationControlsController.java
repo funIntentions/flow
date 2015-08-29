@@ -131,6 +131,7 @@ public class SimulationControlsController {
 
     /**
      * Provides a reference to main and allows the controller to listen for events it cares about.
+     *
      * @param main a reference to main.
      */
     public void setMain(Main main) {

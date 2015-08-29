@@ -28,12 +28,6 @@ import java.util.List;
  */
 public class BuildingDetailsController {
 
-    private class StructureResults {
-        public ObjectProperty<Structure> structureProperty = new SimpleObjectProperty<>();
-        public FloatProperty expensesProperty = new SimpleFloatProperty();
-        public FloatProperty environmentalImpactProperty = new SimpleFloatProperty();
-    }
-
     @FXML
     private TableView<StructureResults> structureRankingTable;
     @FXML
@@ -46,7 +40,6 @@ public class BuildingDetailsController {
     private LineChart<String, Float> loadProfileChart;
     @FXML
     private TabPane daysOfTheWeekTabPane;
-
     private ObservableList<StructureResults> structureResultsList;
     private XYChart.Series<String, Float> series = new XYChart.Series<>();
     private List<ObservableList<Float>> loadProfilesForWeek = new ArrayList<>();
@@ -85,8 +78,9 @@ public class BuildingDetailsController {
 
     /**
      * Displays the expenses and environmental impact of buildings from the simulation.
-     * @param structureList buildings from simulation
-     * @param expenses building expenses
+     *
+     * @param structureList       buildings from simulation
+     * @param expenses            building expenses
      * @param environmentalImpact environmental impacts of buildings
      */
     public void displayResults(List<Building> structureList, HashMap<Integer, Float> expenses, HashMap<Integer, Float> environmentalImpact) {
@@ -119,7 +113,7 @@ public class BuildingDetailsController {
         series.getData().clear();
 
         for (int i = 0; i < loadProfile.size(); i += minuteInterval) {
-            float hour = (i/minuteInterval)/2f;
+            float hour = (i / minuteInterval) / 2f;
             series.getData().add(new XYChart.Data<>(String.valueOf(hour), loadProfile.get(i)));
         }
     }
@@ -127,7 +121,7 @@ public class BuildingDetailsController {
     /**
      * Sets the structure to show the load profiles for.
      *
-     * @param structure structure
+     * @param structure           structure
      * @param loadProfilesForWeek the structures load profiles (if it's a building, otherwise an empty array)
      */
     public void setStructureData(Structure structure, List<ObservableList<Float>> loadProfilesForWeek) {
@@ -151,6 +145,7 @@ public class BuildingDetailsController {
 
     /**
      * Provides a reference to main and allows the controller to listen for events it cares about.
+     *
      * @param main a reference to main.
      */
     public void setMain(Main main) {
@@ -194,5 +189,11 @@ public class BuildingDetailsController {
             }
 
         });
+    }
+
+    private class StructureResults {
+        public ObjectProperty<Structure> structureProperty = new SimpleObjectProperty<>();
+        public FloatProperty expensesProperty = new SimpleFloatProperty();
+        public FloatProperty environmentalImpactProperty = new SimpleFloatProperty();
     }
 }

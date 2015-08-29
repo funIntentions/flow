@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.chart.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projects.view.LoadProfileEditDialogController">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.40"
+            fx:controller="com.projects.view.LoadProfileEditDialogController">
     <bottom>
         <BorderPane BorderPane.alignment="CENTER">
             <center>
                 <TableView fx:id="usageTable" prefHeight="300.0" prefWidth="752.0" BorderPane.alignment="CENTER">
                     <columns>
-                        <TableColumn fx:id="usageColumn" prefWidth="89.0" text="Usage (Watts)" />
-                        <TableColumn fx:id="usageFromColumn" prefWidth="61.0" text="From" />
-                        <TableColumn fx:id="usageToColumn" prefWidth="75.0" text="To" />
+                        <TableColumn fx:id="usageColumn" prefWidth="89.0" text="Usage (Watts)"/>
+                        <TableColumn fx:id="usageFromColumn" prefWidth="61.0" text="From"/>
+                        <TableColumn fx:id="usageToColumn" prefWidth="75.0" text="To"/>
                         <TableColumn prefWidth="75.0" text="Days">
                             <columns>
-                                <TableColumn fx:id="mondayColumn" prefWidth="75.0" text="Mon" />
-                                <TableColumn fx:id="tuesdayColumn" prefWidth="75.0" text="Tue" />
-                                <TableColumn fx:id="wednesdayColumn" prefWidth="75.0" text="Wed" />
-                                <TableColumn fx:id="thursdayColumn" prefWidth="75.0" text="Thur" />
-                                <TableColumn fx:id="fridayColumn" prefWidth="75.0" text="Fri" />
-                                <TableColumn fx:id="saturdayColumn" prefWidth="75.0" text="Sat" />
-                                <TableColumn fx:id="sundayColumn" prefWidth="75.0" text="Sun" />
+                                <TableColumn fx:id="mondayColumn" prefWidth="75.0" text="Mon"/>
+                                <TableColumn fx:id="tuesdayColumn" prefWidth="75.0" text="Tue"/>
+                                <TableColumn fx:id="wednesdayColumn" prefWidth="75.0" text="Wed"/>
+                                <TableColumn fx:id="thursdayColumn" prefWidth="75.0" text="Thur"/>
+                                <TableColumn fx:id="fridayColumn" prefWidth="75.0" text="Fri"/>
+                                <TableColumn fx:id="saturdayColumn" prefWidth="75.0" text="Sat"/>
+                                <TableColumn fx:id="sundayColumn" prefWidth="75.0" text="Sun"/>
                             </columns>
                         </TableColumn>
                     </columns>
@@ -36,15 +34,15 @@
             <bottom>
                 <HBox alignment="CENTER" spacing="8.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Button mnemonicParsing="false" onAction="#handleCreateTimeSpan" text="Add Time Span" />
-                        <Button mnemonicParsing="false" onAction="#handleRemoveTimeSpan" text="Remove Time Span" />
-                        <Button mnemonicParsing="false" onAction="#handleClose" text="Close" />
+                        <Button mnemonicParsing="false" onAction="#handleCreateTimeSpan" text="Add Time Span"/>
+                        <Button mnemonicParsing="false" onAction="#handleRemoveTimeSpan" text="Remove Time Span"/>
+                        <Button mnemonicParsing="false" onAction="#handleClose" text="Close"/>
                     </children>
                     <opaqueInsets>
-                        <Insets />
+                        <Insets/>
                     </opaqueInsets>
                     <padding>
-                        <Insets bottom="8.0" top="8.0" />
+                        <Insets bottom="8.0" top="8.0"/>
                     </padding>
                 </HBox>
             </bottom>
@@ -53,10 +51,10 @@
     <center>
         <LineChart fx:id="loadProfileChart" legendVisible="false" title="Load Profile" BorderPane.alignment="CENTER">
             <xAxis>
-                <CategoryAxis label="Time (Hours)" side="BOTTOM" />
+                <CategoryAxis label="Time (Hours)" side="BOTTOM"/>
             </xAxis>
             <yAxis>
-                <NumberAxis label="Demand (Watts)" side="LEFT" />
+                <NumberAxis label="Demand (Watts)" side="LEFT"/>
             </yAxis>
         </LineChart>
     </center>
@@ -65,37 +63,37 @@
             <tabs>
                 <Tab text="Monday">
                     <content>
-                        <AnchorPane />
+                        <AnchorPane/>
                     </content>
                 </Tab>
                 <Tab text="Tuesday">
                     <content>
-                        <AnchorPane />
+                        <AnchorPane/>
                     </content>
                 </Tab>
                 <Tab text="Wednesday">
                     <content>
-                        <AnchorPane />
+                        <AnchorPane/>
                     </content>
                 </Tab>
                 <Tab text="Thursday">
                     <content>
-                        <AnchorPane />
+                        <AnchorPane/>
                     </content>
                 </Tab>
                 <Tab text="Friday">
                     <content>
-                        <AnchorPane />
+                        <AnchorPane/>
                     </content>
                 </Tab>
                 <Tab text="Saturday">
                     <content>
-                        <AnchorPane />
+                        <AnchorPane/>
                     </content>
                 </Tab>
                 <Tab text="Sunday">
                     <content>
-                        <AnchorPane />
+                        <AnchorPane/>
                     </content>
                 </Tab>
             </tabs>

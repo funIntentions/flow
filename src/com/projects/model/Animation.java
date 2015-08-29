@@ -16,7 +16,8 @@ public class Animation {
 
     /**
      * Animation constructor.
-     * @param frames the images that will makeup the animation
+     *
+     * @param frames   the images that will makeup the animation
      * @param duration the animations length in seconds
      */
     public Animation(List<Image> frames, double duration) {
@@ -34,6 +35,7 @@ public class Animation {
 
     /**
      * Advances the animation based on the difference between start time and the current time.
+     *
      * @param now the current time in nanoseconds
      * @return the image for the frame that the animation is on after updating
      */

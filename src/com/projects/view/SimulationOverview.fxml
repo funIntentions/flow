@@ -1,38 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projects.view.SimulationOverviewController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="800.0" prefWidth="1200.0"
+            xmlns="http://javafx.com/javafx/8.0.40" fx:controller="com.projects.view.SimulationOverviewController">
     <children>
-        <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                    AnchorPane.topAnchor="0.0">
             <center>
                 <SplitPane dividerPositions="0.2328881469115192" BorderPane.alignment="CENTER">
                     <items>
                         <AnchorPane>
                             <children>
-                                <VBox fx:id="leftPane" layoutX="39.0" layoutY="49.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <VBox fx:id="leftPane" layoutX="39.0" layoutY="49.0" AnchorPane.bottomAnchor="0.0"
+                                      AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                      AnchorPane.topAnchor="0.0">
                                     <children>
-                                        <TitledPane fx:id="simulationControlsTitledPane" alignment="TOP_CENTER" animated="false" text="Simulation ">
+                                        <TitledPane fx:id="simulationControlsTitledPane" alignment="TOP_CENTER"
+                                                    animated="false" text="Simulation ">
                                             <content>
-                                                <AnchorPane />
+                                                <AnchorPane/>
                                             </content>
                                         </TitledPane>
-                                        <TitledPane alignment="TOP_CENTER" animated="false" text="Template Structures" VBox.vgrow="ALWAYS">
+                                        <TitledPane alignment="TOP_CENTER" animated="false" text="Template Structures"
+                                                    VBox.vgrow="ALWAYS">
                                             <content>
                                                 <AnchorPane>
                                                     <children>
-                                                        <ListView fx:id="templateStructureList" layoutX="-24.0" layoutY="-58.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="34.0" />
-                                                        <HBox alignment="CENTER" layoutX="21.6" layoutY="23.6" spacing="4.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="4.0">
+                                                        <ListView fx:id="templateStructureList" layoutX="-24.0"
+                                                                  layoutY="-58.0" AnchorPane.bottomAnchor="0.0"
+                                                                  AnchorPane.leftAnchor="0.0"
+                                                                  AnchorPane.rightAnchor="0.0"
+                                                                  AnchorPane.topAnchor="34.0"/>
+                                                        <HBox alignment="CENTER" layoutX="21.6" layoutY="23.6"
+                                                              spacing="4.0" AnchorPane.leftAnchor="4.0"
+                                                              AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="4.0">
                                                             <children>
-                                                                <Button fx:id="templateEditButton" mnemonicParsing="false" onAction="#handleTemplateEditStructure" text="Edit" />
-                                                                <Button fx:id="templateAddButton" mnemonicParsing="false" onAction="#handleTemplateAddStructure" text="Add" />
-                                                                <Button fx:id="templateRemoveButton" mnemonicParsing="false" onAction="#handleTemplateRemoveStructure" text="Remove" />
-                                                                <MenuButton fx:id="templateCreateButton" mnemonicParsing="false" text="Create">
+                                                                <Button fx:id="templateEditButton"
+                                                                        mnemonicParsing="false"
+                                                                        onAction="#handleTemplateEditStructure"
+                                                                        text="Edit"/>
+                                                                <Button fx:id="templateAddButton"
+                                                                        mnemonicParsing="false"
+                                                                        onAction="#handleTemplateAddStructure"
+                                                                        text="Add"/>
+                                                                <Button fx:id="templateRemoveButton"
+                                                                        mnemonicParsing="false"
+                                                                        onAction="#handleTemplateRemoveStructure"
+                                                                        text="Remove"/>
+                                                                <MenuButton fx:id="templateCreateButton"
+                                                                            mnemonicParsing="false" text="Create">
                                                                     <items>
-                                                                        <MenuItem mnemonicParsing="false" onAction="#handleTemplateCreateBuildingStructure" text="Building" />
-                                                                        <MenuItem mnemonicParsing="false" onAction="#handleTemplateCreatePowerPlantStructure" text="Power Plant" />
+                                                                        <MenuItem mnemonicParsing="false"
+                                                                                  onAction="#handleTemplateCreateBuildingStructure"
+                                                                                  text="Building"/>
+                                                                        <MenuItem mnemonicParsing="false"
+                                                                                  onAction="#handleTemplateCreatePowerPlantStructure"
+                                                                                  text="Power Plant"/>
                                                                     </items>
                                                                 </MenuButton>
                                                             </children>
@@ -41,20 +65,38 @@
                                                 </AnchorPane>
                                             </content>
                                         </TitledPane>
-                                        <TitledPane alignment="TOP_CENTER" animated="false" text="World Structures" VBox.vgrow="ALWAYS">
+                                        <TitledPane alignment="TOP_CENTER" animated="false" text="World Structures"
+                                                    VBox.vgrow="ALWAYS">
                                             <content>
                                                 <AnchorPane>
                                                     <children>
-                                                        <ListView fx:id="worldStructureList" layoutX="-38.0" layoutY="-41.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="34.0" />
-                                                        <HBox alignment="CENTER" layoutX="14.0" layoutY="8.0" spacing="4.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="4.0">
+                                                        <ListView fx:id="worldStructureList" layoutX="-38.0"
+                                                                  layoutY="-41.0" AnchorPane.bottomAnchor="0.0"
+                                                                  AnchorPane.leftAnchor="0.0"
+                                                                  AnchorPane.rightAnchor="0.0"
+                                                                  AnchorPane.topAnchor="34.0"/>
+                                                        <HBox alignment="CENTER" layoutX="14.0" layoutY="8.0"
+                                                              spacing="4.0" AnchorPane.leftAnchor="4.0"
+                                                              AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="4.0">
                                                             <children>
-                                                                <Button fx:id="worldEditButton" mnemonicParsing="false" onAction="#handleWorldEditStructure" text="Edit" />
-                                                                <Button fx:id="worldAddButton" mnemonicParsing="false" onAction="#handleWorldAddStructure" text="Add" />
-                                                                <Button fx:id="worldRemoveButton" mnemonicParsing="false" onAction="#handleWorldRemoveStructure" text="Remove" />
-                                                                <MenuButton fx:id="worldCreateButton" mnemonicParsing="false" text="Create">
+                                                                <Button fx:id="worldEditButton" mnemonicParsing="false"
+                                                                        onAction="#handleWorldEditStructure"
+                                                                        text="Edit"/>
+                                                                <Button fx:id="worldAddButton" mnemonicParsing="false"
+                                                                        onAction="#handleWorldAddStructure" text="Add"/>
+                                                                <Button fx:id="worldRemoveButton"
+                                                                        mnemonicParsing="false"
+                                                                        onAction="#handleWorldRemoveStructure"
+                                                                        text="Remove"/>
+                                                                <MenuButton fx:id="worldCreateButton"
+                                                                            mnemonicParsing="false" text="Create">
                                                                     <items>
-                                                                        <MenuItem mnemonicParsing="false" onAction="#handleWorldCreateBuildingStructure" text="Building" />
-                                                                        <MenuItem mnemonicParsing="false" onAction="#handleWorldCreatePowerPlantStructure" text="Power Plant" />
+                                                                        <MenuItem mnemonicParsing="false"
+                                                                                  onAction="#handleWorldCreateBuildingStructure"
+                                                                                  text="Building"/>
+                                                                        <MenuItem mnemonicParsing="false"
+                                                                                  onAction="#handleWorldCreatePowerPlantStructure"
+                                                                                  text="Power Plant"/>
                                                                     </items>
                                                                 </MenuButton>
                                                             </children>
@@ -69,26 +111,32 @@
                         </AnchorPane>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                             <children>
-                                <TabPane prefHeight="798.0" prefWidth="931.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <TabPane prefHeight="798.0" prefWidth="931.0" tabClosingPolicy="UNAVAILABLE"
+                                         AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                         AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <tabs>
                                         <Tab fx:id="worldViewTab" text="World">
                                             <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                                            prefWidth="200.0"/>
                                             </content>
                                         </Tab>
                                         <Tab fx:id="structureDetailsTab" text="Building Details">
                                             <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                                            prefWidth="200.0"/>
                                             </content>
                                         </Tab>
                                         <Tab fx:id="productionStatsTab" text="Production Details">
                                             <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                                            prefWidth="200.0"/>
                                             </content>
                                         </Tab>
                                         <Tab fx:id="dailyStatsTab" text="Daily Statistics">
                                             <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                                            prefWidth="200.0"/>
                                             </content>
                                         </Tab>
                                     </tabs>

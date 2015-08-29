@@ -22,6 +22,7 @@ public class Building extends Structure {
 
     /**
      * Building copy constructor.
+     *
      * @param building the building to be copied
      */
     public Building(Building building) {
@@ -51,15 +52,16 @@ public class Building extends Structure {
 
     /**
      * Building constructor.
-     * @param name building's name
-     * @param id unique identifier for structure
-     * @param x x coordinate for location in world
-     * @param y y coordinate for location in world
-     * @param animatedSprite defines the building's appearance and any animation
-     * @param appliances appliances that affect the buildings power demands
-     * @param energySources energy sources that can produce electricity for the building
-     * @param energyStorageDevices storage devices that affect the buildings power demands
-     * @param customUsageTimeSpans custom time spans used to define a custom load profile
+     *
+     * @param name                    building's name
+     * @param id                      unique identifier for structure
+     * @param x                       x coordinate for location in world
+     * @param y                       y coordinate for location in world
+     * @param animatedSprite          defines the building's appearance and any animation
+     * @param appliances              appliances that affect the buildings power demands
+     * @param energySources           energy sources that can produce electricity for the building
+     * @param energyStorageDevices    storage devices that affect the buildings power demands
+     * @param customUsageTimeSpans    custom time spans used to define a custom load profile
      * @param usingCustomLoadProfiles true if the custom usage time spans are being used for the load profile and false if the appliances are used instead
      */
     public Building(String name, int id, double x, double y, AnimatedSprite animatedSprite, List<Appliance> appliances, List<EnergySource> energySources, List<EnergyStorage> energyStorageDevices, List<UsageTimeSpan> customUsageTimeSpans, Boolean usingCustomLoadProfiles) {
@@ -77,7 +79,8 @@ public class Building extends Structure {
 
     /**
      * Used to get how much demand the custom load profile has at a particular day and time.
-     * @param day day of the week
+     *
+     * @param day  day of the week
      * @param time time in minutes
      * @return the demand in watts at this time, on this day
      */

@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.chart.*?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<BorderPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projects.view.BuildingDetailsController">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40"
+            fx:controller="com.projects.view.BuildingDetailsController">
     <center>
         <BorderPane BorderPane.alignment="CENTER">
             <center>
-                <LineChart fx:id="loadProfileChart" animated="false" createSymbols="false" title="Load Profile" BorderPane.alignment="CENTER">
+                <LineChart fx:id="loadProfileChart" animated="false" createSymbols="false" title="Load Profile"
+                           BorderPane.alignment="CENTER">
                     <xAxis>
-                        <CategoryAxis label="Time (Hours)" side="BOTTOM" />
+                        <CategoryAxis label="Time (Hours)" side="BOTTOM"/>
                     </xAxis>
                     <yAxis>
-                        <NumberAxis label="Demand (Watts)" side="LEFT" />
+                        <NumberAxis label="Demand (Watts)" side="LEFT"/>
                     </yAxis>
                 </LineChart>
             </center>
@@ -26,37 +25,37 @@
                     <tabs>
                         <Tab text="Monday">
                             <content>
-                                <AnchorPane />
+                                <AnchorPane/>
                             </content>
                         </Tab>
                         <Tab text="Tuesday">
                             <content>
-                                <AnchorPane />
+                                <AnchorPane/>
                             </content>
                         </Tab>
                         <Tab text="Wednesday">
                             <content>
-                                <AnchorPane />
+                                <AnchorPane/>
                             </content>
                         </Tab>
                         <Tab text="Thursday">
                             <content>
-                                <AnchorPane />
+                                <AnchorPane/>
                             </content>
                         </Tab>
                         <Tab text="Friday">
                             <content>
-                                <AnchorPane />
+                                <AnchorPane/>
                             </content>
                         </Tab>
                         <Tab text="Saturday">
                             <content>
-                                <AnchorPane />
+                                <AnchorPane/>
                             </content>
                         </Tab>
                         <Tab text="Sunday">
                             <content>
-                                <AnchorPane />
+                                <AnchorPane/>
                             </content>
                         </Tab>
                     </tabs>
@@ -67,9 +66,10 @@
     <right>
         <TableView fx:id="structureRankingTable" BorderPane.alignment="CENTER">
             <columns>
-                <TableColumn fx:id="structureNameColumn" prefWidth="140.0" text="Building" />
-                <TableColumn fx:id="structureExpensesColumn" prefWidth="100.0" text="Expenses ($)" />
-                <TableColumn fx:id="structureEnvironmentalImpactColumn" prefWidth="160.0" text="Environmental Impact (g)" />
+                <TableColumn fx:id="structureNameColumn" prefWidth="140.0" text="Building"/>
+                <TableColumn fx:id="structureExpensesColumn" prefWidth="100.0" text="Expenses ($)"/>
+                <TableColumn fx:id="structureEnvironmentalImpactColumn" prefWidth="160.0"
+                             text="Environmental Impact (g)"/>
             </columns>
         </TableView>
     </right>

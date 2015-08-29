@@ -228,6 +228,7 @@ public class SimulationOverviewController {
 
     /**
      * Triggers a list changed event for the template list in main.
+     *
      * @param structure structure updating list
      */
     private void triggerTemplateListUpdate(Structure structure) {
@@ -239,6 +240,7 @@ public class SimulationOverviewController {
 
     /**
      * Triggers a list changed event for the world list in main.
+     *
      * @param structure structure updating list
      */
     private void triggerWorldListUpdate(Structure structure) {
@@ -250,18 +252,20 @@ public class SimulationOverviewController {
 
     /**
      * Gets a random x position between the left of the world and half it's width.
+     *
      * @return x position
      */
     private int getRandomStructureXPosition() {
-        return new Random().nextInt((int) Math.floor(main.getWorldViewController().getWidth()/2 - Constants.IMAGE_SIZE));
+        return new Random().nextInt((int) Math.floor(main.getWorldViewController().getWidth() / 2 - Constants.IMAGE_SIZE));
     }
 
     /**
      * Gets a random y position between the top of the world and half it's height.
+     *
      * @return y position
      */
     private int getRandomStructureYPosition() {
-        return new Random().nextInt((int) Math.floor(main.getWorldViewController().getHeight()/2 - Constants.IMAGE_SIZE));
+        return new Random().nextInt((int) Math.floor(main.getWorldViewController().getHeight() / 2 - Constants.IMAGE_SIZE));
     }
 
     /**
@@ -349,6 +353,7 @@ public class SimulationOverviewController {
 
     /**
      * Shows the building details pane in its tab.
+     *
      * @param buildingDetails pane
      */
     public void showBuildingDetailsPane(Pane buildingDetails) {
@@ -357,6 +362,7 @@ public class SimulationOverviewController {
 
     /**
      * Shows the simulationsControls pane in its titled pane.
+     *
      * @param simulationControls pane
      */
     public void showSimulationControlsPane(Pane simulationControls) {
@@ -365,6 +371,7 @@ public class SimulationOverviewController {
 
     /**
      * Shows the world view pane in its tab.
+     *
      * @param worldView pane
      */
     public void showWorldViewPane(Pane worldView) {
@@ -373,6 +380,7 @@ public class SimulationOverviewController {
 
     /**
      * Shows the daily stats pane in its tab.
+     *
      * @param dailyStatistics pane
      */
     public void showDailyStatisticsPane(Pane dailyStatistics) {
@@ -381,6 +389,7 @@ public class SimulationOverviewController {
 
     /**
      * shows teh production stats pane in its tab.
+     *
      * @param productionStatistics pane
      */
     public void showProductionStatisticsPane(Pane productionStatistics) {
@@ -389,6 +398,7 @@ public class SimulationOverviewController {
 
     /**
      * Provides a reference to main and allows the controller to listen for events it cares about.
+     *
      * @param main a reference to main.
      */
     public void setMain(Main main) {

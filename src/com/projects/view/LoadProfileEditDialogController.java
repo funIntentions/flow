@@ -4,7 +4,6 @@ import com.projects.helper.Constants;
 import com.projects.model.Building;
 import com.projects.model.UsageTimeSpan;
 import javafx.collections.ListChangeListener;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
@@ -14,7 +13,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.LocalTimeStringConverter;
 
@@ -122,6 +120,7 @@ public class LoadProfileEditDialogController {
 
     /**
      * Sets the building whose load profile is being edited.
+     *
      * @param building building to be edited
      */
     public void setBuilding(Building building) {
@@ -159,7 +158,7 @@ public class LoadProfileEditDialogController {
         loadProfileChart.setAnimated(true);
 
         for (int i = 0; i < Constants.MINUTES_IN_DAY; i += minuteInterval) {
-            float hour = (i/minuteInterval)/2f;
+            float hour = (i / minuteInterval) / 2f;
             series.getData().add(new XYChart.Data<>(String.valueOf(hour), loadProfile.get(i)));
         }
     }
@@ -176,14 +175,13 @@ public class LoadProfileEditDialogController {
         for (int i = 0; i < series.getData().size(); ++i) {
             XYChart.Data<String, Float> data = series.getData().get(i);
 
-            float hour = i/2f;
+            float hour = i / 2f;
             if (data.getYValue().floatValue() != loadProfile.get(i * minuteInterval).floatValue()) {
                 if (i == series.getData().size() - 1) {
                     loadProfileChart.setAnimated(false);
                     series.getData().set(i, new XYChart.Data<>(String.valueOf(hour), loadProfile.get(i * minuteInterval)));
                     loadProfileChart.setAnimated(true);
-                }
-                else
+                } else
                     series.getData().set(i, new XYChart.Data<>(String.valueOf(hour), loadProfile.get(i * minuteInterval)));
             }
         }

@@ -13,9 +13,10 @@ public class UsageTimeSpan extends TimeSpan {
 
     /**
      * UsageTimeSpan constructor.
+     *
      * @param usage electricity usage during span
-     * @param from beginning of the time span
-     * @param to end of the time span
+     * @param from  beginning of the time span
+     * @param to    end of the time span
      */
     public UsageTimeSpan(double usage, LocalTime from, LocalTime to) {
         super(from, to);

@@ -234,6 +234,7 @@ public class StructureEditDialogController {
 
     /**
      * Provides a reference to main and allows the controller to listen for events it cares about.
+     *
      * @param main a reference to main.
      */
     public void setMain(Main main) {
@@ -242,6 +243,7 @@ public class StructureEditDialogController {
 
     /**
      * Provides a collection of potential sprites this building can use.
+     *
      * @param sprites building sprites
      */
     public void setStructureSprites(HashMap<Integer, AnimatedSprite> sprites) {
@@ -251,6 +253,7 @@ public class StructureEditDialogController {
 
     /**
      * Provides a collection of storage strategies that could be assigned to storage devices.
+     *
      * @param storageStrategies storage strategies
      */
     public void setStorageStrategies(HashMap<String, String> storageStrategies) {
@@ -261,7 +264,8 @@ public class StructureEditDialogController {
 
     /**
      * Displays the selected appliance's properties while trying to save the previously selected appliance's properties.
-     * @param lastSelected previously selected appliance
+     *
+     * @param lastSelected      previously selected appliance
      * @param applianceSelected newly selected appliance
      */
     private void showApplianceProperties(Appliance lastSelected, Appliance applianceSelected) {
@@ -279,8 +283,9 @@ public class StructureEditDialogController {
 
     /**
      * Displays the selected energy storage device's properties while trying to apply the previously selected storage device's properties that were being edited.
+     *
      * @param lastSelected previously selected storage device
-     * @param selected newly selected storage device
+     * @param selected     newly selected storage device
      */
     private void showEnergyStorageProperties(EnergyStorage lastSelected, EnergyStorage selected) {
         if (lastSelected != null) {
@@ -299,6 +304,7 @@ public class StructureEditDialogController {
 
     /**
      * Updates the tab's devices, then makes it disabled while displaying the other tab.
+     *
      * @param oldValue the previously selected tab
      */
     private void switchPropertyTab(Tab oldValue) {
@@ -316,6 +322,7 @@ public class StructureEditDialogController {
 
     /**
      * Tries to apply the properties being edited in the tab to the device being edited.
+     *
      * @param tab the tab
      * @return true if the properties being edited were valid and able to be applied
      */
@@ -337,6 +344,7 @@ public class StructureEditDialogController {
 
     /**
      * Checks if the property input fields hold valid values for an appliance.
+     *
      * @param previouslySelectedDevice the previously selected appliance
      * @return true if the values are valid
      */
@@ -392,6 +400,7 @@ public class StructureEditDialogController {
 
     /**
      * Checks if the property input fields hold valid values for an energy storage device.
+     *
      * @param energyStorage the previously selected appliance
      * @return true if the values are valid
      */

@@ -13,6 +13,7 @@ public class Sprite {
 
     /**
      * Sprite copy constructor.
+     *
      * @param sprite the sprite to be copied
      */
     public Sprite(Sprite sprite) {
@@ -23,9 +24,10 @@ public class Sprite {
 
     /**
      * Sprite constructor.
+     *
      * @param image sprite's image
-     * @param x x coordinate for world position
-     * @param y y coordinate for world position
+     * @param x     x coordinate for world position
+     * @param y     y coordinate for world position
      */
     public Sprite(Image image, double x, double y) {
         this.image = image;
@@ -35,6 +37,7 @@ public class Sprite {
 
     /**
      * Used in collision detection this gets the bounds of the sprite based on it's position and image dimensions.
+     *
      * @return the rectangle that is the sprite's bounds.
      */
     public Rectangle2D getBoundary() {
@@ -43,6 +46,7 @@ public class Sprite {
 
     /**
      * Determines if this sprite has intersected with another rectangle.
+     *
      * @param boundary the boundary of the second rectangle
      * @return true if they're intersected, false otherwise
      */

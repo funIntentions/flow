@@ -42,6 +42,7 @@ public class DemandManager {
 
     /**
      * Provides a reference of main and adds a listener to mains selected structure so that it can send the selected structure's load profiles to the structure details pane to display.
+     *
      * @param main reference to main
      */
     public void setMain(Main main) {
@@ -58,6 +59,7 @@ public class DemandManager {
 
     /**
      * Calculates the high, medium, mild and low levels of demand for the day that are relative to the maximum demand during the day.
+     *
      * @param day day of the week
      */
     public void calculateDemandStates(int day) {
@@ -88,7 +90,8 @@ public class DemandManager {
 
     /**
      * Calculates the demand profiles of each building from the aggregate of their load profile and the storage demand profiles managed in the storage manager.
-     * @param day day of the week
+     *
+     * @param day            day of the week
      * @param storageManager contains the storage demand profiles
      */
     public void calculateDemandProfiles(int day, StorageManager storageManager) {
@@ -118,6 +121,7 @@ public class DemandManager {
 
     /**
      * Calculates how much the buildings owe for the electricity that they consumed during the day.
+     *
      * @param pricesForDay price of electricity at every minute of the day
      */
     public void calculateDaysExpenses(List<Float> pricesForDay) {
@@ -133,7 +137,7 @@ public class DemandManager {
                 Float demandAtThisTime = structuresDemandProfile.get(time);
                 Float priceAtThisTime = pricesForDay.get(time);
 
-                Float newExpense = (float)((Utils.wattsToKilowatts(demandAtThisTime) / Constants.MINUTES_IN_HOUR) * priceAtThisTime); // ((Watts/1000)/60) * $/kWh == kWh * $kWh == $
+                Float newExpense = (float) ((Utils.wattsToKilowatts(demandAtThisTime) / Constants.MINUTES_IN_HOUR) * priceAtThisTime); // ((Watts/1000)/60) * $/kWh == kWh * $kWh == $
                 totalExpenses += newExpense;
             }
 
@@ -144,6 +148,7 @@ public class DemandManager {
     /**
      * Calculates how much of an environmental impact the buildings had during the day due to their electricity consumption.
      * Their environmental impact is a running sum of how much grams of green house gasses they are responsible for.
+     *
      * @param emissionsToday emissions produced per kWh during the day
      */
     public void calculateDaysEnvironmentalImpact(List<Float> emissionsToday) {
@@ -160,7 +165,7 @@ public class DemandManager {
                 Float demandAtThisTime = structuresDemandProfile.get(time);
                 Float emissionsAtTheTime = emissionsToday.get(time);
 
-                Float newExpense = (float)(Utils.wattsToKilowatts(demandAtThisTime) / Constants.MINUTES_IN_HOUR) * emissionsAtTheTime; // ((Watts/1000)/60) * g/kWh == kWh * gkWh == g
+                Float newExpense = (float) (Utils.wattsToKilowatts(demandAtThisTime) / Constants.MINUTES_IN_HOUR) * emissionsAtTheTime; // ((Watts/1000)/60) * g/kWh == kWh * gkWh == g
                 totalEmissions += newExpense;
             }
 
@@ -197,7 +202,8 @@ public class DemandManager {
 
     /**
      * Calculated the demand at this moment in time base on the demand profiles of the buildings.
-     * @param timeElapsedInSeconds the difference in seconds since the last update
+     *
+     * @param timeElapsedInSeconds      the difference in seconds since the last update
      * @param totalTimeElapsedInSeconds the total number of seconds that have elapsed in the simulation
      */
     public void calculateDemand(double timeElapsedInSeconds, double totalTimeElapsedInSeconds) {
@@ -231,6 +237,7 @@ public class DemandManager {
 
     /**
      * Updates the states of buildings based on their energy demands.
+     *
      * @param minutesElapsedToday number of minutes elapsed today
      */
     private void updateDemandStates(int minutesElapsedToday) {
@@ -272,6 +279,7 @@ public class DemandManager {
 
     /**
      * Removes a structure from the buildings being managed.
+     *
      * @param structureToRemove the structure to remove
      * @return true if the structure was found, false otherwise
      */
@@ -288,6 +296,7 @@ public class DemandManager {
 
     /**
      * Either adds, removes, or updates a building that this manager should know about
+     *
      * @param changedStructure the building in question
      * @return true if the structure was or is being managed by this manager, false if it never was and isn't now
      */

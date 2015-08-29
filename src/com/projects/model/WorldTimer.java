@@ -24,35 +24,15 @@ public class WorldTimer {
     private LocalDate startDate = LocalDate.now();
     private LocalDate endDate = startDate.plusDays(1);
     private LocalDate currentDate = LocalDate.now();
+
     public WorldTimer() {
         updateTimeLimit();
         reset();
     }
 
     /**
-     * Different update rates for the simulation.
-     */
-    public enum UpdateRate {
-        /**
-         * One second in real life is one second in the simulation.
-         */
-        SECONDS,
-        /**
-         * One seconds in real life is one minute in the simulation.
-         */
-        MINUTES,
-        /**
-         * One second in real life is one hour in the simulation.
-         */
-        HOURS,
-        /**
-         * One second in real life is one day in the simulation.
-         */
-        DAYS,
-    }
-
-    /**
      * Move the time in the simulation forward a tick.
+     *
      * @param deltaTime time in seconds since the last frame
      */
     public void tick(double deltaTime) {
@@ -76,6 +56,7 @@ public class WorldTimer {
 
     /**
      * Modifies the seconds since the last frame with a multiplier depending on the simulation's update rate.
+     *
      * @param deltaTime time in seconds since the last frame
      * @return the modified time that has elapsed
      */
@@ -183,5 +164,27 @@ public class WorldTimer {
 
     public Boolean isTimeLimitReached() {
         return timeLimitReached;
+    }
+
+    /**
+     * Different update rates for the simulation.
+     */
+    public enum UpdateRate {
+        /**
+         * One second in real life is one second in the simulation.
+         */
+        SECONDS,
+        /**
+         * One seconds in real life is one minute in the simulation.
+         */
+        MINUTES,
+        /**
+         * One second in real life is one hour in the simulation.
+         */
+        HOURS,
+        /**
+         * One second in real life is one day in the simulation.
+         */
+        DAYS,
     }
 }

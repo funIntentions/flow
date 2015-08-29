@@ -30,6 +30,7 @@ public class StatsManager {
 
     /**
      * Provides a reference to main and add a listener so that stats are set for the requested day.
+     *
      * @param main
      */
     public void setMain(Main main) {
@@ -43,6 +44,7 @@ public class StatsManager {
 
     /**
      * Set the daily trends for the requested day.
+     *
      * @param day day during the span of the simulation
      */
     public void setStatsForDay(int day) {
@@ -62,6 +64,7 @@ public class StatsManager {
 
     /**
      * Calculates the data for price and emission rates as demand changes.
+     *
      * @param supplyManager supply manager which manages the worlds power plants
      */
     public void updatePriceAndEmissionsStats(SupplyManager supplyManager) {
@@ -90,6 +93,7 @@ public class StatsManager {
 
     /**
      * Returns the emission rate when there is a particular electricity demand.
+     *
      * @param demand the electricity demand
      * @return the emission rate (g/kWh)
      */
@@ -104,6 +108,7 @@ public class StatsManager {
 
     /**
      * Returns the price of power when there is a particular electricity demand.
+     *
      * @param demand the electricity demand
      * @return the cost $/kWh
      */
@@ -118,6 +123,7 @@ public class StatsManager {
 
     /**
      * Given a demand profile for the day the daily trends are calculated using the price and emission rate data.
+     *
      * @param demandProfile the demand profile for the day
      */
     public void logDailyTrends(List<Integer> demandProfile) {
@@ -138,15 +144,15 @@ public class StatsManager {
     }
 
     public List<Float> getDailyEmissionTrendsForToday() {
-        return dailyEmissionTrends.get(dailyEmissionTrends.size()-1);
+        return dailyEmissionTrends.get(dailyEmissionTrends.size() - 1);
     }
 
     public List<Float> getDailyPriceTrendsForToday() {
-        return dailyPriceTrends.get(dailyPriceTrends.size()-1);
+        return dailyPriceTrends.get(dailyPriceTrends.size() - 1);
     }
 
     public List<Float> getDailyDemandTrendsForToday() {
-        return dailyDemandTrends.get(dailyDemandTrends.size()-1);
+        return dailyDemandTrends.get(dailyDemandTrends.size() - 1);
     }
 
     public List<Float> getPriceForDemandData() {

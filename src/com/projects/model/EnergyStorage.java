@@ -17,12 +17,13 @@ public class EnergyStorage extends Device {
 
     /**
      * Energy Storage constructor.
-     * @param name energy storage device's name
-     * @param id unique identifier for device
+     *
+     * @param name             energy storage device's name
+     * @param id               unique identifier for device
      * @param transferCapacity the rate at which the storage device can store and release energy per minute
-     * @param storageCapacity the watts of energy that can be stored at a moment in time
-     * @param storedEnergy amount of stored energy currently
-     * @param storageStrategy the storage strategy that will govern when and how much energy is stored or released
+     * @param storageCapacity  the watts of energy that can be stored at a moment in time
+     * @param storedEnergy     amount of stored energy currently
+     * @param storageStrategy  the storage strategy that will govern when and how much energy is stored or released
      */
     public EnergyStorage(String name, int id, double transferCapacity, double storageCapacity, double storedEnergy, String storageStrategy) {
         super(name, id);
@@ -35,6 +36,7 @@ public class EnergyStorage extends Device {
 
     /**
      * Energy Storage copy constructor.
+     *
      * @param energyStorage Energy Storage to be copied
      */
     public EnergyStorage(EnergyStorage energyStorage) {

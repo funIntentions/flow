@@ -15,8 +15,9 @@ public class Structure {
 
     /**
      * Structure constructor.
-     * @param name structure's name
-     * @param id unique identifier for structure
+     *
+     * @param name           structure's name
+     * @param id             unique identifier for structure
      * @param animatedSprite visual representation of structure and any animation it has
      */
     public Structure(String name, int id, AnimatedSprite animatedSprite) {
@@ -27,10 +28,11 @@ public class Structure {
 
     /**
      * Structure constructor.
-     * @param name structure's name
-     * @param id unique identifier for structure
-     * @param x x coordinate for world position
-     * @param y y coordinate for world position
+     *
+     * @param name           structure's name
+     * @param id             unique identifier for structure
+     * @param x              x coordinate for world position
+     * @param y              y coordinate for world position
      * @param animatedSprite visual representation of structure and any animation it has
      */
     public Structure(String name, int id, double x, double y, AnimatedSprite animatedSprite) {

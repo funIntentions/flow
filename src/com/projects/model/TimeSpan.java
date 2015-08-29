@@ -5,7 +5,6 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
-import java.sql.Time;
 import java.time.LocalTime;
 
 /**
@@ -24,8 +23,9 @@ public class TimeSpan {
 
     /**
      * TimeSpan constructor.
+     *
      * @param from beginning of the time span
-     * @param to end of the time span
+     * @param to   end of the time span
      */
     public TimeSpan(LocalTime from, LocalTime to) {
         this.from = new SimpleObjectProperty<>(from);
@@ -41,6 +41,7 @@ public class TimeSpan {
 
     /**
      * TimeSpan copy constructor
+     *
      * @param timeSpan TimeSpan to be copied
      */
     public TimeSpan(TimeSpan timeSpan) {
@@ -57,6 +58,7 @@ public class TimeSpan {
 
     /**
      * Checks whether this time span will be active for a particular day of the week.
+     *
      * @param day day of the week
      * @return true if the time span does apply for that day, false otherwise
      */

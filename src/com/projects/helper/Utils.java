@@ -27,6 +27,7 @@ public class Utils {
 
     /**
      * Returns a path to the working directory.
+     *
      * @return path
      */
     public static String getWorkingDir() {
@@ -36,6 +37,7 @@ public class Utils {
 
     /**
      * Modifies a strategy file so that it's nicer for displaying
+     *
      * @param fileName full file name
      * @return the modified name
      */
@@ -60,11 +62,11 @@ public class Utils {
         return name;
     }
 
-    public static double  wattsToKilowatts(double watts) {
-        return watts/1000f;
+    public static double wattsToKilowatts(double watts) {
+        return watts / 1000f;
     }
 
-    public static double  kilowattsToWatts(double kilowatts) {
-        return kilowatts*1000f;
+    public static double kilowattsToWatts(double kilowatts) {
+        return kilowatts * 1000f;
     }
 }

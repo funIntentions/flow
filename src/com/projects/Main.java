@@ -106,6 +106,7 @@ public class Main extends Application {
 
     /**
      * Entry point for the application.
+     *
      * @param args arguments for running the app
      */
     public static void main(String[] args) {
@@ -114,6 +115,7 @@ public class Main extends Application {
 
     /**
      * Called when the application is launched from the main method.
+     *
      * @param primaryStage main container, the window for the application
      */
     @Override
@@ -177,6 +179,7 @@ public class Main extends Application {
 
     /**
      * Initializes the building details pane.
+     *
      * @return the pane after it's been initialized
      */
     private Pane initBuildingDetailsPane() {
@@ -197,6 +200,7 @@ public class Main extends Application {
 
     /**
      * Initializes the simulation controls pane.
+     *
      * @return the pane after it's been initialized
      */
     private Pane initSimulationControlsPane() {
@@ -217,6 +221,7 @@ public class Main extends Application {
 
     /**
      * Initializes the daily statistics pane.
+     *
      * @return the pane after it's been initialized
      */
     private Pane initDailyStatisticsPane() {
@@ -237,6 +242,7 @@ public class Main extends Application {
 
     /**
      * Initializes the production statistics pane.
+     *
      * @return the pane after it's been initialized
      */
     private Pane initProductionStatisticsPane() {
@@ -257,6 +263,7 @@ public class Main extends Application {
 
     /**
      * Initializes the world view pane.
+     *
      * @return the pane after it's been initialized
      */
     private Pane initWorldViewPane() {
@@ -277,6 +284,7 @@ public class Main extends Application {
 
     /**
      * Initializes the simulation overview pane, passing all the pains that will be held inside of it.
+     *
      * @return the pane after it's been initialized
      */
     public Pane initSimulationOverview() {
@@ -303,6 +311,7 @@ public class Main extends Application {
 
     /**
      * Opens a dialog to edit properties for the specified building.
+     *
      * @param structure the building to be edited
      */
     public void showBuildingEditDialog(Building structure) {
@@ -340,6 +349,7 @@ public class Main extends Application {
 
     /**
      * Opens a dialog to edit the load profile for the specified structure.
+     *
      * @param structure the building whose load profile will be edited
      */
     public void showLoadProfileEditDialog(Building structure) {
@@ -498,6 +508,7 @@ public class Main extends Application {
 
     /**
      * Reads a list of sprite nodes found in an xml file.
+     *
      * @param spritesList a list of sprite nodes
      * @return a list of sprites that have been created to match specifications
      */
@@ -523,6 +534,7 @@ public class Main extends Application {
 
     /**
      * Reads the specifications of a xml sprite element and creates a sprite from it.
+     *
      * @param spriteNode the xml node of the element
      * @return the sprite created from the specifications
      */
@@ -554,6 +566,7 @@ public class Main extends Application {
 
     /**
      * Reads in a saved simulation xml file.
+     *
      * @param file the simulation file
      */
     public void readSimulation(File file) {
@@ -584,6 +597,7 @@ public class Main extends Application {
 
     /**
      * Reads both the buildings and power plants from a list of xml structure nodes.
+     *
      * @param structuresList the list of xml structure nodes
      * @return a list of actual structures created from the xml specifications
      */
@@ -621,6 +635,7 @@ public class Main extends Application {
 
     /**
      * Reads the specifications of a xml building element and creates a building from it.
+     *
      * @param structureNode the building node
      * @return the building
      */
@@ -656,6 +671,7 @@ public class Main extends Application {
 
     /**
      * Reads the specifications of a xml power plant element and creates a power plant from it.
+     *
      * @param structureNode the power plant node
      * @return the power plant
      */
@@ -675,8 +691,9 @@ public class Main extends Application {
 
     /**
      * Retrieves the string value between an xml element tag.
+     *
      * @param parent the parent element
-     * @param tag the element's name/tag
+     * @param tag    the element's name/tag
      * @return the value of the tag
      */
     private String getElementStringFromTag(Element parent, String tag) {
@@ -688,6 +705,7 @@ public class Main extends Application {
 
     /**
      * Reads the specifications from a list of xml time span elements and creates a list of time spans from them.
+     *
      * @param timeSpansList the time span xml node list
      * @return the list of actual time spans
      */
@@ -720,6 +738,7 @@ public class Main extends Application {
 
     /**
      * Reads the specifications from a list of xml usage time span elements and creates a list of usage time spans from them.
+     *
      * @param timeSpansList the usage time span xml node list
      * @return the list of actual usage time spans
      */
@@ -753,6 +772,7 @@ public class Main extends Application {
 
     /**
      * Creates a list of appliances from the specifications in a list of appliance xml elements.
+     *
      * @param devicesList the list of appliance xml elements
      * @return the list of appliances
      */
@@ -789,6 +809,7 @@ public class Main extends Application {
 
     /**
      * Creates a list of energy sources from the specifications in a list of energy source xml elements.
+     *
      * @param devicesList the list of energy source xml elements
      * @return the list of energy sources
      */
@@ -820,6 +841,7 @@ public class Main extends Application {
 
     /**
      * Creates a list of storage devices from the specifications in a list of storage device xml elements.
+     *
      * @param devicesList the list of storage device xml elements
      * @return the list of energy storage devices
      */
@@ -854,6 +876,7 @@ public class Main extends Application {
 
     /**
      * Saves the simulation's world and template structures and all their properties to a specified file.
+     *
      * @param file the specified file to save the simulation to
      */
     public void saveSimulation(File file) {
@@ -900,7 +923,8 @@ public class Main extends Application {
 
     /**
      * Creates either a power plant of a building node depending on the type of structure passed in.
-     * @param doc the xml document being created
+     *
+     * @param doc       the xml document being created
      * @param structure the structure to save
      * @return the xml structure node created
      */
@@ -913,7 +937,8 @@ public class Main extends Application {
 
     /**
      * Creates an xml node of a power plant.
-     * @param doc the xml document being created
+     *
+     * @param doc        the xml document being created
      * @param powerPlant the power plant to save
      * @return the xml node created
      */
@@ -933,7 +958,8 @@ public class Main extends Application {
 
     /**
      * Creates an xml node of a building.
-     * @param doc the document being created
+     *
+     * @param doc       the document being created
      * @param structure the building being saved
      * @return the xml node created
      */
@@ -979,7 +1005,8 @@ public class Main extends Application {
 
     /**
      * Creates an xml node of an appliance.
-     * @param doc the document being created
+     *
+     * @param doc       the document being created
      * @param appliance the appliance being saved
      * @return the xml node created
      */
@@ -1002,7 +1029,8 @@ public class Main extends Application {
 
     /**
      * Creates an xml node of an energy source.
-     * @param doc the document being created
+     *
+     * @param doc          the document being created
      * @param energySource the energy source being saved
      * @return the xml node created
      */
@@ -1016,7 +1044,8 @@ public class Main extends Application {
 
     /**
      * Creates an xml node of an energy storage device.
-     * @param doc the document being created
+     *
+     * @param doc           the document being created
      * @param energyStorage the energy storage device being saved
      * @return the xml node created
      */
@@ -1033,9 +1062,10 @@ public class Main extends Application {
 
     /**
      * Creates a generic xml element.
-     * @param doc the xml document being created
+     *
+     * @param doc         the xml document being created
      * @param elementName the xml elements name
-     * @param value the xml elements value
+     * @param value       the xml elements value
      * @return the xml element
      */
     private Element getElement(Document doc, String elementName, String value) {
@@ -1046,7 +1076,8 @@ public class Main extends Application {
 
     /**
      * Creates an xml node of a time span.
-     * @param doc the xml document being created
+     *
+     * @param doc      the xml document being created
      * @param timeSpan the time span being saved
      * @return the xml node created
      */
@@ -1060,7 +1091,8 @@ public class Main extends Application {
 
     /**
      * Creates an xml node of a usage time span.
-     * @param doc the xml document being created
+     *
+     * @param doc           the xml document being created
      * @param usageTimeSpan the usage time span being saved
      * @return the xml node created
      */

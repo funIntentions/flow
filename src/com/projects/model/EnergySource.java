@@ -13,11 +13,12 @@ public class EnergySource extends Device {
 
     /**
      * Energy Source constructor.
-     * @param name energy source's name
-     * @param id unique identifier for energy source
+     *
+     * @param name           energy source's name
+     * @param id             unique identifier for energy source
      * @param ratedACVoltage ratedACVoltage
      * @param ratedDCVoltage ratedDCVoltage
-     * @param current current
+     * @param current        current
      */
     public EnergySource(String name, int id, double ratedACVoltage, double ratedDCVoltage, double current) {
         super(name, id);

@@ -31,14 +31,13 @@ import java.util.List;
  */
 public class WorldViewController {
     private final int selectionRange = 14;
+    long start = 0;
     @FXML
     private Canvas worldCanvas;
-
     private Main main;
     private GraphicsContext gc;
     private Sprite selectionSprite;
     private Structure selected = null;
-
     private Color highUsage = new Color(213f / 255f, 43f / 255f, 43f / 255f, 1);
     private Color mediumUsage = new Color(213f / 255f, 142f / 255f, 61f / 255f, 1);
     private Color averageUsage = new Color(204f / 255f, 213f / 255f, 87f / 255f, 1);
@@ -47,12 +46,9 @@ public class WorldViewController {
     private Label mediumUsageLabel = new Label("medium usage");
     private Label averageUsageLabel = new Label("average usage");
     private Label lowUsageLabel = new Label("low usage");
-
     private boolean selectionMade = false;
     private boolean mouseDown = false;
     private boolean showLegend = true;
-
-    long start = 0;
     private int boxSize = 15;
     private int legendXOffset = 30;
     private int legendYOffset = 30;
@@ -120,7 +116,8 @@ public class WorldViewController {
                             if (powerPlant.getAnimatedSprite().getAnimation().getFrame() != 0)
                                 powerPlant.getAnimatedSprite().animate(now);
                             else {
-                                powerPlant.getAnimatedSprite().getAnimation().stop();powerPlant.getAnimatedSprite().animate(now);
+                                powerPlant.getAnimatedSprite().getAnimation().stop();
+                                powerPlant.getAnimatedSprite().animate(now);
                             }
                         }
                     }
@@ -176,6 +173,7 @@ public class WorldViewController {
 
     /**
      * Checks if the mouse has been pressed over a structure and if so, selects it.
+     *
      * @param mouseEvent the mouse event
      */
     @FXML
@@ -200,6 +198,7 @@ public class WorldViewController {
 
     /**
      * If a structure has been selected, that selected structure will follow the mouse as it drags.
+     *
      * @param mouseEvent the mouse event
      */
     @FXML
@@ -214,6 +213,7 @@ public class WorldViewController {
 
     /**
      * If a structure has been dragged out of the canvases bounds, it will be moved back into them.
+     *
      * @param mouseEvent the mouse event
      */
     @FXML
@@ -248,6 +248,7 @@ public class WorldViewController {
 
     /**
      * Sets a new selection, displaying the selection box around it.
+     *
      * @param structure the selected structure
      */
     private void setSelection(Structure structure) {
@@ -259,6 +260,7 @@ public class WorldViewController {
 
     /**
      * Provides a reference to main and let the world view listen for changes in a selection.
+     *
      * @param main a reference to main
      */
     public void setMain(Main main) {

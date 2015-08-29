@@ -43,6 +43,7 @@ public class StorageManager {
 
     /**
      * Provides a reference to main.
+     *
      * @param main main
      */
     public void setMain(Main main) {
@@ -70,8 +71,9 @@ public class StorageManager {
 
     /**
      * Returns how much a particular building is storing or releasing energy at a particular time.
+     *
      * @param structure the building
-     * @param time the time
+     * @param time      the time
      * @return
      */
     public float getStructuresStorageDemandAtTime(Building structure, int time) {
@@ -90,6 +92,7 @@ public class StorageManager {
 
     /**
      * Creates a new storage profile for each storage device.
+     *
      * @param simulationStatus the status of the simulation at this time
      */
     public void updateStorageStrategies(World.SimulationStatus simulationStatus) {
@@ -115,8 +118,9 @@ public class StorageManager {
 
     /**
      * Runs the storage strategy script assigned to a storage device.
-     * @param storageDevice the storage device
-     * @param building the building which owns the storage device
+     *
+     * @param storageDevice    the storage device
+     * @param building         the building which owns the storage device
      * @param simulationStatus the status fo the simulation at this time
      */
     public void runLuaStrategyScript(EnergyStorage storageDevice, Building building, World.SimulationStatus simulationStatus) {
@@ -144,7 +148,7 @@ public class StorageManager {
                 strategize.invoke(varargs);
                 if (newStorageProfileWrapper.storageProfile.size() != Constants.MINUTES_IN_DAY) {
                     errorEncountered = true;
-                    Platform.runLater(()-> alertProblemWithStrategy("Storage Profile Wrong Size", "The storage strategy must produce a storage profile that has transfer amounts for every minute of the day (must have a length of 1440)."));
+                    Platform.runLater(() -> alertProblemWithStrategy("Storage Profile Wrong Size", "The storage strategy must produce a storage profile that has transfer amounts for every minute of the day (must have a length of 1440)."));
                 }
             } else {
                 errorEncountered = true;
@@ -163,7 +167,8 @@ public class StorageManager {
 
     /**
      * A dialog to use when the problem doesn't result in a lua error.
-     * @param header the header of the dialog
+     *
+     * @param header  the header of the dialog
      * @param problem the main body text of the dialog
      */
     private void alertProblemWithStrategy(String header, String problem) {
@@ -178,7 +183,8 @@ public class StorageManager {
 
     /**
      * A dialog that displays the stack trace of an lua error exception.
-     * @param error the exception that occurred
+     *
+     * @param error  the exception that occurred
      * @param script the script that was running when the error occurred
      */
     private void displayLuaExceptionDialog(LuaError error, String script) {
@@ -217,6 +223,7 @@ public class StorageManager {
 
     /**
      * Removes a structure if it's being managed.
+     *
      * @param structureToRemove the structure to remove
      * @return true if the structure was a building being managed
      */
@@ -233,6 +240,7 @@ public class StorageManager {
 
     /**
      * Adds a structures storage devices to the list being managed.
+     *
      * @param structure the building whose storage devices should be managed
      */
     public void addStructureStorageDevices(Building structure) {
@@ -245,6 +253,7 @@ public class StorageManager {
 
     /**
      * Removes a structures storage devices from the list being managed.
+     *
      * @param structure the building whose storage devices should not be managed
      */
     public void removeStructureStorageDevices(Building structure) {
@@ -257,6 +266,7 @@ public class StorageManager {
 
     /**
      * Either adds, removes, or updates a building that this manager should know about
+     *
      * @param changedStructure the building in question
      * @return true if the structure was or is being managed by this manager, false if it never was and isn't now
      */

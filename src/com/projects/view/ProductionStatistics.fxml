@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.canvas.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.*?>
-
-<BorderPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projects.view.ProductionStatisticsController">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40"
+            fx:controller="com.projects.view.ProductionStatisticsController">
     <center>
         <TabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
             <tabs>
@@ -16,12 +13,15 @@
                     <content>
                         <AnchorPane>
                             <children>
-                                <LineChart fx:id="priceForDemandChart" animated="false" createSymbols="false" prefHeight="400.0" prefWidth="500.0" title="Price" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <LineChart fx:id="priceForDemandChart" animated="false" createSymbols="false"
+                                           prefHeight="400.0" prefWidth="500.0" title="Price"
+                                           AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                           AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <xAxis>
-                                        <CategoryAxis label="Demand (Kilowatts)" side="BOTTOM" />
+                                        <CategoryAxis label="Demand (Kilowatts)" side="BOTTOM"/>
                                     </xAxis>
                                     <yAxis>
-                                        <NumberAxis label="Cost ($/kWh)" side="LEFT" />
+                                        <NumberAxis label="Cost ($/kWh)" side="LEFT"/>
                                     </yAxis>
                                 </LineChart>
                             </children>
@@ -32,12 +32,15 @@
                     <content>
                         <AnchorPane>
                             <children>
-                                <LineChart fx:id="emissionsForDemandChart" animated="false" createSymbols="false" prefHeight="400.0" prefWidth="500.0" title="Emissions" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <LineChart fx:id="emissionsForDemandChart" animated="false" createSymbols="false"
+                                           prefHeight="400.0" prefWidth="500.0" title="Emissions"
+                                           AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                           AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <xAxis>
-                                        <CategoryAxis label="Demand (Kilowatts)" side="BOTTOM" />
+                                        <CategoryAxis label="Demand (Kilowatts)" side="BOTTOM"/>
                                     </xAxis>
                                     <yAxis>
-                                        <NumberAxis label="Emissions (g/kWh)" side="LEFT" />
+                                        <NumberAxis label="Emissions (g/kWh)" side="LEFT"/>
                                     </yAxis>
                                 </LineChart>
                             </children>

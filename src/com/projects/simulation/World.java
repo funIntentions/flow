@@ -25,26 +25,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class World {
 
-    /**
-     * Used to neatly package the simulation's status at a moment in time.
-     */
-    public class SimulationStatus {
-        public int dayOfTheWeek = 0; // mon = 0, tue, wed, thur, fri, sat, sun
-        public List<Building> buildings = new ArrayList<>();
-        public List<PowerPlant> powerPlants = new ArrayList<>();
-        public HashMap<Integer, List<Float>> previousStorageProfiles; // Storage profiles of the last day. Storage Device Id's are the key
-        public List<Float> priceForDemand; // Prices versus demand. The $/kWh it cost to produce 8000 watts == priceForDemand.get(8000)
-        public List<Float> emissionsForDemand; // Emission rate versus demand. The g/kWh it cost to produce 8000 watts == priceForDemand.get(8000)
-        public List<List<Float>> dailyDemandTrends; // Demand versus time data. The watts of demand on the 3rd day of the simulation at 30 minutes == dailyDemandTrends.get(3).get(30)
-        public List<List<Float>> dailyPriceTrends; //  Price versus time data. The $/kWh cost for energy on the 3rd day of the simulation at 30 minutes == dailyPriceTrends.get(3).get(30)
-        public List<List<Float>> dailyEmissionTrends; //  Emission rate versus time data. The g/kWh cost produced to meet demand on the 3rd day of the simulation at 30 minutes == dailyPriceTrends.get(3).get(30)
-    }
-
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final Runnable simulationTick = World.this::tick;
     private HashMap<Integer, Structure> structures;
     private ScheduledFuture<?> simulationHandle;
-
     private boolean running;
     private DemandManager demandManager;
     private SupplyManager supplyManager;
@@ -53,7 +37,6 @@ public class World {
     private WorldTimer worldTimer;
     private SimulationStatus simulationStatus;
     private Main main;
-
     /**
      * World constructor.
      */
@@ -71,6 +54,7 @@ public class World {
 
     /**
      * Syncs a structure with any managers that might need to know about it.
+     *
      * @param structure the structure to sync
      */
     public void updateStructure(Structure structure) {
@@ -93,6 +77,7 @@ public class World {
 
     /**
      * Removes a structure from the world.
+     *
      * @param id structure's id
      */
     public void removeStructure(Integer id) {
@@ -162,6 +147,7 @@ public class World {
 
     /**
      * Sets the rate which the simulation updates at.
+     *
      * @param updateRate the new rate
      */
     public void changeUpdateRate(WorldTimer.UpdateRate updateRate) {
@@ -218,6 +204,7 @@ public class World {
 
     /**
      * Provides a reference to main for the world and all the managers.
+     *
      * @param main a reference to main
      */
     public void setMain(Main main) {
@@ -260,5 +247,20 @@ public class World {
 
     public void setEndDate(LocalDate endDate) {
         worldTimer.setEndDate(endDate);
+    }
+
+    /**
+     * Used to neatly package the simulation's status at a moment in time.
+     */
+    public class SimulationStatus {
+        public int dayOfTheWeek = 0; // mon = 0, tue, wed, thur, fri, sat, sun
+        public List<Building> buildings = new ArrayList<>();
+        public List<PowerPlant> powerPlants = new ArrayList<>();
+        public HashMap<Integer, List<Float>> previousStorageProfiles; // Storage profiles of the last day. Storage Device Id's are the key
+        public List<Float> priceForDemand; // Prices versus demand. The $/kWh it cost to produce 8000 watts == priceForDemand.get(8000)
+        public List<Float> emissionsForDemand; // Emission rate versus demand. The g/kWh it cost to produce 8000 watts == priceForDemand.get(8000)
+        public List<List<Float>> dailyDemandTrends; // Demand versus time data. The watts of demand on the 3rd day of the simulation at 30 minutes == dailyDemandTrends.get(3).get(30)
+        public List<List<Float>> dailyPriceTrends; //  Price versus time data. The $/kWh cost for energy on the 3rd day of the simulation at 30 minutes == dailyPriceTrends.get(3).get(30)
+        public List<List<Float>> dailyEmissionTrends; //  Emission rate versus time data. The g/kWh cost produced to meet demand on the 3rd day of the simulation at 30 minutes == dailyPriceTrends.get(3).get(30)
     }
 }

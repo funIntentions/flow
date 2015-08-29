@@ -1,8 +1,6 @@
 package com.projects.view;
 
 import com.projects.Main;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.RadioMenuItem;
@@ -28,6 +26,7 @@ public class RootLayoutController {
 
     /**
      * Provides a reference to main and allows the controller to listen for events it cares about.
+     *
      * @param main a reference to main.
      */
     public void setMain(Main main) {
@@ -115,7 +114,7 @@ public class RootLayoutController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("About");
         alert.setHeaderText("Hello there,");
-        alert.setContentText("Please reference the readme for instructions.");
+        alert.setContentText("Need any help? Take a look at the instruction document.");
 
         alert.showAndWait();
     }

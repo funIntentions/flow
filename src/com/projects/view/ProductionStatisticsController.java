@@ -42,6 +42,7 @@ public class ProductionStatisticsController {
 
     /**
      * Displays the price versus demand data in a chart.
+     *
      * @param prices prices versus demand data
      */
     public void setPriceForDemandData(List<Float> prices) {
@@ -59,6 +60,7 @@ public class ProductionStatisticsController {
 
     /**
      * Displays the emissions versus demand data in a chart.
+     *
      * @param emissions emissions versus demand data
      */
     public void setEmissionsForDemandData(List<Float> emissions) {
@@ -90,6 +92,7 @@ public class ProductionStatisticsController {
 
     /**
      * Provides a reference to main and allows the controller to listen for events it cares about.
+     *
      * @param main a reference to main.
      */
     public void setMain(Main main) {

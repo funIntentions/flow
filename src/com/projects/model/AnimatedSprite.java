@@ -13,6 +13,7 @@ public class AnimatedSprite extends Sprite {
 
     /**
      * Animated Sprite copy constructor.
+     *
      * @param animatedSprite the animated sprite to be copied
      */
     public AnimatedSprite(AnimatedSprite animatedSprite) {
@@ -24,10 +25,11 @@ public class AnimatedSprite extends Sprite {
 
     /**
      * Animated Sprite constructor.
-     * @param id a unique identifier
-     * @param images a list of images for the animation
-     * @param x x coordinate for position
-     * @param y y coordinate for position
+     *
+     * @param id       a unique identifier
+     * @param images   a list of images for the animation
+     * @param x        x coordinate for position
+     * @param y        y coordinate for position
      * @param duration seconds the animation should take to complete
      */
     public AnimatedSprite(int id, List<Image> images, double x, double y, double duration) {
@@ -39,6 +41,7 @@ public class AnimatedSprite extends Sprite {
 
     /**
      * Updates the animation and image if the animation has changed it.
+     *
      * @param time current time in nanoseconds
      */
     public void animate(double time) {
@@ -47,6 +50,7 @@ public class AnimatedSprite extends Sprite {
 
     /**
      * Manually sets the animations current frame, updating the image to whichever image corresponds to that frame.
+     *
      * @param index the frame index
      */
     public void setFrame(int index) {
