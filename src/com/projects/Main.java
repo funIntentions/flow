@@ -593,7 +593,7 @@ public class Main extends Application {
 
         if (structuresNode.getNodeType() == Node.ELEMENT_NODE) {
             Element structuresElement = (Element) structuresNode;
-            NodeList structures = structuresElement.getElementsByTagName("simpleStructure");
+            NodeList structures = structuresElement.getElementsByTagName("building");
             int length = structures.getLength();
 
             for (int i = 0; i < length; ++i) {

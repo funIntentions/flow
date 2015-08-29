@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <smartGrid>
 <templateStructures>
-<simpleStructure>
+<building>
 <name>Summer Home</name>
 <x>208.0</x>
 <y>0.0</y>
@@ -165,8 +165,8 @@
 <energySources/>
 <energyStorageDevices/>
 <usageTimeSpans/>
-</simpleStructure>
-<simpleStructure>
+</building>
+<building>
 <name>Winter Home</name>
 <x>166.0</x>
 <y>21.0</y>
@@ -323,8 +323,8 @@
 <energySources/>
 <energyStorageDevices/>
 <usageTimeSpans/>
-</simpleStructure>
-<simpleStructure>
+</building>
+<building>
 <name>Winter Home With Storage</name>
 <x>91.0</x>
 <y>19.0</y>
@@ -488,8 +488,8 @@
 </energyStorage>
 </energyStorageDevices>
 <usageTimeSpans/>
-</simpleStructure>
-<simpleStructure>
+</building>
+<building>
 <name>Summer Home With Storage</name>
 <x>67.0</x>
 <y>67.0</y>
@@ -660,7 +660,7 @@
 </energyStorage>
 </energyStorageDevices>
 <usageTimeSpans/>
-</simpleStructure>
+</building>
 <powerPlant>
 <name>Coal Power Plant</name>
 <x>334.0</x>
@@ -717,7 +717,7 @@
 </powerPlant>
 </templateStructures>
 <worldStructures>
-<simpleStructure>
+<building>
 <name>Winter Home With Storage</name>
 <x>131.0</x>
 <y>160.0</y>
@@ -881,7 +881,7 @@
 </energyStorage>
 </energyStorageDevices>
 <usageTimeSpans/>
-</simpleStructure>
+</building>
 <powerPlant>
 <name>Wind Farm</name>
 <x>437.0</x>
