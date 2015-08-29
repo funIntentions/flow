@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by Dan on 7/17/2015.
+ * Manages buildings with storage devices.
  */
 public class StorageManager {
     private Main main;
@@ -33,15 +33,25 @@ public class StorageManager {
     private HashMap<Integer, List<Float>> deviceStorageProfiles;
     private Boolean errorEncountered = false;
 
+    /**
+     * StorageManager constructor.
+     */
     public StorageManager() {
         structures = new ArrayList<>();
         deviceStorageProfiles = new HashMap<>();
     }
 
+    /**
+     * Provides a reference to main.
+     * @param main main
+     */
     public void setMain(Main main) {
         this.main = main;
     }
 
+    /**
+     * Resets the storage devices and storage profiles.
+     */
     public void reset() {
         errorEncountered = false;
 
@@ -50,7 +60,7 @@ public class StorageManager {
         }
 
         for (Building structure : structures) {
-            List<EnergyStorage> storageDevices = (List) structure.getEnergyStorageDevices();
+            List<EnergyStorage> storageDevices = structure.getEnergyStorageDevices();
 
             for (EnergyStorage storage : storageDevices) {
                 storage.setStoredEnergy(0);
@@ -58,8 +68,14 @@ public class StorageManager {
         }
     }
 
+    /**
+     * Returns how much a particular building is storing or releasing energy at a particular time.
+     * @param structure the building
+     * @param time the time
+     * @return
+     */
     public float getStructuresStorageDemandAtTime(Building structure, int time) {
-        List<EnergyStorage> storageDevices = (List) structure.getEnergyStorageDevices();
+        List<EnergyStorage> storageDevices = structure.getEnergyStorageDevices();
         float demand = 0;
 
         for (EnergyStorage storage : storageDevices) {
@@ -72,6 +88,10 @@ public class StorageManager {
         return demand;
     }
 
+    /**
+     * Creates a new storage profile for each storage device.
+     * @param simulationStatus the status of the simulation at this time
+     */
     public void updateStorageStrategies(World.SimulationStatus simulationStatus) {
         for (Building structure : structures) {
             List<EnergyStorage> energyStorageDevices = (List) structure.getEnergyStorageDevices();
@@ -93,6 +113,12 @@ public class StorageManager {
         }
     }
 
+    /**
+     * Runs the storage strategy script assigned to a storage device.
+     * @param storageDevice the storage device
+     * @param building the building which owns the storage device
+     * @param simulationStatus the status fo the simulation at this time
+     */
     public void runLuaStrategyScript(EnergyStorage storageDevice, Building building, World.SimulationStatus simulationStatus) {
 
         StorageProfileWrapper newStorageProfileWrapper = new StorageProfileWrapper();
@@ -135,6 +161,11 @@ public class StorageManager {
         deviceStorageProfiles.put(storageDevice.getId(), newStorageProfile);
     }
 
+    /**
+     * A dialog to use when the problem doesn't result in a lua error.
+     * @param header the header of the dialog
+     * @param problem the main body text of the dialog
+     */
     private void alertProblemWithStrategy(String header, String problem) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.initOwner(main.getPrimaryStage());
@@ -145,6 +176,11 @@ public class StorageManager {
         alert.showAndWait();
     }
 
+    /**
+     * A dialog that displays the stack trace of an lua error exception.
+     * @param error the exception that occurred
+     * @param script the script that was running when the error occurred
+     */
     private void displayLuaExceptionDialog(LuaError error, String script) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Exception");
@@ -179,6 +215,11 @@ public class StorageManager {
         alert.showAndWait();
     }
 
+    /**
+     * Removes a structure if it's being managed.
+     * @param structureToRemove the structure to remove
+     * @return true if the structure was a building being managed
+     */
     public boolean removeStructure(Structure structureToRemove) {
         for (Structure structure : structures) {
             if (structure.getId() == structureToRemove.getId()) {
@@ -190,11 +231,10 @@ public class StorageManager {
         return false;
     }
 
-    public void removeAllStructures() {
-        structures.clear();
-        deviceStorageProfiles.clear();
-    }
-
+    /**
+     * Adds a structures storage devices to the list being managed.
+     * @param structure the building whose storage devices should be managed
+     */
     public void addStructureStorageDevices(Building structure) {
         List<EnergyStorage> storageDevices = (List) structure.getEnergyStorageDevices();
 
@@ -203,6 +243,10 @@ public class StorageManager {
         }
     }
 
+    /**
+     * Removes a structures storage devices from the list being managed.
+     * @param structure the building whose storage devices should not be managed
+     */
     public void removeStructureStorageDevices(Building structure) {
         List<EnergyStorage> storageDevices = (List) structure.getEnergyStorageDevices();
 
@@ -211,10 +255,11 @@ public class StorageManager {
         }
     }
 
-    public HashMap<Integer, List<Float>> getDeviceStorageProfiles() {
-        return deviceStorageProfiles;
-    }
-
+    /**
+     * Either adds, removes, or updates a building that this manager should know about
+     * @param changedStructure the building in question
+     * @return true if the structure was or is being managed by this manager, false if it never was and isn't now
+     */
     public boolean syncStructures(Building changedStructure) {
         int structureIndex = -1;
 
@@ -247,6 +292,10 @@ public class StorageManager {
 
     public Boolean errorEncountered() {
         return errorEncountered;
+    }
+
+    public HashMap<Integer, List<Float>> getDeviceStorageProfiles() {
+        return deviceStorageProfiles;
     }
 
     private class StorageProfileWrapper {

@@ -46,6 +46,7 @@ public class BuildingDetailsPaneController {
     private LineChart<String, Float> loadProfileChart;
     @FXML
     private TabPane daysOfTheWeekTabPane;
+
     private ObservableList<StructureResults> structureResultsList;
     private XYChart.Series<String, Float> series = new XYChart.Series<>();
     private List<ObservableList<Float>> loadProfilesForWeek = new ArrayList<>();

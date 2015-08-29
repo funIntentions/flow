@@ -21,10 +21,13 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by Dan on 5/27/2015.
+ * Controls the simulation and the managers.
  */
 public class World {
 
+    /**
+     * Used to neatly package the simulation's status at a moment in time.
+     */
     public class SimulationStatus {
         public int dayOfTheWeek = 0;
         public List<Building> buildings = new ArrayList<>();
@@ -51,6 +54,9 @@ public class World {
     private SimulationStatus simulationStatus;
     private Main main;
 
+    /**
+     * World constructor.
+     */
     public World() {
         structures = new HashMap<>();
 
@@ -63,6 +69,10 @@ public class World {
         simulationStatus = new SimulationStatus();
     }
 
+    /**
+     * Syncs a structure with any managers that might need to know about it.
+     * @param structure the structure to sync
+     */
     public void updateStructure(Structure structure) {
         structures.put(structure.getId(), structure);
 
@@ -81,6 +91,10 @@ public class World {
         }
     }
 
+    /**
+     * Removes a structure from the world.
+     * @param id structure's id
+     */
     public void removeStructure(Integer id) {
         demandManager.removeStructure(structures.get(id));
         if (supplyManager.removeStructure(structures.get(id))) {
@@ -92,14 +106,9 @@ public class World {
         structures.remove(id);
     }
 
-    public void setStartDate(LocalDate startDate) {
-        worldTimer.setStartDate(startDate);
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        worldTimer.setEndDate(endDate);
-    }
-
+    /**
+     * Starts the simulation.
+     */
     public void runSimulation() {
         if (!running && !worldTimer.isTimeLimitReached()) {
             demandManager.calculateDemandStates(worldTimer.getCurrentDate().getDayOfWeek().getValue() - 1);
@@ -111,6 +120,9 @@ public class World {
         }
     }
 
+    /**
+     * Pauses the simulation.
+     */
     public void pauseSimulation() {
         if (running) {
             simulationHandle.cancel(true);
@@ -120,6 +132,9 @@ public class World {
         }
     }
 
+    /**
+     * Resets the simulation.
+     */
     public void resetSimulation() {
         pauseSimulation();
         worldTimer.reset();
@@ -130,6 +145,9 @@ public class World {
         main.simulationStateProperty().setValue(SimulationState.RESET);
     }
 
+    /**
+     * Captures the simulations state in this moment of time.
+     */
     private void updateSimulationStatus() {
         simulationStatus.dayOfTheWeek = worldTimer.getCurrentDate().getDayOfWeek().getValue() - 1;
         simulationStatus.buildings = demandManager.getStructures();
@@ -142,10 +160,17 @@ public class World {
         simulationStatus.dailyEmissionTrends = statsManager.getDailyEmissionTrends();
     }
 
+    /**
+     * Sets the rate which the simulation updates at.
+     * @param updateRate the new rate
+     */
     public void changeUpdateRate(WorldTimer.UpdateRate updateRate) {
         worldTimer.setUpdateRate(updateRate);
     }
 
+    /**
+     * Advances the simulation by some unit of time determined by it's update rate.
+     */
     private void tick() {
         worldTimer.tick(Constants.FIXED_SIMULATION_RATE_SECONDS);
 
@@ -159,7 +184,6 @@ public class World {
         supplyManager.updateProductionStates();
 
         if (demandManager.isDailyDemandProfileReady()) {
-            statsManager.resetDailyTrends();
             statsManager.logDailyTrends(demandManager.getDemandProfileForToday());
             demandManager.calculateDaysExpenses(statsManager.getDailyPriceTrendsForToday());
             demandManager.calculateDaysEnvironmentalImpact(statsManager.getDailyEmissionTrendsForToday());
@@ -192,10 +216,10 @@ public class World {
         }
     }
 
-    public HashMap<Integer, Structure> getStructures() {
-        return structures;
-    }
-
+    /**
+     * Provides a reference to main for the world and all the managers.
+     * @param main a reference to main
+     */
     public void setMain(Main main) {
         this.main = main;
         demandManager.setMain(main);
@@ -220,17 +244,21 @@ public class World {
 
         main.getWorldStructureData().addListener((ListChangeListener<Structure>) c -> {
             while (c.next()) {
-                if (c.wasPermutated()) {
-                } else if (c.wasUpdated()) {
-                } else {
-                    for (Structure removed : c.getRemoved()) {
-                        removeStructure(removed.getId());
-                    }
-                    for (Structure added : c.getAddedSubList()) {
-                        updateStructure(added);
-                    }
+                for (Structure removed : c.getRemoved()) {
+                    removeStructure(removed.getId());
+                }
+                for (Structure added : c.getAddedSubList()) {
+                    updateStructure(added);
                 }
             }
         });
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        worldTimer.setStartDate(startDate);
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        worldTimer.setEndDate(endDate);
     }
 }

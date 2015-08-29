@@ -99,11 +99,11 @@ public class SupplyManager {
         return false;
     }
 
-    public void removeAllStructures() {
-        powerPlants.clear();
-        structures.clear();
-    }
-
+    /**
+     * Decides whether or not a building should be managed.
+     * @param changedStructure the building in question
+     * @return true if it
+     */
     public boolean syncStructures(Structure changedStructure) {
         int structureIndex = -1;
 

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Dan on 7/17/2015.
+ * Tracks the details of production and the daily trends in the simulation.
  */
 public class StatsManager {
     List<Float> priceForDemand;
@@ -16,20 +16,22 @@ public class StatsManager {
     List<List<Float>> dailyPriceTrends;
     List<List<Float>> dailyEmissionTrends;
     private Main main;
-    private int currentDay = -1;
-    private boolean dailyTrendDataReady;
-    private List<Integer> dailyDemandBuffer;
 
+    /**
+     * StatsManager constructor.
+     */
     public StatsManager() {
-        dailyDemandBuffer = new ArrayList<>();
         priceForDemand = new ArrayList<>();
         emissionsForDemand = new ArrayList<>();
         dailyPriceTrends = new ArrayList<>();
         dailyEmissionTrends = new ArrayList<>();
         dailyDemandTrends = new ArrayList<>();
-        resetDailyTrends();
     }
 
+    /**
+     * Provides a reference to main and add a listener so that stats are set for the requested day.
+     * @param main
+     */
     public void setMain(Main main) {
         this.main = main;
 
@@ -39,36 +41,29 @@ public class StatsManager {
         });
     }
 
+    /**
+     * Set the daily trends for the requested day.
+     * @param day day during the span of the simulation
+     */
     public void setStatsForDay(int day) {
         main.getDailyStatisticsController().setDemandChartData(dailyDemandTrends.get(day));
         main.getDailyStatisticsController().setPriceChartData(dailyPriceTrends.get(day));
         main.getDailyStatisticsController().setEmissionsChartData(dailyEmissionTrends.get(day));
     }
 
+    /**
+     * Resets the daily trends.
+     */
     public void reset() {
         dailyPriceTrends.clear();
         dailyEmissionTrends.clear();
         dailyDemandTrends.clear();
-        currentDay = -1;
-        resetDailyTrends();
     }
 
-    public void resetDailyTrends() {
-        dailyTrendDataReady = false;
-
-        copyDailyDemandBuffer();
-    }
-
-    private void copyDailyDemandBuffer() {
-        for (Integer demand : dailyDemandBuffer) {
-            dailyDemandTrends.get(currentDay).add((float) demand);
-            dailyEmissionTrends.get(currentDay).add((emissionsForDemand.get(demand)));
-            dailyPriceTrends.get(currentDay).add((priceForDemand.get(demand)));
-        }
-
-        dailyDemandBuffer.clear();
-    }
-
+    /**
+     * Calculates the data for price and emission rates as demand changes.
+     * @param supplyManager supply manager which manages the worlds power plants
+     */
     public void updatePriceAndEmissionsStats(SupplyManager supplyManager) {
         int maxDemand = 0;
 
@@ -93,6 +88,11 @@ public class StatsManager {
         }
     }
 
+    /**
+     * Returns the emission rate when there is a particular electricity demand.
+     * @param demand the electricity demand
+     * @return the emission rate (g/kWh)
+     */
     public float getEmissionsForDemand(int demand) {
         if (emissionsForDemand.size() == 0)
             return 0;
@@ -102,6 +102,11 @@ public class StatsManager {
             return emissionsForDemand.get(demand);
     }
 
+    /**
+     * Returns the price of power when there is a particular electricity demand.
+     * @param demand the electricity demand
+     * @return the cost $/kWh
+     */
     public float getPriceForDemand(int demand) {
         if (priceForDemand.size() == 0)
             return 0;
@@ -111,6 +116,10 @@ public class StatsManager {
             return priceForDemand.get(demand);
     }
 
+    /**
+     * Given a demand profile for the day the daily trends are calculated using the price and emission rate data.
+     * @param demandProfile the demand profile for the day
+     */
     public void logDailyTrends(List<Integer> demandProfile) {
         List<Float> dailyDemandTrend = new ArrayList<>();
         List<Float> dailyEmissionTrend = new ArrayList<>();
@@ -126,32 +135,18 @@ public class StatsManager {
         dailyDemandTrends.add(dailyDemandTrend);
         dailyEmissionTrends.add(dailyEmissionTrend);
         dailyPriceTrends.add(dailyPriceTrend);
-
-        ++currentDay;
     }
 
     public List<Float> getDailyEmissionTrendsForToday() {
-        return dailyEmissionTrends.get(currentDay);
+        return dailyEmissionTrends.get(dailyEmissionTrends.size()-1);
     }
 
     public List<Float> getDailyPriceTrendsForToday() {
-        return dailyPriceTrends.get(currentDay);
+        return dailyPriceTrends.get(dailyPriceTrends.size()-1);
     }
 
     public List<Float> getDailyDemandTrendsForToday() {
-        return dailyDemandTrends.get(currentDay);
-    }
-
-    public List<Float> getDailyEmissionTrendsForDay(int day) {
-        return dailyEmissionTrends.get(day);
-    }
-
-    public List<Float> getDailyPriceTrendsForDay(int day) {
-        return dailyPriceTrends.get(day);
-    }
-
-    public List<Float> getDailyDemandTrendsForDay(int day) {
-        return dailyDemandTrends.get(day);
+        return dailyDemandTrends.get(dailyDemandTrends.size()-1);
     }
 
     public List<Float> getPriceForDemandData() {
@@ -172,10 +167,6 @@ public class StatsManager {
 
     public List<List<Float>> getDailyPriceTrends() {
         return dailyPriceTrends;
-    }
-
-    public boolean isDailyTrendDataReady() {
-        return dailyTrendDataReady;
     }
 }
 
