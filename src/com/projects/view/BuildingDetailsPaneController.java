@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Created by Dan on 7/30/2015.
  */
-public class StructureDetailsPaneController {
+public class BuildingDetailsPaneController {
 
     private class StructureResults {
         public ObjectProperty<Structure> structureProperty = new SimpleObjectProperty<>();

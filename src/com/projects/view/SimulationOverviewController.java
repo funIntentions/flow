@@ -17,7 +17,7 @@ import java.util.Random;
 /**
  * Created by Dan on 7/27/2015.
  */
-public class StructureOverviewController {
+public class SimulationOverviewController {
     @FXML
     private VBox leftPane;
 
@@ -68,7 +68,7 @@ public class StructureOverviewController {
 
     private Main main;
 
-    public StructureOverviewController() {
+    public SimulationOverviewController() {
     }
 
     private void selectTemplateStructure() {

@@ -49,9 +49,9 @@ public class DemandManager {
         main.selectedStructureProperty().addListener((observable, oldValue, newValue) ->
         {
             if (newValue instanceof Building)
-                main.getStructureDetailsPaneController().setStructureData(newValue, ((Building) newValue).getLoadProfilesForWeek());
+                main.getBuildingDetailsPaneController().setStructureData(newValue, ((Building) newValue).getLoadProfilesForWeek());
             else
-                main.getStructureDetailsPaneController().setStructureData(newValue, new ArrayList<>());
+                main.getBuildingDetailsPaneController().setStructureData(newValue, new ArrayList<>());
         });
     }
 
