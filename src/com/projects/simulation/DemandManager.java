@@ -3,6 +3,7 @@ package com.projects.simulation;
 import com.projects.Main;
 import com.projects.helper.Constants;
 import com.projects.helper.DemandState;
+import com.projects.helper.Utils;
 import com.projects.model.Building;
 import com.projects.model.Structure;
 
@@ -132,7 +133,7 @@ public class DemandManager {
                 Float demandAtThisTime = structuresDemandProfile.get(time);
                 Float priceAtThisTime = pricesForDay.get(time);
 
-                Float newExpense = (demandAtThisTime / (1000 * TimeUnit.HOURS.toMinutes(1))) * priceAtThisTime;
+                Float newExpense = (float)((Utils.wattsToKilowatts(demandAtThisTime) / Constants.MINUTES_IN_HOUR) * priceAtThisTime); // ((Watts/1000)/60) * $/kWh == kWh * $kWh == $
                 totalExpenses += newExpense;
             }
 
@@ -159,7 +160,7 @@ public class DemandManager {
                 Float demandAtThisTime = structuresDemandProfile.get(time);
                 Float emissionsAtTheTime = emissionsToday.get(time);
 
-                Float newExpense = (demandAtThisTime / (1000 * TimeUnit.HOURS.toMinutes(1))) * emissionsAtTheTime;
+                Float newExpense = (float)(Utils.wattsToKilowatts(demandAtThisTime) / Constants.MINUTES_IN_HOUR) * emissionsAtTheTime; // ((Watts/1000)/60) * g/kWh == kWh * gkWh == g
                 totalEmissions += newExpense;
             }
 

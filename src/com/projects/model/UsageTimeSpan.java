@@ -9,7 +9,7 @@ import java.time.LocalTime;
  * TimeSpan that also has a particular electricity usage during it's span.
  */
 public class UsageTimeSpan extends TimeSpan {
-    private DoubleProperty usage;
+    private DoubleProperty usage; // watts
 
     /**
      * UsageTimeSpan constructor.

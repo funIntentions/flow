@@ -29,15 +29,15 @@ public class World {
      * Used to neatly package the simulation's status at a moment in time.
      */
     public class SimulationStatus {
-        public int dayOfTheWeek = 0;
+        public int dayOfTheWeek = 0; // mon = 0, tue, wed, thur, fri, sat, sun
         public List<Building> buildings = new ArrayList<>();
         public List<PowerPlant> powerPlants = new ArrayList<>();
-        public HashMap<Integer, List<Float>> previousStorageProfiles;
-        public List<Float> priceForDemand;
-        public List<Float> emissionsForDemand;
-        public List<List<Float>> dailyDemandTrends;
-        public List<List<Float>> dailyPriceTrends;
-        public List<List<Float>> dailyEmissionTrends;
+        public HashMap<Integer, List<Float>> previousStorageProfiles; // Storage profiles of the last day. Storage Device Id's are the key
+        public List<Float> priceForDemand; // Prices versus demand. The $/kWh it cost to produce 8000 watts == priceForDemand.get(8000)
+        public List<Float> emissionsForDemand; // Emission rate versus demand. The g/kWh it cost to produce 8000 watts == priceForDemand.get(8000)
+        public List<List<Float>> dailyDemandTrends; // Demand versus time data. The watts of demand on the 3rd day of the simulation at 30 minutes == dailyDemandTrends.get(3).get(30)
+        public List<List<Float>> dailyPriceTrends; //  Price versus time data. The $/kWh cost for energy on the 3rd day of the simulation at 30 minutes == dailyPriceTrends.get(3).get(30)
+        public List<List<Float>> dailyEmissionTrends; //  Emission rate versus time data. The g/kWh cost produced to meet demand on the 3rd day of the simulation at 30 minutes == dailyPriceTrends.get(3).get(30)
     }
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);

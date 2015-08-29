@@ -66,7 +66,7 @@ public class WorldViewController {
     private void initialize() {
         try {
 
-            BufferedImage bufferedImage = ImageIO.read(new File(Utils.getWorkingDir() + "/images/Selection.png"));
+            BufferedImage bufferedImage = ImageIO.read(new File(Utils.getWorkingDir() + Constants.SELECTION_IMAGE));
             Image image = SwingFXUtils.toFXImage(bufferedImage, null);
             selectionSprite = new Sprite(image, 0, 0);
         } catch (IOException exception) {

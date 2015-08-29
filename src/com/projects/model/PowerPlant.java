@@ -9,10 +9,10 @@ import javafx.beans.property.SimpleDoubleProperty;
  * A structure that represents a potential producer of electricity
  */
 public class PowerPlant extends Structure implements Comparable<PowerPlant> {
-    private DoubleProperty emissionRate;
-    private DoubleProperty cost;
-    private DoubleProperty capacity;
-    private DoubleProperty currentOutput;
+    private DoubleProperty emissionRate; // g/kWh
+    private DoubleProperty cost; // $
+    private DoubleProperty capacity; // watts
+    private DoubleProperty currentOutput; // watts
     private ProductionState productionState = ProductionState.IDLE;
 
     /**

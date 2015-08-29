@@ -10,10 +10,10 @@ import javafx.beans.property.StringProperty;
  * A device that can help offset peak demand time by storing and releasing electricity.
  */
 public class EnergyStorage extends Device {
-    private DoubleProperty transferCapacity;
-    private DoubleProperty storageCapacity;
-    private DoubleProperty storedEnergy;
-    private StringProperty storageStrategy;
+    private DoubleProperty transferCapacity; // watts per minute
+    private DoubleProperty storageCapacity; // watts
+    private DoubleProperty storedEnergy; // watts
+    private StringProperty storageStrategy; // file string
 
     /**
      * Energy Storage constructor.

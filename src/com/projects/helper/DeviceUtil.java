@@ -1,7 +1,7 @@
 package com.projects.helper;
 
 /**
- * Created by Dan on 7/29/2015.
+ * Utility for assisting with devices.
  */
 public class DeviceUtil {
     private static int nextDeviceId = 0;

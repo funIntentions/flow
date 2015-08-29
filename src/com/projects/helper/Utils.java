@@ -5,7 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * Created by Dan on 6/8/2015.
+ * Assortment of utility functions.
  */
 public class Utils {
     /**
@@ -25,21 +25,20 @@ public class Utils {
         return ext;
     }
 
-    public static <E extends Enum<E>> boolean isInEnum(String value, Class<E> enumClass) {
-        for (E e : enumClass.getEnumConstants()) {
-            if (e.name().equalsIgnoreCase(value)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
+    /**
+     * Returns a path to the working directory.
+     * @return path
+     */
     public static String getWorkingDir() {
         Path currentRelativePath = Paths.get("");
         return currentRelativePath.toAbsolutePath().toString();
     }
 
+    /**
+     * Modifies a strategy file so that it's nicer for displaying
+     * @param fileName full file name
+     * @return the modified name
+     */
     public static String getStrategyName(String fileName) {
         String name = new String();
 

@@ -13,8 +13,8 @@ import java.util.List;
  * A device that consumes electricity.
  */
 public class Appliance extends Device {
-    private DoubleProperty standbyConsumption;
-    private DoubleProperty usageConsumption;
+    private DoubleProperty standbyConsumption; // watts
+    private DoubleProperty usageConsumption; // watts
     private ObservableList<TimeSpan> activeTimeSpans;
 
     /**

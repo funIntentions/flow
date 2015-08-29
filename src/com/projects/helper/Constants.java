@@ -3,7 +3,7 @@ package com.projects.helper;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by Dan on 6/8/2015.
+ * Some nice-to-have constants.
  */
 public class Constants {
     public static final String APP_NAME = "Flow";
@@ -16,5 +16,6 @@ public class Constants {
     public static final double FIXED_SIMULATION_RATE_SECONDS = 0.0333333;
     public static final long SECONDS_IN_DAY = TimeUnit.DAYS.toSeconds(1);
     public static final long MINUTES_IN_DAY = TimeUnit.DAYS.toMinutes(1);
+    public static final int MINUTES_IN_HOUR = 60;
     public static final long DAYS_IN_WEEK = 7;
 }

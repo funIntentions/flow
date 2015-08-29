@@ -85,7 +85,7 @@ public class Main extends Application {
         List<Image> images = new ArrayList<>();
         try {
 
-            BufferedImage bufferedImage = ImageIO.read(new File(Utils.getWorkingDir() + "/images/Selection.png"));
+            BufferedImage bufferedImage = ImageIO.read(new File(Utils.getWorkingDir() + Constants.SELECTION_IMAGE));
             Image image = SwingFXUtils.toFXImage(bufferedImage, null);
             images.add(image);
         } catch (IOException exception) {
