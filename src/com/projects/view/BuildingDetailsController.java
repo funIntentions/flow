@@ -68,7 +68,11 @@ public class BuildingDetailsController {
         structureRankingTable.setItems(structureResultsList);
 
 
-        structureRankingTable.setOnMouseClicked((event) -> main.selectedStructureProperty().set(structureRankingTable.getSelectionModel().getSelectedItem().structureProperty.get()));
+        structureRankingTable.setOnMouseClicked((event) -> {
+            StructureResults structureResults = structureRankingTable.getSelectionModel().getSelectedItem();
+            if (structureResults != null)
+                main.selectedStructureProperty().set(structureResults.structureProperty.get());
+        });
 
         series.setName("No Building Selected");
         loadProfileChart.getData().add(series);

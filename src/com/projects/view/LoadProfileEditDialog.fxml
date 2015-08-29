@@ -16,7 +16,7 @@
             <center>
                 <TableView fx:id="usageTable" prefHeight="300.0" prefWidth="752.0" BorderPane.alignment="CENTER">
                     <columns>
-                        <TableColumn fx:id="usageColumn" prefWidth="89.0" text="Usage" />
+                        <TableColumn fx:id="usageColumn" prefWidth="89.0" text="Usage (Watts)" />
                         <TableColumn fx:id="usageFromColumn" prefWidth="61.0" text="From" />
                         <TableColumn fx:id="usageToColumn" prefWidth="75.0" text="To" />
                         <TableColumn prefWidth="75.0" text="Days">

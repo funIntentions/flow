@@ -67,7 +67,7 @@
     <right>
         <TableView fx:id="structureRankingTable" BorderPane.alignment="CENTER">
             <columns>
-                <TableColumn fx:id="structureNameColumn" prefWidth="100.0" text="Building" />
+                <TableColumn fx:id="structureNameColumn" prefWidth="140.0" text="Building" />
                 <TableColumn fx:id="structureExpensesColumn" prefWidth="100.0" text="Expenses ($)" />
                 <TableColumn fx:id="structureEnvironmentalImpactColumn" prefWidth="160.0" text="Environmental Impact (g)" />
             </columns>

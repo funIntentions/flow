@@ -65,8 +65,6 @@ function strategize(storageDevice, building, simulationStatus, newStorageProfile
             if storageDevice:getStorageCapacity() < (storageDevice:getStoredEnergy() + transferAmount) then
                 transferAmount = storageDevice:getStorageCapacity() - storageDevice:getStoredEnergy()
             end
-        else
-            transferAmount = oldStorageProfile:get(minute)
         end
 
         -- update the storage device's stored energy
