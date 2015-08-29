@@ -23,6 +23,12 @@ public class UsageTimeSpan extends TimeSpan {
         this.usage = new SimpleDoubleProperty(usage);
     }
 
+    public UsageTimeSpan(UsageTimeSpan usageTimeSpan) {
+        super(usageTimeSpan);
+
+        this.usage = new SimpleDoubleProperty(usageTimeSpan.getUsage());
+    }
+
     public double getUsage() {
         return usage.get();
     }

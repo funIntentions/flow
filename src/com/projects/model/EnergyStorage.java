@@ -1,5 +1,6 @@
 package com.projects.model;
 
+import com.projects.helper.DeviceUtil;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -30,6 +31,19 @@ public class EnergyStorage extends Device {
         this.storageCapacity = new SimpleDoubleProperty(storageCapacity);
         this.storedEnergy = new SimpleDoubleProperty(storedEnergy);
         this.storageStrategy = new SimpleStringProperty(storageStrategy);
+    }
+
+    /**
+     * Energy Storage copy constructor.
+     * @param energyStorage Energy Storage to be copied
+     */
+    public EnergyStorage(EnergyStorage energyStorage) {
+        super(energyStorage.getName(), DeviceUtil.getNextDeviceId());
+
+        this.transferCapacity = new SimpleDoubleProperty(energyStorage.getStorageCapacity());
+        this.storageCapacity = new SimpleDoubleProperty(energyStorage.getStorageCapacity());
+        this.storedEnergy = new SimpleDoubleProperty(energyStorage.getStoredEnergy());
+        this.storageStrategy = new SimpleStringProperty(energyStorage.getStorageStrategy());
     }
 
     public double getTransferCapacity() {

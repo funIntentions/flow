@@ -10,7 +10,7 @@ import javafx.util.Callback;
 import java.time.LocalDate;
 
 /**
- * Created by Dan on 7/31/2015.
+ * Controller for the simulation controls view.
  */
 public class SimulationControlsController {
     @FXML
@@ -105,21 +105,34 @@ public class SimulationControlsController {
         datePickerForStartDate.setDayCellFactory(endDayCellFactory);
     }
 
+    /**
+     * Runs the simulation.
+     */
     @FXML
     private void handleRun() {
         main.getWorld().runSimulation();
     }
 
+    /**
+     * Pauses the simulation.
+     */
     @FXML
     private void handlePause() {
         main.getWorld().pauseSimulation();
     }
 
+    /**
+     * Resets the simulation.
+     */
     @FXML
     private void handleReset() {
         main.getWorld().resetSimulation();
     }
 
+    /**
+     * Provides a reference to main and allows the controller to listen for events it cares about.
+     * @param main a reference to main.
+     */
     public void setMain(Main main) {
         this.main = main;
 

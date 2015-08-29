@@ -6,10 +6,6 @@ package com.projects.helper;
 public class DeviceUtil {
     private static int nextDeviceId = 0;
 
-    public DeviceUtil() {
-
-    }
-
     public static int getNextDeviceId() {
         return nextDeviceId++;
     }

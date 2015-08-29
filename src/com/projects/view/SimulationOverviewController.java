@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Created by Dan on 7/27/2015.
+ * Controller for the simulation overview view.
  */
 public class SimulationOverviewController {
     @FXML
@@ -68,9 +68,9 @@ public class SimulationOverviewController {
 
     private Main main;
 
-    public SimulationOverviewController() {
-    }
-
+    /**
+     * Selects the currently selected structure in the template list as the currently selected structure in the simulation.
+     */
     private void selectTemplateStructure() {
         Structure structure = templateStructureList.getSelectionModel().getSelectedItem();
         if (structure != null) {
@@ -79,6 +79,9 @@ public class SimulationOverviewController {
         }
     }
 
+    /**
+     * Selects the currently selected structure in the world list as the currently selected structure in the simulation.
+     */
     private void selectWorldStructure() {
         Structure structure = worldStructureList.getSelectionModel().getSelectedItem();
         if (structure != null) {
@@ -87,6 +90,9 @@ public class SimulationOverviewController {
         }
     }
 
+    /**
+     * Prompts the user with a dialog if no template structure is selected.
+     */
     private void alertNoTemplateStructureSelected() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.initOwner(main.getPrimaryStage());
@@ -97,6 +103,9 @@ public class SimulationOverviewController {
         alert.showAndWait();
     }
 
+    /**
+     * Prompts the user with a dialog if no world structure is selected.
+     */
     private void alertNoWorldStructureSelected() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.initOwner(main.getPrimaryStage());
@@ -107,6 +116,9 @@ public class SimulationOverviewController {
         alert.showAndWait();
     }
 
+    /**
+     * Removes the selected world structure from the world.
+     */
     @FXML
     private void handleWorldRemoveStructure() {
         int selectedIndex = worldStructureList.getSelectionModel().getSelectedIndex();
@@ -118,6 +130,9 @@ public class SimulationOverviewController {
             alertNoWorldStructureSelected();
     }
 
+    /**
+     * Removes the selected template structure from the templates.
+     */
     @FXML
     private void handleTemplateRemoveStructure() {
         int selectedIndex = templateStructureList.getSelectionModel().getSelectedIndex();
@@ -129,6 +144,9 @@ public class SimulationOverviewController {
             alertNoTemplateStructureSelected();
     }
 
+    /**
+     * Adds the currently selected template structure to the world.
+     */
     @FXML
     private void handleTemplateAddStructure() {
         Structure selectedStructure = templateStructureList.getSelectionModel().getSelectedItem();
@@ -149,6 +167,9 @@ public class SimulationOverviewController {
             alertNoTemplateStructureSelected();
     }
 
+    /**
+     * Adds the currently selected world structure to the templates.
+     */
     @FXML
     private void handleWorldAddStructure() {
         Structure selectedStructure = worldStructureList.getSelectionModel().getSelectedItem();
@@ -168,6 +189,9 @@ public class SimulationOverviewController {
             alertNoWorldStructureSelected();
     }
 
+    /**
+     * Opens an edit dialog for the selected world structure.
+     */
     @FXML
     private void handleWorldEditStructure() {
         Structure structure = worldStructureList.getSelectionModel().getSelectedItem();
@@ -178,10 +202,14 @@ public class SimulationOverviewController {
             } else {
                 main.showBuildingEditDialog((Building) structure);
             }
+            triggerWorldListUpdate(structure);
         } else
             alertNoWorldStructureSelected();
     }
 
+    /**
+     * Opens an edit dialog for the selected template structure.
+     */
     @FXML
     private void handleTemplateEditStructure() {
         Structure structure = templateStructureList.getSelectionModel().getSelectedItem();
@@ -192,26 +220,53 @@ public class SimulationOverviewController {
             } else {
                 main.showBuildingEditDialog((Building) structure);
             }
-
             triggerTemplateListUpdate(structure);
         } else
             alertNoTemplateStructureSelected();
     }
 
+
+    /**
+     * Triggers a list changed event for the template list in main.
+     * @param structure structure updating list
+     */
     private void triggerTemplateListUpdate(Structure structure) {
         int index = templateStructureList.getSelectionModel().getSelectedIndex();
-        if (index >= 0)
+        if (index >= 0) {
             main.getTemplateStructureData().set(index, structure);
+        }
     }
 
+    /**
+     * Triggers a list changed event for the world list in main.
+     * @param structure structure updating list
+     */
+    private void triggerWorldListUpdate(Structure structure) {
+        int index = worldStructureList.getSelectionModel().getSelectedIndex();
+        if (index >= 0) {
+            main.getWorldStructureData().set(index, structure);
+        }
+    }
+
+    /**
+     * Gets a random x position between the left of the world and half it's width.
+     * @return x position
+     */
     private int getRandomStructureXPosition() {
-        return new Random().nextInt((int) Math.floor(main.getWorldViewController().getWidth() - Constants.IMAGE_SIZE));
+        return new Random().nextInt((int) Math.floor(main.getWorldViewController().getWidth()/2 - Constants.IMAGE_SIZE));
     }
 
+    /**
+     * Gets a random y position between the top of the world and half it's height.
+     * @return y position
+     */
     private int getRandomStructureYPosition() {
-        return new Random().nextInt((int) Math.floor(main.getWorldViewController().getHeight() - Constants.IMAGE_SIZE));
+        return new Random().nextInt((int) Math.floor(main.getWorldViewController().getHeight()/2 - Constants.IMAGE_SIZE));
     }
 
+    /**
+     * Creates a new building in the world.
+     */
     @FXML
     private void handleWorldCreateBuildingStructure() {
         Building structure = new Building("New Building",
@@ -229,6 +284,9 @@ public class SimulationOverviewController {
         main.selectedStructureProperty().set(structure);
     }
 
+    /**
+     * Creates a new power plant in the world.
+     */
     @FXML
     private void handleWorldCreatePowerPlantStructure() {
         PowerPlant powerPlant = new PowerPlant("New Power Plant",
@@ -242,6 +300,9 @@ public class SimulationOverviewController {
         main.selectedStructureProperty().set(powerPlant);
     }
 
+    /**
+     * Creates a new building in the templates.
+     */
     @FXML
     private void handleTemplateCreateBuildingStructure() {
         Building structure = new Building("New Building",
@@ -259,6 +320,9 @@ public class SimulationOverviewController {
         main.selectedStructureProperty().set(structure);
     }
 
+    /**
+     * Creates a new power plant in the templates.
+     */
     @FXML
     private void handleTemplateCreatePowerPlantStructure() {
         PowerPlant powerPlant = new PowerPlant("New Power Plant",
@@ -272,6 +336,10 @@ public class SimulationOverviewController {
         main.selectedStructureProperty().set(powerPlant);
     }
 
+    /**
+     * Initializes the controller class. This method is automatically called
+     * after the fxml file has been loaded.
+     */
     @FXML
     private void initialize() {
         templateStructureList.setOnMouseClicked((event) -> selectTemplateStructure());
@@ -279,26 +347,50 @@ public class SimulationOverviewController {
         SplitPane.setResizableWithParent(leftPane.getParent(), false);
     }
 
-    public void showStructureDetailsPane(Pane structureDetails) {
-        structureDetailsTab.setContent(structureDetails);
+    /**
+     * Shows the building details pane in its tab.
+     * @param buildingDetails pane
+     */
+    public void showBuildingDetailsPane(Pane buildingDetails) {
+        structureDetailsTab.setContent(buildingDetails);
     }
 
+    /**
+     * Shows the simulationsControls pane in its titled pane.
+     * @param simulationControls pane
+     */
     public void showSimulationControlsPane(Pane simulationControls) {
         simulationControlsTitledPane.setContent(simulationControls);
     }
 
+    /**
+     * Shows the world view pane in its tab.
+     * @param worldView pane
+     */
     public void showWorldViewPane(Pane worldView) {
         worldViewTab.setContent(worldView);
     }
 
+    /**
+     * Shows the daily stats pane in its tab.
+     * @param dailyStatistics pane
+     */
     public void showDailyStatisticsPane(Pane dailyStatistics) {
         dailyStatsTab.setContent(dailyStatistics);
     }
 
+    /**
+     * shows teh production stats pane in its tab.
+     * @param productionStatistics pane
+     */
     public void showProductionStatisticsPane(Pane productionStatistics) {
         productionStatsTab.setContent(productionStatistics);
     }
 
+    /**
+     * Provides a reference to main and allows the controller to listen for events it cares about.
+     * @param main a reference to main.
+     */
     public void setMain(Main main) {
         this.main = main;
 

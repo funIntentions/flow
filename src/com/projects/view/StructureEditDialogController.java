@@ -226,13 +226,17 @@ public class StructureEditDialogController {
     /**
      * Sets the stage of this dialog.
      *
-     * @param dialogStage
+     * @param dialogStage dialog stage
      */
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
         dialogStage.setOnCloseRequest(we -> handleClose());
     }
 
+    /**
+     * Provides a reference to main and allows the controller to listen for events it cares about.
+     * @param main a reference to main.
+     */
     public void setMain(Main main) {
         this.main = main;
     }

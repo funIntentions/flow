@@ -16,7 +16,7 @@ import javafx.util.Callback;
 import java.util.HashMap;
 
 /**
- * Created by Dan on 7/30/2015.
+ *  Controller for the power plant edit dialog view.
  */
 public class PowerPlantEditDialogController {
     @FXML
@@ -38,6 +38,10 @@ public class PowerPlantEditDialogController {
     private PowerPlant powerPlant = null;
     private boolean okClicked = false;
 
+    /**
+     * Initializes the controller class. This method is automatically called
+     * after the fxml file has been loaded.
+     */
     @FXML
     private void initialize() {
         powerPlantSpriteComboBox.setCellFactory(new Callback<ListView<AnimatedSprite>, ListCell<AnimatedSprite>>() {
@@ -68,6 +72,10 @@ public class PowerPlantEditDialogController {
         powerPlantSpriteComboBox.setButtonCell(powerPlantSpriteComboBox.getCellFactory().call(null));
     }
 
+    /**
+     * Sets the power plant that is going to have it's properties edited.
+     * @param powerPlant power plant to be edited
+     */
     public void setPowerPlant(PowerPlant powerPlant) {
         this.powerPlant = powerPlant;
         powerPlantNameField.setText(powerPlant.getName());
@@ -76,6 +84,10 @@ public class PowerPlantEditDialogController {
         capacityField.setText(String.valueOf(Utils.wattsToKilowatts(powerPlant.getCapacity())));
     }
 
+    /**
+     * Provides a collection of potential sprites this power plant can use.
+     * @param sprites power plant sprites
+     */
     public void setSprites(HashMap<Integer, AnimatedSprite> sprites) {
         powerPlantSpriteComboBox.setItems(FXCollections.observableArrayList(sprites.values()));
         powerPlantSpriteComboBox.getSelectionModel().select(sprites.get(powerPlant.getAnimatedSprite().getId()));
@@ -84,32 +96,23 @@ public class PowerPlantEditDialogController {
     /**
      * Sets the stage of this dialog.
      *
-     * @param dialogStage
+     * @param dialogStage dialogStage
      */
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
 
         dialogStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
-                handleOk();
+                handleClose();
             }
         });
-    }
-
-    /**
-     * Returns true if the user clicked OK, false otherwise.
-     *
-     * @return
-     */
-    public boolean isOkClicked() {
-        return okClicked;
     }
 
     /**
      * Called when the user clicks ok.
      */
     @FXML
-    private void handleOk() {
+    private void handleClose() {
         if (isInputValid()) {
             powerPlant.setName(powerPlantNameField.getText());
             powerPlant.setEmissionRate(Double.valueOf(emissionRateField.getText()));

@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Dan on 8/21/2015.
+ * Controller for the load profile edit dialog view.
  */
 public class LoadProfileEditDialogController {
     @FXML
@@ -71,6 +71,10 @@ public class LoadProfileEditDialogController {
     private Stage dialogStage = null;
     private int minuteInterval = 30;
 
+    /**
+     * Initializes the controller class. This method is automatically called
+     * after the fxml file has been loaded.
+     */
     @FXML
     private void initialize() {
         usageTable.setEditable(true);
@@ -116,6 +120,10 @@ public class LoadProfileEditDialogController {
                 (observable, oldValue, newValue) -> updateChartData());
     }
 
+    /**
+     * Sets the building whose load profile is being edited.
+     * @param building building to be edited
+     */
     public void setBuilding(Building building) {
         this.building = building;
         usageTable.setItems(building.getManualLoadProfileData());
@@ -126,12 +134,20 @@ public class LoadProfileEditDialogController {
         });
     }
 
+    /**
+     * Sets the stage of this dialog.
+     *
+     * @param dialogStage dialog stage
+     */
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
 
         dialogStage.setOnCloseRequest(we -> handleClose());
     }
 
+    /**
+     * Initializes the load profile chart with the buildings usage time spans.
+     */
     private void initChartData() {
         building.calculateLoadProfile();
         int day = daysOfTheWeekTabPane.getSelectionModel().getSelectedIndex();
@@ -148,6 +164,9 @@ public class LoadProfileEditDialogController {
         }
     }
 
+    /**
+     * Alters data in the chart that has been changed.
+     */
     private void updateChartData() {
         building.calculateLoadProfile();
         int day = daysOfTheWeekTabPane.getSelectionModel().getSelectedIndex();
@@ -170,6 +189,9 @@ public class LoadProfileEditDialogController {
         }
     }
 
+    /**
+     * Creates a new usage time span for the building.
+     */
     @FXML
     private void handleCreateTimeSpan() {
         UsageTimeSpan timeSpan = new UsageTimeSpan(0, LocalTime.ofSecondOfDay(0), LocalTime.ofSecondOfDay(0));
@@ -209,6 +231,9 @@ public class LoadProfileEditDialogController {
         building.calculateLoadProfile();
     }
 
+    /**
+     * Removes a usage time span from the building.
+     */
     @FXML
     private void handleRemoveTimeSpan() {
         int index = usageTable.getSelectionModel().getSelectedIndex();
@@ -218,6 +243,9 @@ public class LoadProfileEditDialogController {
         }
     }
 
+    /**
+     * Closes the dialog box.
+     */
     @FXML
     private void handleClose() {
         dialogStage.close();

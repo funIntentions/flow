@@ -6,10 +6,6 @@ package com.projects.helper;
 public class StructureUtil {
     private static int nextStructureId = 0;
 
-    public StructureUtil() {
-
-    }
-
     public static int getNextStructureId() {
         return nextStructureId++;
     }

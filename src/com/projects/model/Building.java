@@ -27,12 +27,26 @@ public class Building extends Structure {
     public Building(Building building) {
         super(building.getName(), StructureUtil.getNextStructureId(), building.getAnimatedSprite());
 
-        this.appliances = building.getAppliances();
-        this.energyStorageDevices = building.getEnergyStorageDevices();
-        this.energySources = building.getEnergySources();
-        this.loadProfilesForWeek = building.getLoadProfilesForWeek();
-        this.manualLoadProfileData = building.getManualLoadProfileData();
+        this.appliances = FXCollections.observableArrayList();
+        this.energySources = FXCollections.observableArrayList();
+        this.energyStorageDevices = FXCollections.observableArrayList();
+        this.loadProfilesForWeek = FXCollections.observableArrayList();
+        this.manualLoadProfileData = FXCollections.observableArrayList();
         this.usingCustomLoadProfile = building.isUsingCustomLoadProfile();
+
+        for (Appliance appliance : building.getAppliances()) {
+            this.appliances.add(new Appliance(appliance));
+        }
+
+        for (EnergyStorage energyStorage : building.getEnergyStorageDevices()) {
+            this.energyStorageDevices.add(new EnergyStorage(energyStorage));
+        }
+        
+        for (UsageTimeSpan usageTimeSpan : building.getManualLoadProfileData()) {
+            this.manualLoadProfileData.add(new UsageTimeSpan(usageTimeSpan));
+        }
+
+        this.loadProfilesForWeek.addAll(building.getLoadProfilesForWeek());
     }
 
     /**

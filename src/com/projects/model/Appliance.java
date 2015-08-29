@@ -1,10 +1,12 @@
 package com.projects.model;
 
+import com.projects.helper.DeviceUtil;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.Time;
 import java.util.List;
 
 /**
@@ -29,6 +31,23 @@ public class Appliance extends Device {
         this.standbyConsumption = new SimpleDoubleProperty(standbyConsumption);
         this.usageConsumption = new SimpleDoubleProperty(usageConsumption);
         this.activeTimeSpans = FXCollections.observableArrayList(activeTimeSpans);
+    }
+
+
+    /**
+     * Appliance copy constructor.
+     * @param appliance Appliance to be copied
+     */
+    public Appliance(Appliance appliance) {
+        super(appliance.getName(), DeviceUtil.getNextDeviceId());
+
+        this.standbyConsumption = new SimpleDoubleProperty(appliance.getStandbyConsumption());
+        this.usageConsumption = new SimpleDoubleProperty(appliance.getUsageConsumption());
+        this.activeTimeSpans = FXCollections.observableArrayList();
+        
+        for (TimeSpan timeSpan : appliance.getActiveTimeSpans()) {
+            this.activeTimeSpans.add(new TimeSpan(timeSpan));
+        }
     }
 
     /**

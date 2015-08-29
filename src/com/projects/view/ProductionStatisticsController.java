@@ -9,7 +9,7 @@ import javafx.scene.chart.XYChart;
 import java.util.List;
 
 /**
- * Created by Dan on 7/31/2015.
+ * Controller for the production statistics view.
  */
 public class ProductionStatisticsController {
     @FXML
@@ -25,6 +25,10 @@ public class ProductionStatisticsController {
     private Main main;
     private int length = 100;
 
+    /**
+     * Initializes the controller class. This method is automatically called
+     * after the fxml file has been loaded.
+     */
     @FXML
     private void initialize() {
         priceForDemandSeries = new XYChart.Series<>();
@@ -36,6 +40,10 @@ public class ProductionStatisticsController {
         emissionsForDemandChart.getData().add(emissionsForDemandSeries);
     }
 
+    /**
+     * Displays the price versus demand data in a chart.
+     * @param prices prices versus demand data
+     */
     public void setPriceForDemandData(List<Float> prices) {
         priceForDemandSeries.getData().clear();
         int increments = prices.size() / length;
@@ -49,6 +57,10 @@ public class ProductionStatisticsController {
         }
     }
 
+    /**
+     * Displays the emissions versus demand data in a chart.
+     * @param emissions emissions versus demand data
+     */
     public void setEmissionsForDemandData(List<Float> emissions) {
         emissionsForDemandSeries.getData().clear();
         int increments = emissions.size() / length;
@@ -62,14 +74,24 @@ public class ProductionStatisticsController {
         }
     }
 
+    /**
+     * Clears the price versus demand chart.
+     */
     public void clearPriceForDemandChart() {
         priceForDemandSeries.getData().clear();
     }
 
+    /**
+     * Clears the emission rate versus demand chart.
+     */
     public void clearEmissionForDemandChart() {
         emissionsForDemandSeries.getData().clear();
     }
 
+    /**
+     * Provides a reference to main and allows the controller to listen for events it cares about.
+     * @param main a reference to main.
+     */
     public void setMain(Main main) {
         this.main = main;
     }

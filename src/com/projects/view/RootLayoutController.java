@@ -11,7 +11,7 @@ import javafx.stage.FileChooser;
 import java.io.File;
 
 /**
- * Created by Dan on 7/30/2015.
+ * Controller for the root layout view.
  */
 public class RootLayoutController {
     @FXML
@@ -19,25 +19,42 @@ public class RootLayoutController {
 
     private Main main;
 
+    /**
+     * RootLayoutController constructor.
+     */
     public RootLayoutController() {
 
     }
 
+    /**
+     * Provides a reference to main and allows the controller to listen for events it cares about.
+     * @param main a reference to main.
+     */
     public void setMain(Main main) {
         this.main = main;
     }
 
+    /**
+     * Initializes the controller class. This method is automatically called
+     * after the fxml file has been loaded.
+     */
     @FXML
     private void initialize() {
         showLegendRadioMenuItem.setSelected(true);
         showLegendRadioMenuItem.setOnAction((e -> main.toggleLegendShowing()));
     }
 
+    /**
+     * Resets main, leaving a blank simulation to work from.
+     */
     @FXML
     private void handleNew() {
         main.reset();
     }
 
+    /**
+     * Lets the user select a simulation file to be opened.
+     */
     @FXML
     private void handleOpen() {
         FileChooser fileChooser = new FileChooser();
@@ -55,6 +72,9 @@ public class RootLayoutController {
         }
     }
 
+    /**
+     * Saves the current simulation to an already existing xml file if it can, if not, it saves it as a new file.
+     */
     @FXML
     private void handleSave() {
         File simulationFile = main.getSimulationFilePath();
@@ -66,6 +86,9 @@ public class RootLayoutController {
         }
     }
 
+    /**
+     * Saves the simulation as a new xml file.
+     */
     @FXML
     private void handleSaveAs() {
         FileChooser fileChooser = new FileChooser();

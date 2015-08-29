@@ -5,6 +5,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
+import java.sql.Time;
 import java.time.LocalTime;
 
 /**
@@ -36,6 +37,22 @@ public class TimeSpan {
         friday = new SimpleBooleanProperty(true);
         saturday = new SimpleBooleanProperty(true);
         sunday = new SimpleBooleanProperty(true);
+    }
+
+    /**
+     * TimeSpan copy constructor
+     * @param timeSpan TimeSpan to be copied
+     */
+    public TimeSpan(TimeSpan timeSpan) {
+        this.from = new SimpleObjectProperty<>(timeSpan.getFrom());
+        this.to = new SimpleObjectProperty<>(timeSpan.getTo());
+        monday = new SimpleBooleanProperty(timeSpan.getMonday());
+        tuesday = new SimpleBooleanProperty(timeSpan.getThursday());
+        wednesday = new SimpleBooleanProperty(timeSpan.getWednesday());
+        thursday = new SimpleBooleanProperty(timeSpan.getThursday());
+        friday = new SimpleBooleanProperty(timeSpan.getFriday());
+        saturday = new SimpleBooleanProperty(timeSpan.getSaturday());
+        sunday = new SimpleBooleanProperty(timeSpan.getSunday());
     }
 
     /**

@@ -204,7 +204,7 @@ public class World {
         if (worldTimer.isTimeLimitReached()) {
             pauseSimulation();
             Platform.runLater(() -> {
-                main.getBuildingDetailsPaneController().displayResults(demandManager.getStructures(),
+                main.getBuildingDetailsController().displayResults(demandManager.getStructures(),
                         demandManager.getStructureExpenses(),
                         demandManager.getStructureEnvironmentalImpact());
                 statsManager.setStatsForDay(0);

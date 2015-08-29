@@ -15,7 +15,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 /**
- * Created by Dan on 7/31/2015.
+ * Controller for the daily statistics view.
  */
 public class DailyStatisticsController {
     @FXML
@@ -40,6 +40,10 @@ public class DailyStatisticsController {
 
     private float minuteInterval = 30f;
 
+    /**
+     * Initializes the controller class. This method is automatically called
+     * after the fxml file has been loaded.
+     */
     @FXML
     private void initialize() {
         datePickerForSelectedDate.setValue(LocalDate.now());
@@ -87,6 +91,10 @@ public class DailyStatisticsController {
 
     }
 
+    /**
+     * Sets the data for the demand versus time chart.
+     * @param demand demand throughout the day
+     */
     public void setDemandChartData(List<Float> demand) {
         clearDemandChart();
 
@@ -96,6 +104,10 @@ public class DailyStatisticsController {
         }
     }
 
+    /**
+     * Sets the data for the price versus time chart.
+     * @param price price throughout the day
+     */
     public void setPriceChartData(List<Float> price) {
         clearPriceChart();
 
@@ -105,6 +117,10 @@ public class DailyStatisticsController {
         }
     }
 
+    /**
+     * Sets the data for the emission versus time chart.
+     * @param emissions emission rates throughout the day
+     */
     public void setEmissionsChartData(List<Float> emissions) {
         clearEmissionChart();
 
@@ -126,6 +142,10 @@ public class DailyStatisticsController {
         emissionSeries.getData().clear();
     }
 
+    /**
+     * Provides a reference to main and allows the controller to listen for events it cares about.
+     * @param main a reference to main.
+     */
     public void setMain(Main main) {
         this.main = main;
 

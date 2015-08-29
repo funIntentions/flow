@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Dan on 8/17/2015.
+ * Displays all the world structure images and their animations.
  */
 public class WorldViewController {
     private final int selectionRange = 14;
@@ -58,6 +58,10 @@ public class WorldViewController {
     private int legendYOffset = 30;
     private int legendYSpacing = 20;
 
+    /**
+     * Initializes the controller class. This method is automatically called
+     * after the fxml file has been loaded.
+     */
     @FXML
     private void initialize() {
         try {
@@ -170,6 +174,10 @@ public class WorldViewController {
         selectionMade = false;
     }
 
+    /**
+     * Checks if the mouse has been pressed over a structure and if so, selects it.
+     * @param mouseEvent the mouse event
+     */
     @FXML
     private void handleMousePressed(MouseEvent mouseEvent) {
         Rectangle2D selectionRect = new Rectangle2D(mouseEvent.getX() - selectionRange / 2, mouseEvent.getY() - selectionRange / 2, selectionRange, selectionRange);
@@ -190,6 +198,10 @@ public class WorldViewController {
         }
     }
 
+    /**
+     * If a structure has been selected, that selected structure will follow the mouse as it drags.
+     * @param mouseEvent the mouse event
+     */
     @FXML
     private void handleMouseDragged(MouseEvent mouseEvent) {
         if (mouseDown && selected != null) {
@@ -200,6 +212,10 @@ public class WorldViewController {
         }
     }
 
+    /**
+     * If a structure has been dragged out of the canvases bounds, it will be moved back into them.
+     * @param mouseEvent the mouse event
+     */
     @FXML
     private void handleMouseReleased(MouseEvent mouseEvent) {
         mouseDown = false;
@@ -222,11 +238,18 @@ public class WorldViewController {
         }
     }
 
+    /**
+     * Deselects any current selection.
+     */
     public void clearSelection() {
         selectionMade = false;
         selected = null;
     }
 
+    /**
+     * Sets a new selection, displaying the selection box around it.
+     * @param structure the selected structure
+     */
     private void setSelection(Structure structure) {
         selectionMade = true;
         selectionSprite.setXPosition((structure.getAnimatedSprite().getXPosition() + structure.getAnimatedSprite().getImage().getWidth() / 2) - selectionSprite.getImage().getWidth() / 2);
@@ -234,6 +257,10 @@ public class WorldViewController {
         selected = structure;
     }
 
+    /**
+     * Provides a reference to main and let the world view listen for changes in a selection.
+     * @param main a reference to main
+     */
     public void setMain(Main main) {
         this.main = main;
 
@@ -253,6 +280,7 @@ public class WorldViewController {
             }
         });
     }
+
 
     public boolean isShowLegend() {
         return showLegend;

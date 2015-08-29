@@ -24,9 +24,9 @@ import java.util.List;
 
 
 /**
- * Created by Dan on 7/30/2015.
+ * Controller for the building details view
  */
-public class BuildingDetailsPaneController {
+public class BuildingDetailsController {
 
     private class StructureResults {
         public ObjectProperty<Structure> structureProperty = new SimpleObjectProperty<>();
@@ -74,11 +74,17 @@ public class BuildingDetailsPaneController {
         loadProfileChart.getData().add(series);
 
         daysOfTheWeekTabPane.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> switchChartData());
+                (observable, oldValue, newValue) -> updateChartData());
 
 
     }
 
+    /**
+     * Displays the expenses and environmental impact of buildings from the simulation.
+     * @param structureList buildings from simulation
+     * @param expenses building expenses
+     * @param environmentalImpact environmental impacts of buildings
+     */
     public void displayResults(List<Building> structureList, HashMap<Integer, Float> expenses, HashMap<Integer, Float> environmentalImpact) {
         structureResultsList.clear();
         for (Structure structure : structureList) {
@@ -91,11 +97,17 @@ public class BuildingDetailsPaneController {
         }
     }
 
+    /**
+     * Clears the comparison table.
+     */
     public void clearComparisons() {
         structureResultsList.clear();
     }
 
-    private void switchChartData() {
+    /**
+     * Displays the load profile for the selected day of the week
+     */
+    private void updateChartData() {
         int day = daysOfTheWeekTabPane.getSelectionModel().getSelectedIndex();
 
         List<Float> loadProfile = loadProfilesForWeek != null && loadProfilesForWeek.size() > 0 ? loadProfilesForWeek.get(day) : new ArrayList<>();
@@ -109,10 +121,10 @@ public class BuildingDetailsPaneController {
     }
 
     /**
-     * Sets the persons to show the statistics for.
+     * Sets the structure to show the load profiles for.
      *
-     * @param structure
-     * @param loadProfilesForWeek
+     * @param structure structure
+     * @param loadProfilesForWeek the structures load profiles (if it's a building, otherwise an empty array)
      */
     public void setStructureData(Structure structure, List<ObservableList<Float>> loadProfilesForWeek) {
         this.loadProfilesForWeek = loadProfilesForWeek;
@@ -122,14 +134,21 @@ public class BuildingDetailsPaneController {
         else
             series.setName("No Building Selected");
 
-        switchChartData();
+        updateChartData();
     }
 
+    /**
+     * Clears the chart data.
+     */
     public void clearLoadProfileDetails() {
         loadProfilesForWeek.clear();
-        switchChartData();
+        updateChartData();
     }
 
+    /**
+     * Provides a reference to main and allows the controller to listen for events it cares about.
+     * @param main a reference to main.
+     */
     public void setMain(Main main) {
         this.main = main;
 

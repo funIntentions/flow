@@ -65,7 +65,7 @@ public class Main extends Application {
     private ObjectProperty<SimulationState> simulationState = new SimpleObjectProperty<>(SimulationState.FINISHED);
     private IntegerProperty dailyStatsDay = new SimpleIntegerProperty(0);
 
-    private BuildingDetailsPaneController buildingDetailsPaneController;
+    private BuildingDetailsController buildingDetailsController;
     private SimulationControlsController simulationControlsController;
     private DailyStatisticsController dailyStatisticsController;
     private ProductionStatisticsController productionStatisticsController;
@@ -138,8 +138,8 @@ public class Main extends Application {
         dailyStatisticsController.clearPriceChart();
         productionStatisticsController.clearEmissionForDemandChart();
         productionStatisticsController.clearPriceForDemandChart();
-        buildingDetailsPaneController.clearLoadProfileDetails();
-        buildingDetailsPaneController.clearComparisons();
+        buildingDetailsController.clearLoadProfileDetails();
+        buildingDetailsController.clearComparisons();
         worldViewController.clearSelection();
         world.resetSimulation();
         setSimulationFilePath(null);
@@ -182,11 +182,11 @@ public class Main extends Application {
     private Pane initBuildingDetailsPane() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("view/BuildingDetailsPane.fxml"));
+            loader.setLocation(Main.class.getResource("view/BuildingDetails.fxml"));
             Pane buildingDetails = loader.load();
 
-            buildingDetailsPaneController = loader.getController();
-            buildingDetailsPaneController.setMain(this);
+            buildingDetailsController = loader.getController();
+            buildingDetailsController.setMain(this);
             return buildingDetails;
         } catch (IOException e) {
             e.printStackTrace();
@@ -289,7 +289,7 @@ public class Main extends Application {
             simulationOverviewController = loader.getController();
             simulationOverviewController.setMain(this);
             simulationOverviewController.showSimulationControlsPane(initSimulationControlsPane());
-            simulationOverviewController.showStructureDetailsPane(initBuildingDetailsPane());
+            simulationOverviewController.showBuildingDetailsPane(initBuildingDetailsPane());
             simulationOverviewController.showDailyStatisticsPane(initDailyStatisticsPane());
             simulationOverviewController.showProductionStatisticsPane(initProductionStatisticsPane());
             simulationOverviewController.showWorldViewPane(initWorldViewPane());
@@ -332,7 +332,7 @@ public class Main extends Application {
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
-            buildingDetailsPaneController.setStructureData(structure, structure.getLoadProfilesForWeek());
+            buildingDetailsController.setStructureData(structure, structure.getLoadProfilesForWeek());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1189,8 +1189,8 @@ public class Main extends Application {
         this.primaryStage = primaryStage;
     }
 
-    public BuildingDetailsPaneController getBuildingDetailsPaneController() {
-        return buildingDetailsPaneController;
+    public BuildingDetailsController getBuildingDetailsController() {
+        return buildingDetailsController;
     }
 
     public SimulationControlsController getSimulationControlsController() {
